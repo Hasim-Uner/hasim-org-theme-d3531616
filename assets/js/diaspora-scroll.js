@@ -161,7 +161,7 @@
 
     function initSVGDash() {
         document.querySelectorAll('.da-draw-svg').forEach(function (svg) {
-            svg.querySelectorAll('path, line, polyline').forEach(function (el) {
+            svg.querySelectorAll('path, line, polyline, circle, ellipse').forEach(function (el) {
                 try {
                     var length = el.getTotalLength();
                     el.style.setProperty('--dash-length', Math.ceil(length));
