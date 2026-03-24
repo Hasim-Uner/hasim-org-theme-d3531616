@@ -125,97 +125,24 @@ get_header();
 <section class="da-section da-rose-section" id="da-rose" aria-label="Einleitung — Die Rose">
     <div class="da-container da-narrow">
 
-        <!-- Rose SVG (botanischer, ruhiger, glaubwürdiger) -->
-        <div class="da-rose-svg-wrap da-draw-svg da-reveal">
-            <svg viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Rose mit natürlicher Blüte und subtil sichtbarer innerer Ordnung" role="img">
-                <defs>
-                    <linearGradient id="da-rose-stem-gradient" x1="120" y1="146" x2="120" y2="306" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsl(146, 34%, 42%)"/>
-                        <stop offset="100%" stop-color="hsl(154, 44%, 22%)"/>
-                    </linearGradient>
-                    <linearGradient id="da-rose-leaf-fill-left" x1="48" y1="214" x2="122" y2="238" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsl(144, 42%, 36%)"/>
-                        <stop offset="100%" stop-color="hsl(154, 46%, 18%)"/>
-                    </linearGradient>
-                    <linearGradient id="da-rose-leaf-fill-right" x1="118" y1="236" x2="194" y2="258" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsl(145, 36%, 34%)"/>
-                        <stop offset="100%" stop-color="hsl(154, 44%, 17%)"/>
-                    </linearGradient>
-                    <linearGradient id="da-rose-petal-fill-back" x1="120" y1="30" x2="120" y2="178" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsl(18, 84%, 79%)"/>
-                        <stop offset="36%" stop-color="hsl(9, 68%, 52%)"/>
-                        <stop offset="100%" stop-color="hsl(1, 48%, 27%)"/>
-                    </linearGradient>
-                    <linearGradient id="da-rose-petal-fill-top" x1="120" y1="26" x2="120" y2="156" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsl(24, 88%, 84%)"/>
-                        <stop offset="42%" stop-color="hsl(14, 74%, 58%)"/>
-                        <stop offset="100%" stop-color="hsl(3, 46%, 30%)"/>
-                    </linearGradient>
-                    <linearGradient id="da-rose-petal-fill-mid" x1="86" y1="86" x2="170" y2="186" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsl(14, 76%, 65%)"/>
-                        <stop offset="54%" stop-color="hsl(6, 64%, 42%)"/>
-                        <stop offset="100%" stop-color="hsl(0, 44%, 24%)"/>
-                    </linearGradient>
-                    <linearGradient id="da-rose-petal-fill-front" x1="92" y1="122" x2="166" y2="198" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsl(22, 94%, 76%)"/>
-                        <stop offset="46%" stop-color="hsl(11, 74%, 52%)"/>
-                        <stop offset="100%" stop-color="hsl(1, 48%, 28%)"/>
-                    </linearGradient>
-                    <radialGradient id="da-rose-center-fill" cx="46%" cy="38%" r="60%">
-                        <stop offset="0%" stop-color="hsl(26, 90%, 82%)"/>
-                        <stop offset="36%" stop-color="hsl(14, 78%, 62%)"/>
-                        <stop offset="100%" stop-color="hsl(2, 48%, 32%)"/>
-                    </radialGradient>
-                    <linearGradient id="da-rose-structure-line" x1="105" y1="108" x2="145" y2="160" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="hsla(161, 58%, 70%, 0.78)"/>
-                        <stop offset="100%" stop-color="hsla(26, 86%, 76%, 0.2)"/>
-                    </linearGradient>
-                    <filter id="da-rose-shadow" x="-28%" y="-24%" width="156%" height="184%">
-                        <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="hsla(0, 0%, 0%, 0.3)"/>
-                    </filter>
-                </defs>
-
-                <ellipse class="da-rose-shadow" cx="119" cy="304" rx="36" ry="10" fill="hsla(0, 0%, 0%, 0.22)"/>
-
-                <path class="da-rose-stem" d="M119 304 C116 272 115 241 118 209 C121 180 126 160 124 147" fill="none" stroke="url(#da-rose-stem-gradient)" stroke-width="4.6" stroke-linecap="round"/>
-                <path class="da-rose-thorn" d="M117 236 C109 230 103 230 98 237" fill="none" stroke="hsl(150, 36%, 24%)" stroke-width="1.6" stroke-linecap="round"/>
-                <path class="da-rose-thorn" d="M122 212 C129 205 135 204 140 208" fill="none" stroke="hsl(150, 36%, 24%)" stroke-width="1.6" stroke-linecap="round"/>
-
-                <g class="da-rose-foliage">
-                    <path class="da-rose-leaf da-rose-leaf--left" d="M116 228 C94 207 66 205 48 220 C67 238 95 242 116 228 Z" fill="url(#da-rose-leaf-fill-left)" stroke="hsla(150, 30%, 68%, 0.2)" stroke-width="1.1"/>
-                    <path class="da-rose-leaf-line" d="M116 228 C97 224 78 223 60 220" fill="none" stroke="hsla(150, 28%, 74%, 0.36)" stroke-width="0.9" stroke-linecap="round"/>
-                    <path class="da-rose-leaf-line" d="M102 220 C94 214 84 210 74 209" fill="none" stroke="hsla(150, 28%, 74%, 0.22)" stroke-width="0.75" stroke-linecap="round"/>
-                    <path class="da-rose-leaf da-rose-leaf--right" d="M122 247 C144 228 172 226 194 240 C176 258 147 262 122 247 Z" fill="url(#da-rose-leaf-fill-right)" stroke="hsla(150, 30%, 68%, 0.18)" stroke-width="1.1"/>
-                    <path class="da-rose-leaf-line" d="M122 247 C144 244 165 244 186 240" fill="none" stroke="hsla(150, 28%, 74%, 0.34)" stroke-width="0.9" stroke-linecap="round"/>
-                    <path class="da-rose-leaf-line" d="M139 241 C148 234 159 231 170 229" fill="none" stroke="hsla(150, 28%, 74%, 0.2)" stroke-width="0.75" stroke-linecap="round"/>
-                </g>
-
-                <g class="da-rose-bloom" filter="url(#da-rose-shadow)">
-                    <path class="da-rose-sepal" d="M106 155 C93 144 81 139 74 145 C84 149 95 158 102 170 Z" fill="hsla(148, 36%, 26%, 0.95)" stroke="hsla(150, 28%, 72%, 0.16)" stroke-width="0.95"/>
-                    <path class="da-rose-sepal" d="M120 158 C116 143 119 133 129 126 C132 138 131 150 125 162 Z" fill="hsla(145, 34%, 24%, 0.92)" stroke="hsla(150, 28%, 72%, 0.14)" stroke-width="0.95"/>
-                    <path class="da-rose-sepal" d="M134 154 C147 143 159 139 167 145 C156 149 145 157 138 169 Z" fill="hsla(148, 36%, 26%, 0.95)" stroke="hsla(150, 28%, 72%, 0.14)" stroke-width="0.95"/>
-
-                    <path class="da-rose-petal da-rose-petal--back da-rose-petal--1" d="M123 160 C97 162 74 148 64 121 C55 96 60 62 89 40 C89 64 97 98 111 127 C117 139 121 151 123 160 Z" fill="url(#da-rose-petal-fill-back)" stroke="hsla(18, 82%, 84%, 0.22)" stroke-width="1.2"/>
-                    <path class="da-rose-petal da-rose-petal--back da-rose-petal--2" d="M118 160 C144 163 169 152 179 127 C189 102 185 68 156 42 C155 66 147 100 133 127 C128 139 123 151 118 160 Z" fill="url(#da-rose-petal-fill-back)" stroke="hsla(18, 82%, 84%, 0.18)" stroke-width="1.2"/>
-                    <path class="da-rose-petal da-rose-petal--back da-rose-petal--3" d="M120 147 C97 146 84 124 86 95 C88 61 109 37 136 34 C159 39 175 62 174 91 C173 121 150 142 120 147 Z" fill="url(#da-rose-petal-fill-top)" stroke="hsla(24, 90%, 88%, 0.24)" stroke-width="1.3"/>
-                    <path class="da-rose-petal da-rose-petal--mid da-rose-petal--4" d="M129 177 C110 172 96 158 93 140 C90 121 101 105 120 102 C121 123 124 150 129 177 Z" fill="url(#da-rose-petal-fill-mid)" stroke="hsla(18, 82%, 82%, 0.2)" stroke-width="1.15"/>
-                    <path class="da-rose-petal da-rose-petal--mid da-rose-petal--5" d="M116 178 C136 174 151 160 155 142 C159 123 149 106 130 102 C128 123 123 150 116 178 Z" fill="url(#da-rose-petal-fill-mid)" stroke="hsla(18, 82%, 82%, 0.18)" stroke-width="1.15"/>
-                    <path class="da-rose-petal da-rose-petal--front da-rose-petal--6" d="M129 193 C111 190 97 180 95 164 C94 149 104 137 120 134 C123 152 126 172 129 193 Z" fill="url(#da-rose-petal-fill-front)" stroke="hsla(24, 90%, 90%, 0.2)" stroke-width="1.1"/>
-                    <path class="da-rose-petal da-rose-petal--front da-rose-petal--7" d="M114 193 C132 191 147 182 149 166 C151 150 143 138 127 134 C124 152 120 172 114 193 Z" fill="url(#da-rose-petal-fill-front)" stroke="hsla(24, 90%, 90%, 0.18)" stroke-width="1.1"/>
-
-                    <path class="da-rose-core" d="M121 184 C109 176 103 164 104 151 C106 138 115 129 127 129 C139 130 148 139 148 152 C148 165 140 177 128 184 C124 178 122 172 121 166 C121 172 121 178 121 184 Z" fill="url(#da-rose-center-fill)" stroke="hsla(28, 92%, 90%, 0.18)" stroke-width="1.1"/>
-
-                    <path class="da-rose-crease" d="M95 70 C97 96 104 116 114 133" fill="none" stroke="hsla(28, 88%, 92%, 0.16)" stroke-width="1.5" stroke-linecap="round"/>
-                    <path class="da-rose-crease" d="M153 67 C150 94 143 116 132 134" fill="none" stroke="hsla(26, 88%, 92%, 0.16)" stroke-width="1.5" stroke-linecap="round"/>
-                    <path class="da-rose-crease" d="M119 50 C132 64 138 81 136 101" fill="none" stroke="hsla(30, 94%, 94%, 0.18)" stroke-width="1.7" stroke-linecap="round"/>
-
-                    <path class="da-rose-inner" d="M127 130 C120 133 115 139 114 146 C113 154 118 161 126 163 C135 165 144 160 147 152 C149 144 146 136 139 132" fill="none" stroke="url(#da-rose-structure-line)" stroke-width="1.4" stroke-linecap="round"/>
-                    <path class="da-rose-inner" d="M126 129 C129 118 136 111 147 107" fill="none" stroke="url(#da-rose-structure-line)" stroke-width="0.95" stroke-linecap="round"/>
-                    <path class="da-rose-inner" d="M124 133 C114 127 106 119 102 108" fill="none" stroke="url(#da-rose-structure-line)" stroke-width="0.9" stroke-linecap="round"/>
-                    <path class="da-rose-inner" d="M132 152 C138 156 144 161 148 169" fill="none" stroke="url(#da-rose-structure-line)" stroke-width="0.85" stroke-linecap="round"/>
-                </g>
-            </svg>
-        </div>
+        <figure class="da-rose-photo da-reveal" aria-label="Fotografie einer roten Rose">
+            <div class="da-rose-photo__frame">
+                <img
+                    class="da-rose-photo__image"
+                    src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/diaspora-rose-realistic.jpg' ); ?>"
+                    alt="Rote Rose in Nahaufnahme"
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
+                />
+                <svg class="da-rose-photo__structure" viewBox="0 0 604 868" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path class="da-rose-photo__structure-line" d="M314 248 C285 270 271 304 277 338 C285 381 321 409 364 407 C408 404 443 371 450 329 C455 297 443 268 419 250"/>
+                    <path class="da-rose-photo__structure-line" d="M316 247 C328 208 358 179 409 169"/>
+                    <path class="da-rose-photo__structure-line" d="M302 260 C263 239 232 211 215 176"/>
+                    <path class="da-rose-photo__structure-line" d="M343 337 C377 357 404 388 420 427"/>
+                </svg>
+            </div>
+        </figure>
 
         <blockquote class="da-quote-block da-reveal" data-detail="rose" tabindex="0" role="button" aria-label="Detail: Die Rose">
             Die Rose weiß, dass sie schön ist. Deshalb richtet sie ihre innere Struktur danach aus — konsequent, bewusst, ohne Kompromiss.

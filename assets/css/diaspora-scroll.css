@@ -523,15 +523,56 @@ body.da-page-active .footer-bar {
     pointer-events: none;
 }
 
-.da-rose-svg-wrap {
-    max-width: clamp(240px, 29vw, 310px);
-    margin: 0 auto 3.25rem;
+.da-rose-photo {
+    max-width: clamp(260px, 31vw, 360px);
+    margin: 0 auto 3.5rem;
 }
 
-.da-rose-svg-wrap svg {
+.da-rose-photo__frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 26px;
+    background: hsl(220, 14%, 8%);
+    box-shadow:
+        0 28px 60px hsla(0, 0%, 0%, 0.38),
+        0 0 0 1px hsla(0, 0%, 100%, 0.06);
+}
+
+.da-rose-photo__frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        radial-gradient(circle at 50% 34%, transparent 0%, transparent 34%, hsla(0, 0%, 0%, 0.18) 100%),
+        linear-gradient(180deg, hsla(220, 14%, 6%, 0.08) 0%, hsla(220, 14%, 6%, 0.22) 100%);
+    pointer-events: none;
+}
+
+.da-rose-photo__frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border: 1px solid hsla(0, 0%, 100%, 0.06);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.da-rose-photo__image {
+    display: block;
     width: 100%;
     height: auto;
-    overflow: visible;
+    filter: saturate(1.04) contrast(1.06);
+}
+
+.da-rose-photo__structure {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
 .da-quote-block {
@@ -568,115 +609,22 @@ body.da-page-active .footer-bar {
     margin: 0 auto;
 }
 
-/* Rose composition */
-.da-rose-shadow,
-.da-rose-stem,
-.da-rose-thorn,
-.da-rose-leaf,
-.da-rose-leaf-line,
-.da-rose-sepal,
-.da-rose-petal,
-.da-rose-core,
-.da-rose-crease,
-.da-rose-inner {
+/* Rose photo structure */
+.da-rose-photo__structure-line {
     opacity: 0;
-    transform-box: fill-box;
-    transform-origin: center;
-}
-
-.da-rose-shadow {
-    transform: scale(0.88);
-    transition: opacity 0.75s ease 0.1s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
-}
-
-.da-rose-stem,
-.da-rose-thorn,
-.da-rose-leaf,
-.da-rose-leaf-line,
-.da-rose-sepal,
-.da-rose-petal,
-.da-rose-core,
-.da-rose-crease {
-    transition-property: opacity, transform;
-    transition-duration: 0.85s, 1.05s;
-    transition-timing-function: ease, cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.da-rose-stem {
-    transform: translateY(16px);
-    transition-delay: 120ms;
-}
-
-.da-rose-thorn {
     transform: translateY(8px);
-    transition-delay: 180ms;
+    stroke: hsla(164, 68%, 74%, 0.26);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    transition: opacity 0.9s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.da-rose-leaf--left {
-    transform: translate(-8px, 10px) rotate(-5deg);
-    transition-delay: 300ms;
-}
+.da-rose-photo__structure-line:nth-child(1) { transition-delay: 0.8s; }
+.da-rose-photo__structure-line:nth-child(2) { transition-delay: 0.92s; }
+.da-rose-photo__structure-line:nth-child(3) { transition-delay: 1.04s; }
+.da-rose-photo__structure-line:nth-child(4) { transition-delay: 1.16s; }
 
-.da-rose-leaf--right {
-    transform: translate(8px, 10px) rotate(5deg);
-    transition-delay: 380ms;
-}
-
-.da-rose-leaf-line {
-    transform: translateY(10px);
-    transition-delay: 450ms;
-}
-
-.da-rose-sepal {
-    transform: translateY(8px) scale(0.94);
-    transition-delay: 520ms;
-}
-
-.da-rose-petal--back {
-    transform: translateY(14px) scale(0.9);
-}
-
-.da-rose-petal--mid {
-    transform: translateY(12px) scale(0.92);
-}
-
-.da-rose-petal--front {
-    transform: translateY(10px) scale(0.95);
-}
-
-.da-rose-petal--1 { transition-delay: 560ms; }
-.da-rose-petal--2 { transition-delay: 640ms; }
-.da-rose-petal--3 { transition-delay: 720ms; }
-.da-rose-petal--4 { transition-delay: 820ms; }
-.da-rose-petal--5 { transition-delay: 900ms; }
-.da-rose-petal--6 { transition-delay: 1000ms; }
-.da-rose-petal--7 { transition-delay: 1080ms; }
-
-.da-rose-core {
-    transform: translateY(8px) scale(0.9);
-    transition-delay: 1160ms;
-}
-
-.da-rose-crease {
-    transform: translateY(5px);
-    transition-delay: 1240ms;
-}
-
-.da-rose-inner {
-    transform: scale(0.9);
-    transition: opacity 1s ease-out 1.22s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 1.22s;
-}
-
-.da-draw-svg.is-visible .da-rose-shadow,
-.da-draw-svg.is-visible .da-rose-stem,
-.da-draw-svg.is-visible .da-rose-thorn,
-.da-draw-svg.is-visible .da-rose-leaf,
-.da-draw-svg.is-visible .da-rose-leaf-line,
-.da-draw-svg.is-visible .da-rose-sepal,
-.da-draw-svg.is-visible .da-rose-petal,
-.da-draw-svg.is-visible .da-rose-core,
-.da-draw-svg.is-visible .da-rose-crease,
-.da-draw-svg.is-visible .da-rose-inner {
+.da-rose-photo.da-reveal.is-visible .da-rose-photo__structure-line {
     opacity: 1;
     transform: none;
 }
@@ -1697,7 +1645,8 @@ body.da-page-active .footer-bar {
     .da-draw-svg circle,
     .da-draw-svg ellipse,
     .da-myzel path,
-    .da-grow-node {
+    .da-grow-node,
+    .da-rose-photo__structure-line {
         transition-duration: 0.01ms !important;
         transition-delay: 0ms !important;
         animation: none !important;
