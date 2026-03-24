@@ -65,17 +65,46 @@ get_header();
 <main class="da-scroll-page" data-theme="dark">
 
 <!-- ==========================================
+     STICKY TOC (minimalistisch, immer sichtbar)
+     ========================================== -->
+<nav class="da-toc" id="da-toc" aria-label="Inhaltsnavigation">
+    <div class="da-toc__inner">
+        <a href="#da-hero" class="da-toc__item da-toc__item--active" data-section="da-hero" aria-label="Einführung">
+            <span class="da-toc__dot"></span>
+        </a>
+        <a href="#da-rose" class="da-toc__item" data-section="da-rose" aria-label="Die Rose">
+            <span class="da-toc__dot"></span>
+            <span class="da-toc__label">Rose</span>
+        </a>
+        <a href="#da-freiheit" class="da-toc__item" data-section="da-freiheit" aria-label="Organisation als gelebte Freiheit">
+            <span class="da-toc__dot"></span>
+            <span class="da-toc__label">01</span>
+        </a>
+        <a href="#da-intelligenz" class="da-toc__item" data-section="da-intelligenz" aria-label="Integrierte Intelligenz">
+            <span class="da-toc__dot"></span>
+            <span class="da-toc__label">02</span>
+        </a>
+        <a href="#da-rat" class="da-toc__item" data-section="da-rat" aria-label="Der Kurdische Rat">
+            <span class="da-toc__dot"></span>
+            <span class="da-toc__label">03</span>
+        </a>
+        <a href="#da-schluss" class="da-toc__item" data-section="da-schluss" aria-label="Schluss">
+            <span class="da-toc__dot"></span>
+        </a>
+    </div>
+    <div class="da-toc__progress" aria-hidden="true"></div>
+</nav>
+
+<!-- ==========================================
      SEKTION 0: HERO
      ========================================== -->
 <section class="da-section da-hero" id="da-hero" aria-label="Einführung">
-    <div class="da-hero__brand da-reveal">
-        <span class="da-hero__wordmark">HAŞIM ÜNER</span>
-        <p class="da-hero__tagline">Macht. Medien. Gesellschaft.</p>
-    </div>
+
+    <p class="da-hero__overline da-reveal">Diaspora-Architektur</p>
 
     <h1 class="da-hero__title da-reveal">Neuorganisation der kurdischen Diplomatie- und Öffentlichkeitsarbeit</h1>
 
-    <p class="da-hero__subtitle da-reveal">Ein Strategiepapier zur Selbstorganisation der Diaspora — als Architektur, nicht als Appell.</p>
+    <p class="da-hero__subtitle da-reveal">Architektur, nicht Appell. Struktur, nicht Stimmung.</p>
 
     <div class="da-hero__concepts da-stagger">
         <span class="da-hero__concept-pill da-reveal">Organisation</span>
@@ -98,7 +127,8 @@ get_header();
 
         <!-- Rose SVG (stilisiert, stroke-animiert) -->
         <div class="da-rose-svg-wrap da-draw-svg da-reveal">
-            <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Stilisierte Rose" role="img">
+            <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Stilisierte Rose — äußere Schönheit und innere Struktur" role="img">
+                <!-- Phase 1: Äußere Schönheit (coral/accent) -->
                 <!-- Stem -->
                 <path d="M100 240 L100 140" stroke="hsl(160, 70%, 38%)" stroke-width="2" stroke-linecap="round"/>
                 <!-- Left leaf -->
@@ -113,15 +143,29 @@ get_header();
                 <path d="M100 120 C125 115, 145 95, 142 72 C139 49, 118 40, 100 45" stroke="hsl(22, 75%, 52%)" stroke-width="1.5" fill="none"/>
                 <!-- Center spiral -->
                 <path d="M100 55 C90 58, 85 68, 90 78 C95 88, 105 88, 110 78 C115 68, 110 58, 100 55" stroke="hsl(22, 70%, 48%)" stroke-width="1.5" fill="none"/>
+
+                <!-- Phase 2: Innere Struktur (teal — gleiche Farbe wie "Organisierte Freiheit") -->
+                <!-- Konzentrische Ringe / Leitbahnen im Inneren -->
+                <circle cx="100" cy="80" r="12" stroke="hsl(160, 70%, 38%)" stroke-width="1" fill="none" opacity="0.7" class="da-rose-inner"/>
+                <circle cx="100" cy="80" r="24" stroke="hsl(160, 70%, 38%)" stroke-width="0.75" fill="none" opacity="0.5" class="da-rose-inner"/>
+                <circle cx="100" cy="80" r="38" stroke="hsl(160, 70%, 38%)" stroke-width="0.5" fill="none" opacity="0.35" class="da-rose-inner"/>
+                <!-- Radiale Leitbahnen -->
+                <path d="M100 68 L100 42" stroke="hsl(160, 70%, 38%)" stroke-width="0.75" opacity="0.5" class="da-rose-inner"/>
+                <path d="M112 76 L132 62" stroke="hsl(160, 70%, 38%)" stroke-width="0.75" opacity="0.5" class="da-rose-inner"/>
+                <path d="M88 76 L68 62" stroke="hsl(160, 70%, 38%)" stroke-width="0.75" opacity="0.5" class="da-rose-inner"/>
+                <path d="M112 88 L128 100" stroke="hsl(160, 70%, 38%)" stroke-width="0.75" opacity="0.5" class="da-rose-inner"/>
+                <path d="M88 88 L72 100" stroke="hsl(160, 70%, 38%)" stroke-width="0.75" opacity="0.5" class="da-rose-inner"/>
             </svg>
         </div>
 
-        <blockquote class="da-quote-block da-reveal">
-            Eine Bewegung kann sich frei und kämpferisch fühlen — ihre Wirkung bleibt begrenzt, wenn die innere Struktur nicht trägt.
+        <blockquote class="da-quote-block da-reveal" data-detail="rose" tabindex="0" role="button" aria-label="Detail: Die Rose">
+            Die Rose weiß, dass sie schön ist. Deshalb richtet sie ihre innere Struktur danach aus — konsequent, bewusst, ohne Kompromiss.
         </blockquote>
 
-        <p class="da-leitfrage da-reveal">Die Leitfrage:</p>
-        <p class="da-leitfrage-text da-reveal">Entspricht die äußere Erscheinung tatsächlich der inneren Struktur?</p>
+        <p class="da-leitfrage da-reveal">Die Leitfrage an uns:</p>
+        <p class="da-leitfrage-text da-reveal">Wir wissen, was wir sein wollen — frei, dezentral, demokratisch. Richten wir unsere Struktur danach aus, so konsequent wie die Rose?</p>
+
+        <p class="da-rose-transition da-reveal">Und wir?</p>
     </div>
 </section>
 
@@ -200,12 +244,20 @@ get_header();
         </div>
 
         <!-- Rose-Prüffrage -->
-        <div class="da-freiheit__rose-check da-reveal">
+        <div class="da-freiheit__rose-check da-reveal" data-detail="prueffrage" tabindex="0" role="button" aria-label="Detail: Die Prüffrage">
             <p class="da-freiheit__rose-check-title">Die Rose als Prüffrage</p>
-            <p class="da-freiheit__rose-check-text">Jede Struktur muss sich daran messen lassen:</p>
-            <p class="da-freiheit__rose-check-formula">
-                Äußere Erscheinung <span>=?</span> Innere Struktur
-            </p>
+            <p class="da-freiheit__rose-check-text">Sind wir das, was wir zu sein glauben?</p>
+            <div class="da-freiheit__rose-check-cards">
+                <div class="da-freiheit__rose-check-card">
+                    <p class="da-freiheit__rose-check-card-label">Was wir sein wollen</p>
+                    <p class="da-freiheit__rose-check-card-body">Frei, dezentral, demokratisch, selbstorganisiert</p>
+                </div>
+                <span class="da-freiheit__rose-check-eq">=?</span>
+                <div class="da-freiheit__rose-check-card">
+                    <p class="da-freiheit__rose-check-card-label">Wie wir strukturiert sind</p>
+                    <p class="da-freiheit__rose-check-card-body">Rhythmus? Rollen? Routinen? Oder informell, reaktiv, überlastet?</p>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -562,10 +614,6 @@ get_header();
             <a href="#da-hero" class="da-footer__link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
                 Zurück zum Anfang
-            </a>
-            <a href="<?php echo esc_url( home_url( '/diaspora-architektur-pdf/' ) ); ?>" class="da-footer__link" download>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Vollständiges Papier als PDF
             </a>
         </div>
 

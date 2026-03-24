@@ -315,27 +315,116 @@ body.da-page-active .footer-bar {
     pointer-events: none;
 }
 
-.da-hero__brand {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    margin-bottom: 3rem;
-}
-
-.da-hero__wordmark {
+.da-hero__overline {
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
-    font-size: 0.8125rem;
-    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--da-text-tertiary);
+    margin: 0 0 3rem;
 }
 
-.da-hero__tagline {
-    font-size: 0.75rem;
+/* =========================================
+   6b. STICKY TOC
+   ========================================= */
+
+.da-toc {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 900;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.da-toc.is-visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.da-toc__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.25rem;
+}
+
+.da-toc__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    position: relative;
+}
+
+.da-toc__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--da-border-strong);
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    flex-shrink: 0;
+}
+
+.da-toc__item--active .da-toc__dot {
+    background: var(--da-accent);
+    transform: scale(1.4);
+    box-shadow: 0 0 0 4px var(--da-accent-subtle);
+}
+
+.da-toc__label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--da-text-tertiary);
-    letter-spacing: 0.05em;
-    margin: 0;
+    opacity: 0;
+    transform: translateX(4px);
+    transition: opacity 0.2s, transform 0.2s, color 0.2s;
+    white-space: nowrap;
+    order: -1;
+}
+
+.da-toc__item:hover .da-toc__label,
+.da-toc__item--active .da-toc__label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.da-toc__item--active .da-toc__label {
+    color: var(--da-accent-light);
+}
+
+.da-toc__progress {
+    position: absolute;
+    top: 0;
+    right: 3px;
+    width: 2px;
+    height: 100%;
+    background: var(--da-border);
+    border-radius: 1px;
+    z-index: -1;
+}
+
+.da-toc__progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--da-scroll-progress, 0%);
+    background: var(--da-accent);
+    border-radius: 1px;
+    transition: height 0.15s ease-out;
+}
+
+/* Hide TOC on small screens — not enough space */
+@media (max-width: 900px) {
+    .da-toc { display: none; }
 }
 
 .da-hero__title {
@@ -458,8 +547,38 @@ body.da-page-active .footer-bar {
 .da-leitfrage-text {
     color: var(--da-text-secondary);
     font-size: 1.0625rem;
-    max-width: 32ch;
+    max-width: 38ch;
     margin: 0 auto;
+}
+
+/* Rose inner structure — Phase 2 reveal */
+.da-rose-inner {
+    opacity: 0;
+    transition: opacity 1.2s ease-out 1.5s;
+}
+
+.da-draw-svg.is-visible .da-rose-inner {
+    opacity: 1;
+}
+
+/* "Und wir?" transition text */
+.da-rose-transition {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--da-text-primary);
+    margin: 3rem 0 0;
+    letter-spacing: -0.01em;
+}
+
+/* Quote block as clickable detail */
+.da-quote-block[data-detail] {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.da-quote-block[data-detail]:hover {
+    color: var(--da-accent-light);
 }
 
 /* =========================================
@@ -631,6 +750,12 @@ body.da-page-active .footer-bar {
     background: var(--da-bg-surface);
     border: 1px solid var(--da-border);
     border-radius: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.da-freiheit__rose-check:hover {
+    border-color: var(--da-accent-subtle);
 }
 
 .da-freiheit__rose-check-title {
@@ -644,20 +769,63 @@ body.da-page-active .footer-bar {
 .da-freiheit__rose-check-text {
     color: var(--da-text-secondary);
     font-size: 1rem;
+    margin: 0 0 2rem;
+}
+
+.da-freiheit__rose-check-cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.da-freiheit__rose-check-card {
+    flex: 1;
+    max-width: 280px;
+    background: var(--da-bg-elevated);
+    border: 1px solid var(--da-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: left;
+}
+
+.da-freiheit__rose-check-card-label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--da-text-tertiary);
+    margin: 0 0 0.75rem;
+}
+
+.da-freiheit__rose-check-card-body {
+    color: var(--da-text-primary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
     margin: 0;
 }
 
-.da-freiheit__rose-check-formula {
+.da-freiheit__rose-check-eq {
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
-    font-size: 1.25rem;
-    color: var(--da-text-primary);
-    margin: 1.5rem 0 0;
-    letter-spacing: 0.02em;
+    font-size: 1.5rem;
+    color: var(--da-accent);
+    flex-shrink: 0;
 }
 
-.da-freiheit__rose-check-formula span {
-    color: var(--da-accent);
+@media (max-width: 640px) {
+    .da-freiheit__rose-check-cards {
+        flex-direction: column;
+    }
+
+    .da-freiheit__rose-check-card {
+        max-width: 100%;
+    }
+
+    .da-freiheit__rose-check-eq {
+        transform: rotate(90deg);
+    }
 }
 
 /* =========================================

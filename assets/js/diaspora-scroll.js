@@ -4,7 +4,7 @@
  * Vanilla JS: Intersection Observer reveals, Detail Panels,
  * SVG draw calculations, smooth scroll, keyboard nav.
  *
- * Budget: < 40KB. No dependencies.
+ * Budget: < 60KB (inkl. D3-force Subset).
  *
  * @package Hasimuener_Journal
  * @since   7.0.0
@@ -100,6 +100,16 @@
         reviews: {
             title: 'Strukturierte Reviews',
             body: 'Quartalsweise Auswertung — was hat gewirkt, was nicht, was lernen wir? Ohne Reviews wiederholt die Bewegung dieselben Muster. Mit Reviews wird sie zur lernenden Organisation.'
+        },
+
+        /* Rose */
+        rose: {
+            title: 'Die Rose — Warum innere Struktur zählt',
+            body: 'Die Rose weiß, dass sie schön ist. Und genau deshalb richtet sie ihre innere Struktur danach aus — Duft, Form, Farbe, Stabilität sind bewusste Arbeit, kein Zufall. Übertragen auf uns: Wir wissen, was wir sein wollen — frei, dezentral, demokratisch, selbstorganisiert. Die Frage ist nicht, ob wir das glauben. Die Frage ist, ob unsere innere Struktur dem entspricht. Organisation ist der Akt, die Differenz zwischen Anspruch und Wirklichkeit zu schließen. So konsequent, wie die Rose es tut.'
+        },
+        prueffrage: {
+            title: 'Die Prüffrage',
+            body: 'Sind wir das, was wir zu sein glauben? Wir sagen: Wir sind dezentral, frei, demokratisch. Aber haben wir die Strukturen, die das tragen? Klare Rollen, verlässliche Rhythmen, einfache Routinen? Oder läuft vieles informell, an Einzelnen, reaktiv? Die Rose schließt diese Lücke durch innere Ordnung. Das ist unser Auftrag: Nicht nur wissen, was wir sein wollen — sondern die Struktur danach bauen.'
         },
 
         /* Rat — Infrastruktur */
@@ -224,7 +234,65 @@
     }
 
     /* =========================================
-       5. SMOOTH SCROLL
+       5. STICKY TOC — SCROLL TRACKING
+       ========================================= */
+
+    function initTOC() {
+        var toc = document.getElementById('da-toc');
+        if (!toc) return;
+
+        var items = toc.querySelectorAll('.da-toc__item');
+        var sectionIds = [];
+        items.forEach(function (item) {
+            sectionIds.push(item.getAttribute('data-section'));
+        });
+
+        var sections = sectionIds.map(function (id) {
+            return document.getElementById(id);
+        }).filter(Boolean);
+
+        // Show TOC after scrolling past hero
+        var heroEnd = 300;
+        function updateTOCVisibility() {
+            if (window.scrollY > heroEnd) {
+                toc.classList.add('is-visible');
+            } else {
+                toc.classList.remove('is-visible');
+            }
+        }
+
+        // Track active section
+        var tocObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var id = entry.target.id;
+                    items.forEach(function (item) {
+                        item.classList.toggle('da-toc__item--active', item.getAttribute('data-section') === id);
+                    });
+                }
+            });
+        }, {
+            threshold: 0,
+            rootMargin: '-40% 0px -55% 0px'
+        });
+
+        sections.forEach(function (s) { tocObserver.observe(s); });
+
+        // Scroll progress
+        function updateProgress() {
+            var scrollTop = window.scrollY;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+            toc.style.setProperty('--da-scroll-progress', progress + '%');
+            updateTOCVisibility();
+        }
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+    }
+
+    /* =========================================
+       6. SMOOTH SCROLL (inkl. TOC-Links)
        ========================================= */
 
     function initSmoothScroll() {
@@ -260,6 +328,7 @@
         initReveal();
         initDetailPanels();
         initSmoothScroll();
+        initTOC();
     }
 
     if (document.readyState === 'loading') {
