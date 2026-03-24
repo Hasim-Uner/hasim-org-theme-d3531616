@@ -129,18 +129,12 @@ get_header();
             <div class="da-rose-photo__frame">
                 <img
                     class="da-rose-photo__image"
-                    src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/diaspora-rose-realistic.jpg' ); ?>"
+                    src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/rose-rot.png' ); ?>"
                     alt="Rote Rose in Nahaufnahme"
                     loading="eager"
                     decoding="async"
                     fetchpriority="high"
                 />
-                <svg class="da-rose-photo__structure" viewBox="0 0 604 868" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path class="da-rose-photo__structure-line" d="M314 248 C285 270 271 304 277 338 C285 381 321 409 364 407 C408 404 443 371 450 329 C455 297 443 268 419 250"/>
-                    <path class="da-rose-photo__structure-line" d="M316 247 C328 208 358 179 409 169"/>
-                    <path class="da-rose-photo__structure-line" d="M302 260 C263 239 232 211 215 176"/>
-                    <path class="da-rose-photo__structure-line" d="M343 337 C377 357 404 388 420 427"/>
-                </svg>
             </div>
         </figure>
 
