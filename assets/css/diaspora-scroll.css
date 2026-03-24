@@ -549,6 +549,109 @@ body.da-page-active {
 }
 
 /* =========================================
+   6b. INSPIRATIONSQUELLE
+   ========================================= */
+
+.da-inspiration {
+    border-bottom: 1px solid var(--da-border);
+}
+
+.da-inspiration-body {
+    max-width: 600px;
+    margin: 1.5rem auto 3rem;
+    text-align: center;
+}
+
+.da-inspiration-body p {
+    font-size: 1.0625rem;
+    color: var(--da-text-secondary);
+    line-height: 1.8;
+}
+
+.da-inspiration-body strong {
+    color: var(--da-text-primary);
+    font-weight: 500;
+}
+
+.da-inspiration-body em {
+    color: var(--da-teal);
+    font-style: normal;
+    font-weight: 500;
+}
+
+/* Drei Karten */
+.da-inspiration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin: 0 auto 3rem;
+    max-width: 720px;
+}
+
+.da-inspiration-card {
+    background: var(--da-bg-surface);
+    border: 1px solid var(--da-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.da-inspiration-card:hover {
+    border-color: var(--da-border-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--da-shadow-soft);
+}
+
+.da-inspiration-card:focus-visible {
+    outline: 2px solid var(--da-teal);
+    outline-offset: 2px;
+}
+
+.da-inspiration-card h4 {
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+    color: var(--da-text-primary);
+}
+
+.da-inspiration-card p {
+    font-size: 0.875rem;
+    color: var(--da-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Schluss-Zitat */
+.da-inspiration-quote {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0;
+    border: none;
+    text-align: center;
+}
+
+.da-inspiration-quote p {
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--da-text-primary);
+    line-height: 1.4;
+    position: relative;
+}
+
+/* Kupfer-Akzentlinie über dem Zitat */
+.da-inspiration-quote p::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: var(--da-accent);
+    margin: 0 auto 1.25rem;
+}
+
+/* =========================================
    7. ROSE INTRO SECTION
    ========================================= */
 

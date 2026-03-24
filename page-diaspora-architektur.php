@@ -94,6 +94,10 @@ get_header();
         <a href="#da-hero" class="da-toc__item da-toc__item--active" data-section="da-hero" aria-label="Einführung">
             <span class="da-toc__dot"></span>
         </a>
+        <a href="#da-inspiration" class="da-toc__item" data-section="da-inspiration" aria-label="Inspirationsquelle">
+            <span class="da-toc__dot"></span>
+            <span class="da-toc__label">Quelle</span>
+        </a>
         <a href="#da-rose" class="da-toc__item" data-section="da-rose" aria-label="Die Rose">
             <span class="da-toc__dot"></span>
             <span class="da-toc__label">Rose</span>
@@ -141,6 +145,75 @@ get_header();
     <div class="da-hero__scroll-hint" aria-hidden="true">
         <span>Scroll</span>
         <div class="da-hero__scroll-line"></div>
+    </div>
+</section>
+
+
+<!-- ==========================================
+     SEKTION 0b: INSPIRATIONSQUELLE
+     ========================================== -->
+<section class="da-section da-inspiration" id="da-inspiration" aria-label="Inspirationsquelle — Intellektuelle Grundlage">
+    <div class="da-container da-narrow">
+
+        <span class="da-label da-reveal">Inspirationsquelle</span>
+
+        <h2 class="da-section-title da-reveal">
+            Roadmap für eine demokratische Gesellschaft
+        </h2>
+
+        <div class="da-inspiration-body da-reveal">
+            <p>
+                Das architektonische Fundament dieses Konzepts stammt aus der
+                2009 verfassten <strong>Roadmap</strong> von Abdullah Öcalan.
+                Ihre zentrale These: Die demokratische Gesellschaft ist kein
+                Gegenentwurf zum Staat, sondern sein <em>gleichberechtigter Pol</em> —
+                aufgebaut auf Vielfalt, offenen Identitäten und Pluralismus,
+                wo der Staat auf Homogenität, Zentralisierung und Assimilation setzt.
+            </p>
+        </div>
+
+        <div class="da-inspiration-grid da-stagger">
+
+            <div class="da-inspiration-card da-reveal" data-detail="konfoederalismus" tabindex="0" role="button" aria-label="Detail: Demokratischer Konföderalismus">
+                <h4>Demokratischer Konföderalismus</h4>
+                <p>
+                    Kein eigener Staat, keine Assimilation an einen fremden.
+                    Stattdessen: ein funktionales, demokratisches System
+                    innerhalb der Zivilgesellschaft, das mit bestehenden
+                    Strukturen koexistiert. Die Diaspora ist kein verlorenes
+                    Exil — sie ist der Raum, in dem das gebaut wird.
+                </p>
+            </div>
+
+            <div class="da-inspiration-card da-reveal" data-detail="kommune" tabindex="0" role="button" aria-label="Detail: Die Kommune als Grundzelle">
+                <h4>Die Kommune als Grundzelle</h4>
+                <p>
+                    Die kleinste basisdemokratische Einheit, in der
+                    Entscheidungen durch direkten Konsens entstehen.
+                    Dezentral, transparent, nicht-hierarchisch.
+                    Nicht Partei, nicht Verein — Kommune.
+                </p>
+            </div>
+
+            <div class="da-inspiration-card da-reveal" data-detail="nicht_verhandelbar" tabindex="0" role="button" aria-label="Detail: Nicht verhandelbar">
+                <h4>Nicht verhandelbar</h4>
+                <p>
+                    Zwei Säulen tragen alles: die Befreiung der Frau
+                    und ökologische Nachhaltigkeit. Keine Zusätze,
+                    keine Fußnoten — strukturelle Voraussetzungen
+                    jeder demokratischen Organisation.
+                </p>
+            </div>
+
+        </div>
+
+        <blockquote class="da-inspiration-quote da-reveal">
+            <p>
+                Architektur ist nicht passives Gehäuse —
+                sie ist Ideologie als Form.
+            </p>
+        </blockquote>
+
     </div>
 </section>
 
