@@ -22,7 +22,8 @@ add_filter( 'generate_page_class',     function ( $classes ) {
     $classes[] = 'full-width-content';
     return $classes;
 } );
-add_filter( 'generate_show_header',    '__return_false' );
+// Eigenen Journal-Header auf dieser Seite entfernen
+remove_action( 'generate_before_header', 'hp_render_journal_header', 5 );
 
 /* -----------------------------------------
    Assets nur auf dieser Seite
