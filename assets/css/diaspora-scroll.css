@@ -97,6 +97,26 @@
     background: transparent;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Volle Breite unabhängig vom GP-Content-Container */
+    width: 100%;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* GP-Content-Area auf Full-Width setzen wenn Diaspora-Template aktiv */
+.full-width-content .content-area,
+.full-width-content #primary,
+.full-width-content .hentry {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.full-width-content .widget-area,
+.full-width-content #secondary {
+    display: none !important;
 }
 
 /* Override GP/theme body styles on this page */
