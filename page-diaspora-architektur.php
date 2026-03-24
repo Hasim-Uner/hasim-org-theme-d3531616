@@ -370,16 +370,47 @@ get_header();
             <p class="da-section-sub">Föderative Dacharchitektur der selbstorganisierten Diaspora — vom Dach bis zum Myzel.</p>
         </div>
 
+        <div class="da-rat__summary da-reveal" aria-label="Leselogik der Ratsarchitektur">
+            <article class="da-rat__summary-card da-rat__summary-card--roof">
+                <p class="da-rat__summary-label">1. Dach</p>
+                <h3 class="da-rat__summary-title">Legitimation, Betrieb, Politik</h3>
+                <p class="da-rat__summary-text">Der Rat trägt nur dann, wenn demokratische Legitimation, operative Infrastruktur und politische Vertretung als eine gemeinsame Architektur gedacht werden.</p>
+            </article>
+            <article class="da-rat__summary-card da-rat__summary-card--infra">
+                <p class="da-rat__summary-label">2. Infrastruktur</p>
+                <h3 class="da-rat__summary-title">Eigene Werkzeuge, eigene Daten</h3>
+                <p class="da-rat__summary-text">Newsroom, Server, lokale KI und Datenhoheit machen die Struktur nicht nur sichtbar, sondern tatsächlich handlungsfähig und unabhängig.</p>
+            </article>
+            <article class="da-rat__summary-card da-rat__summary-card--myzel">
+                <p class="da-rat__summary-label">3. Gesellschaft</p>
+                <h3 class="da-rat__summary-title">Vom Zentrum in die Breite</h3>
+                <p class="da-rat__summary-text">Nicht ein Apparat soll alles tragen, sondern ein föderatives Netzwerk aus Ortsgruppen, Fachbereichen und autonomen gesellschaftlichen Strukturen.</p>
+            </article>
+        </div>
+
+        <div class="da-rat__shell">
+            <p class="da-rat__eyebrow da-reveal">
+                <span class="da-rat__eyebrow-dot" aria-hidden="true"></span>
+                Von oben nach unten lesen: Dach, Säulen, Infrastruktur, Gesellschaft, Wertefundament.
+            </p>
+
         <!-- RAT-VISUALISIERUNG (Inline SVG) -->
         <div class="da-rat__viz da-reveal">
             <svg viewBox="0 0 900 820" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architektur-Diagramm des Kurdischen Rats">
 
+                <g aria-hidden="true">
+                    <rect x="92" y="106" width="716" height="120" rx="28" fill="rgba(177,42,42,0.035)"/>
+                    <rect x="108" y="230" width="684" height="74" rx="22" fill="rgba(34,126,99,0.05)"/>
+                    <rect x="88" y="354" width="724" height="154" rx="42" fill="rgba(34,50,70,0.035)" stroke="rgba(34,50,70,0.06)" stroke-dasharray="4 8"/>
+                    <rect x="94" y="500" width="712" height="68" rx="30" fill="rgba(177,42,42,0.04)"/>
+                </g>
+
                 <!-- ===== SCHICHT 1: DACH ===== -->
                 <g class="da-reveal" style="transition-delay: 0ms">
                     <!-- Dach-Form (breites Vordach) -->
-                    <path d="M150 80 L450 30 L750 80 L770 95 L130 95 Z" fill="hsla(22, 70%, 48%, 0.12)" stroke="hsl(22, 70%, 48%)" stroke-width="1.5"/>
+                    <path d="M150 80 L450 30 L750 80 L770 95 L130 95 Z" fill="rgba(177,42,42,0.14)" stroke="#a22327" stroke-width="1.5"/>
                     <text x="450" y="72" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="16" fill="#111111" letter-spacing="0.05em">KURDISCHER RAT</text>
-                    <text x="450" y="90" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 42%)" letter-spacing="0.08em">FÖDERATIVE DACHARCHITEKTUR</text>
+                    <text x="450" y="90" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="rgba(17,17,17,0.55)" letter-spacing="0.08em">FÖDERATIVE DACHARCHITEKTUR</text>
                 </g>
 
                 <!-- ===== SCHICHT 2: DREI SÄULEN ===== -->
@@ -387,125 +418,125 @@ get_header();
                     <!-- Säule 1: Demokratische Legitimation -->
                     <g class="da-reveal" data-detail="legitim" tabindex="0" role="button" aria-label="Detail: Demokratische Legitimation">
                         <rect x="130" y="115" width="200" height="100" rx="12" fill="rgba(255,255,255,0.94)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
-                        <rect x="130" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.05)" class="da-hover-fill"/>
-                        <text x="230" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">DEMOKRATISCHE</text>
-                        <text x="230" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">LEGITIMATION</text>
-                        <text x="230" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 63%)">Delegiertenversammlung</text>
+                        <rect x="130" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.06)" class="da-hover-fill"/>
+                        <text x="230" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">DEMOKRATISCHE</text>
+                        <text x="230" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">LEGITIMATION</text>
+                        <text x="230" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="rgba(34,50,70,0.76)">Delegiertenversammlung</text>
                     </g>
                     <!-- Säule 2: Operative gGmbH -->
                     <g class="da-reveal" data-detail="operativ" tabindex="0" role="button" aria-label="Detail: Operative gGmbH">
                         <rect x="350" y="115" width="200" height="100" rx="12" fill="rgba(255,255,255,0.94)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
-                        <rect x="350" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.05)" class="da-hover-fill"/>
-                        <text x="450" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">OPERATIVE</text>
-                        <text x="450" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">gGmbH</text>
-                        <text x="450" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 63%)">Medien · Bildung · IT</text>
+                        <rect x="350" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.06)" class="da-hover-fill"/>
+                        <text x="450" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">OPERATIVE</text>
+                        <text x="450" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">gGmbH</text>
+                        <text x="450" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="rgba(34,50,70,0.76)">Medien · Bildung · IT</text>
                     </g>
                     <!-- Säule 3: Politischer Arm -->
                     <g class="da-reveal" data-detail="politisch" tabindex="0" role="button" aria-label="Detail: Politischer Arm">
                         <rect x="570" y="115" width="200" height="100" rx="12" fill="rgba(255,255,255,0.94)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
-                        <rect x="570" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.05)" class="da-hover-fill"/>
-                        <text x="670" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">POLITISCHER</text>
-                        <text x="670" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">ARM</text>
-                        <text x="670" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 63%)">Lobbying · Kampagnen</text>
+                        <rect x="570" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.06)" class="da-hover-fill"/>
+                        <text x="670" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">POLITISCHER</text>
+                        <text x="670" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">ARM</text>
+                        <text x="670" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="rgba(34,50,70,0.76)">Lobbying · Kampagnen</text>
                     </g>
                 </g>
 
                 <!-- ===== SCHICHT 3: INFRASTRUKTUR ===== -->
                 <g class="da-reveal" style="transition-delay: 400ms">
-                    <rect x="130" y="240" width="640" height="55" rx="10" fill="rgba(250,248,245,0.96)" stroke="rgba(17,17,17,0.10)" stroke-width="1"/>
-                    <text x="200" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="hsl(0, 0%, 63%)">
-                        <tspan data-detail="newsroom" tabindex="0" role="button" fill="hsl(160, 70%, 38%)">Newsroom</tspan>
+                    <rect x="130" y="240" width="640" height="55" rx="10" fill="rgba(250,248,245,0.98)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
+                    <text x="200" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="rgba(34,50,70,0.76)">
+                        <tspan data-detail="newsroom" tabindex="0" role="button" fill="#1c6c58">Newsroom</tspan>
                     </text>
-                    <text x="340" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="hsl(0, 0%, 63%)">
-                        <tspan data-detail="server" tabindex="0" role="button" fill="hsl(160, 70%, 38%)">Server &amp; IT</tspan>
+                    <text x="340" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="rgba(34,50,70,0.76)">
+                        <tspan data-detail="server" tabindex="0" role="button" fill="#1c6c58">Server &amp; IT</tspan>
                     </text>
-                    <text x="490" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="hsl(0, 0%, 63%)">
-                        <tspan data-detail="ki" tabindex="0" role="button" fill="hsl(160, 70%, 38%)">Lokale KI</tspan>
+                    <text x="490" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="rgba(34,50,70,0.76)">
+                        <tspan data-detail="ki" tabindex="0" role="button" fill="#1c6c58">Lokale KI</tspan>
                     </text>
-                    <text x="640" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="hsl(0, 0%, 63%)">
-                        <tspan data-detail="daten" tabindex="0" role="button" fill="hsl(160, 70%, 38%)">Datenhoheit</tspan>
+                    <text x="640" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="rgba(34,50,70,0.76)">
+                        <tspan data-detail="daten" tabindex="0" role="button" fill="#1c6c58">Datenhoheit</tspan>
                     </text>
-                    <text x="450" y="254" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(0, 0%, 42%)" letter-spacing="0.12em">INFRASTRUKTURSCHICHT</text>
+                    <text x="450" y="254" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="rgba(17,17,17,0.58)" letter-spacing="0.12em">INFRASTRUKTURSCHICHT</text>
                 </g>
 
                 <!-- ===== SCHICHT 4: BIDIREKTIONALE VERBINDUNGEN ===== -->
                 <g class="da-draw-svg da-reveal" style="transition-delay: 600ms">
                     <!-- Wellenförmige Verbindungen von Säulen zu Gesellschaft -->
-                    <path d="M230 215 C230 330, 180 340, 180 380" stroke="hsl(220, 14%, 22%)" stroke-width="1" stroke-dasharray="4 3" fill="none"/>
-                    <path d="M450 215 C450 340, 450 350, 450 380" stroke="hsl(220, 14%, 22%)" stroke-width="1" stroke-dasharray="4 3" fill="none"/>
-                    <path d="M670 215 C670 330, 720 340, 720 380" stroke="hsl(220, 14%, 22%)" stroke-width="1" stroke-dasharray="4 3" fill="none"/>
+                    <path d="M230 215 C230 330, 180 340, 180 380" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+                    <path d="M450 215 C450 340, 450 350, 450 380" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+                    <path d="M670 215 C670 330, 720 340, 720 380" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
                     <!-- Cross connections -->
-                    <path d="M230 295 Q340 320, 450 295" stroke="hsl(220, 14%, 16%)" stroke-width="0.75" stroke-dasharray="3 4" fill="none"/>
-                    <path d="M450 295 Q560 320, 670 295" stroke="hsl(220, 14%, 16%)" stroke-width="0.75" stroke-dasharray="3 4" fill="none"/>
+                    <path d="M230 295 Q340 320, 450 295" stroke="rgba(34,50,70,0.22)" stroke-width="0.9" stroke-dasharray="3 4" fill="none"/>
+                    <path d="M450 295 Q560 320, 670 295" stroke="rgba(34,50,70,0.22)" stroke-width="0.9" stroke-dasharray="3 4" fill="none"/>
                 </g>
 
                 <!-- ===== SCHICHT 5: GESELLSCHAFTSKNOTEN ===== -->
                 <g class="da-stagger">
                     <!-- Lokale Räte -->
                     <g class="da-grow-node" data-detail="lokal" tabindex="0" role="button" aria-label="Detail: Lokale Räte">
-                        <circle cx="150" cy="420" r="32" fill="hsla(120, 50%, 45%, 0.1)" stroke="hsl(120, 50%, 45%)" stroke-width="1.5"/>
-                        <text x="150" y="416" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(120, 50%, 45%)">Lokale</text>
-                        <text x="150" y="430" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(120, 50%, 45%)">Räte</text>
+                        <circle cx="150" cy="420" r="32" fill="rgba(67,144,84,0.18)" stroke="#3e8c4f" stroke-width="1.7"/>
+                        <text x="150" y="416" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#2b6d39">Lokale</text>
+                        <text x="150" y="430" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#2b6d39">Räte</text>
                     </g>
                     <!-- Jugend -->
                     <g class="da-grow-node" data-detail="jugend" tabindex="0" role="button" aria-label="Detail: Jugend & Studierende">
-                        <circle cx="280" cy="400" r="30" fill="hsla(260, 55%, 58%, 0.1)" stroke="hsl(260, 55%, 58%)" stroke-width="1.5"/>
-                        <text x="280" y="396" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(260, 55%, 58%)">Jugend &amp;</text>
-                        <text x="280" y="410" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(260, 55%, 58%)">Stud.</text>
+                        <circle cx="280" cy="400" r="30" fill="rgba(118,92,189,0.18)" stroke="#7357ba" stroke-width="1.7"/>
+                        <text x="280" y="396" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#523999">Jugend &amp;</text>
+                        <text x="280" y="410" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#523999">Stud.</text>
                     </g>
                     <!-- Wirtschaft -->
                     <g class="da-grow-node" data-detail="wirtschaft" tabindex="0" role="button" aria-label="Detail: Unternehmer:innen">
-                        <circle cx="410" cy="430" r="28" fill="hsla(40, 85%, 55%, 0.1)" stroke="hsl(40, 85%, 55%)" stroke-width="1.5"/>
-                        <text x="410" y="426" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(40, 85%, 55%)">Unter-</text>
-                        <text x="410" y="438" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(40, 85%, 55%)">nehmer</text>
+                        <circle cx="410" cy="430" r="28" fill="rgba(201,140,22,0.18)" stroke="#b57910" stroke-width="1.7"/>
+                        <text x="410" y="426" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#8d5a00">Unter-</text>
+                        <text x="410" y="438" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#8d5a00">nehmer</text>
                     </g>
                     <!-- Frauenstrukturen -->
                     <g class="da-grow-node" data-detail="frauen" tabindex="0" role="button" aria-label="Detail: Frauenstrukturen">
-                        <circle cx="540" cy="405" r="34" fill="hsla(340, 60%, 55%, 0.1)" stroke="hsl(340, 60%, 55%)" stroke-width="1.5"/>
-                        <text x="540" y="401" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(340, 60%, 55%)">Frauen-</text>
-                        <text x="540" y="415" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(340, 60%, 55%)">strukturen</text>
+                        <circle cx="540" cy="405" r="34" fill="rgba(186,77,120,0.18)" stroke="#b54a74" stroke-width="1.7"/>
+                        <text x="540" y="401" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#8d3158">Frauen-</text>
+                        <text x="540" y="415" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#8d3158">strukturen</text>
                     </g>
                     <!-- Kultur & Bildung -->
                     <g class="da-grow-node" data-detail="kultur" tabindex="0" role="button" aria-label="Detail: Kultur & Bildung">
-                        <circle cx="680" cy="425" r="30" fill="hsla(160, 70%, 38%, 0.1)" stroke="hsl(160, 70%, 38%)" stroke-width="1.5"/>
-                        <text x="680" y="421" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(160, 70%, 38%)">Kultur &amp;</text>
-                        <text x="680" y="435" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="hsl(160, 70%, 38%)">Bildung</text>
+                        <circle cx="680" cy="425" r="30" fill="rgba(34,126,99,0.18)" stroke="#237a60" stroke-width="1.7"/>
+                        <text x="680" y="421" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#175844">Kultur &amp;</text>
+                        <text x="680" y="435" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#175844">Bildung</text>
                     </g>
                     <!-- Fachnetzwerke -->
                     <g class="da-grow-node" data-detail="fach" tabindex="0" role="button" aria-label="Detail: Fachnetzwerke">
-                        <circle cx="790" cy="400" r="26" fill="hsla(210, 70%, 50%, 0.1)" stroke="hsl(210, 70%, 50%)" stroke-width="1.5"/>
-                        <text x="790" y="396" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(210, 70%, 50%)">Fach-</text>
-                        <text x="790" y="408" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(210, 70%, 50%)">netzwerke</text>
+                        <circle cx="790" cy="400" r="26" fill="rgba(62,133,205,0.18)" stroke="#2f80cc" stroke-width="1.7"/>
+                        <text x="790" y="396" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#1d5e99">Fach-</text>
+                        <text x="790" y="408" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#1d5e99">netzwerke</text>
                     </g>
                 </g>
 
                 <!-- ===== SCHICHT 6: MYZEL-NETZWERK ===== -->
                 <g class="da-myzel da-reveal" style="transition-delay: 800ms">
                     <!-- Organische Verbindungen zwischen den Gesellschaftsknoten -->
-                    <path d="M182 420 Q230 440, 280 400" stroke="hsl(220, 14%, 20%)" stroke-width="0.75" fill="none"/>
-                    <path d="M280 430 Q345 450, 410 430" stroke="hsl(220, 14%, 20%)" stroke-width="0.75" fill="none"/>
-                    <path d="M438 430 Q490 445, 540 405" stroke="hsl(220, 14%, 20%)" stroke-width="0.75" fill="none"/>
-                    <path d="M574 405 Q627 430, 680 425" stroke="hsl(220, 14%, 20%)" stroke-width="0.75" fill="none"/>
-                    <path d="M710 425 Q750 415, 790 400" stroke="hsl(220, 14%, 20%)" stroke-width="0.75" fill="none"/>
+                    <path d="M182 420 Q230 440, 280 400" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
+                    <path d="M280 430 Q345 450, 410 430" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
+                    <path d="M438 430 Q490 445, 540 405" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
+                    <path d="M574 405 Q627 430, 680 425" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
+                    <path d="M710 425 Q750 415, 790 400" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
                     <!-- Cross-network connections -->
-                    <path d="M150 452 Q280 490, 410 458" stroke="hsl(220, 14%, 18%)" stroke-width="0.5" fill="none"/>
-                    <path d="M280 430 Q410 470, 540 439" stroke="hsl(220, 14%, 18%)" stroke-width="0.5" fill="none"/>
-                    <path d="M410 458 Q560 480, 680 455" stroke="hsl(220, 14%, 18%)" stroke-width="0.5" fill="none"/>
-                    <path d="M150 452 Q450 510, 790 426" stroke="hsl(220, 14%, 15%)" stroke-width="0.5" stroke-dasharray="2 4" fill="none"/>
+                    <path d="M150 452 Q280 490, 410 458" stroke="rgba(34,50,70,0.22)" stroke-width="0.65" fill="none"/>
+                    <path d="M280 430 Q410 470, 540 439" stroke="rgba(34,50,70,0.22)" stroke-width="0.65" fill="none"/>
+                    <path d="M410 458 Q560 480, 680 455" stroke="rgba(34,50,70,0.22)" stroke-width="0.65" fill="none"/>
+                    <path d="M150 452 Q450 510, 790 426" stroke="rgba(177,42,42,0.26)" stroke-width="0.65" stroke-dasharray="2 4" fill="none"/>
                     <!-- Additional myzel branches -->
-                    <path d="M180 440 Q200 470, 250 460" stroke="hsl(220, 14%, 16%)" stroke-width="0.5" fill="none"/>
-                    <path d="M300 420 Q350 460, 380 450" stroke="hsl(220, 14%, 16%)" stroke-width="0.5" fill="none"/>
-                    <path d="M560 430 Q600 460, 650 445" stroke="hsl(220, 14%, 16%)" stroke-width="0.5" fill="none"/>
-                    <path d="M720 440 Q740 460, 770 420" stroke="hsl(220, 14%, 16%)" stroke-width="0.5" fill="none"/>
+                    <path d="M180 440 Q200 470, 250 460" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
+                    <path d="M300 420 Q350 460, 380 450" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
+                    <path d="M560 430 Q600 460, 650 445" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
+                    <path d="M720 440 Q740 460, 770 420" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
                 </g>
 
                 <!-- ===== SCHICHT 7: WERTEFUNDAMENT ===== -->
                 <g class="da-reveal" style="transition-delay: 1000ms">
-                    <rect x="100" y="510" width="700" height="48" rx="24" fill="rgba(255,255,255,0.96)" stroke="hsl(22, 70%, 48%)" stroke-width="1" stroke-opacity="0.3"/>
-                    <text x="450" y="522" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(0, 0%, 42%)" letter-spacing="0.12em">WERTEFUNDAMENT</text>
+                    <rect x="100" y="510" width="700" height="48" rx="24" fill="rgba(255,255,255,0.98)" stroke="rgba(177,42,42,0.45)" stroke-width="1.1"/>
+                    <text x="450" y="522" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="rgba(17,17,17,0.58)" letter-spacing="0.12em">WERTEFUNDAMENT</text>
 
                     <!-- Value pills -->
-                    <g font-family="Figtree, sans-serif" font-size="10" fill="hsl(22, 75%, 52%)">
+                    <g font-family="Figtree, sans-serif" font-size="10" fill="#8f1e22">
                         <text x="175" y="543" text-anchor="middle">Freiheit</text>
                         <text x="280" y="543" text-anchor="middle">Gleichstellung</text>
                         <text x="400" y="543" text-anchor="middle">Org. Freiheit</text>
@@ -516,37 +547,40 @@ get_header();
                 </g>
 
                 <!-- Label: Gesellschaft -->
-                <text x="450" y="490" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(0, 0%, 42%)" letter-spacing="0.12em" class="da-reveal" style="transition-delay: 900ms">DEMOKRATISCHE GESELLSCHAFT (MYZEL-NETZWERK)</text>
+                <text x="450" y="490" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="rgba(17,17,17,0.58)" letter-spacing="0.12em" class="da-reveal" style="transition-delay: 900ms">DEMOKRATISCHE GESELLSCHAFT (MYZEL-NETZWERK)</text>
 
             </svg>
         </div>
 
-        <!-- Legende -->
-        <div class="da-rat__legend da-reveal" style="transition-delay: 200ms">
-            <div class="da-rat__legend-item">
-                <span class="da-rat__legend-dot da-rat__legend-dot--lokal"></span>
-                <span>Lokale Räte</span>
+        <div class="da-rat__legend-wrap da-reveal" style="transition-delay: 200ms">
+            <p class="da-rat__legend-title">Gesellschaftsknoten</p>
+            <div class="da-rat__legend">
+                <div class="da-rat__legend-item">
+                    <span class="da-rat__legend-dot da-rat__legend-dot--lokal"></span>
+                    <span>Lokale Räte</span>
+                </div>
+                <div class="da-rat__legend-item">
+                    <span class="da-rat__legend-dot da-rat__legend-dot--jugend"></span>
+                    <span>Jugend & Studierende</span>
+                </div>
+                <div class="da-rat__legend-item">
+                    <span class="da-rat__legend-dot da-rat__legend-dot--wirtschaft"></span>
+                    <span>Wirtschaft</span>
+                </div>
+                <div class="da-rat__legend-item">
+                    <span class="da-rat__legend-dot da-rat__legend-dot--frauen"></span>
+                    <span>Frauenstrukturen</span>
+                </div>
+                <div class="da-rat__legend-item">
+                    <span class="da-rat__legend-dot da-rat__legend-dot--kultur"></span>
+                    <span>Kultur & Bildung</span>
+                </div>
+                <div class="da-rat__legend-item">
+                    <span class="da-rat__legend-dot da-rat__legend-dot--fach"></span>
+                    <span>Fachnetzwerke</span>
+                </div>
             </div>
-            <div class="da-rat__legend-item">
-                <span class="da-rat__legend-dot da-rat__legend-dot--jugend"></span>
-                <span>Jugend & Studierende</span>
-            </div>
-            <div class="da-rat__legend-item">
-                <span class="da-rat__legend-dot da-rat__legend-dot--wirtschaft"></span>
-                <span>Wirtschaft</span>
-            </div>
-            <div class="da-rat__legend-item">
-                <span class="da-rat__legend-dot da-rat__legend-dot--frauen"></span>
-                <span>Frauenstrukturen</span>
-            </div>
-            <div class="da-rat__legend-item">
-                <span class="da-rat__legend-dot da-rat__legend-dot--kultur"></span>
-                <span>Kultur & Bildung</span>
-            </div>
-            <div class="da-rat__legend-item">
-                <span class="da-rat__legend-dot da-rat__legend-dot--fach"></span>
-                <span>Fachnetzwerke</span>
-            </div>
+        </div>
         </div>
 
     </div>
