@@ -48,30 +48,33 @@
 
 :root {
     /* Basis */
-    --da-bg-base:      hsl(220 14% 6%);
-    --da-bg-surface:   hsl(220 14% 9%);
-    --da-bg-elevated:  hsl(220 14% 12%);
-    --da-bg-overlay:   hsl(220 14% 15%);
+    --da-bg-base:         var(--hj-bg-surface, #ffffff);
+    --da-bg-surface:      rgba(255, 255, 255, 0.88);
+    --da-bg-surface-strong: rgba(255, 255, 255, 0.96);
+    --da-bg-elevated:     #faf8f5;
+    --da-bg-overlay:      #f2eee9;
 
     /* Text */
-    --da-text-primary:    hsl(0 0% 93%);
-    --da-text-secondary:  hsl(0 0% 63%);
-    --da-text-tertiary:   hsl(0 0% 42%);
+    --da-text-primary:    var(--hj-rule, #111111);
+    --da-text-secondary:  var(--hj-text-secondary, #555555);
+    --da-text-tertiary:   #81786f;
 
-    /* Akzent: Copper */
-    --da-accent:          hsl(22 70% 48%);
-    --da-accent-light:    hsl(22 70% 58%);
-    --da-accent-subtle:   hsla(22, 70%, 48%, 0.12);
+    /* Akzent */
+    --da-accent:          var(--hj-accent, #b12a2a);
+    --da-accent-light:    #c65145;
+    --da-accent-subtle:   rgba(177, 42, 42, 0.08);
 
-    /* Borders */
-    --da-border:          hsl(220 14% 16%);
-    --da-border-strong:   hsl(220 14% 22%);
+    /* Borders & Shadow */
+    --da-border:          rgba(17, 17, 17, 0.10);
+    --da-border-strong:   rgba(17, 17, 17, 0.18);
+    --da-shadow-soft:     0 18px 40px rgba(17, 17, 17, 0.05);
+    --da-shadow-strong:   0 26px 56px rgba(17, 17, 17, 0.08);
 
     /* Semantische Farben */
     --da-teal:       hsl(160 70% 38%);
-    --da-teal-bg:    hsla(160, 70%, 38%, 0.08);
-    --da-red:        hsl(0 65% 50%);
-    --da-red-bg:     hsla(0, 65%, 50%, 0.06);
+    --da-teal-bg:    rgba(34, 126, 99, 0.08);
+    --da-red:        hsl(0 65% 46%);
+    --da-red-bg:     rgba(177, 42, 42, 0.06);
     --da-coral:      hsl(22 75% 52%);
     --da-blue:       hsl(210 70% 50%);
     --da-pink:       hsl(340 60% 55%);
@@ -86,28 +89,19 @@
 
 .da-scroll-page,
 .da-password-gate {
-    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
     font-weight: 400;
     line-height: 1.7;
     color: var(--da-text-primary);
     font-size: 1rem;
-    background: var(--da-bg-base);
+    background: transparent;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 /* Override GP/theme body styles on this page */
 body.da-page-active {
-    background: var(--da-bg-base) !important;
-}
-
-body.da-page-active .hp-site-header,
-body.da-page-active .hp-header-bar,
-body.da-page-active .hp-masthead,
-body.da-page-active .site-footer,
-body.da-page-active #footer-widgets,
-body.da-page-active .footer-bar {
-    display: none !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f6f2 22%, var(--hj-bg, #f4f5f7) 100%) !important;
 }
 
 /* =========================================
@@ -119,21 +113,30 @@ body.da-page-active .footer-bar {
 .da-scroll-page h3,
 .da-section-title,
 .da-hero-title {
-    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
     margin: 0;
+    color: var(--da-text-primary);
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
-.da-hero-title      { font-size: clamp(2.5rem, 5vw, 4rem); }
-.da-section-title   { font-size: clamp(1.75rem, 3.5vw, 2.5rem); }
-.da-section-sub     { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--da-text-secondary); margin: 0; }
+.da-hero-title      { font-size: clamp(2.6rem, 5vw, 4.2rem); }
+.da-section-title   { font-size: clamp(1.7rem, 3.4vw, 2.45rem); }
+.da-section-sub     {
+    font-family: var(--hj-serif, Georgia, serif);
+    font-size: clamp(1.02rem, 2vw, 1.24rem);
+    line-height: 1.7;
+    color: var(--da-text-secondary);
+    margin: 0;
+}
 .da-body            { font-size: 1.0625rem; }
 .da-caption         { font-size: 0.8125rem; color: var(--da-text-tertiary); }
 .da-label {
     font-size: 0.6875rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--da-text-tertiary);
     margin: 0;
@@ -145,19 +148,21 @@ body.da-page-active .footer-bar {
 
 .da-scroll-page {
     --section-padding: clamp(5rem, 12vh, 8rem);
-    --content-width: min(72rem, 90vw);
-    --narrow-width: min(48rem, 85vw);
+    --content-width: min(72rem, calc(100vw - 2.5rem));
+    --narrow-width: min(48rem, calc(100vw - 2.5rem));
+    padding-bottom: var(--hj-space-2xl, 5rem);
 }
 
 .da-section {
     padding: var(--section-padding) 0;
     position: relative;
+    scroll-margin-top: 8rem;
 }
 
 .da-container {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 clamp(1.2rem, 2.8vw, 2rem);
 }
 
 .da-narrow {
@@ -170,18 +175,22 @@ body.da-page-active .footer-bar {
    ========================================= */
 
 .da-password-gate {
-    min-height: 100vh;
+    min-height: calc(100vh - 12rem);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--da-bg-base);
-    padding: 2rem;
+    padding: clamp(2rem, 5vw, 4rem) var(--hj-gutter, 2rem);
 }
 
 .da-password-container {
     text-align: center;
-    max-width: 420px;
+    max-width: 32rem;
     width: 100%;
+    padding: clamp(1.5rem, 3vw, 2.4rem);
+    border: 1px solid var(--da-border);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 239, 0.92));
+    box-shadow: var(--da-shadow-strong);
 }
 
 .da-password-brand {
@@ -192,10 +201,10 @@ body.da-page-active .footer-bar {
 }
 
 .da-password-wordmark {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.8125rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--da-text-tertiary);
 }
@@ -207,11 +216,11 @@ body.da-page-active .footer-bar {
 }
 
 .da-password-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 900;
     font-size: clamp(1.75rem, 4vw, 2.25rem);
     color: var(--da-text-primary);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     margin: 0 0 1rem;
 }
 
@@ -246,41 +255,45 @@ body.da-page-active .footer-bar {
 }
 
 .da-password-gate .post-password-form input[type="password"] {
-    background: var(--da-bg-surface);
+    background: rgba(255, 255, 255, 0.96);
     border: 1px solid var(--da-border);
-    border-radius: 8px;
+    border-radius: 18px;
     padding: 14px 18px;
     color: var(--da-text-primary);
     font-size: 1rem;
-    font-family: 'Figtree', sans-serif;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
     width: 100%;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     box-sizing: border-box;
 }
 
 .da-password-gate .post-password-form input[type="password"]:focus {
     border-color: var(--da-accent);
     outline: none;
-    box-shadow: 0 0 0 3px hsla(22, 70%, 48%, 0.15);
+    box-shadow: 0 0 0 4px rgba(177, 42, 42, 0.1);
 }
 
 .da-password-gate .post-password-form input[type="submit"] {
-    background: var(--da-accent);
+    background: linear-gradient(135deg, #c63634 0%, #86171b 100%);
     color: #fff;
-    border: none;
-    border-radius: 8px;
+    border: 1px solid #8f1e22;
+    border-radius: 18px;
     padding: 14px 32px;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
     width: 100%;
     max-width: 360px;
+    box-shadow: 0 16px 30px rgba(177, 42, 42, 0.18);
 }
 
 .da-password-gate .post-password-form input[type="submit"]:hover {
-    background: hsl(22 70% 42%);
+    background: linear-gradient(135deg, var(--da-accent) 0%, #86171b 100%);
+    box-shadow: 0 18px 34px rgba(177, 42, 42, 0.24);
 }
 
 .da-password-gate .post-password-form input[type="submit"]:active {
@@ -292,34 +305,42 @@ body.da-page-active .footer-bar {
    ========================================= */
 
 .da-hero {
-    min-height: 100vh;
+    max-width: min(1080px, calc(100vw - 2rem));
+    min-height: clamp(34rem, 78vh, 46rem);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 4rem 2rem;
+    margin: clamp(1.4rem, 3vw, 2rem) auto 0;
+    padding: clamp(3rem, 7vw, 5rem) clamp(1.5rem, 4vw, 3rem);
     position: relative;
     overflow: hidden;
+    border: 1px solid var(--da-border);
+    border-radius: 32px;
+    background:
+        radial-gradient(circle at 82% 16%, rgba(177, 42, 42, 0.10), transparent 20%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 244, 239, 0.92) 68%, rgba(243, 240, 235, 0.96) 100%);
+    box-shadow: var(--da-shadow-strong);
 }
 
 .da-hero::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -3rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 60%;
-    height: 40%;
-    background: radial-gradient(ellipse at center bottom, hsla(22, 70%, 48%, 0.03) 0%, transparent 70%);
+    width: min(34rem, 72%);
+    height: 16rem;
+    background: radial-gradient(ellipse at center bottom, rgba(177, 42, 42, 0.14) 0%, rgba(177, 42, 42, 0.04) 48%, transparent 76%);
     pointer-events: none;
 }
 
 .da-hero__overline {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--da-text-tertiary);
     margin: 0 0 3rem;
@@ -376,12 +397,17 @@ body.da-page-active .footer-bar {
 }
 
 .da-toc__label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.625rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--da-text-tertiary);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--da-border);
+    border-radius: 999px;
+    box-shadow: 0 10px 22px rgba(17, 17, 17, 0.05);
+    padding: 0.28rem 0.58rem;
     opacity: 0;
     transform: translateX(4px);
     transition: opacity 0.2s, transform 0.2s, color 0.2s;
@@ -405,7 +431,7 @@ body.da-page-active .footer-bar {
     right: 3px;
     width: 2px;
     height: 100%;
-    background: var(--da-border);
+    background: rgba(17, 17, 17, 0.08);
     border-radius: 1px;
     z-index: -1;
 }
@@ -428,22 +454,23 @@ body.da-page-active .footer-bar {
 }
 
 .da-hero__title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 900;
+    font-size: clamp(2.45rem, 5vw, 4.4rem);
     color: var(--da-text-primary);
-    letter-spacing: -0.02em;
-    line-height: 1.15;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
     margin: 0 0 1.5rem;
-    max-width: 14ch;
+    max-width: 13ch;
 }
 
 .da-hero__subtitle {
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-family: var(--hj-serif, Georgia, serif);
+    font-size: clamp(1.08rem, 2vw, 1.26rem);
     color: var(--da-text-secondary);
-    line-height: 1.6;
+    line-height: 1.72;
     margin: 0 0 3rem;
-    max-width: 36ch;
+    max-width: 38ch;
 }
 
 .da-hero__concepts {
@@ -457,16 +484,17 @@ body.da-page-active .footer-bar {
 .da-hero__concept-pill {
     font-size: 0.8125rem;
     color: var(--da-text-secondary);
-    background: var(--da-bg-surface);
+    background: rgba(255, 255, 255, 0.76);
     border: 1px solid var(--da-border);
     border-radius: 100px;
     padding: 0.5rem 1.25rem;
     white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(17, 17, 17, 0.03);
 }
 
 .da-hero__concept-pill--accent {
     color: var(--da-accent-light);
-    border-color: hsla(22, 70%, 48%, 0.25);
+    border-color: rgba(177, 42, 42, 0.18);
     background: var(--da-accent-subtle);
 }
 
@@ -487,7 +515,7 @@ body.da-page-active .footer-bar {
 .da-hero__scroll-line {
     width: 1px;
     height: 32px;
-    background: var(--da-text-tertiary);
+    background: linear-gradient(180deg, rgba(129, 120, 111, 0.2), rgba(177, 42, 42, 0.55), rgba(129, 120, 111, 0.2));
     animation: da-scroll-line 2s ease-in-out infinite;
 }
 
@@ -517,9 +545,9 @@ body.da-page-active .footer-bar {
     width: min(58vw, 28rem);
     height: 18rem;
     transform: translateX(-50%);
-    background: radial-gradient(circle at 50% 34%, hsla(8, 58%, 42%, 0.13) 0%, hsla(12, 46%, 34%, 0.05) 42%, transparent 72%);
+    background: radial-gradient(circle at 50% 34%, rgba(177, 42, 42, 0.14) 0%, rgba(177, 42, 42, 0.04) 42%, transparent 72%);
     filter: blur(36px);
-    opacity: 0.7;
+    opacity: 0.82;
     pointer-events: none;
 }
 
@@ -530,22 +558,29 @@ body.da-page-active .footer-bar {
 
 .da-rose-photo__frame {
     position: relative;
+    padding: clamp(0.9rem, 2vw, 1.25rem);
+    border: 1px solid var(--da-border);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 239, 0.92));
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-rose-photo__image {
     display: block;
     width: 100%;
     height: auto;
+    border-radius: 18px;
     filter:
-        drop-shadow(0 24px 46px hsla(0, 0%, 0%, 0.36))
-        drop-shadow(0 6px 18px hsla(8, 52%, 28%, 0.22))
-        saturate(1.05)
-        contrast(1.04);
+        drop-shadow(0 24px 40px rgba(117, 19, 27, 0.14))
+        drop-shadow(0 8px 18px rgba(17, 17, 17, 0.08))
+        saturate(1.03)
+        contrast(1.02);
 }
 
 .da-quote-block {
     max-width: 38ch;
     margin: 0 auto 2rem;
+    font-family: var(--hj-serif, Georgia, serif);
     font-size: clamp(1.125rem, 2.5vw, 1.375rem);
     line-height: 1.65;
     color: var(--da-text-primary);
@@ -563,28 +598,32 @@ body.da-page-active .footer-bar {
 }
 
 .da-leitfrage {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--da-accent-light);
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
+    font-size: 0.76rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--da-accent);
     margin: 2.5rem 0 0.75rem;
 }
 
 .da-leitfrage-text {
+    font-family: var(--hj-serif, Georgia, serif);
     color: var(--da-text-secondary);
     font-size: 1.0625rem;
+    line-height: 1.72;
     max-width: 38ch;
     margin: 0 auto;
 }
 
 /* "Und wir?" transition text */
 .da-rose-transition {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 900;
     font-size: clamp(1.5rem, 3vw, 2rem);
     color: var(--da-text-primary);
     margin: 3rem 0 0;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.03em;
 }
 
 /* Quote block as clickable detail */
@@ -606,10 +645,10 @@ body.da-page-active .footer-bar {
 }
 
 .da-section-number {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.6875rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--da-accent);
     margin: 0 0 0.75rem;
@@ -639,28 +678,30 @@ body.da-page-active .footer-bar {
 }
 
 .da-freiheit__side {
-    background: var(--da-bg-surface);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 244, 239, 0.88));
     border: 1px solid var(--da-border);
     border-radius: 16px;
     padding: 2rem;
     min-height: 320px;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-freiheit__side--chaos {
-    opacity: 0.7;
+    background: linear-gradient(180deg, rgba(250, 248, 245, 0.94), rgba(244, 241, 236, 0.88));
 }
 
 .da-freiheit__side--order {
-    border-color: var(--da-accent-subtle);
+    border-color: rgba(177, 42, 42, 0.18);
+    box-shadow: 0 22px 44px rgba(177, 42, 42, 0.06);
 }
 
 .da-freiheit__side-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     margin: 0 0 1.5rem;
 }
@@ -707,20 +748,23 @@ body.da-page-active .footer-bar {
 }
 
 .da-freiheit__pillar {
-    background: var(--da-bg-elevated);
+    background: rgba(255, 255, 255, 0.78);
     border: 1px solid var(--da-border);
     border-radius: 10px;
     padding: 1.25rem 1.5rem;
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
     display: flex;
     align-items: center;
     gap: 1rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
 }
 
 .da-freiheit__pillar:hover {
     border-color: var(--da-accent);
     background: var(--da-accent-subtle);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px rgba(177, 42, 42, 0.08);
 }
 
 .da-freiheit__pillar:focus-visible {
@@ -747,8 +791,8 @@ body.da-page-active .footer-bar {
 }
 
 .da-freiheit__pillar-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.9375rem;
     color: var(--da-text-primary);
 }
@@ -763,22 +807,25 @@ body.da-page-active .footer-bar {
 .da-freiheit__rose-check {
     text-align: center;
     padding: 3rem 2rem;
-    background: var(--da-bg-surface);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 239, 0.9));
     border: 1px solid var(--da-border);
     border-radius: 16px;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-freiheit__rose-check:hover {
-    border-color: var(--da-accent-subtle);
+    border-color: rgba(177, 42, 42, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 20px 42px rgba(17, 17, 17, 0.08);
 }
 
 .da-freiheit__rose-check-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
     font-size: 1.125rem;
-    color: var(--da-accent-light);
+    color: var(--da-text-primary);
     margin: 0 0 0.75rem;
 }
 
@@ -798,18 +845,19 @@ body.da-page-active .footer-bar {
 .da-freiheit__rose-check-card {
     flex: 1;
     max-width: 280px;
-    background: var(--da-bg-elevated);
+    background: rgba(255, 255, 255, 0.86);
     border: 1px solid var(--da-border);
     border-radius: 12px;
     padding: 1.5rem;
     text-align: left;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .da-freiheit__rose-check-card-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--da-text-tertiary);
     margin: 0 0 0.75rem;
@@ -823,8 +871,8 @@ body.da-page-active .footer-bar {
 }
 
 .da-freiheit__rose-check-eq {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
     font-size: 1.5rem;
     color: var(--da-accent);
     flex-shrink: 0;
@@ -854,28 +902,29 @@ body.da-page-active .footer-bar {
 
 /* System Block (top, red) */
 .da-intelligenz__system {
-    background: var(--da-red-bg);
-    border: 1px solid hsla(0, 65%, 50%, 0.15);
+    background: linear-gradient(180deg, rgba(252, 244, 244, 0.96), rgba(250, 242, 242, 0.92));
+    border: 1px solid rgba(177, 42, 42, 0.16);
     border-radius: 16px;
     padding: 2rem 2.5rem;
     margin-bottom: 2rem;
     text-align: center;
     position: relative;
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-intelligenz__system-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.6875rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--da-red);
     margin: 0 0 1rem;
 }
 
 .da-intelligenz__system-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
     font-size: clamp(1.25rem, 2.5vw, 1.75rem);
     color: var(--da-text-primary);
     margin: 0 0 1.25rem;
@@ -891,8 +940,8 @@ body.da-page-active .footer-bar {
 .da-intelligenz__system-pill {
     font-size: 0.8125rem;
     color: var(--da-red);
-    background: hsla(0, 65%, 50%, 0.08);
-    border: 1px solid hsla(0, 65%, 50%, 0.2);
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(177, 42, 42, 0.18);
     border-radius: 100px;
     padding: 0.4rem 1rem;
     cursor: pointer;
@@ -900,8 +949,8 @@ body.da-page-active .footer-bar {
 }
 
 .da-intelligenz__system-pill:hover {
-    background: hsla(0, 65%, 50%, 0.15);
-    border-color: hsla(0, 65%, 50%, 0.35);
+    background: rgba(177, 42, 42, 0.08);
+    border-color: rgba(177, 42, 42, 0.3);
 }
 
 .da-intelligenz__system-pill:focus-visible {
@@ -942,16 +991,17 @@ body.da-page-active .footer-bar {
 
 .da-intelligenz__have {
     background: var(--da-teal-bg);
-    border: 1px solid hsla(160, 70%, 38%, 0.2);
+    border: 1px solid rgba(34, 126, 99, 0.18);
     border-radius: 16px;
     padding: 2rem;
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-intelligenz__have-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.6875rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--da-teal);
     margin: 0 0 1rem;
@@ -998,15 +1048,15 @@ body.da-page-active .footer-bar {
     position: absolute;
     inset: 0;
     border-radius: 16px;
-    background: hsla(0, 65%, 50%, 0.06);
+    background: rgba(177, 42, 42, 0.08);
     animation: da-pulse 3s ease-in-out infinite;
 }
 
 .da-intelligenz__gap-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--da-red);
     position: relative;
@@ -1014,8 +1064,8 @@ body.da-page-active .footer-bar {
 }
 
 .da-intelligenz__gap-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
     font-size: 1.25rem;
     color: var(--da-text-primary);
     position: relative;
@@ -1037,17 +1087,17 @@ body.da-page-active .footer-bar {
 }
 
 .da-intelligenz__missing {
-    background: var(--da-bg-surface);
+    background: rgba(248, 244, 239, 0.82);
     border: 2px dashed var(--da-border-strong);
     border-radius: 16px;
     padding: 2rem;
 }
 
 .da-intelligenz__missing-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.6875rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--da-text-tertiary);
     margin: 0 0 1rem;
@@ -1096,19 +1146,22 @@ body.da-page-active .footer-bar {
 
 /* The Weapon */
 .da-intelligenz__weapon {
-    background: var(--da-teal-bg);
-    border: 1px solid hsla(160, 70%, 38%, 0.2);
+    background: linear-gradient(180deg, rgba(239, 248, 244, 0.96), rgba(232, 244, 239, 0.92));
+    border: 1px solid rgba(34, 126, 99, 0.16);
     border-radius: 16px;
     padding: 2.5rem;
     text-align: center;
     margin-bottom: 2.5rem;
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-intelligenz__weapon:hover {
-    border-color: hsla(160, 70%, 38%, 0.4);
-    background: hsla(160, 70%, 38%, 0.12);
+    border-color: rgba(34, 126, 99, 0.28);
+    background: linear-gradient(180deg, rgba(234, 246, 241, 0.98), rgba(226, 241, 235, 0.96));
+    transform: translateY(-1px);
+    box-shadow: 0 20px 42px rgba(34, 126, 99, 0.10);
 }
 
 .da-intelligenz__weapon:focus-visible {
@@ -1117,18 +1170,18 @@ body.da-page-active .footer-bar {
 }
 
 .da-intelligenz__weapon-label {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.6875rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--da-teal);
     margin: 0 0 0.75rem;
 }
 
 .da-intelligenz__weapon-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
     font-size: clamp(1.5rem, 3vw, 2rem);
     color: var(--da-text-primary);
     margin: 0 0 0.75rem;
@@ -1151,17 +1204,20 @@ body.da-page-active .footer-bar {
 }
 
 .da-intelligenz__tool {
-    background: var(--da-bg-surface);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid var(--da-border);
     border-radius: 12px;
     padding: 1.25rem 1.5rem;
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-intelligenz__tool:hover {
     border-color: var(--da-teal);
     background: var(--da-teal-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 18px 34px rgba(34, 126, 99, 0.10);
 }
 
 .da-intelligenz__tool:focus-visible {
@@ -1170,8 +1226,8 @@ body.da-page-active .footer-bar {
 }
 
 .da-intelligenz__tool-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-weight: 700;
     font-size: 0.9375rem;
     color: var(--da-text-primary);
     margin: 0 0 0.25rem;
@@ -1198,8 +1254,8 @@ body.da-page-active .footer-bar {
 }
 
 .da-intelligenz__transform-state {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
     font-size: clamp(1.25rem, 2.5vw, 1.5rem);
 }
 
@@ -1227,6 +1283,12 @@ body.da-page-active .footer-bar {
 .da-rat__viz {
     position: relative;
     margin: 0 auto;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border: 1px solid var(--da-border);
+    border-radius: 30px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 239, 0.90));
+    box-shadow: var(--da-shadow-strong);
+    overflow: hidden;
 }
 
 .da-rat__viz svg {
@@ -1248,6 +1310,15 @@ body.da-page-active .footer-bar {
 .da-rat__viz [data-detail]:focus-visible {
     outline: 2px solid var(--da-accent);
     outline-offset: 4px;
+}
+
+.da-rat__viz .da-hover-fill {
+    transition: fill 0.2s ease;
+}
+
+.da-rat__viz [data-detail]:hover .da-hover-fill,
+.da-rat__viz [data-detail]:focus-visible .da-hover-fill {
+    fill: rgba(177, 42, 42, 0.09);
 }
 
 /* Legend */
@@ -1297,6 +1368,7 @@ body.da-page-active .footer-bar {
     line-height: 1.6;
     color: var(--da-text-primary);
     font-style: italic;
+    font-family: var(--hj-serif, Georgia, serif);
     max-width: 32ch;
     margin: 0 auto 4rem;
 }
@@ -1323,11 +1395,15 @@ body.da-page-active .footer-bar {
 .da-schluss__principle {
     padding-left: 1.5rem;
     border-left: 3px solid var(--da-accent);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(248, 244, 239, 0.54));
+    border-radius: 0 14px 14px 0;
+    padding: 1rem 1.1rem 1rem 1.5rem;
+    box-shadow: var(--da-shadow-soft);
 }
 
 .da-schluss__principle-title {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-weight: 700;
     font-size: 1.0625rem;
     color: var(--da-text-primary);
     margin: 0 0 0.25rem;
@@ -1366,7 +1442,7 @@ body.da-page-active .footer-bar {
     font-size: 0.9375rem;
     color: var(--da-text-secondary);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -1374,6 +1450,7 @@ body.da-page-active .footer-bar {
 
 .da-footer__link:hover {
     color: var(--da-accent);
+    transform: translateY(-1px);
 }
 
 .da-footer__link svg {
@@ -1395,9 +1472,9 @@ body.da-page-active .footer-bar {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: hsla(220, 14%, 6%, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(244, 245, 247, 0.8);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1413,15 +1490,16 @@ body.da-page-active .footer-bar {
 }
 
 .da-detail-card {
-    background: var(--da-bg-surface);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 239, 0.94));
     border: 1px solid var(--da-border);
-    border-radius: 16px;
+    border-radius: 24px;
     padding: 2.5rem;
     max-width: 560px;
     width: 100%;
     position: relative;
     transform: translateY(16px) scale(0.98);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--da-shadow-strong);
 }
 
 .da-detail-overlay.is-open .da-detail-card {
@@ -1429,9 +1507,9 @@ body.da-page-active .footer-bar {
 }
 
 .da-detail-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--hj-serif, Georgia, serif);
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--da-text-primary);
     margin: 0 0 1rem;
     padding-right: 2.5rem;
@@ -1451,7 +1529,7 @@ body.da-page-active .footer-bar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--da-bg-elevated);
+    background: rgba(255, 255, 255, 0.82);
     border: 1px solid var(--da-border);
     color: var(--da-text-secondary);
     font-size: 1.25rem;

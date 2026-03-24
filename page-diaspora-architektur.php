@@ -6,7 +6,7 @@
  * Scroll-driven Storytelling: Neuorganisation der kurdischen
  * Diplomatie- und Öffentlichkeitsarbeit.
  *
- * Passwortgeschützt. Dark Mode only. Vanilla JS + CSS.
+ * Passwortgeschützt. Im Stil des Journals. Vanilla JS + CSS.
  *
  * @package Hasimuener_Journal
  * @since   7.0.0
@@ -39,7 +39,7 @@ add_action( 'wp_enqueue_scripts', function () {
 if ( post_password_required() ) {
     get_header(); ?>
 
-<main class="da-password-gate" data-theme="dark">
+<main id="main-content" class="da-password-gate">
     <div class="da-password-container">
         <div class="da-password-brand">
             <span class="da-password-wordmark">HAŞIM ÜNER</span>
@@ -62,7 +62,7 @@ if ( post_password_required() ) {
 get_header();
 ?>
 
-<main class="da-scroll-page" data-theme="dark">
+<main id="main-content" class="da-scroll-page">
 
 <!-- ==========================================
      STICKY TOC (minimalistisch, immer sichtbar)
@@ -378,7 +378,7 @@ get_header();
                 <g class="da-reveal" style="transition-delay: 0ms">
                     <!-- Dach-Form (breites Vordach) -->
                     <path d="M150 80 L450 30 L750 80 L770 95 L130 95 Z" fill="hsla(22, 70%, 48%, 0.12)" stroke="hsl(22, 70%, 48%)" stroke-width="1.5"/>
-                    <text x="450" y="72" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="16" fill="hsl(0, 0%, 93%)" letter-spacing="0.05em">KURDISCHER RAT</text>
+                    <text x="450" y="72" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="16" fill="#111111" letter-spacing="0.05em">KURDISCHER RAT</text>
                     <text x="450" y="90" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 42%)" letter-spacing="0.08em">FÖDERATIVE DACHARCHITEKTUR</text>
                 </g>
 
@@ -386,24 +386,24 @@ get_header();
                 <g class="da-stagger">
                     <!-- Säule 1: Demokratische Legitimation -->
                     <g class="da-reveal" data-detail="legitim" tabindex="0" role="button" aria-label="Detail: Demokratische Legitimation">
-                        <rect x="130" y="115" width="200" height="100" rx="12" fill="hsl(220, 14%, 9%)" stroke="hsl(220, 14%, 22%)" stroke-width="1"/>
-                        <rect x="130" y="115" width="200" height="100" rx="12" fill="hsla(22, 70%, 48%, 0.06)" class="da-hover-fill"/>
+                        <rect x="130" y="115" width="200" height="100" rx="12" fill="rgba(255,255,255,0.94)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
+                        <rect x="130" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.05)" class="da-hover-fill"/>
                         <text x="230" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">DEMOKRATISCHE</text>
                         <text x="230" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">LEGITIMATION</text>
                         <text x="230" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 63%)">Delegiertenversammlung</text>
                     </g>
                     <!-- Säule 2: Operative gGmbH -->
                     <g class="da-reveal" data-detail="operativ" tabindex="0" role="button" aria-label="Detail: Operative gGmbH">
-                        <rect x="350" y="115" width="200" height="100" rx="12" fill="hsl(220, 14%, 9%)" stroke="hsl(220, 14%, 22%)" stroke-width="1"/>
-                        <rect x="350" y="115" width="200" height="100" rx="12" fill="hsla(22, 70%, 48%, 0.06)" class="da-hover-fill"/>
+                        <rect x="350" y="115" width="200" height="100" rx="12" fill="rgba(255,255,255,0.94)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
+                        <rect x="350" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.05)" class="da-hover-fill"/>
                         <text x="450" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">OPERATIVE</text>
                         <text x="450" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">gGmbH</text>
                         <text x="450" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 63%)">Medien · Bildung · IT</text>
                     </g>
                     <!-- Säule 3: Politischer Arm -->
                     <g class="da-reveal" data-detail="politisch" tabindex="0" role="button" aria-label="Detail: Politischer Arm">
-                        <rect x="570" y="115" width="200" height="100" rx="12" fill="hsl(220, 14%, 9%)" stroke="hsl(220, 14%, 22%)" stroke-width="1"/>
-                        <rect x="570" y="115" width="200" height="100" rx="12" fill="hsla(22, 70%, 48%, 0.06)" class="da-hover-fill"/>
+                        <rect x="570" y="115" width="200" height="100" rx="12" fill="rgba(255,255,255,0.94)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
+                        <rect x="570" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.05)" class="da-hover-fill"/>
                         <text x="670" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">POLITISCHER</text>
                         <text x="670" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="hsl(22, 70%, 48%)">ARM</text>
                         <text x="670" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="hsl(0, 0%, 63%)">Lobbying · Kampagnen</text>
@@ -412,7 +412,7 @@ get_header();
 
                 <!-- ===== SCHICHT 3: INFRASTRUKTUR ===== -->
                 <g class="da-reveal" style="transition-delay: 400ms">
-                    <rect x="130" y="240" width="640" height="55" rx="10" fill="hsl(220, 14%, 9%)" stroke="hsl(220, 14%, 16%)" stroke-width="1"/>
+                    <rect x="130" y="240" width="640" height="55" rx="10" fill="rgba(250,248,245,0.96)" stroke="rgba(17,17,17,0.10)" stroke-width="1"/>
                     <text x="200" y="273" text-anchor="middle" font-family="Figtree, sans-serif" font-size="11" fill="hsl(0, 0%, 63%)">
                         <tspan data-detail="newsroom" tabindex="0" role="button" fill="hsl(160, 70%, 38%)">Newsroom</tspan>
                     </text>
@@ -501,7 +501,7 @@ get_header();
 
                 <!-- ===== SCHICHT 7: WERTEFUNDAMENT ===== -->
                 <g class="da-reveal" style="transition-delay: 1000ms">
-                    <rect x="100" y="510" width="700" height="48" rx="24" fill="hsl(220, 14%, 9%)" stroke="hsl(22, 70%, 48%)" stroke-width="1" stroke-opacity="0.3"/>
+                    <rect x="100" y="510" width="700" height="48" rx="24" fill="rgba(255,255,255,0.96)" stroke="hsl(22, 70%, 48%)" stroke-width="1" stroke-opacity="0.3"/>
                     <text x="450" y="522" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="hsl(0, 0%, 42%)" letter-spacing="0.12em">WERTEFUNDAMENT</text>
 
                     <!-- Value pills -->
