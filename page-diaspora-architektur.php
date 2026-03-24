@@ -15,14 +15,14 @@
 defined( 'ABSPATH' ) || exit;
 
 /* -----------------------------------------
-   Full-Width Layout erzwingen (kein Sidebar)
-   GeneratePress erkennt diesen Filter global.
+   Full-Width Layout + Header ausblenden
    ----------------------------------------- */
 add_filter( 'generate_sidebar_layout', function () { return 'no-sidebar'; } );
 add_filter( 'generate_page_class',     function ( $classes ) {
     $classes[] = 'full-width-content';
     return $classes;
 } );
+add_filter( 'generate_show_header',    '__return_false' );
 
 /* -----------------------------------------
    Assets nur auf dieser Seite
