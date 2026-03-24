@@ -697,8 +697,6 @@ get_header();
             </div>
         </div>
 
-        <p class="da-schluss__author da-reveal">Hasim Üner &middot; November 2025</p>
-
     </div>
 </section>
 
