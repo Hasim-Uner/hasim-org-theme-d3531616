@@ -128,6 +128,42 @@
         daten: {
             title: 'Datenhoheit',
             body: 'Alle Daten der Community verbleiben unter eigener Kontrolle. Verschlüsselung, Zugriffsrechte und Löschkonzepte nach eigenen Standards — nicht nach den AGB von Tech-Konzernen.'
+        },
+
+        /* Konzept 04 — Mediale Architektur: Schichten */
+        souveraenitaet: {
+            title: 'Schicht 1 — Digitale Souveränität',
+            body: 'Das Fundament. Eigene Server (Hetzner, DE-Jurisdiktion), keine Cloud-Abhängigkeiten. Keine Cookies, kein externes Tracking. Server-side Datenerfassung unter eigener Kontrolle. Selbstgehostete Automatisierung (n8n). Lokale KI-Instanzen für Textarbeit und Analyse. Datenhoheit bedeutet: Niemand kann uns den Zugang zu unseren eigenen Daten entziehen. Diese Seite ist der Beweis.'
+        },
+        medien: {
+            title: 'Schicht 2 — Medienproduktion',
+            body: 'Ein kleines, aber professionelles Medienteam mit klaren Zuständigkeiten. Abgestimmte Bild- und Sprachlinie — eigene Begriffe statt übernommene Narrative. Krisenkommunikationsprotokoll: Informationssammlung → erste Haltung → ausführliche Einordnung. Öffentliche Stellungnahmen folgen der Struktur: Tatsache – Haltung – Handlung – Angebot.'
+        },
+        kommunikation: {
+            title: 'Schicht 3 — Kommunikation & Koordination',
+            body: 'Zentrale digitale Plattform für Dokumente, Protokolle, Material. Gemeinsamer Kommunikationskanal für jede lokale Struktur. Stringente Regeln zu Zugängen und Passwortverwaltung. Die Koordinationsebene verbindet lokale Strukturen mit dem Rat — bidirektional, nicht als Weisungskette.'
+        },
+        analyse: {
+            title: 'Schicht 4 — Inhalt & Analyse',
+            body: 'Hier lebt die integrierte Intelligenz in der Praxis: Monatliche Lagebilder (Tendenzen, Risiken, Chancen). Hypothesenlisten — explizit, überprüfbar, verantwortlich zugeordnet. Entscheidungsnotizen — Beschluss, Begründung, Termin, Verantwortliche. Quartalsweise Reviews — was hat gewirkt, was nicht, was lernen wir? Ohne diese Schicht bleibt Analytik ein Vorsatz.'
+        },
+        oeffentlichkeit: {
+            title: 'Schicht 5 — Öffentlichkeit & Wirkung',
+            body: 'Die sichtbare Spitze: Kampagnen, Stellungnahmen, Bündnisse, Allianzen. Aber nur wirksam, wenn die vier Schichten darunter tragen. Eine Pressemitteilung ohne Lagebild ist Reaktion. Eine Kampagne ohne Analyse ist Aktionismus. Die obere Schicht ist die Wirkung — die unteren sind die Ursache.'
+        },
+
+        /* Konzept 04 — Module */
+        newsroom_med: {
+            title: 'Modul: Newsroom',
+            body: 'Eigene Stimme, eigene Begriffe, eigene Prioritäten. Kein Outsourcing an Social-Media-Plattformen, die Reichweite nach Algorithmus verteilen. Ein Newsroom auf eigener Infrastruktur bedeutet: Wir entscheiden, was sichtbar wird. Nicht Meta, nicht X, nicht Google.'
+        },
+        wissensgraph_med: {
+            title: 'Modul: Wissensgraph',
+            body: 'Politisches Wissen wird strukturiert, vernetzt, durchsuchbar. Begriffe sind nicht isolierte Glossareinträge, sondern Knoten in einem lebendigen Netzwerk. Der Wissensgraph auf hasimuener.org zeigt, wie das funktioniert — Begriffe wie „demokratische Gesellschaft", „Gegenpol", „integrierte Intelligenz" sind miteinander verknüpft und kontextualisiert.'
+        },
+        sicherheit_med: {
+            title: 'Modul: Digitaler Selbstschutz',
+            body: 'Digitale Sicherheit ist kein Sonderwissen für Expert:innen — sie ist Organisationsstandard. Verschlüsselte Kommunikation, Passwortverwaltung, Zugangskontrolle, Datensparsamkeit. Eingebaut in den Alltag, nicht als Sonderschulung. Feministische Sicherheitsstandards eingeschlossen: Schutz vor digitaler Gewalt und Doxxing.'
         }
     };
 
@@ -311,7 +347,179 @@
     }
 
     /* =========================================
-       6. BODY CLASS FOR THEME OVERRIDE
+       6. D3 FORCE GRAPH — GESELLSCHAFTSKNOTEN
+       ========================================= */
+
+    function initD3Graph() {
+        if (typeof d3 === 'undefined') return;
+
+        var container = document.getElementById('da-gesellschaft-graph');
+        if (!container) return;
+
+        var graphObserver = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                graphObserver.disconnect();
+                buildD3Graph(container);
+            }
+        }, { threshold: 0.05 });
+
+        graphObserver.observe(container);
+    }
+
+    function buildD3Graph(container) {
+        // Remove placeholder text
+        var placeholder = container.querySelector('.da-rat__d3-placeholder');
+        if (placeholder) placeholder.remove();
+
+        var width = container.offsetWidth || 720;
+        var height = 320;
+
+        var nodes = [
+            { id: 'berlin',       label: 'Berlin',          category: 'lokal',      radius: 22 },
+            { id: 'koeln',        label: 'Köln',             category: 'lokal',      radius: 22 },
+            { id: 'hamburg',      label: 'Hamburg',          category: 'lokal',      radius: 20 },
+            { id: 'hannover',     label: 'Hannover',         category: 'lokal',      radius: 20 },
+            { id: 'studierende',  label: 'Studierende',      category: 'jugend',     radius: 20 },
+            { id: 'junge_berufs', label: 'Junge Berufst.',   category: 'jugend',     radius: 22 },
+            { id: 'wirtschaft',   label: 'Wirtschaftsnetw.', category: 'wirtschaft', radius: 22 },
+            { id: 'selbst',       label: 'Selbständige',     category: 'wirtschaft', radius: 20 },
+            { id: 'feministisch', label: 'Femin. Gruppen',   category: 'frauen',     radius: 22 },
+            { id: 'frauenrat',    label: 'Frauenrat',        category: 'frauen',     radius: 20 },
+            { id: 'sprachkurse',  label: 'Sprachkurse',      category: 'kultur',     radius: 20 },
+            { id: 'kulturz',      label: 'Kulturzentren',    category: 'kultur',     radius: 22 },
+            { id: 'juristen',     label: 'Jurist:innen',     category: 'fach',       radius: 22 },
+            { id: 'it',           label: 'IT-Professionals', category: 'fach',       radius: 24 },
+            { id: 'aerzte',       label: 'Ärzt:innen',       category: 'fach',       radius: 22 }
+        ];
+
+        var links = [
+            { source: 'berlin',       target: 'koeln'        },
+            { source: 'berlin',       target: 'hannover'     },
+            { source: 'koeln',        target: 'hamburg'      },
+            { source: 'hamburg',      target: 'hannover'     },
+            { source: 'studierende',  target: 'junge_berufs' },
+            { source: 'studierende',  target: 'berlin'       },
+            { source: 'wirtschaft',   target: 'selbst'       },
+            { source: 'selbst',       target: 'koeln'        },
+            { source: 'feministisch', target: 'frauenrat'    },
+            { source: 'frauenrat',    target: 'berlin'       },
+            { source: 'sprachkurse',  target: 'kulturz'      },
+            { source: 'kulturz',      target: 'hamburg'      },
+            { source: 'juristen',     target: 'it'           },
+            { source: 'it',           target: 'aerzte'       },
+            { source: 'aerzte',       target: 'hannover'     },
+            { source: 'it',           target: 'junge_berufs' },
+            { source: 'wirtschaft',   target: 'juristen'     },
+            { source: 'feministisch', target: 'kulturz'      },
+            { source: 'berlin',       target: 'frauenrat'    },
+            { source: 'koeln',        target: 'kulturz'      }
+        ];
+
+        // Read CSS variable colors (robust fallbacks)
+        var cs = getComputedStyle(document.documentElement);
+        function cssVar(name, fallback) {
+            var v = cs.getPropertyValue(name).trim();
+            return v || fallback;
+        }
+
+        var categoryColor = {
+            lokal:      cssVar('--da-green',  'hsl(120 50% 45%)'),
+            jugend:     cssVar('--da-purple', 'hsl(260 55% 58%)'),
+            wirtschaft: cssVar('--da-amber',  'hsl(40 85% 55%)'),
+            frauen:     cssVar('--da-pink',   'hsl(340 60% 55%)'),
+            kultur:     cssVar('--da-teal',   'hsl(160 70% 38%)'),
+            fach:       cssVar('--da-blue',   'hsl(210 70% 50%)')
+        };
+
+        var detailKeyMap = {
+            lokal: 'lokal', jugend: 'jugend', wirtschaft: 'wirtschaft',
+            frauen: 'frauen', kultur: 'kultur', fach: 'fach'
+        };
+
+        var svg = d3.select(container)
+            .append('svg')
+            .attr('width', '100%')
+            .attr('height', height)
+            .attr('viewBox', '0 0 ' + width + ' ' + height)
+            .attr('role', 'img')
+            .attr('aria-label', 'Myzel-Netzwerk der demokratischen Gesellschaft');
+
+        var simulation = d3.forceSimulation(nodes)
+            .force('charge', d3.forceManyBody().strength(-90))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(function (d) { return d.radius + 10; }))
+            .force('link', d3.forceLink(links).id(function (d) { return d.id; }).distance(65).strength(0.3))
+            .alphaDecay(0.025);
+
+        var link = svg.append('g')
+            .attr('aria-hidden', 'true')
+            .selectAll('line')
+            .data(links)
+            .enter()
+            .append('line')
+            .attr('stroke', 'rgba(34,50,70,0.22)')
+            .attr('stroke-width', 0.85);
+
+        var node = svg.append('g')
+            .selectAll('g')
+            .data(nodes)
+            .enter()
+            .append('g')
+            .attr('tabindex', '0')
+            .attr('role', 'button')
+            .attr('data-detail', function (d) { return detailKeyMap[d.category] || d.category; })
+            .attr('aria-label', function (d) { return 'Detail: ' + d.label; });
+
+        node.append('circle')
+            .attr('r', function (d) { return d.radius; })
+            .attr('fill', function (d) { return categoryColor[d.category] || 'rgba(34,50,70,0.12)'; })
+            .attr('opacity', 0.18)
+            .attr('stroke', function (d) { return categoryColor[d.category] || '#223246'; })
+            .attr('stroke-width', 1.5);
+
+        node.append('text')
+            .text(function (d) { return d.label; })
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.35em')
+            .attr('font-family', 'Outfit, sans-serif')
+            .attr('font-size', 9)
+            .attr('font-weight', '600')
+            .attr('fill', '#222222')
+            .attr('pointer-events', 'none');
+
+        simulation.on('tick', function () {
+            var r0 = 4;
+            link
+                .attr('x1', function (d) { return d.source.x; })
+                .attr('y1', function (d) { return d.source.y; })
+                .attr('x2', function (d) { return d.target.x; })
+                .attr('y2', function (d) { return d.target.y; });
+
+            node.attr('transform', function (d) {
+                var x = Math.max(d.radius + r0, Math.min(width  - d.radius - r0, d.x));
+                var y = Math.max(d.radius + r0, Math.min(height - d.radius - r0, d.y));
+                return 'translate(' + x + ',' + y + ')';
+            });
+        });
+
+        // Stop simulation after 4 s (GPU rest)
+        setTimeout(function () { simulation.stop(); }, 4000);
+
+        // Hover: highlight connected links
+        node.on('mouseenter', function (event, d) {
+            link.attr('opacity', function (l) {
+                return (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.08;
+            });
+            link.attr('stroke-width', function (l) {
+                return (l.source.id === d.id || l.target.id === d.id) ? 1.6 : 0.85;
+            });
+        }).on('mouseleave', function () {
+            link.attr('opacity', 1).attr('stroke-width', 0.85);
+        });
+    }
+
+    /* =========================================
+       7. BODY CLASS FOR THEME OVERRIDE
        ========================================= */
 
     function initPageClass() {
@@ -329,6 +537,7 @@
         initDetailPanels();
         initSmoothScroll();
         initTOC();
+        initD3Graph();
     }
 
     if (document.readyState === 'loading') {

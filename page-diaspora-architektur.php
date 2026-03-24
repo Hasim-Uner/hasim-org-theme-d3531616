@@ -15,6 +15,16 @@
 defined( 'ABSPATH' ) || exit;
 
 /* -----------------------------------------
+   Full-Width Layout erzwingen (kein Sidebar)
+   GeneratePress erkennt diesen Filter global.
+   ----------------------------------------- */
+add_filter( 'generate_sidebar_layout', function () { return 'no-sidebar'; } );
+add_filter( 'generate_page_class',     function ( $classes ) {
+    $classes[] = 'full-width-content';
+    return $classes;
+} );
+
+/* -----------------------------------------
    Assets nur auf dieser Seite
    ----------------------------------------- */
 add_action( 'wp_enqueue_scripts', function () {
@@ -22,13 +32,24 @@ add_action( 'wp_enqueue_scripts', function () {
         'diaspora-scroll',
         get_stylesheet_directory_uri() . '/assets/css/diaspora-scroll.css',
         [],
-        '1.0.0'
+        '1.1.0'
     );
+    // D3 force library for Gesellschaft graph
+    if ( ! wp_script_is( 'hp-d3', 'registered' ) ) {
+        wp_register_script(
+            'hp-d3',
+            get_stylesheet_directory_uri() . '/assets/js/d3.min.js',
+            [],
+            (string) filemtime( get_stylesheet_directory() . '/assets/js/d3.min.js' ),
+            true
+        );
+    }
+    wp_enqueue_script( 'hp-d3' );
     wp_enqueue_script(
         'diaspora-scroll',
         get_stylesheet_directory_uri() . '/assets/js/diaspora-scroll.js',
-        [],
-        '1.0.0',
+        [ 'hp-d3' ],
+        '1.1.0',
         true
     );
 }, 30 );
@@ -88,6 +109,10 @@ get_header();
             <span class="da-toc__dot"></span>
             <span class="da-toc__label">03</span>
         </a>
+        <a href="#da-mediale" class="da-toc__item" data-section="da-mediale" aria-label="Mediale Architektur">
+            <span class="da-toc__dot"></span>
+            <span class="da-toc__label">04</span>
+        </a>
         <a href="#da-schluss" class="da-toc__item" data-section="da-schluss" aria-label="Schluss">
             <span class="da-toc__dot"></span>
         </a>
@@ -125,17 +150,46 @@ get_header();
 <section class="da-section da-rose-section" id="da-rose" aria-label="Einleitung — Die Rose">
     <div class="da-container da-narrow">
 
-        <figure class="da-rose-photo da-reveal" aria-label="Fotografie einer roten Rose">
-            <div class="da-rose-photo__frame">
-                <img
-                    class="da-rose-photo__image"
-                    src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/rose-rot.png' ); ?>"
-                    alt="Rote Rose in Nahaufnahme"
-                    loading="eager"
-                    decoding="async"
-                    fetchpriority="high"
-                />
-            </div>
+        <figure class="da-rose-figure" aria-label="Stilisierte Rose — innere Struktur als Metapher">
+            <svg class="da-rose-svg da-draw-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- Äußere Blütenblätter — Phase 1 (coral/accent) -->
+                <g class="da-rose-petals-group">
+                    <path d="M200 200 C180 155,148 132,200 72 C252 132,220 155,200 200"
+                        fill="rgba(209,100,55,0.10)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M200 200 C242 184,270 158,316 120 C306 178,268 198,200 200"
+                        fill="rgba(209,100,55,0.08)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M200 200 C252 212,278 238,326 200 C278 162,252 188,200 200"
+                        fill="rgba(209,100,55,0.08)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M200 200 C232 222,256 252,296 280 C254 304,228 270,200 200"
+                        fill="rgba(209,100,55,0.08)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M200 200 C218 248,214 276,200 328 C186 276,182 248,200 200"
+                        fill="rgba(209,100,55,0.10)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M200 200 C168 222,144 252,104 280 C146 304,172 270,200 200"
+                        fill="rgba(209,100,55,0.08)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M200 200 C148 212,122 238,74 200 C122 162,148 188,200 200"
+                        fill="rgba(209,100,55,0.08)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M200 200 C158 184,130 158,84 120 C94 178,132 198,200 200"
+                        fill="rgba(209,100,55,0.10)" stroke="hsl(22 75% 52%)" stroke-width="1.5" stroke-linecap="round"/>
+                </g>
+                <!-- Innere Struktur — Phase 2 (teal) — bewusste innere Ordnung -->
+                <g class="da-rose-structure-group">
+                    <circle cx="200" cy="200" r="72" stroke="hsl(160 70% 38%)" stroke-width="1.0" opacity="0.50"/>
+                    <circle cx="200" cy="200" r="52" stroke="hsl(160 70% 38%)" stroke-width="1.1" opacity="0.62"/>
+                    <circle cx="200" cy="200" r="34" stroke="hsl(160 70% 38%)" stroke-width="1.3" opacity="0.76"/>
+                    <circle cx="200" cy="200" r="17" stroke="hsl(160 70% 38%)" stroke-width="1.6" opacity="0.88"/>
+                    <!-- Leitbahnen (Radiallinien) -->
+                    <line x1="200" y1="128" x2="200" y2="183" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <line x1="251" y1="149" x2="218" y2="172" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <line x1="272" y1="200" x2="217" y2="200" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <line x1="251" y1="251" x2="218" y2="228" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <line x1="200" y1="272" x2="200" y2="217" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <line x1="149" y1="251" x2="182" y2="228" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <line x1="128" y1="200" x2="183" y2="200" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <line x1="149" y1="149" x2="182" y2="172" stroke="hsl(160 70% 38%)" stroke-width="0.8" opacity="0.38"/>
+                    <!-- Kern -->
+                    <circle cx="200" cy="200" r="5" stroke="hsl(160 70% 38%)" stroke-width="2.0" opacity="0.95"/>
+                </g>
+            </svg>
         </figure>
 
         <blockquote class="da-quote-block da-reveal" data-detail="rose" tabindex="0" role="button" aria-label="Detail: Die Rose">
@@ -188,37 +242,28 @@ get_header();
                 </div>
             </div>
 
-            <!-- Right: Ordnung -->
+            <!-- Right: Ordnung — konzentrische Ringe (Rose-Querschnitt) -->
             <div class="da-freiheit__side da-freiheit__side--order da-reveal da-reveal--right">
                 <p class="da-freiheit__side-label">Organisierte Freiheit</p>
-                <div class="da-freiheit__pillars da-stagger">
-                    <button class="da-freiheit__pillar da-reveal" data-detail="rhythmus" type="button" aria-label="Detail: Rhythmus">
-                        <div class="da-freiheit__pillar-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <div class="da-rings">
+                    <div class="da-ring da-ring-outer da-reveal">
+                        <div class="da-ring da-ring-middle da-reveal">
+                            <div class="da-ring da-ring-inner da-reveal">
+                                <span class="da-ring-core">Dauerhafte<br>Freiheit</span>
+                            </div>
                         </div>
-                        <div class="da-freiheit__pillar-text">
-                            <span class="da-freiheit__pillar-title">Rhythmus</span>
-                            <p class="da-freiheit__pillar-desc">Verlässliche Zeitpunkte für Analyse und Entscheidung</p>
-                        </div>
-                    </button>
-                    <button class="da-freiheit__pillar da-reveal" data-detail="rollen" type="button" aria-label="Detail: Rollen">
-                        <div class="da-freiheit__pillar-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        </div>
-                        <div class="da-freiheit__pillar-text">
-                            <span class="da-freiheit__pillar-title">Rollen</span>
-                            <p class="da-freiheit__pillar-desc">Sichtbare Zuständigkeiten verteilen Last</p>
-                        </div>
-                    </button>
-                    <button class="da-freiheit__pillar da-reveal" data-detail="routinen" type="button" aria-label="Detail: Routinen">
-                        <div class="da-freiheit__pillar-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16v16H4z"/><path d="M4 10h16"/><path d="M10 4v16"/></svg>
-                        </div>
-                        <div class="da-freiheit__pillar-text">
-                            <span class="da-freiheit__pillar-title">Routinen</span>
-                            <p class="da-freiheit__pillar-desc">Standards senken Hürden, erhöhen Qualität</p>
-                        </div>
-                    </button>
+                    </div>
+                    <div class="da-ring-labels" aria-label="Ring-Ebenen">
+                        <button class="da-ring-label da-ring-label-outer" data-detail="rhythmus" type="button" aria-label="Detail: Rhythmus">
+                            Rhythmus ←
+                        </button>
+                        <button class="da-ring-label da-ring-label-middle" data-detail="rollen" type="button" aria-label="Detail: Rollen">
+                            Rollen ←
+                        </button>
+                        <button class="da-ring-label da-ring-label-inner" data-detail="routinen" type="button" aria-label="Detail: Routinen">
+                            Routinen ←
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -396,13 +441,11 @@ get_header();
 
         <!-- RAT-VISUALISIERUNG (Inline SVG) -->
         <div class="da-rat__viz da-reveal">
-            <svg viewBox="0 0 900 820" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architektur-Diagramm des Kurdischen Rats">
+            <svg viewBox="0 0 900 335" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architektur-Diagramm des Kurdischen Rats — Dach, Säulen und Infrastruktur">
 
                 <g aria-hidden="true">
                     <rect x="92" y="106" width="716" height="120" rx="28" fill="rgba(177,42,42,0.035)"/>
                     <rect x="108" y="230" width="684" height="74" rx="22" fill="rgba(34,126,99,0.05)"/>
-                    <rect x="88" y="354" width="724" height="154" rx="42" fill="rgba(34,50,70,0.035)" stroke="rgba(34,50,70,0.06)" stroke-dasharray="4 8"/>
-                    <rect x="94" y="500" width="712" height="68" rx="30" fill="rgba(177,42,42,0.04)"/>
                 </g>
 
                 <!-- ===== SCHICHT 1: DACH ===== -->
@@ -459,97 +502,43 @@ get_header();
                     <text x="450" y="254" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="rgba(17,17,17,0.58)" letter-spacing="0.12em">INFRASTRUKTURSCHICHT</text>
                 </g>
 
-                <!-- ===== SCHICHT 4: BIDIREKTIONALE VERBINDUNGEN ===== -->
+                <!-- ===== SCHICHT 4: VERBINDUNGEN ZUR GESELLSCHAFT ===== -->
                 <g class="da-draw-svg da-reveal" style="transition-delay: 600ms">
-                    <!-- Wellenförmige Verbindungen von Säulen zu Gesellschaft -->
-                    <path d="M230 215 C230 330, 180 340, 180 380" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
-                    <path d="M450 215 C450 340, 450 350, 450 380" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
-                    <path d="M670 215 C670 330, 720 340, 720 380" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+                    <!-- Verbindungen von Säulen nach unten in die Gesellschaft -->
+                    <path d="M230 215 C230 275, 180 288, 180 310" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+                    <path d="M450 215 C450 275, 450 288, 450 310" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+                    <path d="M670 215 C670 275, 720 288, 720 310" stroke="rgba(34,50,70,0.34)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
                     <!-- Cross connections -->
-                    <path d="M230 295 Q340 320, 450 295" stroke="rgba(34,50,70,0.22)" stroke-width="0.9" stroke-dasharray="3 4" fill="none"/>
-                    <path d="M450 295 Q560 320, 670 295" stroke="rgba(34,50,70,0.22)" stroke-width="0.9" stroke-dasharray="3 4" fill="none"/>
+                    <path d="M230 295 Q340 310, 450 295" stroke="rgba(34,50,70,0.22)" stroke-width="0.9" stroke-dasharray="3 4" fill="none"/>
+                    <path d="M450 295 Q560 310, 670 295" stroke="rgba(34,50,70,0.22)" stroke-width="0.9" stroke-dasharray="3 4" fill="none"/>
+                    <!-- Arrow tips pointing down -->
+                    <path d="M174 305 L180 315 L186 305" stroke="rgba(34,50,70,0.4)" stroke-width="1" fill="none"/>
+                    <path d="M444 305 L450 315 L456 305" stroke="rgba(34,50,70,0.4)" stroke-width="1" fill="none"/>
+                    <path d="M714 305 L720 315 L726 305" stroke="rgba(34,50,70,0.4)" stroke-width="1" fill="none"/>
                 </g>
 
-                <!-- ===== SCHICHT 5: GESELLSCHAFTSKNOTEN ===== -->
-                <g class="da-stagger">
-                    <!-- Lokale Räte -->
-                    <g class="da-grow-node" data-detail="lokal" tabindex="0" role="button" aria-label="Detail: Lokale Räte">
-                        <circle cx="150" cy="420" r="32" fill="rgba(67,144,84,0.18)" stroke="#3e8c4f" stroke-width="1.7"/>
-                        <text x="150" y="416" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#2b6d39">Lokale</text>
-                        <text x="150" y="430" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#2b6d39">Räte</text>
-                    </g>
-                    <!-- Jugend -->
-                    <g class="da-grow-node" data-detail="jugend" tabindex="0" role="button" aria-label="Detail: Jugend & Studierende">
-                        <circle cx="280" cy="400" r="30" fill="rgba(118,92,189,0.18)" stroke="#7357ba" stroke-width="1.7"/>
-                        <text x="280" y="396" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#523999">Jugend &amp;</text>
-                        <text x="280" y="410" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#523999">Stud.</text>
-                    </g>
-                    <!-- Wirtschaft -->
-                    <g class="da-grow-node" data-detail="wirtschaft" tabindex="0" role="button" aria-label="Detail: Unternehmer:innen">
-                        <circle cx="410" cy="430" r="28" fill="rgba(201,140,22,0.18)" stroke="#b57910" stroke-width="1.7"/>
-                        <text x="410" y="426" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#8d5a00">Unter-</text>
-                        <text x="410" y="438" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#8d5a00">nehmer</text>
-                    </g>
-                    <!-- Frauenstrukturen -->
-                    <g class="da-grow-node" data-detail="frauen" tabindex="0" role="button" aria-label="Detail: Frauenstrukturen">
-                        <circle cx="540" cy="405" r="34" fill="rgba(186,77,120,0.18)" stroke="#b54a74" stroke-width="1.7"/>
-                        <text x="540" y="401" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#8d3158">Frauen-</text>
-                        <text x="540" y="415" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#8d3158">strukturen</text>
-                    </g>
-                    <!-- Kultur & Bildung -->
-                    <g class="da-grow-node" data-detail="kultur" tabindex="0" role="button" aria-label="Detail: Kultur & Bildung">
-                        <circle cx="680" cy="425" r="30" fill="rgba(34,126,99,0.18)" stroke="#237a60" stroke-width="1.7"/>
-                        <text x="680" y="421" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#175844">Kultur &amp;</text>
-                        <text x="680" y="435" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" fill="#175844">Bildung</text>
-                    </g>
-                    <!-- Fachnetzwerke -->
-                    <g class="da-grow-node" data-detail="fach" tabindex="0" role="button" aria-label="Detail: Fachnetzwerke">
-                        <circle cx="790" cy="400" r="26" fill="rgba(62,133,205,0.18)" stroke="#2f80cc" stroke-width="1.7"/>
-                        <text x="790" y="396" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#1d5e99">Fach-</text>
-                        <text x="790" y="408" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="#1d5e99">netzwerke</text>
-                    </g>
-                </g>
-
-                <!-- ===== SCHICHT 6: MYZEL-NETZWERK ===== -->
-                <g class="da-myzel da-reveal" style="transition-delay: 800ms">
-                    <!-- Organische Verbindungen zwischen den Gesellschaftsknoten -->
-                    <path d="M182 420 Q230 440, 280 400" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
-                    <path d="M280 430 Q345 450, 410 430" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
-                    <path d="M438 430 Q490 445, 540 405" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
-                    <path d="M574 405 Q627 430, 680 425" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
-                    <path d="M710 425 Q750 415, 790 400" stroke="rgba(34,50,70,0.34)" stroke-width="0.9" fill="none"/>
-                    <!-- Cross-network connections -->
-                    <path d="M150 452 Q280 490, 410 458" stroke="rgba(34,50,70,0.22)" stroke-width="0.65" fill="none"/>
-                    <path d="M280 430 Q410 470, 540 439" stroke="rgba(34,50,70,0.22)" stroke-width="0.65" fill="none"/>
-                    <path d="M410 458 Q560 480, 680 455" stroke="rgba(34,50,70,0.22)" stroke-width="0.65" fill="none"/>
-                    <path d="M150 452 Q450 510, 790 426" stroke="rgba(177,42,42,0.26)" stroke-width="0.65" stroke-dasharray="2 4" fill="none"/>
-                    <!-- Additional myzel branches -->
-                    <path d="M180 440 Q200 470, 250 460" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
-                    <path d="M300 420 Q350 460, 380 450" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
-                    <path d="M560 430 Q600 460, 650 445" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
-                    <path d="M720 440 Q740 460, 770 420" stroke="rgba(34,50,70,0.2)" stroke-width="0.6" fill="none"/>
-                </g>
-
-                <!-- ===== SCHICHT 7: WERTEFUNDAMENT ===== -->
-                <g class="da-reveal" style="transition-delay: 1000ms">
-                    <rect x="100" y="510" width="700" height="48" rx="24" fill="rgba(255,255,255,0.98)" stroke="rgba(177,42,42,0.45)" stroke-width="1.1"/>
-                    <text x="450" y="522" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="rgba(17,17,17,0.58)" letter-spacing="0.12em">WERTEFUNDAMENT</text>
-
-                    <!-- Value pills -->
-                    <g font-family="Figtree, sans-serif" font-size="10" fill="#8f1e22">
-                        <text x="175" y="543" text-anchor="middle">Freiheit</text>
-                        <text x="280" y="543" text-anchor="middle">Gleichstellung</text>
-                        <text x="400" y="543" text-anchor="middle">Org. Freiheit</text>
-                        <text x="520" y="543" text-anchor="middle">Taktik</text>
-                        <text x="635" y="543" text-anchor="middle">Intelligenz</text>
-                        <text x="735" y="543" text-anchor="middle">Würde</text>
-                    </g>
-                </g>
-
-                <!-- Label: Gesellschaft -->
-                <text x="450" y="490" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="rgba(17,17,17,0.58)" letter-spacing="0.12em" class="da-reveal" style="transition-delay: 900ms">DEMOKRATISCHE GESELLSCHAFT (MYZEL-NETZWERK)</text>
+                <!-- Label: Gesellschaft folgt unten (D3) -->
+                <text x="450" y="330" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="9" fill="rgba(17,17,17,0.45)" letter-spacing="0.12em" class="da-reveal" style="transition-delay: 700ms">↓ DEMOKRATISCHE GESELLSCHAFT — MYZEL-NETZWERK</text>
 
             </svg>
+        </div>
+
+        <!-- D3 Force-Graph: Gesellschaftsknoten -->
+        <div class="da-rat__d3-wrap da-reveal" style="transition-delay: 800ms">
+            <div class="da-rat__d3-container" id="da-gesellschaft-graph" aria-label="Interaktives Netzwerk der Gesellschaftsknoten — klicken für Details">
+                <p class="da-rat__d3-placeholder">Netzwerk lädt…</p>
+            </div>
+            <div class="da-rat__d3-werte da-reveal" style="transition-delay: 1000ms">
+                <p class="da-rat__d3-werte-label">Wertefundament</p>
+                <div class="da-rat__d3-werte-pills">
+                    <span>Freiheit</span>
+                    <span>Gleichstellung</span>
+                    <span>Org. Freiheit</span>
+                    <span>Taktik</span>
+                    <span>Integrierte Intelligenz</span>
+                    <span>Würde</span>
+                </div>
+            </div>
         </div>
 
         <div class="da-rat__legend-wrap da-reveal" style="transition-delay: 200ms">
@@ -588,7 +577,102 @@ get_header();
 
 
 <!-- ==========================================
-     SEKTION 5: ZITAT / SCHLUSS
+     SEKTION 5: KONZEPT 4 — MEDIALE ARCHITEKTUR
+     ========================================== -->
+<section class="da-section da-mediale" id="da-mediale" aria-label="Konzept 4 — Mediale Architektur">
+    <div class="da-container">
+
+        <div class="da-section-header da-reveal">
+            <p class="da-section-number">Konzept 04</p>
+            <h2 class="da-section-title">Mediale Architektur</h2>
+            <p class="da-section-sub">Die Website als zentrales Operationssystem der demokratischen Gesellschaft.</p>
+        </div>
+
+        <blockquote class="da-mediale__intro da-reveal">
+            Alles, was du auf dieser Seite siehst, ist der Beweis.
+            Eigene Server. Eigene Daten. Kein Tracking.
+            Keine Abhängigkeit von Plattformen, die morgen
+            entscheiden können, uns abzuschalten.
+            Mediale Architektur ist keine Technikfrage —
+            sie ist politische Infrastruktur.
+        </blockquote>
+
+        <!-- Schichtmodell: Das digitale Ökosystem -->
+        <div class="da-stack-label-intro da-reveal">
+            <p class="da-label">Das digitale Ökosystem als Schichtmodell</p>
+        </div>
+
+        <div class="da-stack da-stagger">
+            <div class="da-stack-layer da-stack-5 da-reveal" data-detail="oeffentlichkeit" tabindex="0" role="button" aria-label="Detail: Schicht 5 — Öffentlichkeit & Wirkung">
+                <span class="da-stack-label">Schicht 5</span>
+                <h4>Öffentlichkeit &amp; Wirkung</h4>
+                <p>Kampagnen · Stellungnahmen · Bündnisse · Allianzen</p>
+            </div>
+            <div class="da-stack-layer da-stack-4 da-reveal" data-detail="analyse" tabindex="0" role="button" aria-label="Detail: Schicht 4 — Inhalt & Analyse">
+                <span class="da-stack-label">Schicht 4</span>
+                <h4>Inhalt &amp; Analyse</h4>
+                <p>Lagebilder · Hypothesen · Reviews · Entscheidungsnotizen</p>
+            </div>
+            <div class="da-stack-layer da-stack-3 da-reveal" data-detail="kommunikation" tabindex="0" role="button" aria-label="Detail: Schicht 3 — Kommunikation & Koordination">
+                <span class="da-stack-label">Schicht 3</span>
+                <h4>Kommunikation &amp; Koordination</h4>
+                <p>Plattform · Protokolle · Krisenkommunikation</p>
+            </div>
+            <div class="da-stack-layer da-stack-2 da-reveal" data-detail="medien" tabindex="0" role="button" aria-label="Detail: Schicht 2 — Medienproduktion">
+                <span class="da-stack-label">Schicht 2</span>
+                <h4>Medienproduktion</h4>
+                <p>Newsroom · Bild- und Sprachlinie · Video · Social</p>
+            </div>
+            <div class="da-stack-layer da-stack-1 da-reveal" data-detail="souveraenitaet" tabindex="0" role="button" aria-label="Detail: Schicht 1 — Digitale Souveränität">
+                <span class="da-stack-label">Schicht 1 — Fundament</span>
+                <h4>Digitale Souveränität</h4>
+                <p>Eigene Server · Datenhoheit · Verschlüsselung · Lokale KI · Kein Tracking</p>
+                <span class="da-stack-badge">← Diese Seite läuft hier</span>
+            </div>
+        </div>
+
+        <!-- Drei Module -->
+        <div class="da-module-grid da-stagger">
+            <div class="da-module-card da-reveal" data-detail="newsroom_med" tabindex="0" role="button" aria-label="Detail: Newsroom">
+                <span class="da-module-icon" aria-hidden="true">◉</span>
+                <h4>Newsroom</h4>
+                <p>Eigene Stimme, eigene Begriffe. Keine Abhängigkeit von Plattformen,
+                   die morgen entscheiden können, uns abzuschalten. Abgestimmte
+                   Bild- und Sprachlinie. Krisenkommunikationsprotokoll.</p>
+            </div>
+            <div class="da-module-card da-reveal" data-detail="wissensgraph_med" tabindex="0" role="button" aria-label="Detail: Wissensgraph">
+                <span class="da-module-icon" aria-hidden="true">◎</span>
+                <h4>Wissensgraph</h4>
+                <p>Begriffe vernetzen statt isolieren. Politisches Wissen wird
+                   strukturiert, durchsuchbar, verlinkbar. Kein statisches
+                   Glossar — ein lebendiges Denk-Netzwerk.</p>
+                <a href="https://hasimuener.org/wissensgraph/" class="da-module-link">
+                    → Live auf dieser Seite
+                </a>
+            </div>
+            <div class="da-module-card da-reveal" data-detail="sicherheit_med" tabindex="0" role="button" aria-label="Detail: Digitaler Selbstschutz">
+                <span class="da-module-icon" aria-hidden="true">◈</span>
+                <h4>Digitaler Selbstschutz</h4>
+                <p>Digitale Sicherheit als Organisationsstandard, nicht als
+                   Sonderwissen. Zugänge, Passwortverwaltung, Verschlüsselung,
+                   Datensparsamkeit — eingebaut, nicht nachgerüstet.</p>
+            </div>
+        </div>
+
+        <!-- Abschluss-Statement -->
+        <blockquote class="da-mediale__statement da-reveal">
+            Wer seine Medien nicht kontrolliert,<br>
+            wird von den Medien anderer kontrolliert.<br>
+            <span class="da-mediale__statement-em">Mediale Architektur ist der vierte Pfeiler<br>
+            der demokratischen Gesellschaft.</span>
+        </blockquote>
+
+    </div>
+</section>
+
+
+<!-- ==========================================
+     SEKTION 6: ZITAT / SCHLUSS
      ========================================== -->
 <section class="da-section da-schluss" id="da-schluss" aria-label="Schluss und Prinzipien">
     <div class="da-container da-narrow">
@@ -630,6 +714,11 @@ get_header();
                 Zurück zum Anfang
             </a>
         </div>
+
+        <p class="da-meta-note da-reveal">
+            Diese Seite läuft auf eigenen Servern. Kein Tracking. Keine Cookies.<br>
+            Keine Abhängigkeit von Plattformen Dritter. Das ist Schicht 1.
+        </p>
 
         <p class="da-footer__domain da-reveal">hasimuener.org</p>
 
