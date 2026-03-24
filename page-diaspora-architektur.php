@@ -130,7 +130,7 @@ get_header();
 
     <h1 class="da-hero__title da-reveal">Neuorganisation der kurdischen Diplomatie- und Öffentlichkeitsarbeit</h1>
 
-    <p class="da-hero__subtitle da-reveal">Architektur, nicht Appell. Struktur, nicht Stimmung.</p>
+    <p class="da-hero__subtitle da-reveal">Architektur, nicht Appell. Augenhöhe, nicht Widerstand.</p>
 
     <div class="da-hero__concepts da-stagger">
         <span class="da-hero__concept-pill da-reveal">Organisation</span>
@@ -293,7 +293,7 @@ get_header();
 <!-- ==========================================
      SEKTION 3: KONZEPT 2 — INTEGRIERTE INTELLIGENZ
      ========================================== -->
-<section class="da-section da-intelligenz" id="da-intelligenz" aria-label="Konzept 2 — Integrierte Intelligenz als Waffe">
+<section class="da-section da-intelligenz" id="da-intelligenz" aria-label="Konzept 2 — Integrierte Intelligenz">
     <div class="da-container">
 
         <div class="da-section-header da-reveal">
@@ -302,73 +302,62 @@ get_header();
             <p class="da-section-sub">Die Bewegung hat Mut und Empathie — aber zu wenig systematische Analytik. Diese Lücke ist die zentrale Verwundbarkeit.</p>
         </div>
 
-        <!-- DAS SYSTEM (rot, drückend) -->
-        <div class="da-intelligenz__system da-reveal" data-detail="system" tabindex="0" role="button" aria-label="Detail: Das System">
-            <p class="da-intelligenz__system-label">Das System</p>
-            <h3 class="da-intelligenz__system-title">Monopolisierte Analytik im Dienst der Herrschaft</h3>
+        <!-- DER ANDERE POL -->
+        <div class="da-intelligenz__system da-reveal" data-detail="system" tabindex="0" role="button" aria-label="Detail: Der andere Pol">
+            <p class="da-intelligenz__system-label">Der andere Pol</p>
+            <h3 class="da-intelligenz__system-title">Staat, Kapital und Patriarchat als institutionelle Realität</h3>
             <div class="da-intelligenz__system-pillars da-stagger">
-                <span class="da-intelligenz__system-pill da-reveal">Staat</span>
-                <span class="da-intelligenz__system-pill da-reveal">Kapital</span>
-                <span class="da-intelligenz__system-pill da-reveal">Patriarchat</span>
+                <span class="da-intelligenz__system-pill da-reveal">Organisiert</span>
+                <span class="da-intelligenz__system-pill da-reveal">Analytisch</span>
+                <span class="da-intelligenz__system-pill da-reveal">Professionell</span>
             </div>
         </div>
 
-        <!-- Druckpfeile -->
-        <div class="da-intelligenz__pressure da-reveal" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        </div>
-
-        <!-- ASYMMETRIE: Was wir haben | Die Lücke | Was fehlt -->
-        <div class="da-intelligenz__asymmetry">
-
-            <!-- Was wir haben -->
-            <div class="da-intelligenz__have da-reveal da-reveal--left">
-                <p class="da-intelligenz__have-label">Was wir haben</p>
-                <ul class="da-intelligenz__have-list">
-                    <li>Mut</li>
-                    <li>Empathie</li>
-                    <li>Solidarität</li>
-                    <li>Mobilisierungskraft</li>
-                    <li>Gemeinschaftssinn</li>
-                    <li>Widerstandsfähigkeit</li>
+        <!-- Gegenüberstellung: Zwei Pole -->
+        <div class="da-intelligenz__poles da-reveal" aria-label="Gegenüberstellung: Staat und Demokratische Gesellschaft">
+            <div class="da-intelligenz__pole da-intelligenz__pole--staat da-reveal da-reveal--left">
+                <p class="da-intelligenz__pole-label">Der Staat</p>
+                <ul class="da-intelligenz__pole-list">
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Organisiert</li>
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Analytisch</li>
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Professionell</li>
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Institutionell</li>
+                </ul>
+                <ul class="da-intelligenz__pole-list da-intelligenz__pole-list--tools">
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Lagebilder</li>
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Strategien</li>
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Kontinuität</li>
+                    <li><span class="da-pole-check" aria-label="vorhanden">✓</span> Infrastruktur</li>
                 </ul>
             </div>
 
-            <!-- Die Lücke -->
-            <div class="da-intelligenz__gap da-reveal da-reveal--scale" data-detail="luecke" tabindex="0" role="button" aria-label="Detail: Die Lücke">
-                <div class="da-intelligenz__gap-pulse da-pulse"></div>
-                <p class="da-intelligenz__gap-label">Verwundbarkeit</p>
-                <p class="da-intelligenz__gap-title">Die Lücke</p>
+            <div class="da-intelligenz__pole-separator" aria-hidden="true">
+                <span class="da-intelligenz__pole-arrow">←→</span>
             </div>
 
-            <!-- Was fehlt -->
-            <div class="da-intelligenz__missing da-reveal da-reveal--right">
-                <p class="da-intelligenz__missing-label">Was fehlt</p>
-                <ul class="da-intelligenz__missing-list">
-                    <li>Mustererkennung</li>
-                    <li>Begriffsarbeit</li>
-                    <li>Hypothesenbildung</li>
-                    <li>Strukturierte Auswertung</li>
-                    <li>Systematische Analytik</li>
+            <div class="da-intelligenz__pole da-intelligenz__pole--gesellschaft da-reveal da-reveal--right" data-detail="luecke" tabindex="0" role="button" aria-label="Detail: Die Lücke — Warum wir noch nicht ebenbürtig sind">
+                <p class="da-intelligenz__pole-label">Demokratische Gesellschaft</p>
+                <ul class="da-intelligenz__pole-list">
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Organisiert?</li>
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Analytisch?</li>
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Professionell?</li>
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Institutionell?</li>
+                </ul>
+                <ul class="da-intelligenz__pole-list da-intelligenz__pole-list--tools">
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Lagebilder</li>
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Strategien</li>
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Kontinuität</li>
+                    <li><span class="da-pole-question" aria-label="offen">?</span> Infrastruktur</li>
                 </ul>
             </div>
         </div>
 
-        <!-- Gegenpfeil -->
-        <div class="da-intelligenz__counter-arrow da-reveal" aria-hidden="true">
-            <svg viewBox="0 0 32 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                <path d="M16 44V4"/>
-                <path d="M6 14l10-10 10 10"/>
-            </svg>
-        </div>
-
-        <!-- DIE WAFFE -->
-        <div class="da-intelligenz__weapon da-reveal" data-detail="waffe" tabindex="0" role="button" aria-label="Detail: Die Waffe — Integrierte Intelligenz">
-            <p class="da-intelligenz__weapon-label">Die Waffe</p>
+        <!-- AUGENHÖHE -->
+        <div class="da-intelligenz__weapon da-reveal" data-detail="waffe" tabindex="0" role="button" aria-label="Detail: Augenhöhe — Integrierte Intelligenz">
+            <p class="da-intelligenz__weapon-label">Augenhöhe</p>
             <h3 class="da-intelligenz__weapon-title">Integrierte Intelligenz</h3>
-            <p class="da-intelligenz__weapon-desc">Analytik, geführt von emotionaler Intelligenz. Nicht Verstand gegen Gefühl — sondern Gegenmacht durch Vereinigung.</p>
+            <p class="da-intelligenz__weapon-desc">Analytik, geführt von emotionaler Intelligenz. Nicht Verstand gegen Gefühl — sondern die gleiche Schärfe, verbunden mit dem, was der Staat nicht hat: Menschlichkeit.</p>
+            <p class="da-intelligenz__weapon-note">Der Staat hat analytische Methoden — aber keine Empathie. Wir haben Empathie — aber zu wenig analytische Methoden. Integrierte Intelligenz schließt beides: Augenhöhe plus Menschlichkeit.</p>
         </div>
 
         <!-- Werkzeuge -->
@@ -395,6 +384,8 @@ get_header();
         <div class="da-intelligenz__transformation da-reveal">
             <div class="da-intelligenz__transform-flow">
                 <span class="da-intelligenz__transform-state da-intelligenz__transform-state--from">Reaktiv</span>
+                <span class="da-intelligenz__transform-arrow" aria-hidden="true">&rarr;</span>
+                <span class="da-intelligenz__transform-state da-intelligenz__transform-state--mid">Ebenbürtig</span>
                 <span class="da-intelligenz__transform-arrow" aria-hidden="true">&rarr;</span>
                 <span class="da-intelligenz__transform-state da-intelligenz__transform-state--to">Gestaltend</span>
             </div>
@@ -590,12 +581,13 @@ get_header();
         </div>
 
         <blockquote class="da-mediale__intro da-reveal">
-            Alles, was du auf dieser Seite siehst, ist der Beweis.
-            Eigene Server. Eigene Daten. Kein Tracking.
+            Der Staat hat Medienarchitektur. Wir brauchen unsere eigene.
+            Alles, was du auf dieser Seite siehst, läuft auf eigenen Servern.
+            Eigene Daten. Kein Tracking.
             Keine Abhängigkeit von Plattformen, die morgen
             entscheiden können, uns abzuschalten.
             Mediale Architektur ist keine Technikfrage —
-            sie ist politische Infrastruktur.
+            sie ist die Voraussetzung für Augenhöhe.
         </blockquote>
 
         <!-- Schichtmodell: Das digitale Ökosystem -->
@@ -688,12 +680,12 @@ get_header();
                 <p class="da-schluss__principle-desc">Rhythmus, Rollen und Routinen sind keine Einschränkung — sie sind die Voraussetzung für nachhaltige Selbstbestimmung.</p>
             </div>
             <div class="da-schluss__principle da-reveal">
-                <p class="da-schluss__principle-title">Demokratische Gesellschaft als Gegenpol</p>
-                <p class="da-schluss__principle-desc">Nicht der Staat, sondern die organisierte Gesellschaft ist der Ort, an dem Freiheit Wirklichkeit wird.</p>
+                <p class="da-schluss__principle-title">Demokratische Gesellschaft als gleichberechtigter Pol</p>
+                <p class="da-schluss__principle-desc">Der Staat verschwindet nicht — aber eine organisierte Gesellschaft kann ihm als eigenständige institutionelle Kraft gegenübertreten. Auf Augenhöhe. Mit derselben Professionalität. Und mit dem, was er nicht hat.</p>
             </div>
             <div class="da-schluss__principle da-reveal">
                 <p class="da-schluss__principle-title">Integrierte Intelligenz als Grundlage</p>
-                <p class="da-schluss__principle-desc">Die Vereinigung von Analytik und emotionaler Intelligenz ist der einzige wirksame Gegenpol zur instrumentellen Vernunft des Systems.</p>
+                <p class="da-schluss__principle-desc">Die Vereinigung von Analytik und emotionaler Intelligenz ist die Voraussetzung für Augenhöhe — dieselbe Schärfe wie der Staat, verbunden mit dem, was er strukturell nicht kann.</p>
             </div>
         </div>
 

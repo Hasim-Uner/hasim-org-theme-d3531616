@@ -74,16 +74,16 @@
 
         /* Intelligenz — Blocks */
         system: {
-            title: 'Das System',
-            body: 'Staat, Kapital und Patriarchat haben analytische Intelligenz historisch monopolisiert und in den Dienst von Herrschaft gestellt: als kalte, instrumentelle Vernunft, die Effizienz, Kontrolle und Profit über Leben und Gemeinschaft stellt. Gleichzeitig wurde emotionale Intelligenz — Fürsorge, Beziehung, Gemeinschaftssinn — als \u201Eweiblich\u201C abgewertet und aus dem Zentrum der Macht verdrängt.'
+            title: 'Der andere Pol — Staat als institutionelle Realität',
+            body: 'Der Staat ist kein Feind, den es zu besiegen gilt — er ist der andere Pol, der das politische Spiel bereits professionell spielt. Er hat Lagebilder, Strategiepapiere, institutionelle Kontinuität, analytische Infrastruktur und mediale Reichweite. Die Frage ist nicht, ob wir ihn abschaffen — das ist unrealistisch. Die Frage ist: Können wir ihm als eigenständige, ebenbürtige institutionelle Kraft gegenübertreten? Das geht nur, wenn wir das Spiel mindestens genauso professionell spielen — mit derselben methodischen Strenge, aber verbunden mit dem, was der Staat strukturell nicht kann: Empathie, Gemeinschaftssinn, demokratische Legitimation von unten.'
         },
         luecke: {
-            title: 'Die Lücke',
-            body: 'Die Bewegung hat Mut, Empathie, Solidarität und Mobilisierungskraft — aber zu wenig systematische Analytik: Mustererkennung, Begriffsarbeit, Hypothesenbildung, strukturierte Auswertung. Diese Lücke ist kein Schönheitsfehler. Sie ist die zentrale Verwundbarkeit. Ohne Analytik bleibt die Bewegung dem System strukturell unterlegen — nicht an Mut, sondern an Methode.'
+            title: 'Die Lücke — Warum wir noch nicht ebenbürtig sind',
+            body: 'Der Staat hat Lagebilder — wir nicht. Der Staat hat systematische Auswertung — wir nicht. Der Staat hat institutionelle Kontinuität — wir haben Überlastung Einzelner. Der Staat hat mediale Infrastruktur — wir nutzen Plattformen Dritter. Diese Lücke ist keine moralische Schwäche — es ist ein Professionalisierungsdefizit. Und es ist die zentrale Frage: Spielen wir das Spiel auf dem gleichen Niveau, oder bleiben wir auf der Ebene von Appellen, Reaktionen und spontaner Mobilisierung?'
         },
         waffe: {
-            title: 'Integrierte Intelligenz — Die Waffe',
-            body: 'Nicht Analytik gegen Emotion — sondern Analytik, geführt von emotionaler Intelligenz. Der Staat hat Analytik vom Leben abgetrennt. Die demokratische Gesellschaft vereinigt sie wieder. So entstehen Entscheidungen, die klar UND menschenwürdig sind. Strategien, die präzise UND verbunden sind. Das ist kein ethisches Ideal — das ist Gegenmacht.'
+            title: 'Augenhöhe — Integrierte Intelligenz',
+            body: 'Der Staat hat analytische Methoden, aber keine Empathie. Wir haben Empathie, aber zu wenig analytische Methoden. Integrierte Intelligenz schließt beides: dieselbe Schärfe in der Analyse, dieselbe Professionalität in der Methode — verbunden mit emotionaler Intelligenz, Würde und Gemeinschaftssinn. Das Ergebnis ist nicht Gegnerschaft, sondern Augenhöhe plus Menschlichkeit. Erst wenn wir das Spiel genauso gut spielen, können wir den zweiten Pol bilden, der die Reichweite des Staates begrenzt.'
         },
         lagebilder: {
             title: 'Lagebilder',
