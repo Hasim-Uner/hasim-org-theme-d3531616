@@ -980,190 +980,120 @@ body.da-page-active {
     outline-offset: 2px;
 }
 
-/* Pressure arrows */
-.da-intelligenz__pressure {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin: 1.5rem 0;
-    color: var(--da-red);
-    opacity: 0.5;
-}
-
-.da-intelligenz__pressure svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* Asymmetry / The Gap */
-.da-intelligenz__asymmetry {
+/* Poles: Horizontal juxtaposition */
+.da-intelligenz__poles {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     align-items: stretch;
 }
 
 @media (max-width: 768px) {
-    .da-intelligenz__asymmetry {
+    .da-intelligenz__poles {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
 }
 
-.da-intelligenz__have {
-    background: var(--da-teal-bg);
-    border: 1px solid rgba(34, 126, 99, 0.18);
+.da-intelligenz__pole {
     border-radius: 16px;
     padding: 2rem;
     box-shadow: var(--da-shadow-soft);
 }
 
-.da-intelligenz__have-label {
+.da-intelligenz__pole--staat {
+    background: linear-gradient(180deg, rgba(252, 244, 244, 0.96), rgba(250, 242, 242, 0.92));
+    border: 1px solid rgba(177, 42, 42, 0.16);
+}
+
+.da-intelligenz__pole--gesellschaft {
+    background: rgba(248, 244, 239, 0.82);
+    border: 2px dashed var(--da-border-strong);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.da-intelligenz__pole--gesellschaft:hover {
+    border-color: var(--da-amber);
+    background: rgba(248, 244, 239, 0.95);
+}
+
+.da-intelligenz__pole--gesellschaft:focus-visible {
+    outline: 2px solid var(--da-amber);
+    outline-offset: 2px;
+}
+
+.da-intelligenz__pole-label {
     font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
     font-weight: 700;
     font-size: 0.6875rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--da-teal);
     margin: 0 0 1rem;
 }
 
-.da-intelligenz__have-list {
+.da-intelligenz__pole--staat .da-intelligenz__pole-label {
+    color: var(--da-red);
+}
+
+.da-intelligenz__pole--gesellschaft .da-intelligenz__pole-label {
+    color: var(--da-text-tertiary);
+}
+
+.da-intelligenz__pole-list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
 }
 
-.da-intelligenz__have-list li {
+.da-intelligenz__pole-list--tools {
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.da-intelligenz__pole-list li {
     font-size: 0.9375rem;
     color: var(--da-text-secondary);
-    padding-left: 1.25rem;
-    position: relative;
 }
 
-.da-intelligenz__have-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.55em;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--da-teal);
+.da-pole-check {
+    color: var(--da-teal);
+    font-weight: 700;
+    margin-right: 0.5rem;
 }
 
-.da-intelligenz__gap {
+.da-pole-question {
+    color: var(--da-amber);
+    font-weight: 700;
+    margin-right: 0.5rem;
+}
+
+/* Separator between poles */
+.da-intelligenz__pole-separator {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 140px;
-    position: relative;
-    cursor: pointer;
 }
 
-.da-intelligenz__gap-pulse {
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    background: rgba(177, 42, 42, 0.08);
-    animation: da-pulse 3s ease-in-out infinite;
-}
-
-.da-intelligenz__gap-label {
-    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+.da-intelligenz__pole-arrow {
+    font-size: 1.5rem;
+    color: var(--da-text-tertiary);
     font-weight: 700;
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--da-red);
-    position: relative;
-    z-index: 1;
-}
-
-.da-intelligenz__gap-title {
-    font-family: var(--hj-serif, Georgia, serif);
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--da-text-primary);
-    position: relative;
-    z-index: 1;
-    margin-top: 0.25rem;
-}
-
-.da-intelligenz__gap:focus-visible {
-    outline: 2px solid var(--da-red);
-    outline-offset: 2px;
-    border-radius: 16px;
+    letter-spacing: 0.05em;
 }
 
 @media (max-width: 768px) {
-    .da-intelligenz__gap {
-        min-height: 80px;
-        min-width: unset;
+    .da-intelligenz__pole-separator {
+        padding: 0.5rem 0;
     }
-}
-
-.da-intelligenz__missing {
-    background: rgba(248, 244, 239, 0.82);
-    border: 2px dashed var(--da-border-strong);
-    border-radius: 16px;
-    padding: 2rem;
-}
-
-.da-intelligenz__missing-label {
-    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
-    font-weight: 700;
-    font-size: 0.6875rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--da-text-tertiary);
-    margin: 0 0 1rem;
-}
-
-.da-intelligenz__missing-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-}
-
-.da-intelligenz__missing-list li {
-    font-size: 0.9375rem;
-    color: var(--da-text-tertiary);
-    padding-left: 1.25rem;
-    position: relative;
-}
-
-.da-intelligenz__missing-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.55em;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    border: 1px solid var(--da-text-tertiary);
-    background: transparent;
-}
-
-/* Counter arrow */
-.da-intelligenz__counter-arrow {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-    color: var(--da-teal);
-}
-
-.da-intelligenz__counter-arrow svg {
-    width: 32px;
-    height: 48px;
+    .da-intelligenz__pole-arrow {
+        transform: rotate(90deg);
+    }
 }
 
 /* The Weapon */
@@ -1215,6 +1145,15 @@ body.da-page-active {
     max-width: 42ch;
     margin: 0 auto;
     line-height: 1.7;
+}
+
+.da-intelligenz__weapon-note {
+    color: var(--da-text-tertiary);
+    font-size: 0.875rem;
+    max-width: 50ch;
+    margin: 1rem auto 0;
+    line-height: 1.6;
+    font-style: italic;
 }
 
 /* Tools */
@@ -1283,6 +1222,10 @@ body.da-page-active {
 
 .da-intelligenz__transform-state--from {
     color: var(--da-text-tertiary);
+}
+
+.da-intelligenz__transform-state--mid {
+    color: var(--da-amber);
 }
 
 .da-intelligenz__transform-state--to {
