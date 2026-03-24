@@ -164,6 +164,20 @@
         sicherheit_med: {
             title: 'Modul: Digitaler Selbstschutz',
             body: 'Digitale Sicherheit ist kein Sonderwissen für Expert:innen — sie ist Organisationsstandard. Verschlüsselte Kommunikation, Passwortverwaltung, Zugangskontrolle, Datensparsamkeit. Eingebaut in den Alltag, nicht als Sonderschulung. Feministische Sicherheitsstandards eingeschlossen: Schutz vor digitaler Gewalt und Doxxing.'
+        },
+
+        /* Inspirationsquelle */
+        konfoederalismus: {
+            title: 'Demokratischer Konföderalismus',
+            body: 'Das Paradigma des Demokratischen Konföderalismus verlagert politische Entscheidungsmacht zurück in die Basis — Nachbarschaft, Kommune, Rat. Es zielt nicht auf die Gründung eines neuen Nationalstaats, sondern auf den Aufbau eines funktionalen demokratischen Systems innerhalb der bestehenden Zivilgesellschaft. Für die Diaspora bedeutet das: Wir sind keine Exilanten, die auf einen Staat warten. Wir sind Akteure, die hier und jetzt eine demokratische Gesellschaft bauen — als gleichberechtigter Pol neben dem Staat.'
+        },
+        kommune: {
+            title: 'Die Kommune als Grundzelle',
+            body: 'Die Kommune ist die kleinste basisdemokratische Einheit. Entscheidungen entstehen durch direkten Konsens, nicht durch Delegation an Repräsentanten. Jede lokale Struktur — Stadtgruppe, Fachgruppe, Frauenrat — organisiert sich nach diesem Prinzip. Das ist keine romantische Vorstellung: Es erfordert Rhythmus, Rollen und Routinen — organisierte Freiheit, wie in Konzept 01 beschrieben.'
+        },
+        nicht_verhandelbar: {
+            title: 'Nicht verhandelbare Säulen',
+            body: 'Frauenbefreiung und ökologische Nachhaltigkeit sind keine Programmpunkte, die man bei Bedarf streichen kann. Sie sind strukturelle Voraussetzungen: Ohne autonome Frauenstrukturen mit eigenen Entscheidungsrechten gibt es keine demokratische Gesellschaft — nur eine modernisierte Variante des Patriarchats. Ohne ökologisches Bewusstsein gibt es keine nachhaltige Organisation — nur kurzfristigen Aktivismus.'
         }
     };
 
