@@ -396,9 +396,14 @@ body.da-page-active {
 .da-toc__item {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 0.5rem;
     text-decoration: none;
     position: relative;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 0.4rem;
+    border-radius: 999px;
 }
 
 .da-toc__dot {
@@ -414,6 +419,12 @@ body.da-page-active {
     background: var(--da-accent);
     transform: scale(1.4);
     box-shadow: 0 0 0 4px var(--da-accent-subtle);
+}
+
+.da-toc__item:focus-visible {
+    outline: 2px solid var(--da-accent);
+    outline-offset: 3px;
+    background: rgba(255, 255, 255, 0.92);
 }
 
 .da-toc__label {
@@ -468,9 +479,69 @@ body.da-page-active {
     transition: height 0.15s ease-out;
 }
 
-/* Hide TOC on small screens — not enough space */
 @media (max-width: 900px) {
-    .da-toc { display: none; }
+    .da-toc {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: max(0.75rem, env(safe-area-inset-bottom));
+        transform: translateX(-50%);
+        width: min(calc(100vw - 1rem), 44rem);
+    }
+
+    .da-toc__inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.35rem;
+        overflow-x: auto;
+        padding: 0.45rem;
+        border: 1px solid rgba(17, 17, 17, 0.09);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 16px 32px rgba(17, 17, 17, 0.08);
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+    .da-toc__inner::-webkit-scrollbar {
+        display: none;
+    }
+
+    .da-toc__item {
+        justify-content: center;
+        gap: 0.42rem;
+        padding: 0 0.75rem;
+        flex: 0 0 auto;
+        background: rgba(250, 248, 245, 0.92);
+        border: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .da-toc__item--active {
+        background: rgba(177, 42, 42, 0.08);
+        border-color: rgba(177, 42, 42, 0.18);
+    }
+
+    .da-toc__label {
+        opacity: 1;
+        transform: none;
+        order: 0;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        padding: 0;
+        font-size: 0.6875rem;
+    }
+
+    .da-toc__item--active .da-toc__label {
+        color: var(--da-accent);
+    }
+
+    .da-toc__progress {
+        display: none;
+    }
 }
 
 .da-hero__title {

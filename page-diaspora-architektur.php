@@ -93,6 +93,7 @@ get_header();
     <div class="da-toc__inner">
         <a href="#da-hero" class="da-toc__item da-toc__item--active" data-section="da-hero" aria-label="Einführung">
             <span class="da-toc__dot"></span>
+            <span class="da-toc__label">Start</span>
         </a>
         <a href="#da-inspiration" class="da-toc__item" data-section="da-inspiration" aria-label="Inspirationsquelle">
             <span class="da-toc__dot"></span>
@@ -124,6 +125,7 @@ get_header();
         </a>
         <a href="#da-schluss" class="da-toc__item" data-section="da-schluss" aria-label="Schluss">
             <span class="da-toc__dot"></span>
+            <span class="da-toc__label">Ende</span>
         </a>
     </div>
     <div class="da-toc__progress" aria-hidden="true"></div>
