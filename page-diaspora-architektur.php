@@ -753,19 +753,19 @@ get_header();
 
 
 <!-- ==========================================
-     KAMPAGNE 01: WIR SIND EIN AKTEUR
+     KAMPAGNE 01: WIR VERTRETEN DIE KURDISCHE COMMUNITY
      ========================================== -->
-<section class="da-section da-kampagne" id="da-kampagne" aria-label="Kampagne 01 — Wir sind ein Akteur">
+<section class="da-section da-kampagne" id="da-kampagne" aria-label="Kampagne 01 — Wir vertreten die kurdische Community">
     <div class="da-container">
 
         <span class="da-label da-reveal">In der Praxis</span>
         <h2 class="da-section-title da-reveal">
-            Kampagne 01: Wir sind ein Akteur
+            Kampagne 01: Wir vertreten die kurdische Community
         </h2>
 
         <p class="da-section-sub da-reveal">
-            Alle Schichten arbeiten zusammen. Von der Analyse bis zur Auswertung —
-            so sieht organisierte Öffentlichkeitsarbeit aus.
+            Der Kurdische Rat stellt sich vor — als demokratisch legitimierte Vertretung
+            der kurdischen Community in Deutschland. So arbeiten alle Schichten zusammen.
         </p>
 
         <div class="da-kampagne-widget da-reveal">

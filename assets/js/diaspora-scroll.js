@@ -557,64 +557,65 @@
             {
                 id: 'analyse',
                 label: 'Phase 1: Lagebild',
-                title: 'Lagebild erstellen — bevor ein Wort nach außen geht',
+                title: 'Wie wird die kurdische Community vertreten — und von wem?',
                 activeLayers: [1, 2],
-                body: 'Jede Kampagne beginnt mit Analyse, nicht mit Kommunikation. Das Lagebild beantwortet: Wie wird die kurdische Community aktuell wahrgenommen? Welche politischen Fenster sind offen? Wer sind potenzielle Bündnispartner? Welche Narrative dominieren?',
+                body: 'Bevor der Rat sich positioniert, analysiert er die Ausgangslage: Wer spricht aktuell für die kurdische Community? Welche Narrative dominieren in Medien und Politik? Wo gibt es ein Vertretungsvakuum? Welche Institutionen suchen Ansprechpartner — und finden keinen?',
                 actions: [
-                    'Monatliches Lagebild des Vorstands auswerten',
-                    'Hypothese formulieren: \u201ePositionierung als Akteur erhöht Gesprächsanfragen um 30%\u201c',
-                    'Zielgruppen definieren: Politik, Medien, Bündnispartner, eigene Community'
+                    'Ist-Analyse: Welche kurdischen Organisationen werden aktuell angefragt — und zu welchen Themen?',
+                    'Medienanalyse: Wer wird bei kurdischen Themen zitiert? Eigene Stimmen oder Externe?',
+                    'Hypothese: \u201eEin professionell auftretender Rat wird innerhalb von 6 Monaten als Ansprechpartner angefragt\u201c',
+                    'Stakeholder-Mapping: Bundestagsabgeordnete, Integrationsbeauftragte, relevante NGOs, Medienkontakte'
                 ],
-                output: 'Lagebild-Dokument + Hypothesenliste + Zielgruppen-Matrix',
-                insight: 'Schicht 4 liefert die Analyse. Schicht 3 koordiniert die Informationssammlung aus lokalen Strukturen. Ohne diesen Schritt ist alles, was folgt, Aktionismus.'
+                output: 'Lagebild + Stakeholder-Map + Hypothese + Zielgruppen-Priorisierung',
+                insight: 'Schicht 4 liefert die Analyse: Wo ist das Vertretungsvakuum? Schicht 3 sammelt Einschätzungen aus lokalen Strukturen. Ohne zu wissen, wie die Community aktuell wahrgenommen wird, ist jede Positionierung Blindflug.'
             },
             {
                 id: 'produktion',
                 label: 'Phase 2: Produktion',
-                title: 'Eigene Stimme, eigene Begriffe — auf eigener Infrastruktur',
+                title: 'Den Rat sichtbar machen — professionell, nicht aktivistisch',
                 activeLayers: [1, 2, 3, 4],
-                body: 'Das Medienteam produziert alle Materialien auf eigener Infrastruktur. Kein Outsourcing, keine Plattformabhängigkeit. Die Bild- und Sprachlinie steht: professionell, ruhig, institutionell — nicht aktivistisch.',
+                body: 'Das Medienteam produziert alles, was der Rat braucht, um als Vertretung ernst genommen zu werden. Der Ton ist institutionell: Wir sind nicht laut, wir sind vorbereitet. Alles auf eigener Infrastruktur.',
                 actions: [
-                    'Pressemitteilung: \u201eKurdischer Rat Deutschland gegründet — demokratisch legitimiert, professionell organisiert\u201c',
-                    'Hintergrundpapier (2 Seiten): Struktur, Legitimation, Forderungen',
-                    'Visual Identity: Logo, Briefkopf, Social-Media-Templates',
-                    'Website-Seite mit Selbstdarstellung, Gremien, Kontakt',
-                    'Lokale Strukturen werden gebrieft — einheitliche Sprache, einheitliche Kernbotschaft'
+                    'Selbstdarstellung: Wer sind wir, wie sind wir legitimiert, was sind unsere Positionen?',
+                    'Pressemitteilung: \u201eKurdischer Rat Deutschland — demokratisch gewählte Vertretung der kurdischen Community\u201c',
+                    'Hintergrundpapier: Struktur (Doppelspitze, Delegierte, AGs), Themen, Forderungen, Gesprächsangebote',
+                    'Visual Identity: Logo, Briefkopf, Templates — ein konsistentes Erscheinungsbild',
+                    'Briefing-Paket für Ortsgruppen: Kernbotschaft, FAQ, lokale Anpassung'
                 ],
-                output: 'Pressemitteilung + Hintergrundpapier + Visuals + Website + Briefing-Paket für Ortsgruppen',
-                insight: 'Schicht 1 (eigene Server) trägt Schicht 2 (Medienproduktion). Schicht 3 koordiniert das Briefing der lokalen Strukturen. Alles läuft auf eigener Infrastruktur — kein Zufall, sondern Architektur.'
+                output: 'Website-Seite \u201eÜber den Rat\u201c + Pressemitteilung + Hintergrundpapier + Briefing-Paket + Visuals',
+                insight: 'Schicht 1 (eigene Server) stellt sicher, dass die Selbstdarstellung auf eigener Infrastruktur lebt — nicht auf Social-Media-Profilen, die gesperrt werden können. Schicht 2 produziert. Schicht 3 briefet die lokalen Strukturen. Einheitliche Stimme, dezentrale Kraft.'
             },
             {
                 id: 'launch',
-                label: 'Phase 3: Launch',
-                title: 'Öffentlicher Auftritt — als Institution, nicht als Demo',
+                label: 'Phase 3: Positionierung',
+                title: 'Der Rat tritt auf — nicht als Protest, sondern als Gesprächspartner',
                 activeLayers: [0, 1, 2, 3, 4],
-                body: 'Der Rat tritt zum ersten Mal öffentlich auf. Nicht als Protestbewegung, sondern als institutioneller Gesprächspartner. Die Botschaft: Wir sind organisiert, legitimiert und gesprächsbereit.',
+                body: 'Der Rat präsentiert sich zum ersten Mal öffentlich — gegenüber Politik, Medien und Bündnispartnern. Die Botschaft ist klar: Wenn Sie mit der kurdischen Community sprechen wollen, sprechen Sie mit uns. Wir sind vorbereitet.',
                 actions: [
-                    'Pressekonferenz oder Pressebriefing mit ausgewählten Journalist:innen',
-                    'Parallele Veröffentlichung auf eigener Website und eigenen Kanälen',
-                    'Direkte Anschreiben an Bundestagsabgeordnete, Landtagsfraktionen, relevante NGOs',
-                    'Lokale Strukturen laden zeitgleich lokale Ansprechpartner:innen ein',
-                    'Social Media: Keine Memes, keine Parolen — institutionelle Kommunikation'
+                    'Direktanschreiben an Bundestagsabgeordnete: Vorstellung des Rats + konkretes Gesprächsangebot',
+                    'Direktanschreiben an Integrationsbeauftragte (Bund, Länder): Rat als Ansprechpartner für kurdische Themen',
+                    'Pressebriefing mit ausgewählten Journalist:innen, die über kurdische Themen berichten',
+                    'Parallele Veröffentlichung auf eigener Website: \u201eDer Kurdische Rat stellt sich vor\u201c',
+                    'Lokale Strukturen laden zeitgleich kommunale Ansprechpartner:innen ein — gleiche Botschaft, lokaler Kontext'
                 ],
-                output: 'Pressekonferenz + 20 direkte Anschreiben + Social-Media-Kampagne + lokale Termine',
-                insight: 'Jetzt arbeiten alle fünf Schichten. Schicht 5 (Öffentlichkeit) funktioniert nur, weil die vier Schichten darunter tragen. Die Pressekonferenz ist die sichtbare Spitze — Analyse, Produktion, Koordination und Infrastruktur sind die Ursache.'
+                output: 'Pressebriefing + 30 Direktanschreiben + Website-Launch + lokale Termine + Social-Media-Kampagne',
+                insight: 'Alle fünf Schichten arbeiten. Schicht 5 ist die sichtbare Positionierung — aber sie funktioniert nur, weil das Lagebild stimmt (Schicht 4), die Materialien stehen (Schicht 2), die Ortsgruppen gebrieft sind (Schicht 3) und alles auf eigener Infrastruktur läuft (Schicht 1). Das ist der Unterschied zwischen einer Pressemitteilung und einer Positionierung.'
             },
             {
                 id: 'review',
                 label: 'Phase 4: Auswertung',
-                title: 'Review — was hat gewirkt, was nicht?',
+                title: 'Werden wir als Vertretung wahrgenommen?',
                 activeLayers: [1, 2],
-                body: 'Zwei Wochen nach dem Launch: strukturierte Auswertung. Keine Bauchgefühle, keine informellen Einschätzungen — methodische Analyse. Hier trennt sich professionelle Organisation von Aktionismus.',
+                body: 'Vier Wochen nach der Positionierung: Strukturierte Auswertung. Nicht \u201ehat es geklappt?\u201c sondern: Was genau hat sich verändert? Was müssen wir anpassen? Wo müssen wir nachlegen?',
                 actions: [
-                    'Hypothese prüfen: Wurden mehr Gesprächsanfragen generiert?',
-                    'Medienresonanz dokumentieren: Wer hat berichtet? Welche Begriffe wurden übernommen?',
-                    'Rückmeldungen aus lokalen Strukturen sammeln',
-                    'Entscheidungsnotiz: Was wiederholen wir? Was ändern wir? Wer ist verantwortlich?',
-                    'Ergebnis in nächstes monatliches Lagebild einarbeiten'
+                    'Hypothese prüfen: Gab es Gesprächsanfragen? Von wem? Zu welchen Themen?',
+                    'Medienresonanz: Wird der Rat namentlich erwähnt? Werden unsere Begriffe übernommen?',
+                    'Stakeholder-Rückmeldungen: Wie haben Abgeordnete, NGOs, Medien reagiert?',
+                    'Rückmeldungen aus Ortsgruppen: Gab es lokale Anfragen?',
+                    'Entscheidungsnotiz: Nächste Schritte, Verantwortliche, Termin für Follow-up-Anschreiben'
                 ],
-                output: 'Review-Dokument + aktualisiertes Lagebild + Entscheidungsnotiz für nächste Kampagne',
-                insight: 'Der Kreis schließt sich. Die Auswertung fließt zurück in Schicht 4 (Analyse) — und wird zur Grundlage der nächsten Kampagne. So entsteht eine lernende Organisation. Reaktiv wird gestaltend.'
+                output: 'Review-Dokument + aktualisierte Stakeholder-Map + Entscheidungsnotiz + Input für nächstes Lagebild',
+                insight: 'Die Auswertung beantwortet die entscheidende Frage: Werden wir als Vertretung wahrgenommen — oder nur als weitere Organisation? Die Antwort fließt zurück in Schicht 4 und wird zur Grundlage der nächsten Aktion. So entsteht eine lernende Organisation.'
             }
         ]
     };
