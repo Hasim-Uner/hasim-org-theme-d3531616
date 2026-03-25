@@ -541,7 +541,187 @@
     }
 
     /* =========================================
-       7. INIT
+       7. KAMPAGNEN-WIDGET
+       ========================================= */
+
+    var DA_KAMPAGNE = {
+        layers: [
+            { num: 'Schicht 5', name: 'Öffentlichkeit & Wirkung' },
+            { num: 'Schicht 4', name: 'Inhalt & Analyse' },
+            { num: 'Schicht 3', name: 'Kommunikation & Koordination' },
+            { num: 'Schicht 2', name: 'Medienproduktion' },
+            { num: 'Schicht 1', name: 'Digitale Souveränität' }
+        ],
+
+        phases: [
+            {
+                id: 'analyse',
+                label: 'Phase 1: Lagebild',
+                title: 'Lagebild erstellen — bevor ein Wort nach außen geht',
+                activeLayers: [1, 2],
+                body: 'Jede Kampagne beginnt mit Analyse, nicht mit Kommunikation. Das Lagebild beantwortet: Wie wird die kurdische Community aktuell wahrgenommen? Welche politischen Fenster sind offen? Wer sind potenzielle Bündnispartner? Welche Narrative dominieren?',
+                actions: [
+                    'Monatliches Lagebild des Vorstands auswerten',
+                    'Hypothese formulieren: \u201ePositionierung als Akteur erhöht Gesprächsanfragen um 30%\u201c',
+                    'Zielgruppen definieren: Politik, Medien, Bündnispartner, eigene Community'
+                ],
+                output: 'Lagebild-Dokument + Hypothesenliste + Zielgruppen-Matrix',
+                insight: 'Schicht 4 liefert die Analyse. Schicht 3 koordiniert die Informationssammlung aus lokalen Strukturen. Ohne diesen Schritt ist alles, was folgt, Aktionismus.'
+            },
+            {
+                id: 'produktion',
+                label: 'Phase 2: Produktion',
+                title: 'Eigene Stimme, eigene Begriffe — auf eigener Infrastruktur',
+                activeLayers: [1, 2, 3, 4],
+                body: 'Das Medienteam produziert alle Materialien auf eigener Infrastruktur. Kein Outsourcing, keine Plattformabhängigkeit. Die Bild- und Sprachlinie steht: professionell, ruhig, institutionell — nicht aktivistisch.',
+                actions: [
+                    'Pressemitteilung: \u201eKurdischer Rat Deutschland gegründet — demokratisch legitimiert, professionell organisiert\u201c',
+                    'Hintergrundpapier (2 Seiten): Struktur, Legitimation, Forderungen',
+                    'Visual Identity: Logo, Briefkopf, Social-Media-Templates',
+                    'Website-Seite mit Selbstdarstellung, Gremien, Kontakt',
+                    'Lokale Strukturen werden gebrieft — einheitliche Sprache, einheitliche Kernbotschaft'
+                ],
+                output: 'Pressemitteilung + Hintergrundpapier + Visuals + Website + Briefing-Paket für Ortsgruppen',
+                insight: 'Schicht 1 (eigene Server) trägt Schicht 2 (Medienproduktion). Schicht 3 koordiniert das Briefing der lokalen Strukturen. Alles läuft auf eigener Infrastruktur — kein Zufall, sondern Architektur.'
+            },
+            {
+                id: 'launch',
+                label: 'Phase 3: Launch',
+                title: 'Öffentlicher Auftritt — als Institution, nicht als Demo',
+                activeLayers: [0, 1, 2, 3, 4],
+                body: 'Der Rat tritt zum ersten Mal öffentlich auf. Nicht als Protestbewegung, sondern als institutioneller Gesprächspartner. Die Botschaft: Wir sind organisiert, legitimiert und gesprächsbereit.',
+                actions: [
+                    'Pressekonferenz oder Pressebriefing mit ausgewählten Journalist:innen',
+                    'Parallele Veröffentlichung auf eigener Website und eigenen Kanälen',
+                    'Direkte Anschreiben an Bundestagsabgeordnete, Landtagsfraktionen, relevante NGOs',
+                    'Lokale Strukturen laden zeitgleich lokale Ansprechpartner:innen ein',
+                    'Social Media: Keine Memes, keine Parolen — institutionelle Kommunikation'
+                ],
+                output: 'Pressekonferenz + 20 direkte Anschreiben + Social-Media-Kampagne + lokale Termine',
+                insight: 'Jetzt arbeiten alle fünf Schichten. Schicht 5 (Öffentlichkeit) funktioniert nur, weil die vier Schichten darunter tragen. Die Pressekonferenz ist die sichtbare Spitze — Analyse, Produktion, Koordination und Infrastruktur sind die Ursache.'
+            },
+            {
+                id: 'review',
+                label: 'Phase 4: Auswertung',
+                title: 'Review — was hat gewirkt, was nicht?',
+                activeLayers: [1, 2],
+                body: 'Zwei Wochen nach dem Launch: strukturierte Auswertung. Keine Bauchgefühle, keine informellen Einschätzungen — methodische Analyse. Hier trennt sich professionelle Organisation von Aktionismus.',
+                actions: [
+                    'Hypothese prüfen: Wurden mehr Gesprächsanfragen generiert?',
+                    'Medienresonanz dokumentieren: Wer hat berichtet? Welche Begriffe wurden übernommen?',
+                    'Rückmeldungen aus lokalen Strukturen sammeln',
+                    'Entscheidungsnotiz: Was wiederholen wir? Was ändern wir? Wer ist verantwortlich?',
+                    'Ergebnis in nächstes monatliches Lagebild einarbeiten'
+                ],
+                output: 'Review-Dokument + aktualisiertes Lagebild + Entscheidungsnotiz für nächste Kampagne',
+                insight: 'Der Kreis schließt sich. Die Auswertung fließt zurück in Schicht 4 (Analyse) — und wird zur Grundlage der nächsten Kampagne. So entsteht eine lernende Organisation. Reaktiv wird gestaltend.'
+            }
+        ]
+    };
+
+    function initKampagne() {
+        var data = DA_KAMPAGNE;
+        var stackEl = document.getElementById('da-k-stack');
+        var detailEl = document.getElementById('da-k-detail');
+        var navEl = document.getElementById('da-k-nav');
+        var tlEl = document.getElementById('da-k-timeline');
+        var insightEl = document.getElementById('da-k-insight');
+
+        if (!stackEl || !detailEl || !navEl || !tlEl || !insightEl) return;
+
+        // Schichten-Stack rendern (Schicht 5 oben, Schicht 1 unten)
+        data.layers.forEach(function(layer, i) {
+            var div = document.createElement('div');
+            div.className = 'da-k-layer';
+            div.setAttribute('data-layer-index', i);
+            div.innerHTML =
+                '<div class="da-k-layer-num">' + layer.num + '</div>' +
+                '<div class="da-k-layer-name">' + layer.name + '</div>';
+            stackEl.appendChild(div);
+        });
+
+        // Phase-Navigation rendern
+        data.phases.forEach(function(phase, i) {
+            var btn = document.createElement('button');
+            btn.className = 'da-k-nav-btn';
+            btn.textContent = phase.label;
+            btn.addEventListener('click', function() { showPhase(i); });
+            navEl.appendChild(btn);
+        });
+
+        // Timeline rendern
+        data.phases.forEach(function(phase) {
+            var step = document.createElement('div');
+            step.className = 'da-k-tl-step';
+            step.innerHTML =
+                '<div class="da-k-tl-dot"></div>' +
+                '<div class="da-k-tl-label">' + phase.label.replace('Phase ', 'P') + '</div>';
+            tlEl.appendChild(step);
+        });
+
+        function showPhase(idx) {
+            var phase = data.phases[idx];
+
+            // Nav-Buttons
+            navEl.querySelectorAll('.da-k-nav-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', i === idx);
+            });
+
+            // Schichten aktivieren/deaktivieren
+            stackEl.querySelectorAll('.da-k-layer').forEach(function(layer, i) {
+                layer.classList.toggle('active', phase.activeLayers.indexOf(i) !== -1);
+            });
+
+            // Timeline
+            tlEl.querySelectorAll('.da-k-tl-step').forEach(function(step, i) {
+                step.classList.toggle('done', i < idx);
+                step.classList.toggle('now', i === idx);
+            });
+
+            // Detail-Panel
+            var html = '';
+            html += '<div class="da-k-detail-phase">' + phase.label + '</div>';
+            html += '<div class="da-k-detail-title">' + phase.title + '</div>';
+            html += '<div class="da-k-detail-body">' + phase.body + '</div>';
+            html += '<div class="da-k-actions">';
+            phase.actions.forEach(function(action) {
+                html += '<div class="da-k-action">';
+                html += '<div class="da-k-action-dot"></div>';
+                html += '<span>' + action + '</span>';
+                html += '</div>';
+            });
+            html += '</div>';
+            html += '<div class="da-k-output">';
+            html += '<div class="da-k-output-label">Output</div>';
+            html += '<div class="da-k-output-text">' + phase.output + '</div>';
+            html += '</div>';
+
+            detailEl.innerHTML = html;
+
+            // Insight-Box
+            insightEl.textContent = phase.insight;
+        }
+
+        // Start mit Phase 1
+        showPhase(0);
+
+        // Intersection Observer für Scroll-Animation
+        var widget = document.querySelector('.da-kampagne-widget');
+        if (widget && typeof IntersectionObserver !== 'undefined') {
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+            obs.observe(widget);
+        }
+    }
+
+    /* =========================================
+       8. INIT
        ========================================= */
 
     function init() {
@@ -552,6 +732,7 @@
         initSmoothScroll();
         initTOC();
         initD3Graph();
+        initKampagne();
     }
 
     if (document.readyState === 'loading') {

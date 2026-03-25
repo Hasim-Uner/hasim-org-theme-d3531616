@@ -118,6 +118,10 @@ get_header();
             <span class="da-toc__dot"></span>
             <span class="da-toc__label">04</span>
         </a>
+        <a href="#da-kampagne" class="da-toc__item" data-section="da-kampagne" aria-label="Kampagne 01">
+            <span class="da-toc__dot"></span>
+            <span class="da-toc__label">K01</span>
+        </a>
         <a href="#da-schluss" class="da-toc__item" data-section="da-schluss" aria-label="Schluss">
             <span class="da-toc__dot"></span>
         </a>
@@ -743,6 +747,43 @@ get_header();
             <span class="da-mediale__statement-em">Mediale Architektur ist der vierte Pfeiler<br>
             der demokratischen Gesellschaft.</span>
         </blockquote>
+
+    </div>
+</section>
+
+
+<!-- ==========================================
+     KAMPAGNE 01: WIR SIND EIN AKTEUR
+     ========================================== -->
+<section class="da-section da-kampagne" id="da-kampagne" aria-label="Kampagne 01 — Wir sind ein Akteur">
+    <div class="da-container">
+
+        <span class="da-label da-reveal">In der Praxis</span>
+        <h2 class="da-section-title da-reveal">
+            Kampagne 01: Wir sind ein Akteur
+        </h2>
+
+        <p class="da-section-sub da-reveal">
+            Alle Schichten arbeiten zusammen. Von der Analyse bis zur Auswertung —
+            so sieht organisierte Öffentlichkeitsarbeit aus.
+        </p>
+
+        <div class="da-kampagne-widget da-reveal">
+            <!-- Phase-Navigation -->
+            <div class="da-k-nav" id="da-k-nav"></div>
+
+            <!-- Hauptbereich: Schichten-Stack + Detail-Panel -->
+            <div class="da-k-main">
+                <div class="da-k-stack" id="da-k-stack"></div>
+                <div class="da-k-detail" id="da-k-detail"></div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="da-k-timeline" id="da-k-timeline"></div>
+
+            <!-- Schichten-Erklärung -->
+            <div class="da-k-insight" id="da-k-insight"></div>
+        </div>
 
     </div>
 </section>
