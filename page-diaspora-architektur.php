@@ -188,10 +188,11 @@ get_header();
             </p>
         </div>
 
+        <!-- TODO: Migrate the remaining role=button wrappers in this template to native buttons once the card content model is finalized. -->
         <div class="da-inspiration-grid da-stagger">
 
             <div class="da-inspiration-card da-reveal" data-detail="konfoederalismus" tabindex="0" role="button" aria-label="Detail: Demokratischer Konföderalismus">
-                <h4>Demokratischer Konföderalismus</h4>
+                <h3>Demokratischer Konföderalismus</h3>
                 <p>
                     Kein eigener Staat, keine Assimilation an einen fremden.
                     Stattdessen: ein funktionales, demokratisches System
@@ -202,7 +203,7 @@ get_header();
             </div>
 
             <div class="da-inspiration-card da-reveal" data-detail="kommune" tabindex="0" role="button" aria-label="Detail: Die Kommune als Grundzelle">
-                <h4>Die Kommune als Grundzelle</h4>
+                <h3>Die Kommune als Grundzelle</h3>
                 <p>
                     Die kleinste basisdemokratische Einheit, in der
                     Entscheidungen durch direkten Konsens entstehen.
@@ -212,7 +213,7 @@ get_header();
             </div>
 
             <div class="da-inspiration-card da-reveal" data-detail="nicht_verhandelbar" tabindex="0" role="button" aria-label="Detail: Nicht verhandelbar">
-                <h4>Nicht verhandelbar</h4>
+                <h3>Nicht verhandelbar</h3>
                 <p>
                     Zwei Säulen tragen alles: die Befreiung der Frau
                     und ökologische Nachhaltigkeit. Keine Zusätze,
@@ -494,7 +495,7 @@ get_header();
         <div class="da-section-header da-reveal">
             <p class="da-section-number">Konzept 03</p>
             <h2 class="da-section-title">Architektur des Kurdischen Rats</h2>
-            <p class="da-section-sub">Föderative Dacharchitektur der selbstorganisierten Diaspora — vom Dach bis zum Myzel.</p>
+            <p class="da-section-sub">Föderative Dacharchitektur der selbstorganisierten Diaspora — vom Dach bis zum Myzel, als Dienstleister und Sprachrohr der Community.</p>
         </div>
 
         <div class="da-rat__summary da-reveal" aria-label="Leselogik der Ratsarchitektur">
@@ -511,7 +512,7 @@ get_header();
             <article class="da-rat__summary-card da-rat__summary-card--myzel">
                 <p class="da-rat__summary-label">3. Gesellschaft</p>
                 <h3 class="da-rat__summary-title">Vom Zentrum in die Breite</h3>
-                <p class="da-rat__summary-text">Nicht ein Apparat soll alles tragen, sondern ein föderatives Netzwerk aus Ortsgruppen, Fachbereichen und autonomen gesellschaftlichen Strukturen.</p>
+                <p class="da-rat__summary-text">Nicht ein Apparat soll alles tragen, sondern ein föderatives Netzwerk aus Ortsgruppen als kommunaler Basis, Fachbereichen und autonomen gesellschaftlichen Strukturen.</p>
             </article>
         </div>
 
@@ -688,58 +689,67 @@ get_header();
         <div class="da-stack da-stagger">
             <div class="da-stack-layer da-stack-5 da-reveal" data-detail="oeffentlichkeit" tabindex="0" role="button" aria-label="Detail: Schicht 5 — Öffentlichkeit & Wirkung">
                 <span class="da-stack-label">Schicht 5</span>
-                <h4>Öffentlichkeit &amp; Wirkung</h4>
+                <h3>Öffentlichkeit &amp; Wirkung</h3>
                 <p>Kampagnen · Stellungnahmen · Bündnisse · Allianzen</p>
             </div>
             <div class="da-stack-layer da-stack-4 da-reveal" data-detail="analyse" tabindex="0" role="button" aria-label="Detail: Schicht 4 — Inhalt & Analyse">
                 <span class="da-stack-label">Schicht 4</span>
-                <h4>Inhalt &amp; Analyse</h4>
+                <h3>Inhalt &amp; Analyse</h3>
                 <p>Lagebilder · Hypothesen · Reviews · Entscheidungsnotizen</p>
             </div>
             <div class="da-stack-layer da-stack-3 da-reveal" data-detail="kommunikation" tabindex="0" role="button" aria-label="Detail: Schicht 3 — Kommunikation & Koordination">
                 <span class="da-stack-label">Schicht 3</span>
-                <h4>Kommunikation &amp; Koordination</h4>
+                <h3>Kommunikation &amp; Koordination</h3>
                 <p>Plattform · Protokolle · Krisenkommunikation</p>
             </div>
             <div class="da-stack-layer da-stack-2 da-reveal" data-detail="medien" tabindex="0" role="button" aria-label="Detail: Schicht 2 — Medienproduktion">
                 <span class="da-stack-label">Schicht 2</span>
-                <h4>Medienproduktion</h4>
+                <h3>Medienproduktion</h3>
                 <p>Newsroom · Bild- und Sprachlinie · Video · Social</p>
             </div>
             <div class="da-stack-layer da-stack-1 da-reveal" data-detail="souveraenitaet" tabindex="0" role="button" aria-label="Detail: Schicht 1 — Digitale Souveränität">
                 <span class="da-stack-label">Schicht 1 — Fundament</span>
-                <h4>Digitale Souveränität</h4>
+                <h3>Digitale Souveränität</h3>
                 <p>Eigene Server · Datenhoheit · Verschlüsselung · Lokale KI · Kein Tracking</p>
-                <span class="da-stack-badge">← Diese Seite läuft hier</span>
+                <span class="da-stack-badge">← Diese Seite läuft auf Schicht 1</span>
             </div>
         </div>
 
         <!-- Drei Module -->
         <div class="da-module-grid da-stagger">
-            <div class="da-module-card da-reveal" data-detail="newsroom_med" tabindex="0" role="button" aria-label="Detail: Newsroom">
+            <article class="da-module-card da-reveal">
                 <span class="da-module-icon" aria-hidden="true">◉</span>
-                <h4>Newsroom</h4>
+                <h3>Newsroom</h3>
                 <p>Eigene Stimme, eigene Begriffe. Keine Abhängigkeit von Plattformen,
                    die morgen entscheiden können, uns abzuschalten. Abgestimmte
                    Bild- und Sprachlinie. Krisenkommunikationsprotokoll.</p>
-            </div>
-            <div class="da-module-card da-reveal" data-detail="wissensgraph_med" tabindex="0" role="button" aria-label="Detail: Wissensgraph">
+                <div class="da-module-card__actions">
+                    <button class="da-module-card__action" data-detail="newsroom_med" type="button">Details öffnen</button>
+                </div>
+            </article>
+            <article class="da-module-card da-reveal">
                 <span class="da-module-icon" aria-hidden="true">◎</span>
-                <h4>Wissensgraph</h4>
+                <h3>Wissensgraph</h3>
                 <p>Begriffe vernetzen statt isolieren. Politisches Wissen wird
                    strukturiert, durchsuchbar, verlinkbar. Kein statisches
                    Glossar — ein lebendiges Denk-Netzwerk.</p>
-                <a href="https://hasimuener.org/wissensgraph/" class="da-module-link">
-                    → Live auf dieser Seite
-                </a>
-            </div>
-            <div class="da-module-card da-reveal" data-detail="sicherheit_med" tabindex="0" role="button" aria-label="Detail: Digitaler Selbstschutz">
+                <div class="da-module-card__actions">
+                    <button class="da-module-card__action" data-detail="wissensgraph_med" type="button">Details öffnen</button>
+                    <a href="https://hasimuener.org/wissensgraph/" class="da-module-link">
+                        → Live auf dieser Seite
+                    </a>
+                </div>
+            </article>
+            <article class="da-module-card da-reveal">
                 <span class="da-module-icon" aria-hidden="true">◈</span>
-                <h4>Digitaler Selbstschutz</h4>
+                <h3>Digitaler Selbstschutz</h3>
                 <p>Digitale Sicherheit als Organisationsstandard, nicht als
                    Sonderwissen. Zugänge, Passwortverwaltung, Verschlüsselung,
                    Datensparsamkeit — eingebaut, nicht nachgerüstet.</p>
-            </div>
+                <div class="da-module-card__actions">
+                    <button class="da-module-card__action" data-detail="sicherheit_med" type="button">Details öffnen</button>
+                </div>
+            </article>
         </div>
 
         <!-- Abschluss-Statement -->
@@ -772,19 +782,19 @@ get_header();
 
         <div class="da-kampagne-widget da-reveal">
             <!-- Phase-Navigation -->
-            <div class="da-k-nav" id="da-k-nav"></div>
+            <div class="da-k-nav" id="da-k-nav" role="toolbar" aria-label="Kampagnenphasen"></div>
 
             <!-- Hauptbereich: Schichten-Stack + Detail-Panel -->
             <div class="da-k-main">
                 <div class="da-k-stack" id="da-k-stack"></div>
-                <div class="da-k-detail" id="da-k-detail"></div>
+                <div class="da-k-detail" id="da-k-detail" role="region" aria-live="polite" aria-atomic="true" aria-label="Phasendetail"></div>
             </div>
 
             <!-- Timeline -->
-            <div class="da-k-timeline" id="da-k-timeline"></div>
+            <div class="da-k-timeline" id="da-k-timeline" role="list" aria-label="Phasenfortschritt"></div>
 
             <!-- Schichten-Erklärung -->
-            <div class="da-k-insight" id="da-k-insight"></div>
+            <div class="da-k-insight" id="da-k-insight" role="status" aria-live="polite"></div>
         </div>
 
     </div>
@@ -835,7 +845,7 @@ get_header();
 
         <p class="da-meta-note da-reveal">
             Diese Seite läuft auf eigenen Servern. Kein Tracking. Keine Cookies.<br>
-            Keine Abhängigkeit von Plattformen Dritter. Das ist Schicht 1.
+            Keine Abhängigkeit von Plattformen Dritter. Diese Seite läuft auf Schicht 1.
         </p>
 
         <p class="da-footer__domain da-reveal">hasimuener.org</p>

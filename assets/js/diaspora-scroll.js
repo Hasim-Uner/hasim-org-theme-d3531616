@@ -18,6 +18,7 @@
        ========================================= */
 
     var DA_DETAILS = {
+        // TODO: Move rich detail copy into sanitized HTML templates so foreign-language terms can carry proper lang attributes.
         /* Rat — Säulen */
         legitim: {
             title: 'Demokratische Legitimation',
@@ -558,6 +559,8 @@
             .attr('tabindex', '0')
             .attr('role', 'button')
             .attr('data-detail', function (d) { return detailKeyMap[d.category] || d.category; })
+            .attr('aria-controls', 'da-detail-overlay')
+            .attr('aria-expanded', 'false')
             .attr('aria-label', function (d) { return 'Detail: ' + d.label; });
 
         node.append('circle')
@@ -721,7 +724,10 @@
         data.phases.forEach(function(phase, i) {
             var btn = document.createElement('button');
             btn.className = 'da-k-nav-btn';
+            btn.type = 'button';
             btn.textContent = phase.label;
+            btn.setAttribute('aria-controls', 'da-k-detail');
+            btn.setAttribute('aria-pressed', 'false');
             btn.addEventListener('click', function() { showPhase(i); });
             navEl.appendChild(btn);
         });
@@ -730,6 +736,7 @@
         data.phases.forEach(function(phase) {
             var step = document.createElement('div');
             step.className = 'da-k-tl-step';
+            step.setAttribute('role', 'listitem');
             step.innerHTML =
                 '<div class="da-k-tl-dot"></div>' +
                 '<div class="da-k-tl-label">' + phase.label.replace('Phase ', 'P') + '</div>';
@@ -742,6 +749,7 @@
             // Nav-Buttons
             navEl.querySelectorAll('.da-k-nav-btn').forEach(function(btn, i) {
                 btn.classList.toggle('active', i === idx);
+                btn.setAttribute('aria-pressed', i === idx ? 'true' : 'false');
             });
 
             // Schichten aktivieren/deaktivieren
@@ -753,12 +761,17 @@
             tlEl.querySelectorAll('.da-k-tl-step').forEach(function(step, i) {
                 step.classList.toggle('done', i < idx);
                 step.classList.toggle('now', i === idx);
+                if (i === idx) {
+                    step.setAttribute('aria-current', 'step');
+                } else {
+                    step.removeAttribute('aria-current');
+                }
             });
 
             // Detail-Panel
             var html = '';
-            html += '<div class="da-k-detail-phase">' + phase.label + '</div>';
-            html += '<div class="da-k-detail-title">' + phase.title + '</div>';
+            html += '<p class="da-k-detail-phase">' + phase.label + '</p>';
+            html += '<h3 class="da-k-detail-title">' + phase.title + '</h3>';
             html += '<div class="da-k-detail-body">' + phase.body + '</div>';
             html += '<div class="da-k-actions">';
             phase.actions.forEach(function(action) {
@@ -769,11 +782,12 @@
             });
             html += '</div>';
             html += '<div class="da-k-output">';
-            html += '<div class="da-k-output-label">Output</div>';
+            html += '<p class="da-k-output-label">Output</p>';
             html += '<div class="da-k-output-text">' + phase.output + '</div>';
             html += '</div>';
 
             detailEl.innerHTML = html;
+            detailEl.setAttribute('aria-label', 'Phasendetail: ' + phase.label);
 
             // Insight-Box
             insightEl.textContent = phase.insight;

@@ -679,7 +679,7 @@ body.da-page-active {
     outline-offset: 2px;
 }
 
-.da-inspiration-card h4 {
+.da-inspiration-card h3 {
     font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
     font-weight: 600;
     font-size: 1rem;
@@ -2353,7 +2353,7 @@ body.da-detail-open {
     margin-bottom: 0.3rem;
 }
 
-.da-stack-layer h4 {
+.da-stack-layer h3 {
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
     font-size: 1.0625rem;
@@ -2396,18 +2396,12 @@ body.da-detail-open {
     border: 1px solid var(--da-border);
     border-radius: 12px;
     padding: 1.5rem;
-    cursor: pointer;
     transition: border-color 0.2s, transform 0.2s, background 0.2s;
 }
 
 .da-module-card:hover {
     border-color: var(--da-border-strong);
     transform: translateY(-2px);
-}
-
-.da-module-card:focus-visible {
-    outline: 2px solid var(--da-accent);
-    outline-offset: 2px;
 }
 
 .da-module-icon {
@@ -2418,7 +2412,7 @@ body.da-detail-open {
     line-height: 1;
 }
 
-.da-module-card h4 {
+.da-module-card h3 {
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
     font-size: 1rem;
@@ -2433,9 +2427,38 @@ body.da-detail-open {
     margin: 0;
 }
 
+.da-module-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.da-module-card__action {
+    border: 1px solid rgba(34, 126, 99, 0.22);
+    border-radius: 999px;
+    background: var(--da-teal-bg);
+    color: var(--da-teal);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    padding: 0.55rem 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.da-module-card__action:hover {
+    background: rgba(34, 126, 99, 0.14);
+    border-color: rgba(34, 126, 99, 0.32);
+    transform: translateY(-1px);
+}
+
+.da-module-card__action:focus-visible {
+    outline: 2px solid var(--da-teal);
+    outline-offset: 2px;
+}
+
 .da-module-link {
     display: inline-block;
-    margin-top: 0.75rem;
     font-size: 0.8125rem;
     color: var(--da-teal);
     text-decoration: none;
@@ -2472,6 +2495,8 @@ body.da-detail-open {
 /* =========================================
    22. D3 GRAPH CONTAINER (Rat)
    ========================================= */
+
+/* TODO: Add a dedicated mobile fallback for the Rat SVG; the scaled labels become cramped on very small screens. */
 
 .da-rat__d3-wrap {
     margin-top: 0;
