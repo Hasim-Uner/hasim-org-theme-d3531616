@@ -138,7 +138,7 @@ get_header();
 
     <h1 class="da-hero__title da-reveal">Neuorganisation der kurdischen Diplomatie- und Öffentlichkeitsarbeit</h1>
 
-    <p class="da-hero__subtitle da-reveal">Architektur, nicht Appell. Augenhöhe, nicht Widerstand.</p>
+    <p class="da-hero__subtitle da-reveal">Freiheit entsteht, wo Gemeinschaft sich organisiert.</p>
 
     <div class="da-hero__concepts da-stagger">
         <span class="da-hero__concept-pill da-reveal">Organisation</span>
