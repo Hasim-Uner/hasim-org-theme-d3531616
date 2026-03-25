@@ -2479,3 +2479,280 @@ body.da-page-active {
         transform: none;
     }
 }
+
+
+/* ═══════════════════════════════════════════
+   KAMPAGNEN-WIDGET
+   ═══════════════════════════════════════════ */
+
+.da-kampagne-widget {
+    margin-top: 2.5rem;
+}
+
+/* Phase-Navigation: Horizontal, Pills */
+.da-k-nav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.da-k-nav-btn {
+    font-size: 0.8125rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--da-border);
+    background: transparent;
+    color: var(--da-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Figtree', sans-serif;
+    font-weight: 400;
+}
+.da-k-nav-btn:hover {
+    background: var(--da-bg-elevated);
+    border-color: var(--da-border-strong);
+}
+.da-k-nav-btn:focus-visible {
+    outline: 2px solid var(--da-teal);
+    outline-offset: 2px;
+}
+.da-k-nav-btn.active {
+    background: var(--da-teal-bg);
+    color: var(--da-teal);
+    border-color: hsla(160, 70%, 38%, 0.3);
+    font-weight: 500;
+}
+
+/* Hauptbereich: Stack links, Detail rechts */
+.da-k-main {
+    display: flex;
+    gap: 1.5rem;
+    min-height: 400px;
+    align-items: flex-start;
+}
+@media (max-width: 768px) {
+    .da-k-main {
+        flex-direction: column;
+    }
+}
+
+/* Schichten-Stack (links) */
+.da-k-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 220px;
+    flex-shrink: 0;
+}
+@media (max-width: 768px) {
+    .da-k-stack {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .da-k-layer {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+.da-k-layer {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--da-border);
+    background: var(--da-bg-surface);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.3;
+}
+
+/* Layer-specific active colors matching Konzept 04 */
+.da-k-layer.active {
+    opacity: 1;
+}
+.da-k-layer[data-layer-index="0"].active {
+    border-color: var(--da-text-tertiary);
+    background: var(--da-bg-surface);
+}
+.da-k-layer[data-layer-index="1"].active {
+    border-color: hsla(210, 70%, 50%, 0.4);
+    background: hsla(210, 70%, 50%, 0.06);
+}
+.da-k-layer[data-layer-index="2"].active {
+    border-color: hsla(260, 55%, 58%, 0.4);
+    background: hsla(260, 55%, 58%, 0.06);
+}
+.da-k-layer[data-layer-index="3"].active {
+    border-color: hsla(22, 75%, 52%, 0.4);
+    background: hsla(22, 75%, 52%, 0.06);
+}
+.da-k-layer[data-layer-index="4"].active {
+    border-color: hsla(160, 70%, 38%, 0.4);
+    background: var(--da-teal-bg);
+}
+
+.da-k-layer-num {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--da-text-tertiary);
+}
+.da-k-layer-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--da-text-primary);
+    margin-top: 2px;
+    transition: color 0.3s;
+}
+.da-k-layer[data-layer-index="0"].active .da-k-layer-name { color: var(--da-text-secondary); }
+.da-k-layer[data-layer-index="1"].active .da-k-layer-name { color: var(--da-blue); }
+.da-k-layer[data-layer-index="2"].active .da-k-layer-name { color: var(--da-purple); }
+.da-k-layer[data-layer-index="3"].active .da-k-layer-name { color: var(--da-coral); }
+.da-k-layer[data-layer-index="4"].active .da-k-layer-name { color: var(--da-teal); }
+
+/* Detail-Panel (rechts) */
+.da-k-detail {
+    flex: 1;
+}
+.da-k-detail-phase {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--da-text-tertiary);
+    margin-bottom: 0.5rem;
+}
+.da-k-detail-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--da-text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+.da-k-detail-body {
+    font-size: 0.9375rem;
+    color: var(--da-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+/* Aktionsliste */
+.da-k-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+}
+.da-k-action {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 0.875rem;
+    color: var(--da-text-secondary);
+    line-height: 1.5;
+}
+.da-k-action-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--da-teal);
+    flex-shrink: 0;
+    margin-top: 7px;
+}
+
+/* Output-Box */
+.da-k-output {
+    background: var(--da-bg-elevated);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+.da-k-output-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--da-text-tertiary);
+    margin-bottom: 4px;
+}
+.da-k-output-text {
+    font-size: 0.8125rem;
+    color: var(--da-text-secondary);
+    line-height: 1.6;
+}
+
+/* Timeline */
+.da-k-timeline {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--da-border);
+    position: relative;
+}
+.da-k-tl-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+.da-k-tl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--da-border-strong);
+    margin: 0 auto 6px;
+    transition: all 0.3s ease;
+}
+.da-k-tl-step.done .da-k-tl-dot {
+    background: var(--da-teal);
+}
+.da-k-tl-step.now .da-k-tl-dot {
+    background: var(--da-teal);
+    box-shadow: 0 0 0 4px hsla(160, 70%, 38%, 0.15);
+}
+.da-k-tl-label {
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+    color: var(--da-text-tertiary);
+    transition: color 0.3s;
+}
+.da-k-tl-step.done .da-k-tl-label,
+.da-k-tl-step.now .da-k-tl-label {
+    color: var(--da-text-secondary);
+}
+/* Verbindungslinie zwischen Timeline-Dots */
+.da-k-tl-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--da-border);
+    z-index: -1;
+    transition: background 0.3s;
+}
+.da-k-tl-step.done:not(:last-child)::after {
+    background: var(--da-teal);
+}
+
+/* Insight-Box (unten) */
+.da-k-insight {
+    margin-top: 1rem;
+    padding: 12px 16px;
+    font-size: 0.8125rem;
+    color: var(--da-text-secondary);
+    line-height: 1.7;
+    border-left: 3px solid var(--da-teal);
+    background: var(--da-bg-surface);
+}
+
+/* Scroll-Animation */
+.da-kampagne-widget {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.da-kampagne-widget.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
