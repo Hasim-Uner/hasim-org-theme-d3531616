@@ -1707,6 +1707,10 @@ body.da-page-active {
     padding: 2rem;
 }
 
+body.da-detail-open {
+    overflow: hidden;
+}
+
 .da-detail-overlay.is-open {
     opacity: 1;
     pointer-events: all;
@@ -1749,8 +1753,8 @@ body.da-page-active {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.82);
     border: 1px solid var(--da-border);
@@ -1888,6 +1892,9 @@ body.da-page-active {
 
 @media (prefers-reduced-motion: reduce) {
     .da-reveal,
+    .da-detail-overlay,
+    .da-detail-card,
+    .da-kampagne-widget,
     .da-draw-svg path,
     .da-draw-svg line,
     .da-draw-svg polyline,

@@ -185,6 +185,11 @@
        2. INTERSECTION OBSERVER — REVEAL
        ========================================= */
 
+    function prefersReducedMotion() {
+        return typeof window.matchMedia === 'function'
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
     function initReveal() {
         var observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
@@ -233,28 +238,64 @@
         var titleEl = overlay.querySelector('.da-detail-title');
         var bodyEl = overlay.querySelector('.da-detail-body');
         var closeBtn = overlay.querySelector('.da-detail-close');
+        var lastTrigger = null;
+        var focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-        function openDetail(key) {
+        function syncTriggerState(trigger, expanded) {
+            if (!trigger) return;
+            trigger.setAttribute('aria-controls', 'da-detail-overlay');
+            trigger.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        }
+
+        function primeDetailTriggers(root) {
+            (root || document).querySelectorAll('[data-detail]').forEach(function (trigger) {
+                syncTriggerState(trigger, false);
+            });
+        }
+
+        function getFocusableElements() {
+            return Array.prototype.slice.call(overlay.querySelectorAll(focusableSelector)).filter(function (el) {
+                return !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true';
+            });
+        }
+
+        function openDetail(key, trigger) {
             var data = DA_DETAILS[key];
             if (!data) return;
+            if (lastTrigger && lastTrigger !== trigger) {
+                syncTriggerState(lastTrigger, false);
+            }
             titleEl.textContent = data.title;
             bodyEl.textContent = data.body;
             overlay.classList.add('is-open');
             overlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('da-detail-open');
+            lastTrigger = trigger || document.activeElement;
+            syncTriggerState(lastTrigger, true);
             closeBtn.focus();
         }
 
         function closeDetail() {
             overlay.classList.remove('is-open');
             overlay.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('da-detail-open');
+            if (lastTrigger) {
+                syncTriggerState(lastTrigger, false);
+                if (typeof lastTrigger.focus === 'function') {
+                    lastTrigger.focus();
+                }
+            }
+            lastTrigger = null;
         }
+
+        primeDetailTriggers(document);
 
         // Event delegation for all [data-detail] elements
         document.addEventListener('click', function (e) {
             var trigger = e.target.closest('[data-detail]');
             if (trigger) {
                 e.preventDefault();
-                openDetail(trigger.getAttribute('data-detail'));
+                openDetail(trigger.getAttribute('data-detail'), trigger);
             }
         });
 
@@ -264,8 +305,36 @@
                 var trigger = e.target.closest('[data-detail]');
                 if (trigger) {
                     e.preventDefault();
-                    openDetail(trigger.getAttribute('data-detail'));
+                    openDetail(trigger.getAttribute('data-detail'), trigger);
                 }
+            }
+        });
+
+        overlay.addEventListener('keydown', function (e) {
+            var focusable;
+            var first;
+            var last;
+
+            if (e.key !== 'Tab' || !overlay.classList.contains('is-open')) {
+                return;
+            }
+
+            focusable = getFocusableElements();
+            if (!focusable.length) {
+                e.preventDefault();
+                closeBtn.focus();
+                return;
+            }
+
+            first = focusable[0];
+            last = focusable[focusable.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
             }
         });
 
@@ -281,6 +350,10 @@
                 closeDetail();
             }
         });
+
+        return {
+            primeTriggers: primeDetailTriggers
+        };
     }
 
     /* =========================================
@@ -354,7 +427,10 @@
                 var target = document.querySelector(targetId);
                 if (target) {
                     e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    target.scrollIntoView({
+                        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+                        block: 'start'
+                    });
                 }
             });
         });
@@ -726,14 +802,19 @@
        ========================================= */
 
     function init() {
+        var detailPanels;
+
         initPageClass();
         initSVGDash();
         initReveal();
-        initDetailPanels();
+        detailPanels = initDetailPanels();
         initSmoothScroll();
         initTOC();
         initD3Graph();
         initKampagne();
+        if (detailPanels && typeof detailPanels.primeTriggers === 'function') {
+            detailPanels.primeTriggers(document);
+        }
     }
 
     if (document.readyState === 'loading') {

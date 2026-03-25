@@ -845,11 +845,11 @@ get_header();
 <!-- ==========================================
      DETAIL OVERLAY
      ========================================== -->
-<div class="da-detail-overlay" id="da-detail-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Detail-Information">
+<div class="da-detail-overlay" id="da-detail-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="da-detail-title" aria-describedby="da-detail-body">
     <div class="da-detail-card">
         <button class="da-detail-close" aria-label="Schließen" type="button">&times;</button>
-        <h3 class="da-detail-title"></h3>
-        <p class="da-detail-body"></p>
+        <h3 class="da-detail-title" id="da-detail-title"></h3>
+        <p class="da-detail-body" id="da-detail-body"></p>
     </div>
 </div>
 
