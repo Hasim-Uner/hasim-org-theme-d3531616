@@ -235,7 +235,7 @@ get_header();
     <div class="da-container da-narrow">
 
         <figure class="da-rose-figure" aria-label="Stilisierte Rose — innere Struktur als Metapher">
-            <img class="da-rose-real-img" src="<?php echo get_template_directory_uri(); ?>/assets/images/rose-rot.png" alt="Eine rote Rose — Symbol für bewusste innere Struktur" loading="lazy" />
+            <img class="da-rose-real-img" src="<?php echo esc_url( content_url( '/uploads/2026/03/Rose_Rot.png' ) ); ?>" alt="Eine rote Rose — Symbol für bewusste innere Struktur" loading="lazy" />
             <svg class="da-rose-svg da-draw-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <!-- Äußere Blütenblätter — Phase 1 (coral/accent) -->
                 <g class="da-rose-petals-group">
