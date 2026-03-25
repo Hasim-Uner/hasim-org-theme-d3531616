@@ -1648,6 +1648,127 @@ body.da-page-active {
 .da-rat__legend-dot--kultur  { background: var(--da-teal); }
 .da-rat__legend-dot--fach    { background: var(--da-blue); }
 
+.da-rat__translation {
+    position: relative;
+    z-index: 1;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.da-rat__translation-header {
+    margin-bottom: 1.15rem;
+}
+
+.da-rat__translation-title {
+    margin: 0 0 0.55rem;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--da-text-primary);
+}
+
+.da-rat__translation-intro {
+    max-width: 66ch;
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.72;
+    color: var(--da-text-secondary);
+}
+
+.da-rat__translation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.da-rat__translation-card {
+    padding: 1.15rem;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 244, 239, 0.9));
+    box-shadow: var(--da-shadow-soft);
+}
+
+.da-rat__translation-card-label {
+    margin: 0 0 0.55rem;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--da-text-tertiary);
+}
+
+.da-rat__translation-card-title {
+    margin: 0 0 0.5rem;
+    font-family: var(--hj-serif, Georgia, serif);
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.28;
+    color: var(--da-text-primary);
+}
+
+.da-rat__translation-card-text {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.68;
+    color: var(--da-text-secondary);
+}
+
+.da-rat__legal-detail {
+    margin-top: 1rem;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.84);
+    box-shadow: 0 10px 22px rgba(17, 17, 17, 0.04);
+    overflow: hidden;
+}
+
+.da-rat__legal-detail summary {
+    position: relative;
+    padding: 0.95rem 1.15rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--hj-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--da-text-primary);
+}
+
+.da-rat__legal-detail summary::-webkit-details-marker {
+    display: none;
+}
+
+.da-rat__legal-detail summary:focus-visible {
+    outline: 2px solid var(--da-accent);
+    outline-offset: -2px;
+}
+
+.da-rat__legal-detail summary::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    right: 1.1rem;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: var(--da-accent);
+}
+
+.da-rat__legal-detail[open] summary::after {
+    content: '\2212';
+}
+
+.da-rat__legal-detail p {
+    max-width: 68ch;
+    margin: 0;
+    padding: 0 1.15rem 1rem;
+    font-size: 0.92rem;
+    line-height: 1.68;
+    color: var(--da-text-secondary);
+}
+
 /* =========================================
    12. ZITAT / SCHLUSS SECTION
    ========================================= */
@@ -2072,6 +2193,10 @@ body.da-detail-open {
     .da-rat__eyebrow {
         display: flex;
         align-items: flex-start;
+    }
+
+    .da-rat__translation-grid {
+        grid-template-columns: 1fr;
     }
 
     .da-footer__actions {

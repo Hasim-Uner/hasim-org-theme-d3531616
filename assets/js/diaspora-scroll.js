@@ -21,16 +21,16 @@
         // TODO: Move rich detail copy into sanitized HTML templates so foreign-language terms can carry proper lang attributes.
         /* Rat — Säulen */
         legitim: {
-            title: 'Demokratische Legitimation',
-            body: 'Delegiertenversammlung aus allen Ortsgruppen und Fachbereichen. Paritätische Doppelspitze (m/w). Wahl alle 2 Jahre. Rückkopplung durch Bedarfserhebung und Feedback-Zyklen.'
+            title: 'Trägerverein e.V. / Delegiertenversammlung',
+            body: 'Der Trägerverein bündelt die demokratische Legitimation der Architektur. Lokale Räte und Fachbereiche wählen Delegierte, die in der Delegiertenversammlung Richtung, Leitung und Rechenschaft absichern. Die paritätische Doppelspitze verankert Gleichstellung in einer belastbaren Leitungsstruktur.'
         },
         operativ: {
             title: 'Operative gGmbH',
-            body: 'Medienproduktion (Newsroom), Bildungsprogramme, IT-Infrastruktur (eigene Server, lokale KI), Fördermittelakquise und -verwaltung. Datenhoheit und digitale Souveränität als Kernprinzip.'
+            body: 'Die gGmbH trägt Betrieb, Medien, Bildung, IT-Infrastruktur und Personal. Newsroom, eigene Server, lokale KI und Datenhoheit machen die Architektur nicht nur sichtbar, sondern institutionell handlungsfähig und digital souverän.'
         },
         politisch: {
             title: 'Politischer Arm',
-            body: 'Lobbying auf Bundes- und Landesebene, Kampagnenkoordination, strategische Allianzen mit anderen Diaspora-Organisationen, Parteien und zivilgesellschaftlichen Akteuren.'
+            body: 'Eine politisch getrennte Einheit übernimmt Lobbying, Kampagnenkoordination und strategische Interessenvertretung. So bleibt der politische Auftrag klar formulierbar, ohne Gemeinnützigkeit und operativen Betrieb rechtlich zu vermischen.'
         },
 
         /* Rat — Gesellschaftsknoten */

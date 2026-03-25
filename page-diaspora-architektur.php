@@ -502,12 +502,12 @@ get_header();
             <article class="da-rat__summary-card da-rat__summary-card--roof">
                 <p class="da-rat__summary-label">1. Dach</p>
                 <h3 class="da-rat__summary-title">Legitimation, Betrieb, Politik</h3>
-                <p class="da-rat__summary-text">Der Rat trägt nur dann, wenn demokratische Legitimation, operative Infrastruktur und politische Vertretung als eine gemeinsame Architektur gedacht werden.</p>
+                <p class="da-rat__summary-text">Der Rat trägt nur dann, wenn demokratische Legitimation, operative Infrastruktur und politische Vertretung als gemeinsame Architektur gedacht und im deutschen Rechtsrahmen tragfähig organisiert werden.</p>
             </article>
             <article class="da-rat__summary-card da-rat__summary-card--infra">
                 <p class="da-rat__summary-label">2. Infrastruktur</p>
                 <h3 class="da-rat__summary-title">Eigene Werkzeuge, eigene Daten</h3>
-                <p class="da-rat__summary-text">Newsroom, Server, lokale KI und Datenhoheit machen die Struktur nicht nur sichtbar, sondern tatsächlich handlungsfähig und unabhängig.</p>
+                <p class="da-rat__summary-text">Newsroom, Server, lokale KI und Datenhoheit machen die Struktur nicht nur sichtbar, sondern institutionell handlungsfähig und digital souverän.</p>
             </article>
             <article class="da-rat__summary-card da-rat__summary-card--myzel">
                 <p class="da-rat__summary-label">3. Gesellschaft</p>
@@ -542,11 +542,10 @@ get_header();
                 <!-- ===== SCHICHT 2: DREI SÄULEN ===== -->
                 <g class="da-stagger">
                     <!-- Säule 1: Demokratische Legitimation -->
-                    <g class="da-reveal" data-detail="legitim" tabindex="0" role="button" aria-label="Detail: Demokratische Legitimation">
+                    <g class="da-reveal" data-detail="legitim" tabindex="0" role="button" aria-label="Detail: Trägerverein e.V. / Delegiertenversammlung">
                         <rect x="130" y="115" width="200" height="100" rx="12" fill="rgba(255,255,255,0.94)" stroke="rgba(17,17,17,0.12)" stroke-width="1"/>
                         <rect x="130" y="115" width="200" height="100" rx="12" fill="rgba(177,42,42,0.06)" class="da-hover-fill"/>
-                        <text x="230" y="155" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">DEMOKRATISCHE</text>
-                        <text x="230" y="172" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">LEGITIMATION</text>
+                        <text x="230" y="163" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="12" fill="#8f1e22">TRÄGERVEREIN e.V.</text>
                         <text x="230" y="198" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" fill="rgba(34,50,70,0.76)">Delegiertenversammlung</text>
                     </g>
                     <!-- Säule 2: Operative gGmbH -->
@@ -652,6 +651,41 @@ get_header();
                     <span>Fachnetzwerke</span>
                 </div>
             </div>
+        </div>
+
+        <div class="da-rat__translation da-reveal" aria-label="Wie das Paradigma rechtsfähig wird">
+            <div class="da-rat__translation-header">
+                <h3 class="da-rat__translation-title">Wie das Paradigma rechtsfähig wird</h3>
+                <p class="da-rat__translation-intro">Ein politisches Paradigma bleibt abstrakt, solange es keine tragfähige Form im Rechtsrahmen findet. Entscheidend ist nicht nur, was wir wollen, sondern wie wir es organisieren: demokratisch legitimiert, operativ handlungsfähig und rechtlich sauber getrennt.</p>
+            </div>
+
+            <div class="da-rat__translation-grid da-stagger">
+                <article class="da-rat__translation-card da-reveal">
+                    <p class="da-rat__translation-card-label">Basis</p>
+                    <h4 class="da-rat__translation-card-title">Delegiertenversammlung als handlungsfähige Basis</h4>
+                    <p class="da-rat__translation-card-text">Lokale Räte wählen Delegierte. So bleibt das Prinzip von unten nach oben erhalten, ohne in organisatorische Handlungsunfähigkeit zu kippen.</p>
+                </article>
+                <article class="da-rat__translation-card da-reveal">
+                    <p class="da-rat__translation-card-label">Leitung</p>
+                    <h4 class="da-rat__translation-card-title">Doppelspitze als paritätische Führung</h4>
+                    <p class="da-rat__translation-card-text">Geschlechterparität wird nicht nur behauptet, sondern in der Leitungsstruktur verankert. Doppelspitze bedeutet geteilte Verantwortung, institutionell übersetzt.</p>
+                </article>
+                <article class="da-rat__translation-card da-reveal">
+                    <p class="da-rat__translation-card-label">Ordnung</p>
+                    <h4 class="da-rat__translation-card-title">Getrennte Sphären, gemeinsame Strategie</h4>
+                    <p class="da-rat__translation-card-text">Demokratische Legitimation, operativer Betrieb und politische Interessenvertretung brauchen unterschiedliche rechtliche Formen — mit gemeinsamer Richtung, aber klaren Grenzen.</p>
+                </article>
+                <article class="da-rat__translation-card da-reveal">
+                    <p class="da-rat__translation-card-label">Rahmen</p>
+                    <h4 class="da-rat__translation-card-title">Gemeinnützigkeit als tragfähiger Rahmen</h4>
+                    <p class="da-rat__translation-card-text">Bildung, Völkerverständigung und institutioneller Aufbau schaffen Stabilität. Kampagnen und Lobbying müssen davon sauber getrennt organisiert werden.</p>
+                </article>
+            </div>
+
+            <details class="da-rat__legal-detail da-reveal">
+                <summary>Rechtliche Logik der Architektur</summary>
+                <p>Der Trägerverein sichert Legitimation und Gemeinnützigkeit. Die gGmbH trägt Betrieb, Medien, Bildung und Personal. Eine politisch getrennte Einheit ermöglicht Lobbying und Kampagnen, ohne die Gemeinnützigkeit des Gesamtaufbaus zu gefährden.</p>
+            </details>
         </div>
         </div>
 
