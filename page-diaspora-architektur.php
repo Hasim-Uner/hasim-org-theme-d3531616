@@ -169,8 +169,10 @@ get_header();
                 Gegenentwurf zum Staat, sondern sein <em>gleichberechtigter Pol</em> —
                 aufgebaut auf Vielfalt, offenen Identitäten und Pluralismus,
                 wo der Staat auf Homogenität, Zentralisierung und Assimilation setzt.
-                Öcalan lehnt einen Staat ohne Demokratie genauso ab wie Demokratie
-                ohne jede staatliche Ordnung. Beide Pole brauchen einander — und
+                Er lehnt somit einen Staat ohne Demokratie genauso ab wie die
+                Vorstellung, man könne eine funktionierende Demokratie der Gesellschaft
+                komplett ohne die Existenz eines Staates (zumindest in einer
+                Übergangsphase) erzwingen. Beide Pole brauchen einander — und
                 eine verfassungsmäßige Grundlage, die die demokratische Gesellschaft
                 als eigenständigen Akteur schützt. In den Herkunftsregionen muss
                 dieser Rahmen erst erkämpft werden. In Deutschland existiert er
