@@ -291,7 +291,6 @@ get_header();
         <p class="da-leitfrage da-reveal">Die Leitfrage an uns:</p>
         <p class="da-leitfrage-text da-reveal">Wir wissen, was wir sein wollen — frei, dezentral, demokratisch. Richten wir unsere Struktur danach aus, so konsequent wie die Rose?</p>
 
-        <p class="da-rose-transition da-reveal">Und wir?</p>
     </div>
 </section>
 
