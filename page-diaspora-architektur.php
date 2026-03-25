@@ -314,8 +314,9 @@ get_header();
             <div class="da-freiheit__side da-freiheit__side--chaos da-reveal da-reveal--left">
                 <p class="da-freiheit__side-label">Freiheit ohne Struktur</p>
                 <p class="da-freiheit__chaos-desc">
-                    Informelle Machtkonzentration. Wenige tragen alles. Engagement brennt aus.
-                    Entscheidungen sind undurchsichtig. Konflikte werden nicht gelöst, sondern verschoben.
+                    Wo tragfähige Struktur fehlt, konzentriert sich Verantwortung oft informell
+                    auf wenige. Das erhöht die Belastung, erschwert transparente Entscheidungen
+                    und verschiebt Konflikte eher, als sie zu klären.
                 </p>
                 <div class="da-freiheit__chaos-nodes" aria-hidden="true">
                     <span class="da-freiheit__chaos-node"></span>
@@ -371,7 +372,7 @@ get_header();
                 <span class="da-freiheit__rose-check-eq">=?</span>
                 <div class="da-freiheit__rose-check-card">
                     <p class="da-freiheit__rose-check-card-label">Wie wir strukturiert sind</p>
-                    <p class="da-freiheit__rose-check-card-body">Rhythmus? Rollen? Routinen? Oder informell, reaktiv, überlastet?</p>
+                    <p class="da-freiheit__rose-check-card-body">Rhythmus? Rollen? Routinen? Oder sind unsere Strukturen noch zu oft informell und reaktiv organisiert?</p>
                 </div>
             </div>
         </div>
@@ -389,7 +390,7 @@ get_header();
         <div class="da-section-header da-reveal">
             <p class="da-section-number">Konzept 02</p>
             <h2 class="da-section-title">Integrierte Intelligenz</h2>
-            <p class="da-section-sub">Die Bewegung hat Mut und Empathie — aber zu wenig systematische Analytik. Diese Lücke ist die zentrale Verwundbarkeit.</p>
+            <p class="da-section-sub">Die Bewegung hat Mut und Empathie. Im Bereich systematischer Analytik besteht jedoch noch deutlicher Entwicklungsbedarf. Genau hier liegt eine strategische Aufgabe.</p>
         </div>
 
         <!-- DER ANDERE POL -->
@@ -425,19 +426,19 @@ get_header();
                 <span class="da-intelligenz__pole-arrow">←→</span>
             </div>
 
-            <div class="da-intelligenz__pole da-intelligenz__pole--gesellschaft da-reveal da-reveal--right" data-detail="luecke" tabindex="0" role="button" aria-label="Detail: Die Lücke — Warum wir noch nicht ebenbürtig sind">
+            <div class="da-intelligenz__pole da-intelligenz__pole--gesellschaft da-reveal da-reveal--right" data-detail="luecke" tabindex="0" role="button" aria-label="Detail: Der Entwicklungsauftrag — Was noch aufzubauen ist">
                 <p class="da-intelligenz__pole-label">Demokratische Gesellschaft</p>
                 <ul class="da-intelligenz__pole-list">
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Organisiert?</li>
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Analytisch?</li>
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Professionell?</li>
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Institutionell?</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Organisation im Aufbau</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Analytik im Ausbau</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Professionalität im Aufbau</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Institutionell zu verankern</li>
                 </ul>
                 <ul class="da-intelligenz__pole-list da-intelligenz__pole-list--tools">
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Lagebilder</li>
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Strategien</li>
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Kontinuität</li>
-                    <li><span class="da-pole-question" aria-label="offen">?</span> Infrastruktur</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Lagebilder punktuell</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Strategien zu systematisieren</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Kontinuität ausbaufähig</li>
+                    <li><span class="da-pole-question" aria-hidden="true">↗</span> Infrastruktur aufzubauen</li>
                 </ul>
             </div>
         </div>
@@ -446,8 +447,8 @@ get_header();
         <div class="da-intelligenz__weapon da-reveal" data-detail="waffe" tabindex="0" role="button" aria-label="Detail: Augenhöhe — Integrierte Intelligenz">
             <p class="da-intelligenz__weapon-label">Augenhöhe</p>
             <h3 class="da-intelligenz__weapon-title">Integrierte Intelligenz</h3>
-            <p class="da-intelligenz__weapon-desc">Analytik, geführt von emotionaler Intelligenz. Nicht Verstand gegen Gefühl — sondern die gleiche Schärfe, verbunden mit dem, was der Staat nicht hat: Menschlichkeit.</p>
-            <p class="da-intelligenz__weapon-note">Der Staat hat analytische Methoden — aber keine Empathie. Wir haben Empathie — aber zu wenig analytische Methoden. Integrierte Intelligenz schließt beides: Augenhöhe plus Menschlichkeit.</p>
+            <p class="da-intelligenz__weapon-desc">Analytik, geführt von emotionaler Intelligenz. Nicht Verstand gegen Gefühl — sondern dieselbe Schärfe in der Analyse, verbunden mit Menschlichkeit.</p>
+            <p class="da-intelligenz__weapon-note">Mut und Empathie sind da. Was systematischer entwickelt werden muss, ist die analytische Methode. Integrierte Intelligenz verbindet beides: Augenhöhe plus Menschlichkeit.</p>
         </div>
 
         <!-- Werkzeuge -->
@@ -671,13 +672,11 @@ get_header();
         </div>
 
         <blockquote class="da-mediale__intro da-reveal">
-            Der Staat hat Medienarchitektur. Wir brauchen unsere eigene.
-            Alles, was du auf dieser Seite siehst, läuft auf eigenen Servern.
-            Eigene Daten. Kein Tracking.
-            Keine Abhängigkeit von Plattformen, die morgen
-            entscheiden können, uns abzuschalten.
-            Mediale Architektur ist keine Technikfrage —
-            sie ist die Voraussetzung für Augenhöhe.
+            Der Staat verfügt über Medienarchitektur. Wir müssen unsere eigene aufbauen.
+            Alles, was du auf dieser Seite siehst, läuft auf eigenen Servern: eigene Daten,
+            kein Tracking, größtmögliche Unabhängigkeit von Plattformen Dritter.
+            Mediale Architektur ist keine Technikfrage, sondern eine Voraussetzung
+            für Handlungsfähigkeit auf Augenhöhe.
         </blockquote>
 
         <!-- Schichtmodell: Das digitale Ökosystem -->
@@ -719,9 +718,10 @@ get_header();
             <article class="da-module-card da-reveal">
                 <span class="da-module-icon" aria-hidden="true">◉</span>
                 <h3>Newsroom</h3>
-                <p>Eigene Stimme, eigene Begriffe. Keine Abhängigkeit von Plattformen,
-                   die morgen entscheiden können, uns abzuschalten. Abgestimmte
-                   Bild- und Sprachlinie. Krisenkommunikationsprotokoll.</p>
+                <p>Eigene Stimme, eigene Begriffe. Abhängigkeit von Plattformen Dritter
+                   bleibt immer ein strukturelles Risiko. Deshalb brauchen wir eine
+                   abgestimmte Bild- und Sprachlinie sowie klare Protokolle für
+                   Krisenkommunikation.</p>
                 <div class="da-module-card__actions">
                     <button class="da-module-card__action" data-detail="newsroom_med" type="button">Details öffnen</button>
                 </div>
@@ -817,11 +817,11 @@ get_header();
             </div>
             <div class="da-schluss__principle da-reveal">
                 <p class="da-schluss__principle-title">Demokratische Gesellschaft als gleichberechtigter Pol</p>
-                <p class="da-schluss__principle-desc">Der Staat verschwindet nicht — aber eine organisierte Gesellschaft kann ihm als eigenständige institutionelle Kraft gegenübertreten. Auf Augenhöhe. Mit derselben Professionalität. Und mit dem, was er nicht hat.</p>
+                <p class="da-schluss__principle-desc">Der Staat verschwindet nicht — aber eine organisierte Gesellschaft kann ihm als eigenständige institutionelle Kraft gegenübertreten. Auf Augenhöhe. Professionell, legitimiert und menschlich.</p>
             </div>
             <div class="da-schluss__principle da-reveal">
                 <p class="da-schluss__principle-title">Integrierte Intelligenz als Grundlage</p>
-                <p class="da-schluss__principle-desc">Die Vereinigung von Analytik und emotionaler Intelligenz ist die Voraussetzung für Augenhöhe — dieselbe Schärfe wie der Staat, verbunden mit dem, was er strukturell nicht kann.</p>
+                <p class="da-schluss__principle-desc">Die Verbindung von Analytik und emotionaler Intelligenz ist eine zentrale Voraussetzung für Augenhöhe — dieselbe Schärfe in der Analyse, verbunden mit Menschlichkeit, Beziehungsfähigkeit und gesellschaftlicher Verantwortung.</p>
             </div>
         </div>
 

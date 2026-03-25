@@ -76,15 +76,15 @@
         /* Intelligenz — Blocks */
         system: {
             title: 'Der andere Pol — Staat als institutionelle Realität',
-            body: 'Der Staat ist kein Feind, den es zu besiegen gilt — er ist der andere Pol, der das politische Spiel bereits professionell spielt. Er hat Lagebilder, Strategiepapiere, institutionelle Kontinuität, analytische Infrastruktur und mediale Reichweite. Die Frage ist nicht, ob wir ihn abschaffen — das ist unrealistisch. Die Frage ist: Können wir ihm als eigenständige, ebenbürtige institutionelle Kraft gegenübertreten? Das geht nur, wenn wir das Spiel mindestens genauso professionell spielen — mit derselben methodischen Strenge, aber verbunden mit dem, was der Staat strukturell nicht kann: Empathie, Gemeinschaftssinn, demokratische Legitimation von unten.'
+            body: 'Der Staat ist kein Feind, den es zu besiegen gilt — er ist der andere Pol, der das politische Spiel bereits professionell spielt. Er hat Lagebilder, Strategiepapiere, institutionelle Kontinuität, analytische Infrastruktur und mediale Reichweite. Die Frage ist nicht, ob wir ihn abschaffen — das ist unrealistisch. Die Frage ist: Können wir ihm als eigenständige, ebenbürtige institutionelle Kraft gegenübertreten? Das geht nur, wenn wir das Spiel mindestens genauso professionell spielen — mit derselben methodischen Strenge, verbunden mit Menschlichkeit, Gemeinschaftssinn und demokratischer Legitimation von unten.'
         },
         luecke: {
-            title: 'Die Lücke — Warum wir noch nicht ebenbürtig sind',
-            body: 'Der Staat hat Lagebilder — wir nicht. Der Staat hat systematische Auswertung — wir nicht. Der Staat hat institutionelle Kontinuität — wir haben Überlastung Einzelner. Der Staat hat mediale Infrastruktur — wir nutzen Plattformen Dritter. Diese Lücke ist keine moralische Schwäche — es ist ein Professionalisierungsdefizit. Und es ist die zentrale Frage: Spielen wir das Spiel auf dem gleichen Niveau, oder bleiben wir auf der Ebene von Appellen, Reaktionen und spontaner Mobilisierung?'
+            title: 'Der Entwicklungsauftrag — Was noch aufzubauen ist',
+            body: 'Vieles ist vorhanden, aber noch nicht hinreichend verstetigt: Lagebilder entstehen punktuell, Strategien sind oft noch nicht systematisiert, institutionelle Kontinuität ist ausbaufähig und mediale Infrastruktur muss weiter aufgebaut werden. Das ist keine moralische Schwäche, sondern ein Organisationsauftrag. Die strategische Frage lautet: Wie entwickeln wir Professionalität, Analytik und Infrastruktur so weit, dass die demokratische Gesellschaft dauerhaft auf Augenhöhe handeln kann?'
         },
         waffe: {
             title: 'Augenhöhe — Integrierte Intelligenz',
-            body: 'Der Staat hat analytische Methoden, aber keine Empathie. Wir haben Empathie, aber zu wenig analytische Methoden. Integrierte Intelligenz schließt beides: dieselbe Schärfe in der Analyse, dieselbe Professionalität in der Methode — verbunden mit emotionaler Intelligenz, Würde und Gemeinschaftssinn. Das Ergebnis ist nicht Gegnerschaft, sondern Augenhöhe plus Menschlichkeit. Erst wenn wir das Spiel genauso gut spielen, können wir den zweiten Pol bilden, der die Reichweite des Staates begrenzt.'
+            body: 'Die Bewegung hat Mut und Empathie. Was systematischer entwickelt werden muss, ist die analytische Methode. Integrierte Intelligenz verbindet beides: dieselbe Schärfe in der Analyse, dieselbe Professionalität in der Methode — verbunden mit emotionaler Intelligenz, Würde und gesellschaftlicher Verantwortung. Das Ergebnis ist nicht Gegnerschaft, sondern Augenhöhe plus Menschlichkeit.'
         },
         lagebilder: {
             title: 'Lagebilder',
@@ -110,7 +110,7 @@
         },
         prueffrage: {
             title: 'Die Prüffrage',
-            body: 'Sind wir das, was wir zu sein glauben? Wir sagen: Wir sind dezentral, frei, demokratisch. Aber haben wir die Strukturen, die das tragen? Klare Rollen, verlässliche Rhythmen, einfache Routinen? Oder läuft vieles informell, an Einzelnen, reaktiv? Die Rose schließt diese Lücke durch innere Ordnung. Das ist unser Auftrag: Nicht nur wissen, was wir sein wollen — sondern die Struktur danach bauen.'
+            body: 'Sind wir das, was wir zu sein glauben? Wir sagen: Wir sind dezentral, frei, demokratisch. Aber tragen unsere Strukturen das bereits zuverlässig? Klare Rollen, verlässliche Rhythmen, einfache Routinen? Oder sind unsere Strukturen noch zu oft informell und reaktiv organisiert? Die Rose schließt diese Lücke durch innere Ordnung. Das ist unser Auftrag: Nicht nur wissen, was wir sein wollen — sondern die Struktur danach bauen.'
         },
 
         /* Rat — Infrastruktur */
@@ -156,7 +156,7 @@
         /* Konzept 04 — Module */
         newsroom_med: {
             title: 'Modul: Newsroom',
-            body: 'Eigene Stimme, eigene Begriffe, eigene Prioritäten. Kein Outsourcing an Social-Media-Plattformen, die Reichweite nach Algorithmus verteilen. Ein Newsroom auf eigener Infrastruktur bedeutet: Wir entscheiden, was sichtbar wird. Nicht Meta, nicht X, nicht Google.'
+            body: 'Eigene Stimme, eigene Begriffe, eigene Prioritäten. Abhängigkeit von Plattformen Dritter bleibt ein strukturelles Risiko, weil Sichtbarkeit dort nie vollständig in eigener Hand liegt. Ein Newsroom auf eigener Infrastruktur schafft Kontinuität: klare Bild- und Sprachlinie, verlässliche Veröffentlichungspfade und definierte Protokolle für Krisenkommunikation.'
         },
         wissensgraph_med: {
             title: 'Modul: Wissensgraph',
