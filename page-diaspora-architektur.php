@@ -282,7 +282,7 @@ get_header();
         </figure>
 
         <blockquote class="da-quote-block da-reveal" data-detail="rose" tabindex="0" role="button" aria-label="Detail: Die Rose">
-            Die Rose weiß, dass sie schön ist. Deshalb richtet sie ihre innere Struktur danach aus — konsequent, bewusst, ohne Kompromiss.
+            Die Rose weiß, was sie ist. Und weil sie schön sein will, richtet sie ihre innere Struktur danach aus — konsequent, bewusst, ohne Kompromiss.
         </blockquote>
 
         <p class="da-leitfrage da-reveal">Die Leitfrage an uns:</p>

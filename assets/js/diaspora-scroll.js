@@ -105,7 +105,7 @@
         /* Rose */
         rose: {
             title: 'Die Rose — Warum innere Struktur zählt',
-            body: 'Die Rose weiß, dass sie schön ist. Und genau deshalb richtet sie ihre innere Struktur danach aus — Duft, Form, Farbe, Stabilität sind bewusste Arbeit, kein Zufall. Übertragen auf uns: Wir wissen, was wir sein wollen — frei, dezentral, demokratisch, selbstorganisiert. Die Frage ist nicht, ob wir das glauben. Die Frage ist, ob unsere innere Struktur dem entspricht. Organisation ist der Akt, die Differenz zwischen Anspruch und Wirklichkeit zu schließen. So konsequent, wie die Rose es tut.'
+            body: 'Die Rose weiß, was sie ist. Und weil sie schön sein will, richtet sie ihre innere Struktur danach aus — Duft, Form, Farbe, Stabilität sind bewusste Arbeit, kein Zufall. Übertragen auf uns: Wir wissen, was wir sein wollen — frei, dezentral, demokratisch, selbstorganisiert. Die Frage ist nicht, ob wir das glauben. Die Frage ist, ob unsere innere Struktur dem entspricht. Organisation ist der Akt, die Differenz zwischen Anspruch und Wirklichkeit zu schließen. So konsequent, wie die Rose es tut.'
         },
         prueffrage: {
             title: 'Die Prüffrage',
