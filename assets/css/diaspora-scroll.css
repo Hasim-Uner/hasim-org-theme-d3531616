@@ -2008,15 +2008,37 @@ body.da-page-active {
    ========================================= */
 
 .da-rose-figure {
+    position: relative;
     max-width: clamp(240px, 30vw, 340px);
     margin: 0 auto 3.5rem;
 }
 
-.da-rose-svg {
+.da-rose-real-img {
     display: block;
     width: 100%;
     height: auto;
+    border-radius: 50%;
+    opacity: 0.35;
+    mask-image: radial-gradient(circle, black 50%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle, black 50%, transparent 75%);
+    transition: opacity 1.2s ease;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.da-rose-figure:hover .da-rose-real-img {
+    opacity: 0.55;
+}
+
+.da-rose-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
     overflow: visible;
+    z-index: 1;
 }
 
 /* Petals animate first (0ms delay) */
