@@ -1,0 +1,184 @@
+/**
+ * Hasimuener Journal — Votes CSS Styles
+ *
+ * Styles for Like/Dislike voting system.
+ * Clean, accessible design with smooth transitions.
+ *
+ * @package Hasimuener_Journal
+ * @version 1.0.0
+ */
+
+.hp-vote-container {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 1rem 0;
+}
+
+.hp-vote-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	background: #fff;
+	color: #666;
+	text-decoration: none;
+	font-size: 0.875rem;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.hp-vote-btn:hover {
+	border-color: #ccc;
+	background: #f8f9fa;
+	color: #333;
+}
+
+.hp-vote-btn:focus {
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.hp-vote-btn.active {
+	border-color: transparent;
+	color: #fff;
+}
+
+.hp-vote-btn--like.active {
+	background: #28a745;
+}
+
+.hp-vote-btn--like:hover:not(.active) {
+	border-color: #28a745;
+	color: #28a745;
+}
+
+.hp-vote-btn--dislike.active {
+	background: #dc3545;
+}
+
+.hp-vote-btn--dislike:hover:not(.active) {
+	border-color: #dc3545;
+	color: #dc3545;
+}
+
+.hp-vote-btn.processing {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.hp-vote-count {
+	min-width: 1.5rem;
+	text-align: center;
+	font-weight: 600;
+	color: #495057;
+}
+
+.hp-vote-likes {
+	color: #28a745;
+}
+
+.hp-vote-dislikes {
+	color: #dc3545;
+}
+
+.hp-vote-spinner {
+	display: none;
+	width: 12px;
+	height: 12px;
+	border: 2px solid transparent;
+	border-top: 2px solid currentColor;
+	border-radius: 50%;
+	animation: hp-vote-spin 1s linear infinite;
+}
+
+.hp-vote-btn.processing .hp-vote-spinner {
+	display: block;
+}
+
+@keyframes hp-vote-spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.hp-vote-feedback {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	padding: 0.75rem 1rem;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 0.875rem;
+	font-weight: 500;
+	z-index: 10000;
+	opacity: 0;
+	transform: translateY(-1rem);
+	transition: all 0.3s ease;
+}
+
+.hp-vote-feedback.show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.hp-vote-feedback--success {
+	background: #28a745;
+}
+
+.hp-vote-feedback--error {
+	background: #dc3545;
+}
+
+/* Archive view specific styles */
+.hp-vote-container--archive {
+	margin: 0.5rem 0;
+	justify-content: flex-start;
+}
+
+.hp-vote-container--archive .hp-vote-btn {
+	padding: 0.25rem 0.5rem;
+	font-size: 0.75rem;
+}
+
+.hp-vote-container--archive .hp-vote-count {
+	font-size: 0.75rem;
+	min-width: 1.25rem;
+}
+
+/* Single view specific styles */
+.hp-vote-container--single {
+	margin: 1.5rem 0;
+	justify-content: flex-start;
+}
+
+.hp-vote-container--single .hp-vote-btn {
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+}
+
+.hp-vote-container--single .hp-vote-count {
+	font-size: 1.125rem;
+	min-width: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+	.hp-vote-container {
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	
+	.hp-vote-container--single {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	
+	.hp-vote-container--single .hp-vote-btn {
+		width: 100%;
+		justify-content: center;
+	}
+}
