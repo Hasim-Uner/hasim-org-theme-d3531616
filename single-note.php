@@ -35,6 +35,9 @@ get_header(); ?>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
+
+    <!-- Vote-Buttons -->
+    <?php echo hp_get_vote_buttons( get_the_ID() ); ?>
 </header>
 
 <article class="single-body" aria-label="<?php the_title_attribute(); ?>">

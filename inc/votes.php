@@ -35,6 +35,17 @@ function hp_votes_create_table(): void {
 }
 add_action( 'after_switch_theme', 'hp_votes_create_table' );
 
+// Prüft bei jedem Seitenaufruf, ob die Tabelle existiert
+add_action( 'init', function() {
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'hp_votes';
+	
+	// Prüfe ob Tabelle existiert
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) != $table_name ) {
+		hp_votes_create_table();
+	}
+} );
+
 /**
  * Verarbeitet einen Vote und gibt das Ergebnis zurück.
  *
@@ -107,7 +118,7 @@ function hp_process_vote( int $post_id, string $vote_type ): array {
  * @param int $post_id Post ID
  * @return bool|WP_Error True wenn möglich, sonst Error
  */
-function hp_can_user_vote( int $post_id ): bool|WP_Error {
+function hp_can_user_vote( int $post_id ) {
 	global $wpdb;
 
 	$user_id = get_current_user_id();
