@@ -59,8 +59,6 @@ get_header(); ?>
                     </ul>
                 <?php endif; ?>
 
-                <!-- Vote-Buttons -->
-                <?php echo hp_get_vote_buttons( get_the_ID() ); ?>
             </div>
 
             <?php
@@ -136,6 +134,12 @@ get_header(); ?>
             <!-- Artikel-Fußzeile -->
             <footer class="essay-footer">
                 <hr class="journal-rule" aria-hidden="true">
+
+                <!-- Bewertung -->
+                <div class="hp-vote-section">
+                    <p class="hp-vote-question">Hat es dir gefallen?</p>
+                    <?php echo hp_get_vote_buttons( get_the_ID() ); ?>
+                </div>
 
                 <!-- Teilen -->
                 <?php

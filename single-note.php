@@ -36,14 +36,18 @@ get_header(); ?>
         </ul>
     <?php endif; ?>
 
-    <!-- Vote-Buttons -->
-    <?php echo hp_get_vote_buttons( get_the_ID() ); ?>
 </header>
 
 <article class="single-body" aria-label="<?php the_title_attribute(); ?>">
 
     <div class="prose">
         <?php the_content(); ?>
+    </div>
+
+    <!-- Bewertung -->
+    <div class="hp-vote-section">
+        <p class="hp-vote-question">Hat es dir gefallen?</p>
+        <?php echo hp_get_vote_buttons( get_the_ID() ); ?>
     </div>
 
 </article>
