@@ -179,8 +179,17 @@ function hp_get_meta_description(): string {
 		return 'Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft – mit dem Versuch, Verständigung zwischen Perspektiven offenzuhalten.';
 	}
 
-	if ( is_singular() ) {
+	if ( is_front_page() || is_home() ) {
+		$desc = get_bloginfo( 'description' );
+
+		if ( ! $desc ) {
+			$desc = 'Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft.';
+		}
+	} elseif ( is_singular() ) {
 		$post = get_queried_object();
+		if ( ! ( $post instanceof WP_Post ) ) {
+			return '';
+		}
 
 		// 1. Manuelles Feld
 		$custom = get_post_meta( $post->ID, '_hp_meta_description', true );
@@ -195,8 +204,6 @@ function hp_get_meta_description(): string {
 		else {
 			$desc = wp_trim_words( wp_strip_all_tags( $post->post_content ), 25, ' …' );
 		}
-	} elseif ( is_front_page() || is_home() ) {
-		$desc = get_bloginfo( 'description' );
 	} elseif ( is_post_type_archive() ) {
 		$obj = get_queried_object();
 		if ( $obj && ! empty( $obj->description ) ) {
@@ -205,6 +212,10 @@ function hp_get_meta_description(): string {
 	} elseif ( is_tax() || is_category() || is_tag() ) {
 		$desc = term_description();
 		$desc = wp_strip_all_tags( $desc );
+	}
+
+	if ( ! $desc ) {
+		$desc = 'Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft.';
 	}
 
 	// Auf 160 Zeichen begrenzen
@@ -237,7 +248,8 @@ function hp_output_seo_meta_tags(): void {
 	$url       = hp_get_current_url();
 	$site_name = get_bloginfo( 'name' );
 	$locale    = get_locale();
-	$image     = hp_get_seo_image();
+	$image_data = hp_get_seo_image_data();
+	$image      = $image_data['url'] ?? null;
 
 	echo "\n<!-- Haşim Üner: SEO-Meta -->\n";
 
@@ -259,7 +271,7 @@ function hp_output_seo_meta_tags(): void {
 		printf( '<meta property="og:description" content="%s" />' . "\n", esc_attr( $desc ) );
 	}
 
-	if ( is_singular() ) {
+	if ( hp_is_social_article_context() ) {
 		echo '<meta property="og:type" content="article" />' . "\n";
 		printf(
 			'<meta property="article:published_time" content="%s" />' . "\n",
@@ -275,23 +287,27 @@ function hp_output_seo_meta_tags(): void {
 
 	if ( $image ) {
 		printf( '<meta property="og:image" content="%s" />' . "\n", esc_url( $image ) );
+		printf( '<meta property="og:image:secure_url" content="%s" />' . "\n", esc_url( $image ) );
 
-		// OG-Image-Dimensionen für korrektes Social-Preview beim Erstshare
-		if ( is_singular() ) {
-			$img_id = get_post_thumbnail_id();
-			if ( $img_id ) {
-				$img_meta = wp_get_attachment_image_src( $img_id, 'large' );
-				if ( $img_meta ) {
-					printf( '<meta property="og:image:width" content="%d" />' . "\n", $img_meta[1] );
-					printf( '<meta property="og:image:height" content="%d" />' . "\n", $img_meta[2] );
-				}
-			}
+		if ( ! empty( $image_data['type'] ) ) {
+			printf( '<meta property="og:image:type" content="%s" />' . "\n", esc_attr( $image_data['type'] ) );
 		}
 
-		printf( '<meta property="og:image:alt" content="%s" />' . "\n", esc_attr( $title ) );
+		if ( ! empty( $image_data['width'] ) ) {
+			printf( '<meta property="og:image:width" content="%d" />' . "\n", (int) $image_data['width'] );
+		}
+
+		if ( ! empty( $image_data['height'] ) ) {
+			printf( '<meta property="og:image:height" content="%d" />' . "\n", (int) $image_data['height'] );
+		}
+
+		printf(
+			'<meta property="og:image:alt" content="%s" />' . "\n",
+			esc_attr( $image_data['alt'] ?? $title )
+		);
 	}
 
-	if ( is_singular() ) {
+	if ( hp_is_social_article_context() ) {
 		echo '<meta property="article:author" content="Haşim Üner" />' . "\n";
 	}
 
@@ -307,6 +323,10 @@ function hp_output_seo_meta_tags(): void {
 
 	if ( $image ) {
 		printf( '<meta name="twitter:image" content="%s" />' . "\n", esc_url( $image ) );
+
+		if ( ! empty( $image_data['alt'] ) ) {
+			printf( '<meta name="twitter:image:alt" content="%s" />' . "\n", esc_attr( $image_data['alt'] ) );
+		}
 	}
 }
 add_action( 'wp_head', 'hp_output_seo_meta_tags', 3 );
@@ -314,6 +334,79 @@ add_action( 'wp_head', 'hp_output_seo_meta_tags', 3 );
 /* =========================================
    5. HILFSFUNKTIONEN
    ========================================= */
+
+/**
+ * Bestimmt, ob Social-Meta als Artikel und nicht als Website laufen soll.
+ *
+ * Pages wie Startseite, Mission oder Impressum sollen nicht als Article
+ * ausgezeichnet werden. Essays, Notes und klassische Posts schon.
+ *
+ * @return bool
+ */
+function hp_is_social_article_context(): bool {
+	return is_singular( [ 'essay', 'note', 'post' ] );
+}
+
+/**
+ * Liefert die Post-ID des Hero-Essays auf der Startseite.
+ *
+ * @return int
+ */
+function hp_get_front_page_hero_post_id(): int {
+	static $post_id = null;
+
+	if ( null !== $post_id ) {
+		return $post_id;
+	}
+
+	$post_ids = get_posts(
+		[
+			'post_type'           => 'essay',
+			'posts_per_page'      => 1,
+			'post_status'         => 'publish',
+			'fields'              => 'ids',
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+			'no_found_rows'       => true,
+			'ignore_sticky_posts' => true,
+		]
+	);
+
+	$post_id = ! empty( $post_ids[0] ) ? (int) $post_ids[0] : 0;
+
+	return $post_id;
+}
+
+/**
+ * Liefert vollständige Social-Metadaten für ein Attachment-Bild.
+ *
+ * @param int          $attachment_id Attachment-ID.
+ * @param string|int[] $size          Bildgröße.
+ * @return array<string, int|string>|null
+ */
+function hp_get_attachment_social_image_data( int $attachment_id, $size = 'full' ): ?array {
+	if ( $attachment_id <= 0 ) {
+		return null;
+	}
+
+	$image = wp_get_attachment_image_src( $attachment_id, $size );
+	if ( ! $image || empty( $image[0] ) ) {
+		return null;
+	}
+
+	$alt = trim( (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
+	if ( ! $alt ) {
+		$alt = get_the_title( $attachment_id );
+	}
+
+	return [
+		'url'    => $image[0],
+		'width'  => ! empty( $image[1] ) ? (int) $image[1] : 0,
+		'height' => ! empty( $image[2] ) ? (int) $image[2] : 0,
+		'alt'    => $alt,
+		'type'   => (string) get_post_mime_type( $attachment_id ),
+	];
+}
 
 /**
  * Aktuelle URL sauber ermitteln.
@@ -342,32 +435,93 @@ function hp_get_current_url(): string {
 }
 
 /**
- * Bestes verfügbares Bild für Social-Previews.
+ * Bestes verfügbares Bild für Social-Previews inklusive Metadaten.
  *
- * Reihenfolge: Beitragsbild → erstes Bild im Content → null.
+ * Reihenfolge:
+ * 1. Hero-Essay der Startseite
+ * 2. Beitragsbild des aktuellen Inhalts
+ * 3. Erstes Bild im Content
+ * 4. Site-Icon
+ * 5. Theme-Fallback
  *
- * @return string|null Bild-URL oder null.
+ * @return array<string, int|string>|null
  */
-function hp_get_seo_image(): ?string {
+function hp_get_seo_image_data(): ?array {
+	if ( is_front_page() || is_home() ) {
+		$hero_post_id = hp_get_front_page_hero_post_id();
+
+		if ( $hero_post_id && has_post_thumbnail( $hero_post_id ) ) {
+			$image_data = hp_get_attachment_social_image_data( (int) get_post_thumbnail_id( $hero_post_id ) );
+			if ( $image_data ) {
+				return $image_data;
+			}
+		}
+	}
+
 	if ( is_singular() ) {
 		$post = get_queried_object();
+		if ( ! ( $post instanceof WP_Post ) ) {
+			return null;
+		}
 
 		// Beitragsbild
 		if ( has_post_thumbnail( $post->ID ) ) {
-			$url = get_the_post_thumbnail_url( $post->ID, 'large' );
-			if ( $url ) {
-				return $url;
+			$image_data = hp_get_attachment_social_image_data( (int) get_post_thumbnail_id( $post->ID ) );
+			if ( $image_data ) {
+				return $image_data;
 			}
 		}
 
 		// Erstes Bild im Content als Fallback
 		preg_match( '/<img[^>]+src=["\']([^"\']+)/i', $post->post_content, $matches );
 		if ( ! empty( $matches[1] ) ) {
-			return $matches[1];
+			return [
+				'url' => $matches[1],
+				'alt' => get_the_title( $post ),
+			];
 		}
 	}
 
 	// Site-Icon als letzter Fallback
+	$site_icon_id = (int) get_option( 'site_icon' );
+	if ( $site_icon_id ) {
+		$image_data = hp_get_attachment_social_image_data( $site_icon_id );
+		if ( $image_data ) {
+			return $image_data;
+		}
+	}
+
 	$site_icon = get_site_icon_url( 512 );
-	return $site_icon ?: null;
+	if ( $site_icon ) {
+		return [
+			'url' => $site_icon,
+			'alt' => get_bloginfo( 'name' ),
+		];
+	}
+
+	$fallback_path = get_stylesheet_directory() . '/assets/images/diaspora-rose-realistic.jpg';
+	if ( file_exists( $fallback_path ) ) {
+		$fallback_size = wp_getimagesize( $fallback_path );
+
+		return [
+			'url'    => get_stylesheet_directory_uri() . '/assets/images/diaspora-rose-realistic.jpg',
+			'width'  => ! empty( $fallback_size[0] ) ? (int) $fallback_size[0] : 0,
+			'height' => ! empty( $fallback_size[1] ) ? (int) $fallback_size[1] : 0,
+			'alt'    => get_bloginfo( 'name' ),
+			'type'   => 'image/jpeg',
+		];
+	}
+
+	return null;
+}
+
+/**
+ * Nur die Bild-URL für Rückwärtskompatibilität.
+ *
+ * @return string|null
+ */
+function hp_get_seo_image(): ?string {
+	$image_data = hp_get_seo_image_data();
+
+	return $image_data['url'] ?? null;
 }
