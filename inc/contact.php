@@ -24,7 +24,7 @@ if ( file_exists( $hp_contact_local_config ) ) {
  * Liefert die primäre Kontaktadresse.
  */
 function hp_get_contact_email(): string {
-	return 'hallo@hasimuener.de';
+	return 'hallo@hasimuener.org';
 }
 
 /**

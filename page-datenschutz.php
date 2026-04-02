@@ -37,7 +37,7 @@ get_header(); ?>
             <p>
                 Verantwortlicher im Sinne der DSGVO (Art. 4 Nr. 7):<br>
                 Hasim Üner, Warschauer Str. 5, 30982 Pattensen<br>
-                E-Mail: <a href="mailto:hallo@hasimuener.de">hallo@hasimuener.de</a>
+                E-Mail: <a href="mailto:hallo@hasimuener.org">hallo@hasimuener.org</a>
             </p>
 
             <h2>2. Hosting und Serverprotokolle</h2>
@@ -178,7 +178,7 @@ get_header(); ?>
 
             <p>
                 Anfragen zu diesen Rechten kannst du per E-Mail an
-                <a href="mailto:hallo@hasimuener.de">hallo@hasimuener.de</a> richten.
+                <a href="mailto:hallo@hasimuener.org">hallo@hasimuener.org</a> richten.
                 Du hast außerdem das Recht, dich bei der zuständigen Aufsichtsbehörde zu beschweren.
                 Zuständig ist die Landesbeauftragte für Datenschutz Niedersachsen:
                 <a href="https://lfd.niedersachsen.de" target="_blank" rel="noopener noreferrer">
