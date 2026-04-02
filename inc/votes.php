@@ -230,16 +230,16 @@ function hp_get_vote_buttons( int $post_id ): string {
 	ob_start();
 	?>
 	<div class="hp-vote" data-post-id="<?php echo esc_attr( $post_id ); ?>" data-nonce="<?php echo esc_attr( $nonce ); ?>">
-		<button class="hp-vote-btn hp-vote-like <?php echo $vote_data['user_vote'] === 'like' ? 'hp-vote-active' : ''; ?>" 
-				data-vote-type="like" <?php echo ! $vote_data['can_vote'] ? 'disabled' : ''; ?>>
+		<button class="hp-vote-btn hp-vote-like <?php echo $vote_data['user_vote'] === 'like' ? 'active' : ''; ?>"
+				data-vote-type="like" data-post-id="<?php echo esc_attr( $post_id ); ?>" <?php echo ! $vote_data['can_vote'] ? 'disabled' : ''; ?>>
 			<span class="hp-vote-icon">👍</span>
-			<span class="hp-vote-count"><?php echo esc_html( $vote_data['likes'] ); ?></span>
+			<span class="hp-vote-likes hp-vote-count" data-post-id="<?php echo esc_attr( $post_id ); ?>"><?php echo esc_html( $vote_data['likes'] ); ?></span>
 		</button>
-		
-		<button class="hp-vote-btn hp-vote-dislike <?php echo $vote_data['user_vote'] === 'dislike' ? 'hp-vote-active' : ''; ?>" 
-				data-vote-type="dislike" <?php echo ! $vote_data['can_vote'] ? 'disabled' : ''; ?>>
+
+		<button class="hp-vote-btn hp-vote-dislike <?php echo $vote_data['user_vote'] === 'dislike' ? 'active' : ''; ?>"
+				data-vote-type="dislike" data-post-id="<?php echo esc_attr( $post_id ); ?>" <?php echo ! $vote_data['can_vote'] ? 'disabled' : ''; ?>>
 			<span class="hp-vote-icon">👎</span>
-			<span class="hp-vote-count"><?php echo esc_html( $vote_data['dislikes'] ); ?></span>
+			<span class="hp-vote-dislikes hp-vote-count" data-post-id="<?php echo esc_attr( $post_id ); ?>"><?php echo esc_html( $vote_data['dislikes'] ); ?></span>
 		</button>
 		
 		<?php if ( ! $vote_data['can_vote'] ) : ?>
