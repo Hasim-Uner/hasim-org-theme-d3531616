@@ -112,7 +112,23 @@ $hp_inquiry_options    = hp_get_contact_inquiry_type_options();
 				</div>
 			</aside>
 
-			<section class="hp-contact__form-shell" aria-labelledby="kontakt-formular-title">
+			<section id="kontakt-formular-bereich" class="hp-contact__form-shell" aria-labelledby="kontakt-formular-title">
+			<?php if ( '' !== $hp_contact_message ) : ?>
+				<script>
+				(function() {
+					var id = 'kontakt-formular-bereich';
+					function scrollToForm() {
+						var el = document.getElementById( id );
+						if ( el ) { el.scrollIntoView( { behavior: 'smooth', block: 'start' } ); }
+					}
+					if ( document.readyState === 'loading' ) {
+						document.addEventListener( 'DOMContentLoaded', scrollToForm );
+					} else {
+						scrollToForm();
+					}
+				})();
+				</script>
+			<?php endif; ?>
 				<div class="hp-contact__form-header">
 					<p class="hp-contact__form-eyebrow">Anfragebereich</p>
 					<h2 id="kontakt-formular-title" class="hp-contact__form-title">Anfrage senden</h2>
