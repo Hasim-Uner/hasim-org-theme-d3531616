@@ -1449,6 +1449,22 @@ function hp_render_newsletter_form( array $args = [] ): void {
 	$consent_copy       = hp_get_newsletter_consent_copy();
 ?>
 	<section id="<?php echo esc_attr( $form_id ); ?>" class="<?php echo esc_attr( $section_classes ); ?>" aria-labelledby="<?php echo esc_attr( $form_id . '-title' ); ?>">
+	<?php if ( '' !== $message ) : ?>
+		<script>
+		(function() {
+			var id = <?php echo wp_json_encode( $form_id ); ?>;
+			function scrollToForm() {
+				var el = document.getElementById( id );
+				if ( el ) { el.scrollIntoView( { behavior: 'smooth', block: 'start' } ); }
+			}
+			if ( document.readyState === 'loading' ) {
+				document.addEventListener( 'DOMContentLoaded', scrollToForm );
+			} else {
+				scrollToForm();
+			}
+		})();
+		</script>
+	<?php endif; ?>
 		<div class="hp-newsletter__shell">
 			<div class="hp-newsletter__intro">
 				<p class="hp-newsletter__eyebrow"><?php echo esc_html( (string) $args['eyebrow'] ); ?></p>
