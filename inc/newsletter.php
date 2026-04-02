@@ -37,6 +37,18 @@ function hp_get_newsletter_contact_email(): string {
 }
 
 /**
+ * Versand-Absenderadresse (in Brevo verifiziert).
+ * Vorübergehend hallo@hasimuener.de, bis hasimuener.org in Brevo verifiziert ist.
+ */
+function hp_get_newsletter_sender_email(): string {
+	if ( function_exists( 'hp_get_contact_sender_email' ) ) {
+		return hp_get_contact_sender_email();
+	}
+
+	return 'hallo@hasimuener.de';
+}
+
+/**
  * Zustellungsfreundlicher Absendername.
  */
 function hp_get_newsletter_sender_name(): string {
@@ -955,7 +967,7 @@ function hp_get_newsletter_unsubscribed_text( array $subscriber ): string {
  */
 function hp_send_newsletter_mail( string $to_email, string $subject, string $html_content, string $text_content, array $tags = [] ): bool {
 	$contact_email = hp_get_newsletter_contact_email();
-	$from_header   = 'From: ' . hp_get_newsletter_sender_name() . ' <' . $contact_email . '>';
+	$from_header   = 'From: ' . hp_get_newsletter_sender_name() . ' <' . hp_get_newsletter_sender_email() . '>';
 	$reply_header  = 'Reply-To: ' . hp_get_newsletter_sender_name() . ' <' . $contact_email . '>';
 	$headers       = [
 		'Content-Type: text/html; charset=UTF-8',

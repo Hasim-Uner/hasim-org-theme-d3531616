@@ -28,6 +28,14 @@ function hp_get_contact_email(): string {
 }
 
 /**
+ * Liefert die Versand-Absenderadresse (in Brevo verifiziert).
+ * Vorübergehend hallo@hasimuener.de, bis hasimuener.org in Brevo verifiziert ist.
+ */
+function hp_get_contact_sender_email(): string {
+	return 'hallo@hasimuener.de';
+}
+
+/**
  * Öffentlicher Titel der Kontaktseite.
  */
 function hp_get_contact_page_title(): string {
@@ -512,7 +520,7 @@ function hp_send_contact_autoreply( array $fields ): bool {
 			hp_get_contact_autoreply_html( $fields ),
 			[
 				'Content-Type: text/html; charset=UTF-8',
-				'From: ' . hp_get_contact_mail_sender_name() . ' <' . hp_get_contact_email() . '>',
+				'From: ' . hp_get_contact_mail_sender_name() . ' <' . hp_get_contact_sender_email() . '>',
 				'Reply-To: ' . hp_get_contact_mail_sender_name() . ' <' . hp_get_contact_email() . '>',
 				'Auto-Submitted: auto-replied',
 				'X-Auto-Response-Suppress: All',
@@ -543,10 +551,11 @@ function hp_send_contact_autoreply( array $fields ): bool {
 	}
 
 	$contact_email = hp_get_contact_email();
+	$sender_email  = hp_get_contact_sender_email();
 	$text_body     = hp_get_contact_autoreply_text( $fields );
 	$headers       = [
 		'Content-Type: text/html; charset=UTF-8',
-		'From: ' . hp_get_contact_mail_sender_name() . ' <' . $contact_email . '>',
+		'From: ' . hp_get_contact_mail_sender_name() . ' <' . $sender_email . '>',
 		'Reply-To: ' . hp_get_contact_mail_sender_name() . ' <' . $contact_email . '>',
 		'Auto-Submitted: auto-replied',
 		'X-Auto-Response-Suppress: All',
@@ -614,9 +623,10 @@ function hp_send_contact_notification( array $fields ): bool {
 			'[hasimuener.org] ' . $subject,
 			$mail_body,
 			[
-				'Content-Type: text/plain; charset=UTF-8',
-				'Reply-To: ' . $reply_name . ' <' . $fields['email'] . '>',
-			]
+					'Content-Type: text/plain; charset=UTF-8',
+					'From: ' . hp_get_contact_mail_sender_name() . ' <' . hp_get_contact_sender_email() . '>',
+					'Reply-To: ' . $reply_name . ' <' . $fields['email'] . '>',
+				]
 		);
 
 		if ( $mail_sent ) {
@@ -708,7 +718,7 @@ function hp_send_brevo_transactional_email( array $args ): array {
 	$payload = [
 		'sender'  => [
 			'name'  => hp_get_contact_brevo_sender_name(),
-			'email' => hp_get_contact_email(),
+			'email' => hp_get_contact_sender_email(),
 		],
 		'to'      => [
 			[
