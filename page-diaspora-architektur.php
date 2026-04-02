@@ -27,7 +27,10 @@ remove_action( 'generate_before_header', 'hp_render_journal_header', 5 );
 
 /* -----------------------------------------
    Assets nur auf dieser Seite
+   DEAKTIVIERT 2026-04 — Seite wird nicht mehr aktiv genutzt.
+   Dateien bleiben im Repo für spätere Reaktivierung.
    ----------------------------------------- */
+/*
 add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style(
         'diaspora-scroll',
@@ -54,6 +57,7 @@ add_action( 'wp_enqueue_scripts', function () {
         true
     );
 }, 30 );
+*/
 
 /* -----------------------------------------
    Passwortschutz

@@ -13,6 +13,18 @@
 
 /* =========================================
    0. FONTS (selbstgehostet, latin-ext)
+
+   ⚠️ HINWEIS (2026-04): Die Schriften Outfit und Figtree
+   sind NICHT im /fonts/ Verzeichnis vorhanden. Nur
+   Merriweather-Dateien existieren dort. Aktuell greifen
+   alle Stellen, die Outfit/Figtree referenzieren, auf
+   System-Font-Fallbacks zurück.
+
+   TODO: Entweder die Font-Dateien (Outfit-SemiBold.woff2,
+   Figtree-Regular.woff2, Figtree-Medium.woff2) beschaffen
+   und in /fonts/ ablegen, oder diese @font-face Blöcke
+   entfernen und alle CSS-Referenzen auf vorhandene
+   Theme-Tokens (--hj-serif, --hj-sans) umstellen.
    ========================================= */
 
 @font-face {

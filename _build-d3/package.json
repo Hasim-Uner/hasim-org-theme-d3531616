@@ -1,0 +1,19 @@
+{
+  "name": "d3-custom-bundle",
+  "private": true,
+  "type": "module",
+  "description": "Einmaliger Build: Custom D3-Bundle mit nur den benötigten Modulen",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs"
+  },
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "d3-drag": "^3.0.0",
+    "d3-force": "^3.0.0",
+    "d3-scale": "^4.0.2",
+    "d3-selection": "^3.0.0",
+    "d3-zoom": "^3.0.0",
+    "rollup": "^4.60.1"
+  }
+}

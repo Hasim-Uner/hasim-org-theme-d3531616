@@ -6,10 +6,12 @@
  * Preload für kritische Ressourcen (Fonts).
  * Defer für render-blockierende GP-Scripts.
  *
- * Strategie:
+ * Strategie (seit 4.1.0 — Code-Splitting):
  * - Parent-CSS wird explizit eingereiht (korrekte Kaskade).
  * - Child-CSS hängt von Parent + GP-Main ab.
- * - JS nur auf Single-Views (TOC, Footnotes, Share).
+ * - nav.js: global auf allen Seiten (Hamburger, Suche, Header-Scroll).
+ * - journal-single.js: nur auf Singles (TOC, Progress, Footnotes, Share).
+ * - glossar-tooltip.js: nur auf Post-Typen mit Glossar-Auto-Linking.
  * - GP Auto-Enqueue für Child wird dedupliziert.
  *
  * @package Hasimuener_Journal
@@ -30,8 +32,9 @@ defined( 'ABSPATH' ) || exit;
  * - generate-style: GP main.min.css (Haupt-CSS)
  * So ist die Kaskade Parent → GP → Child garantiert.
  */
-function hp_journal_enqueue_styles(): void {
+function hp_journal_enqueue_assets(): void {
 	$theme_version = wp_get_theme()->get( 'Version' );
+	$uri           = get_stylesheet_directory_uri();
 
 	// Parent-Theme — nötig für korrekte CSS-Kaskade
 	wp_enqueue_style(
@@ -44,21 +47,43 @@ function hp_journal_enqueue_styles(): void {
 	// Child-Theme — NACH Parent + GP main.min.css
 	wp_enqueue_style(
 		'hp-journal-style',
-		get_stylesheet_directory_uri() . '/style.css',
+		$uri . '/style.css',
 		[ 'generatepress-style', 'generate-style' ],
 		$theme_version
 	);
 
-	// Journal JS — auf allen Seiten (Header-Nav, Glossar-Tooltips, TOC, Share etc.)
+	// 1. Global: Navigation JS (Hamburger, Suche, Header-Scroll)
 	wp_enqueue_script(
-		'hp-journal-js',
-		get_stylesheet_directory_uri() . '/assets/js/journal.js',
+		'hp-nav-js',
+		$uri . '/assets/js/nav.js',
 		[],
 		$theme_version,
 		true
 	);
+
+	// 2. Singles: TOC, Reading-Progress, Footnotes, Share
+	if ( is_singular( [ 'essay', 'note', 'post' ] ) ) {
+		wp_enqueue_script(
+			'hp-journal-single',
+			$uri . '/assets/js/journal-single.js',
+			[],
+			$theme_version,
+			true
+		);
+	}
+
+	// 3. Glossar-Tooltips: nur auf Post-Typen mit Glossar-Auto-Linking
+	if ( is_singular( [ 'essay', 'note', 'post' ] ) ) {
+		wp_enqueue_script(
+			'hp-glossar-tooltip',
+			$uri . '/assets/js/glossar-tooltip.js',
+			[],
+			$theme_version,
+			true
+		);
+	}
 }
-add_action( 'wp_enqueue_scripts', 'hp_journal_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'hp_journal_enqueue_assets' );
 
 /* -----------------------------------------
    Duplikat-Bereinigung

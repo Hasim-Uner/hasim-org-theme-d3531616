@@ -353,6 +353,10 @@ add_action( 'created_topic', 'hp_graph_flush_cache_on_topic' );
  * Lädt D3.js und graph.js nur auf der Graph-Seite.
  * Graph-Daten werden direkt als Inline-JSON eingebettet —
  * kein REST-Aufruf nötig.
+ *
+ * Seit 4.1.0: Custom-D3-Bundle (d3-custom.min.js, ~71 KB)
+ * statt vollem D3 (d3.min.js, ~273 KB). Nur d3-selection,
+ * d3-scale, d3-zoom, d3-drag, d3-force enthalten.
  */
 function hp_graph_enqueue_assets(): void {
 	if ( ! is_page( 'wissensgraph' ) ) {
@@ -360,15 +364,15 @@ function hp_graph_enqueue_assets(): void {
 	}
 
 	$theme_version = wp_get_theme()->get( 'Version' );
-	$d3_path       = get_stylesheet_directory() . '/assets/js/d3.min.js';
+	$d3_path       = get_stylesheet_directory() . '/assets/js/d3-custom.min.js';
 	$graph_path    = get_stylesheet_directory() . '/assets/js/graph.js';
 	$d3_version    = file_exists( $d3_path ) ? (string) filemtime( $d3_path ) : $theme_version;
 	$graph_version = file_exists( $graph_path ) ? (string) filemtime( $graph_path ) : $theme_version;
 
-	// D3.js lokal aus dem Theme laden
+	// D3.js Custom-Bundle (nur genutzte Module) lokal aus dem Theme laden
 	wp_enqueue_script(
 		'hp-d3',
-		get_stylesheet_directory_uri() . '/assets/js/d3.min.js',
+		get_stylesheet_directory_uri() . '/assets/js/d3-custom.min.js',
 		[],
 		$d3_version,
 		true

@@ -1,1 +1,5 @@
 inc/contact-local.php
+
+# D3 Custom-Bundle Build (einmaliger Build-Schritt)
+_build-d3/node_modules/
+_build-d3/package-lock.json
