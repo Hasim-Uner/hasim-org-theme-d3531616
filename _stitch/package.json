@@ -1,0 +1,16 @@
+{
+  "name": "hasim-stitch-design",
+  "private": true,
+  "type": "module",
+  "description": "Google Stitch SDK Integration — AI-gestützte Design-Generierung für hasimuener.org",
+  "scripts": {
+    "generate": "node scripts/generate.js",
+    "list": "node scripts/list.js",
+    "export": "node scripts/export.js",
+    "design-system": "node scripts/design-system.js"
+  },
+  "dependencies": {
+    "@google/stitch-sdk": "latest",
+    "dotenv": "^16.4.7"
+  }
+}

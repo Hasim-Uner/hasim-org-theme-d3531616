@@ -55,3 +55,4 @@ require_once $hp_inc_dir . '/privacy-maintenance.php';
 require_once $hp_inc_dir . '/graph-api.php';
 require_once $hp_inc_dir . '/votes.php';
 require_once $hp_inc_dir . '/votes-api.php';
+require_once $hp_inc_dir . '/stitch-admin.php';

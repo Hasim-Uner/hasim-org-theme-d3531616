@@ -3,3 +3,9 @@ inc/contact-local.php
 # D3 Custom-Bundle Build (einmaliger Build-Schritt)
 _build-d3/node_modules/
 _build-d3/package-lock.json
+
+# Stitch Design Studio — Credentials und generierte Dateien
+_stitch/.env
+_stitch/node_modules/
+_stitch/package-lock.json
+_stitch/output/
