@@ -27,9 +27,13 @@ $hp_year    = gmdate( 'Y' );
                 <div class="hp-colophon__links">
                     <a class="hp-colophon__mission-link" href="<?php echo esc_url( home_url( '/mission/' ) ); ?>">Mission lesen &rarr;</a>
                 </div>
-                <a class="hp-colophon__social" href="https://x.com/_0239983326111" target="_blank" rel="noopener noreferrer" aria-label="Haşim Üner auf X">
+                <a class="hp-colophon__social" href="https://x.com/_0239983326111" target="_blank" rel="noopener noreferrer me" aria-label="Haşim Üner auf X">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     <span>Auf X folgen</span>
+                </a>
+                <a class="hp-colophon__social" href="https://orcid.org/0009-0008-7500-2015" target="_blank" rel="noopener noreferrer me" aria-label="Haşim Üner auf ORCID">
+                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#A6CE39" d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0z"/><path fill="#fff" d="M7.37 17.5H5.9V7.375h1.47V17.5zM6.635 5.957a.905.905 0 01-.904-.905c0-.497.406-.905.904-.905.497 0 .904.408.904.905 0 .5-.407.905-.904.905zM10.12 7.375h3.932c3.74 0 5.39 2.673 5.39 5.063 0 2.597-2.03 5.063-5.368 5.063H10.12V7.375zm1.47 8.806h2.29c3.268 0 4.015-2.48 4.015-3.743 0-2.058-1.31-3.743-4.09-3.743h-2.215v7.486z"/></svg>
+                    <span>ORCID iD</span>
                 </a>
             </div>
 

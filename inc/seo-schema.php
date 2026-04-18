@@ -20,6 +20,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * ORCID-iD des Herausgebers. Wird in Person-Schema
+ * und als `sameAs`-Verknüpfung ausgegeben.
+ */
+const HP_ORCID_ID  = '0009-0008-7500-2015';
+const HP_ORCID_URL = 'https://orcid.org/' . HP_ORCID_ID;
+
+/**
  * Injiziert ScholarlyArticle JSON-LD für Essay-Singles.
  *
  * Felder: headline, datePublished, dateModified, abstract,
@@ -32,7 +39,6 @@ function hp_essay_jsonld_schema(): void {
 	}
 
 	$post    = get_queried_object();
-	$author  = get_the_author_meta( 'display_name', $post->post_author );
 	$excerpt = has_excerpt( $post->ID )
 		? wp_strip_all_tags( get_the_excerpt( $post ) )
 		: wp_trim_words( wp_strip_all_tags( $post->post_content ), 40, ' …' );
@@ -45,8 +51,7 @@ function hp_essay_jsonld_schema(): void {
 		'dateModified'  => get_the_modified_date( 'c', $post ),
 		'abstract'      => $excerpt,
 		'author'        => [
-			'@type' => 'Person',
-			'name'  => $author,
+			'@id' => home_url( '/' ) . '#person',
 		],
 		'publisher'     => [
 			'@id' => home_url( '/' ) . '#organization',
@@ -105,6 +110,26 @@ function hp_org_website_jsonld_schema(): void {
 		'@graph'   => [],
 	];
 
+	// --- Person (Herausgeber) ---
+	$person = [
+		'@type'    => 'Person',
+		'@id'      => $site_url . '#person',
+		'name'     => 'Haşim Üner',
+		'url'      => $site_url,
+		'jobTitle' => 'Medienwissenschaftler & Publizist',
+		'identifier' => [
+			'@type'       => 'PropertyValue',
+			'propertyID'  => 'ORCID',
+			'value'       => HP_ORCID_ID,
+			'url'         => HP_ORCID_URL,
+		],
+		'sameAs'   => [
+			HP_ORCID_URL,
+			'https://x.com/_0239983326111',
+		],
+	];
+	$graph['@graph'][] = $person;
+
 	// --- Organization ---
 	$org = [
 		'@type'       => 'Organization',
@@ -113,11 +138,9 @@ function hp_org_website_jsonld_schema(): void {
 		'url'         => $site_url,
 		'description' => $site_desc ?: 'Essays und Analysen zu Macht, Medien und Gesellschaft. Von Haşim Üner.',
 		'founder'     => [
-			'@type'  => 'Person',
-			'name'   => 'Haşim Üner',
-			'jobTitle' => 'Medienwissenschaftler & Publizist',
+			'@id' => $site_url . '#person',
 		],
-		'foundingDate'    => '2024',
+		'foundingDate'         => '2024',
 		'publishingPrinciples' => $site_url . 'mission/',
 	];
 
@@ -135,6 +158,7 @@ function hp_org_website_jsonld_schema(): void {
 
 	// Soziale Profile
 	$org['sameAs'] = [
+		HP_ORCID_URL,
 		'https://x.com/_0239983326111',
 	];
 
@@ -229,7 +253,6 @@ function hp_note_jsonld_schema(): void {
 	}
 
 	$post    = get_queried_object();
-	$author  = get_the_author_meta( 'display_name', $post->post_author );
 	$excerpt = has_excerpt( $post->ID )
 		? wp_strip_all_tags( get_the_excerpt( $post ) )
 		: wp_trim_words( wp_strip_all_tags( $post->post_content ), 40, ' …' );
@@ -242,8 +265,7 @@ function hp_note_jsonld_schema(): void {
 		'dateModified'  => get_the_modified_date( 'c', $post ),
 		'description'   => $excerpt,
 		'author'        => [
-			'@type' => 'Person',
-			'name'  => $author,
+			'@id' => home_url( '/' ) . '#person',
 		],
 		'publisher'     => [
 			'@id' => home_url( '/' ) . '#organization',

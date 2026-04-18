@@ -35,6 +35,15 @@ get_header(); ?>
                 E-Mail: <a href="mailto:hallo@hasimuener.org">hallo@hasimuener.org</a>
             </p>
 
+            <h2>Wissenschaftliche Kennung</h2>
+
+            <p>
+                ORCID iD:
+                <a href="https://orcid.org/0009-0008-7500-2015" rel="me noopener" target="_blank">
+                    https://orcid.org/0009-0008-7500-2015
+                </a>
+            </p>
+
             <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
 
             <p>
