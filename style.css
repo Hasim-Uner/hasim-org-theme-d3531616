@@ -65,6 +65,96 @@
 }
 
 /* =========================================
+   WISSENSPLATTFORM-TOKENS (--wp-*)
+   ---------------------------------------------
+   Erweitert die Journal-Tokens um Plattform-
+   spezifische Variablen (Begriff-Chip, Graph-
+   Knoten, Nav-Chrome, Lese-Dichte). Quelle:
+   ui_kits/wissensplattform/tokens.css aus dem
+   Designsystem-Bundle. Wo möglich referenzieren
+   wir die --hj-* Werte, statt zu duplizieren —
+   so bleibt das Journal-Fundament Single Source
+   of Truth.
+   ========================================= */
+:root {
+    /* --- Page / surface --------------------- */
+    --wp-bg-page:           var(--hj-bg);
+    --wp-bg-surface:        var(--hj-bg-surface);
+    --wp-bg-warm:           #f7f3ed;
+    --wp-bg-card-soft:      rgba(255,255,255,0.94);
+    --wp-bg-graph-dark:     var(--hj-graph-bg);
+    --wp-bg-hover-warm:     rgba(247,243,237,0.5);
+
+    /* --- Ink (fein abgestuft) --------------- */
+    --wp-ink:               var(--hj-rule);
+    --wp-ink-body:          var(--hj-text);
+    --wp-ink-secondary:     #444444;
+    --wp-ink-muted:         var(--hj-text-secondary);
+    --wp-ink-quiet:         var(--hj-text-muted);
+    --wp-ink-disabled:      #c8c8c8;
+    --wp-ink-on-accent:     #ffffff;
+
+    /* --- Accent (editorial red) ------------- */
+    --wp-accent:            var(--hj-accent);
+    --wp-accent-strong:     var(--hj-accent-strong);
+    --wp-accent-bg-soft:    rgba(189,78,47,0.08);
+    --wp-accent-hairline:   rgba(177,42,42,0.32);
+
+    /* --- Hairlines / borders ---------------- */
+    --wp-rule:              var(--hj-rule);
+    --wp-rule-light:        var(--hj-rule-light);
+    --wp-border:            var(--hj-border);
+    --wp-border-nav:        rgba(20,24,29,0.08);
+    --wp-border-soft:       rgba(17,17,17,0.1);
+    --wp-border-softer:     rgba(17,17,17,0.12);
+
+    /* --- Callout (warm tan) ----------------- */
+    --wp-callout-bg:        var(--hj-callout-bg);
+    --wp-callout-border:    var(--hj-callout-border);
+
+    /* --- Graph-Knoten (Mini-Graph) ---------- */
+    --wp-graph-edge:        rgba(17,17,17,0.18);
+    --wp-graph-essay-fill:  #222222;
+    --wp-graph-essay-stroke:#111111;
+    --wp-graph-begriff-fill:#ffffff;
+    --wp-graph-begriff-stroke: var(--wp-accent);
+    --wp-graph-quelle-fill: #f7f3ed;
+    --wp-graph-quelle-stroke:#111111;
+
+    /* --- Begriff-Chip (visuelle Vokabel) ---- */
+    --wp-chip-ink:          var(--wp-accent-strong);
+    --wp-chip-border:       var(--wp-accent-hairline);
+    --wp-chip-ink-hover:    var(--wp-ink-on-accent);
+    --wp-chip-bg-hover:     var(--wp-accent);
+
+    /* --- Nav-Chrome ------------------------- */
+    --wp-nav-bg:            rgba(248,244,239,0.88);
+    --wp-nav-shadow:        0 10px 30px rgba(27,31,35,0.08);
+
+    /* --- Dichte (luftig — Default) ---------- */
+    --wp-pad-section:       3rem 2.2rem;
+    --wp-pad-row:           0.95rem 0;
+    --wp-gap-list:          12px;
+
+    /* --- Motion ----------------------------- */
+    --wp-dur-fast:          0.12s;
+    --wp-dur-med:           0.25s;
+    --wp-ease:              ease;
+}
+
+/* Dichte-Variante: archivarisch / dicht */
+[data-wp-density="dicht"] {
+    --wp-pad-section:       1.8rem 2.2rem;
+    --wp-pad-row:           0.65rem 0;
+    --wp-gap-list:          8px;
+}
+
+/* Chip-Variante: ohne Rahmen (nur unterstrichen) */
+[data-wp-chip="underline"] {
+    --wp-chip-border:       transparent;
+}
+
+/* =========================================
    @FONT-FACE — Merriweather (lokal)
    ========================================= */
 
