@@ -3644,6 +3644,146 @@ a.footnote-backref:hover {
 }
 
 /* =========================================
+   BEGRIFF — Wissensplattform-Sektionen (Phase 2)
+   ---------------------------------------------
+   Sprach-Entsprechungen (DE/KU/TR), verwandte
+   Begriffe als Chip-Wolke, Quellen-Apparat,
+   Stand & Version. Dichter gesetzt als die
+   Lesefläche (Wissensfläche-Modus). Tokens aus
+   --wp-* (style.css :root).
+   ========================================= */
+
+/* --- Sprach-Entsprechungen im Hero --- */
+.hp-begriff-sprachen {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--hj-space-sm) var(--hj-space-md);
+    margin: var(--hj-space-md) 0 0;
+    padding: 0;
+    font-family: var(--hj-sans);
+}
+
+.hp-begriff-sprachen__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45em;
+    margin: 0;
+}
+
+.hp-begriff-sprachen__item dt {
+    font-size: var(--hj-fs-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--wp-ink-quiet);
+    margin: 0;
+}
+
+.hp-begriff-sprachen__item dd {
+    font-family: var(--hj-serif);
+    font-size: var(--hj-fs-md);
+    font-weight: 700;
+    color: var(--wp-ink-body);
+    margin: 0;
+}
+
+.hp-begriff-sprachen__item--missing dd {
+    font-weight: 400;
+    color: var(--wp-ink-disabled);
+}
+
+.hp-begriff-sprachen__missing {
+    font-style: italic;
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+    color: var(--wp-ink-disabled);
+}
+
+/* --- Sektion-Hülle (gemeinsam für Verwandt/Verwendung/Quellen) --- */
+.hp-begriff-section {
+    max-width: var(--hj-measure);
+    margin: var(--hj-space-xl) auto 0;
+    padding-top: var(--hj-space-md);
+    border-top: 1px solid var(--wp-border);
+}
+
+.hp-begriff-section__heading {
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--wp-ink-quiet);
+    margin: 0 0 var(--hj-space-sm);
+}
+
+/* --- Verwandte Begriffe (Chip-Wolke) --- */
+.hp-begriff-verwandt__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 6px;
+}
+
+.hp-begriff-verwandt__list .hp-glossar-term.hp-begriff-chip {
+    font-size: 0.85rem;
+    padding: 0.25em 0.6em;
+    line-height: 1.3;
+    cursor: pointer;
+}
+
+/* --- Quellen-Liste --- */
+.hp-begriff-quellen__list {
+    margin: 0;
+    padding: 0 0 0 1.4em;
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-md);
+    line-height: 1.55;
+    color: var(--wp-ink-body);
+}
+
+.hp-begriff-quellen__list li {
+    margin: 0 0 0.45em;
+}
+
+.hp-begriff-quellen__list a {
+    color: var(--wp-accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--wp-accent-hairline);
+    transition: border-color var(--wp-dur-fast) var(--wp-ease);
+}
+
+.hp-begriff-quellen__list a:hover {
+    border-bottom-color: var(--wp-accent);
+}
+
+/* --- Stand & Version (Footer-Zeile) --- */
+.hp-begriff-stand {
+    max-width: var(--hj-measure);
+    margin: var(--hj-space-lg) auto 0;
+    padding-top: var(--hj-space-sm);
+    border-top: 1px dotted var(--wp-rule-light);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em 1.4em;
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    color: var(--wp-ink-quiet);
+}
+
+.hp-begriff-stand__item {
+    letter-spacing: 0.04em;
+}
+
+.hp-begriff-stand__label {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--wp-ink-body);
+    margin-right: 0.4em;
+}
+
+/* =========================================
    GLOSSAR — Archiv
    ========================================= */
 
