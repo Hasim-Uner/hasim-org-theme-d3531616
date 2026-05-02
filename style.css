@@ -3402,7 +3402,8 @@ a.footnote-backref:hover {
     transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-.hp-gtt--visible {
+.hp-gtt--visible,
+.hp-gtt:popover-open {
     pointer-events: auto;
     opacity: 1;
     transform: translateY(0);
