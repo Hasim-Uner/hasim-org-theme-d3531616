@@ -60,9 +60,18 @@ add_action( 'init', 'hp_register_glossar_cpt' );
 /**
  * Registriert die Glossar-spezifischen Meta-Felder.
  *
- * - _hp_glossar_kurz:     Kurzdefinition (1–2 Sätze, für Tooltip + Archiv)
+ * Bestand:
+ * - _hp_glossar_kurz:      Kurzdefinition (1–2 Sätze, für Tooltip + Archiv)
  * - _hp_glossar_synonyme:  Komma-separierte Synonyme/Alternativschreibungen
  *                          für Auto-Linking (z. B. "Nordkurdistan, Bakur")
+ *
+ * Wissensplattform-Erweiterung (Phase 2):
+ * - _hp_glossar_lang_ku:   Kurmancî-Entsprechung (z. B. "Bîranîn")
+ * - _hp_glossar_lang_tr:   Türkçe-Entsprechung (z. B. "Hatıra")
+ * - _hp_glossar_verwandt:  Komma-separierte Glossar-Post-IDs verwandter Begriffe
+ * - _hp_glossar_quellen:   Quellen-Liste (eine pro Zeile, freier Text)
+ * - _hp_glossar_version:   Versionstring (z. B. "1.0", "1.3") für Zitierbarkeit
+ * - _hp_glossar_stand:     ISO-Datum (YYYY-MM-DD) des aktuellen Stands
  */
 function hp_register_glossar_meta(): void {
 
@@ -82,6 +91,36 @@ function hp_register_glossar_meta(): void {
 	] ) );
 
 	register_post_meta( 'glossar', '_hp_glossar_synonyme', array_merge( $meta_args, [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] ) );
+
+	register_post_meta( 'glossar', '_hp_glossar_lang_ku', array_merge( $meta_args, [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] ) );
+
+	register_post_meta( 'glossar', '_hp_glossar_lang_tr', array_merge( $meta_args, [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] ) );
+
+	register_post_meta( 'glossar', '_hp_glossar_verwandt', array_merge( $meta_args, [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] ) );
+
+	register_post_meta( 'glossar', '_hp_glossar_quellen', array_merge( $meta_args, [
+		'sanitize_callback' => 'sanitize_textarea_field',
+		'default'           => '',
+	] ) );
+
+	register_post_meta( 'glossar', '_hp_glossar_version', array_merge( $meta_args, [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] ) );
+
+	register_post_meta( 'glossar', '_hp_glossar_stand', array_merge( $meta_args, [
 		'sanitize_callback' => 'sanitize_text_field',
 		'default'           => '',
 	] ) );
@@ -125,24 +164,81 @@ function hp_glossar_editor_panel(): void {
 					editPost( { meta: update } );
 				}
 
-				return el( PluginPanel, {
-					name:  'hp-glossar-panel',
-					title: 'Glossar-Felder',
-					icon:  'book-alt',
-				},
-					el( TextArea, {
-						label: 'Kurzdefinition',
-						help:  '1–2 Sätze. Wird als Tooltip und im Archiv angezeigt.',
-						value: meta._hp_glossar_kurz || '',
-						onChange: function( v ) { setMeta( '_hp_glossar_kurz', v ); },
-						rows: 3,
-					}),
-					el( TextControl, {
-						label: 'Synonyme / Alternativbegriffe',
-						help:  'Komma-getrennt. Diese Begriffe werden ebenfalls auto-verlinkt.',
-						value: meta._hp_glossar_synonyme || '',
-						onChange: function( v ) { setMeta( '_hp_glossar_synonyme', v ); },
-					})
+				return el( Fragment, null,
+					el( PluginPanel, {
+						name:  'hp-glossar-panel',
+						title: 'Glossar-Felder',
+						icon:  'book-alt',
+					},
+						el( TextArea, {
+							label: 'Kurzdefinition',
+							help:  '1–2 Sätze. Wird als Tooltip und im Archiv angezeigt.',
+							value: meta._hp_glossar_kurz || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_kurz', v ); },
+							rows: 3,
+						}),
+						el( TextControl, {
+							label: 'Synonyme / Alternativbegriffe',
+							help:  'Komma-getrennt. Diese Begriffe werden ebenfalls auto-verlinkt.',
+							value: meta._hp_glossar_synonyme || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_synonyme', v ); },
+						})
+					),
+					el( PluginPanel, {
+						name:  'hp-glossar-sprachen-panel',
+						title: 'Sprachen (DE/KU/TR)',
+						icon:  'translation',
+					},
+						el( TextControl, {
+							label: 'Kurmancî (KU)',
+							help:  'Entsprechung in Kurmancî, z. B. „Bîranîn“.',
+							value: meta._hp_glossar_lang_ku || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_lang_ku', v ); },
+						}),
+						el( TextControl, {
+							label: 'Türkçe (TR)',
+							help:  'Entsprechung im Türkischen, z. B. „Hatıra“.',
+							value: meta._hp_glossar_lang_tr || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_lang_tr', v ); },
+						})
+					),
+					el( PluginPanel, {
+						name:  'hp-glossar-vernetzung-panel',
+						title: 'Vernetzung & Quellen',
+						icon:  'admin-links',
+					},
+						el( TextControl, {
+							label: 'Verwandte Begriffe',
+							help:  'Komma-getrennte Glossar-Post-IDs (z. B. „42, 87, 153“).',
+							value: meta._hp_glossar_verwandt || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_verwandt', v ); },
+						}),
+						el( TextArea, {
+							label: 'Quellen',
+							help:  'Eine Quelle pro Zeile. Freier Text mit optionalen URLs.',
+							value: meta._hp_glossar_quellen || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_quellen', v ); },
+							rows: 5,
+						})
+					),
+					el( PluginPanel, {
+						name:  'hp-glossar-stand-panel',
+						title: 'Stand & Version',
+						icon:  'calendar-alt',
+					},
+						el( TextControl, {
+							label: 'Version',
+							help:  'Semantischer String, z. B. „1.0“ oder „1.3“.',
+							value: meta._hp_glossar_version || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_version', v ); },
+						}),
+						el( TextControl, {
+							label: 'Stand vom',
+							help:  'ISO-Datum YYYY-MM-DD, z. B. „2026-04-23“.',
+							value: meta._hp_glossar_stand || '',
+							onChange: function( v ) { setMeta( '_hp_glossar_stand', v ); },
+						})
+					)
 				);
 			};
 
