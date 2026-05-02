@@ -317,7 +317,7 @@ function hp_glossar_auto_link( string $content ): string {
 
 			if ( preg_match( $regex, $part ) ) {
 				$replacement = sprintf(
-					'<span class="hp-glossar-term" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-describedby="hp-gtt">$1</span>',
+					'<span class="hp-glossar-term hp-begriff-chip" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-describedby="hp-gtt">$1</span>',
 					esc_attr( $term['label'] ),
 					esc_attr( $term['tooltip'] ),
 					esc_url( $term['url'] )
@@ -394,3 +394,35 @@ function hp_glossar_flush_on_status_change( string $new_status, string $old_stat
 	}
 }
 add_action( 'transition_post_status', 'hp_glossar_flush_on_status_change', 10, 3 );
+
+/* =========================================
+   6. EINMALIGE CACHE-MIGRATION (Markup-Wechsel)
+   ========================================= */
+
+/**
+ * Bumpt die Glossar-Version einmal nach Theme-Update,
+ * damit Auto-Link-Caches mit altem Markup (.hp-glossar-term ohne
+ * .hp-begriff-chip) beim nächsten Render verworfen werden.
+ *
+ * Das Flag verhindert, dass die Migration mehrfach läuft.
+ * Bei künftigen Markup-Änderungen den Flag-Namen erhöhen
+ * (chip_v2, chip_v3, …).
+ */
+function hp_glossar_chip_markup_migration(): void {
+	if ( get_option( 'hp_glossar_chip_v1' ) ) {
+		return;
+	}
+
+	$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
+	update_option( 'hp_glossar_version', $new_version, false );
+
+	global $wpdb;
+	$wpdb->query(
+		"DELETE FROM {$wpdb->options}
+		 WHERE option_name LIKE '_transient_hp_gl_%'
+		    OR option_name LIKE '_transient_timeout_hp_gl_%'"
+	);
+
+	update_option( 'hp_glossar_chip_v1', true, false );
+}
+add_action( 'init', 'hp_glossar_chip_markup_migration', 25 );
