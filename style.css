@@ -2,7 +2,7 @@
  Theme Name:   Haşim Üner
  Description:  High-Performance Child Theme für GeneratePress — Editorial Design System
  Template:     generatepress
- Version:      5.0.0
+ Version:      5.5.0
 */
 
 /* =========================================
@@ -62,6 +62,26 @@
     --hj-measure:       72ch;       /* optimale Lesezeilenbreite */
     --hj-content-width:  1140px;
     --hj-gutter:        2rem;
+}
+
+/* =========================================
+   HERO/ARCHIVE TITLE — defensive Zentrierung
+   ---------------------------------------------
+   Hochspezifische Override-Regel gegen Parent-
+   Theme-Defaults wie .entry-title { text-align:
+   left } in Blocksy oder GeneratePress. Spezi-
+   fität 0,2,0 schlägt Single-Class-Selektoren
+   ohne !important.
+   ========================================= */
+.hp-dossier-hero .hp-dossier-hero__title,
+.hp-dossier-hero .hp-dossier-hero__intro,
+.hp-glossar-hero .hp-glossar-hero__title,
+.hp-glossar-hero .hp-glossar-hero__kurz,
+.hp-dossier-archive-header .hp-dossier-archive-header__title,
+.hp-dossier-archive-header .hp-dossier-archive-header__desc,
+.hp-glossar-archive-header .hp-glossar-archive-header__title,
+.hp-glossar-archive-header .hp-glossar-archive-header__desc {
+    text-align: center;
 }
 
 /* =========================================
