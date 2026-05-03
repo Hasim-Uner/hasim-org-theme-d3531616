@@ -140,6 +140,12 @@
     --wp-dur-fast:          0.12s;
     --wp-dur-med:           0.25s;
     --wp-ease:              ease;
+
+    /* --- Hero / Archive-Header Measure ------ */
+    /* Eigene Measure für Hero-Sektionen — weiter als die
+       Lese-Measure (--hj-measure: 72ch), damit Hero-Typo
+       (3xl-Schrift) nicht eingeklemmt wirkt. */
+    --wp-hero-measure:      880px;
 }
 
 /* Dichte-Variante: archivarisch / dicht */
@@ -3652,11 +3658,12 @@ a.footnote-backref:hover {
     background-color: var(--hj-bg-surface);
     border-bottom: 1px solid var(--hj-border);
     padding: var(--hj-space-2xl) var(--hj-gutter) var(--hj-space-xl);
+    text-align: center;
 }
 
 .hp-glossar-hero__inner {
-    max-width: var(--hj-measure);
-    margin: 0 auto;
+    max-width: var(--wp-hero-measure);
+    margin-inline: auto;
     text-align: center;
 }
 
@@ -3978,11 +3985,12 @@ a.footnote-backref:hover {
     background-color: var(--wp-bg-surface);
     border-bottom: 1px solid var(--wp-border);
     padding: var(--hj-space-2xl) var(--hj-gutter) var(--hj-space-xl);
+    text-align: center;
 }
 
 .hp-dossier-archive-header__inner {
-    max-width: var(--hj-measure);
-    margin: 0 auto;
+    max-width: var(--wp-hero-measure);
+    margin-inline: auto;
     text-align: center;
 }
 
@@ -4093,11 +4101,12 @@ a.footnote-backref:hover {
     background-color: var(--wp-bg-warm);
     border-bottom: 1px solid var(--wp-border);
     padding: var(--hj-space-2xl) var(--hj-gutter) var(--hj-space-xl);
+    text-align: center;
 }
 
 .hp-dossier-hero__inner {
-    max-width: var(--hj-measure);
-    margin: 0 auto;
+    max-width: var(--wp-hero-measure);
+    margin-inline: auto;
     text-align: center;
 }
 
@@ -4291,11 +4300,12 @@ a.footnote-backref:hover {
     background-color: var(--hj-bg-surface);
     border-bottom: 1px solid var(--hj-border);
     padding: var(--hj-space-2xl) var(--hj-gutter) var(--hj-space-xl);
+    text-align: center;
 }
 
 .hp-glossar-archive-header__inner {
-    max-width: var(--hj-measure);
-    margin: 0 auto;
+    max-width: var(--wp-hero-measure);
+    margin-inline: auto;
     text-align: center;
 }
 
