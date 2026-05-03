@@ -2,11 +2,18 @@
 /**
  * Template: Front Page — Hasimuener Journal
  *
- * Editoriales Layout: Hero (Latest Essay) → Notizen → Themenfelder.
- * Kein Slider, kein Carousel — statisch-redaktionell.
+ * Editoriales Layout:
+ *   1. Hero (Latest Essay) — bleibt
+ *   2. Drei Einstiege (Neu / Thema / Begriff) — Wissensplattform Phase 4
+ *   3. Newsletter
+ *   4. Themenfelder
+ *
+ * Strategische Verschiebung: aus der reinen Chronologie wird eine
+ * dreigeteilte Orientierung — Leserin entscheidet ob sie nach Datum
+ * (Neu), nach Thema (Dossiers) oder nach Begriff (Glossar) einsteigt.
  *
  * @package Hasimuener_Journal
- * @version 3.0.0
+ * @version 5.5.0 — Wissensplattform Phase 4
  */
 
 get_header(); ?>
@@ -95,48 +102,134 @@ get_header(); ?>
     <hr class="journal-rule" aria-hidden="true">
 
     <!-- ==========================================
-         2. AKTUELLE NOTIZEN
+         2. DREI EINSTIEGE — Neu / Thema / Begriff
          ========================================== -->
-    <section class="notes-section" aria-label="Aktuelle Notizen">
-        <header>
-            <h2 class="hp-section-title">Aktuelle Notizen</h2>
-        </header>
+    <section class="hp-front-einstiege" aria-label="Drei Einstiege in das Journal">
 
-        <?php
-        $hp_notes = new WP_Query( [
-            'post_type'      => 'note',
-            'posts_per_page' => 3,
-            'post_status'    => 'publish',
-        ] );
+        <!-- Spalte 1: NEU (chronologisch, Essays + Notizen gemischt) -->
+        <article class="hp-einstieg hp-einstieg--neu">
+            <header class="hp-einstieg__head">
+                <span class="hp-kicker">Neu</span>
+                <h2 class="hp-einstieg__title">Zuletzt erschienen</h2>
+            </header>
 
-        if ( $hp_notes->have_posts() ) : ?>
-            <div class="notes-list">
-                <?php while ( $hp_notes->have_posts() ) : $hp_notes->the_post(); ?>
+            <?php
+            $hp_neu = new WP_Query( [
+                'post_type'      => [ 'essay', 'note' ],
+                'post_status'    => 'publish',
+                'posts_per_page' => 5,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ] );
 
-                <article class="notes-list__item">
-                    <div class="hp-meta">
-                        <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
-                            <?php echo esc_html( get_the_date( 'j. F Y' ) ); ?>
-                        </time>
-                        <span class="hp-meta__separator"></span>
-                        <span class="hp-reading-time"><?php echo esc_html( hp_reading_time() ); ?></span>
-                    </div>
-                    <h3 class="notes-list__title">
-                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                    </h3>
-                    <?php if ( has_excerpt() || get_the_content() ) : ?>
-                        <p class="notes-list__excerpt">
-                            <?php echo esc_html( wp_trim_words( get_the_excerpt(), 24, ' …' ) ); ?>
-                        </p>
-                    <?php endif; ?>
-                </article>
+            if ( $hp_neu->have_posts() ) : ?>
+                <ul class="hp-einstieg__list">
+                    <?php while ( $hp_neu->have_posts() ) : $hp_neu->the_post();
+                        $hp_n_label = 'essay' === get_post_type() ? 'Essay' : 'Notiz';
+                    ?>
+                        <li class="hp-einstieg__item">
+                            <a class="hp-einstieg__link" href="<?php the_permalink(); ?>">
+                                <span class="hp-einstieg__kicker"><?php echo esc_html( $hp_n_label ); ?> · <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j. M Y' ) ); ?></time></span>
+                                <span class="hp-einstieg__item-title"><?php the_title(); ?></span>
+                            </a>
+                        </li>
+                    <?php endwhile; ?>
+                </ul>
+            <?php else : ?>
+                <p class="hp-einstieg__empty">Bisher keine Beiträge veröffentlicht.</p>
+            <?php endif;
+            wp_reset_postdata(); ?>
 
-                <?php endwhile; ?>
-            </div>
-        <?php else : ?>
-            <p class="hp-empty">Noch keine Notizen veröffentlicht.</p>
-        <?php endif;
-        wp_reset_postdata(); ?>
+            <footer class="hp-einstieg__foot">
+                <a href="<?php echo esc_url( get_post_type_archive_link( 'essay' ) ); ?>">Alle Essays <span aria-hidden="true">&rarr;</span></a>
+            </footer>
+        </article>
+
+        <!-- Spalte 2: THEMA (Dossiers) -->
+        <article class="hp-einstieg hp-einstieg--thema">
+            <header class="hp-einstieg__head">
+                <span class="hp-kicker">Thema</span>
+                <h2 class="hp-einstieg__title">Aktuelle Dossiers</h2>
+            </header>
+
+            <?php
+            $hp_dossiers = new WP_Query( [
+                'post_type'      => 'dossier',
+                'post_status'    => 'publish',
+                'posts_per_page' => 3,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ] );
+
+            if ( $hp_dossiers->have_posts() ) : ?>
+                <ul class="hp-einstieg__list">
+                    <?php while ( $hp_dossiers->have_posts() ) : $hp_dossiers->the_post();
+                        $hp_d_id        = get_the_ID();
+                        $hp_d_intro     = get_post_meta( $hp_d_id, '_hp_dossier_intro', true );
+                        $hp_d_leseplan  = function_exists( 'hp_dossier_parse_ids' ) ? hp_dossier_parse_ids( (string) get_post_meta( $hp_d_id, '_hp_dossier_leseplan', true ) ) : [];
+                        $hp_d_begriffe  = function_exists( 'hp_dossier_parse_ids' ) ? hp_dossier_parse_ids( (string) get_post_meta( $hp_d_id, '_hp_dossier_begriffe', true ) ) : [];
+                    ?>
+                        <li class="hp-einstieg__item hp-einstieg__item--dossier">
+                            <a class="hp-einstieg__link" href="<?php the_permalink(); ?>">
+                                <span class="hp-einstieg__item-title"><?php the_title(); ?></span>
+                                <?php if ( $hp_d_intro ) : ?>
+                                    <span class="hp-einstieg__item-intro"><?php echo esc_html( wp_trim_words( $hp_d_intro, 18, ' …' ) ); ?></span>
+                                <?php endif; ?>
+                                <span class="hp-einstieg__item-meta">
+                                    <?php if ( $hp_d_leseplan ) : ?>
+                                        <?php echo (int) count( $hp_d_leseplan ); ?> Beiträge
+                                    <?php endif; ?>
+                                    <?php if ( $hp_d_leseplan && $hp_d_begriffe ) : ?> · <?php endif; ?>
+                                    <?php if ( $hp_d_begriffe ) : ?>
+                                        <?php echo (int) count( $hp_d_begriffe ); ?> Begriffe
+                                    <?php endif; ?>
+                                </span>
+                            </a>
+                        </li>
+                    <?php endwhile; ?>
+                </ul>
+            <?php else : ?>
+                <p class="hp-einstieg__empty">Die ersten Dossiers entstehen gerade — kuratierte Bündel mit Intro, Leseplan und Begriffsapparat.</p>
+            <?php endif;
+            wp_reset_postdata(); ?>
+
+            <footer class="hp-einstieg__foot">
+                <a href="<?php echo esc_url( get_post_type_archive_link( 'dossier' ) ); ?>">Alle Dossiers <span aria-hidden="true">&rarr;</span></a>
+            </footer>
+        </article>
+
+        <!-- Spalte 3: BEGRIFF (Glossar als Pill-Wolke) -->
+        <article class="hp-einstieg hp-einstieg--begriff">
+            <header class="hp-einstieg__head">
+                <span class="hp-kicker">Begriff</span>
+                <h2 class="hp-einstieg__title">Im Glossar nachschlagen</h2>
+            </header>
+
+            <?php
+            $hp_begriffe = new WP_Query( [
+                'post_type'      => 'glossar',
+                'post_status'    => 'publish',
+                'posts_per_page' => 12,
+                'orderby'        => 'title',
+                'order'          => 'ASC',
+            ] );
+
+            if ( $hp_begriffe->have_posts() ) : ?>
+                <div class="hp-einstieg__chips">
+                    <?php while ( $hp_begriffe->have_posts() ) : $hp_begriffe->the_post(); ?>
+                        <a class="hp-glossar-term hp-begriff-chip" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    <?php endwhile; ?>
+                </div>
+            <?php else : ?>
+                <p class="hp-einstieg__empty">Das Glossar wächst mit dem Journal — die ersten Begriffe folgen.</p>
+            <?php endif;
+            wp_reset_postdata(); ?>
+
+            <footer class="hp-einstieg__foot">
+                <a href="<?php echo esc_url( get_post_type_archive_link( 'glossar' ) ); ?>">Alle Begriffe <span aria-hidden="true">&rarr;</span></a>
+            </footer>
+        </article>
+
     </section>
 
     <hr class="journal-rule" aria-hidden="true">
