@@ -82,6 +82,11 @@ function hp_render_journal_header(): void {
 			'match' => [ 'post_type_archive' => 'note', 'singular' => 'note' ],
 		],
 		[
+			'label' => 'Dossiers',
+			'url'   => get_post_type_archive_link( 'dossier' ),
+			'match' => [ 'post_type_archive' => 'dossier', 'singular' => 'dossier' ],
+		],
+		[
 			'label' => 'Glossar',
 			'url'   => get_post_type_archive_link( 'glossar' ),
 			'match' => [ 'post_type_archive' => 'glossar', 'singular' => 'glossar' ],
