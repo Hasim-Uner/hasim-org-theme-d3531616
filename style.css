@@ -2,7 +2,7 @@
  Theme Name:   Haşim Üner
  Description:  High-Performance Child Theme für GeneratePress — Editorial Design System
  Template:     generatepress
- Version:      5.5.1
+ Version:      5.5.0
 */
 
 /* =========================================
@@ -82,56 +82,6 @@
 .hp-glossar-archive-header .hp-glossar-archive-header__title,
 .hp-glossar-archive-header .hp-glossar-archive-header__desc {
     text-align: center;
-}
-
-/* =========================================
-   FULL-BLEED HERO/ARCHIVE-HEADER
-   ---------------------------------------------
-   Auf Singles und Archives schränkt das Parent-
-   Theme den <main>-Container oft horizontal ein
-   (Sidebar-Layout-Voreinstellungen, GP/Blocksy-
-   Defaults). Unsere Hero-/Archive-Header sollen
-   trotzdem über die volle Browser-Breite gehen.
-   Trick: 100vw + negative margin gleicht die
-   Container-Beschränkung aus, ohne PHP-Filter zu
-   brauchen. !important ist hier gerechtfertigt,
-   weil Parent-Theme mit Selektoren wie
-   ".content-area > * { max-width: ... }" gewinnt.
-   ========================================= */
-.hp-dossier-hero,
-.hp-glossar-hero,
-.hp-dossier-archive-header,
-.hp-glossar-archive-header {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(50% - 50vw) !important;
-    margin-right: calc(50% - 50vw) !important;
-    text-align: center !important;
-    box-sizing: border-box;
-}
-
-/* Inner-Container zentriert sich selbst innerhalb
-   des nun voll-breiten Hero. Spezifität reicht
-   ohne !important. */
-.hp-dossier-hero__inner,
-.hp-glossar-hero__inner,
-.hp-dossier-archive-header__inner,
-.hp-glossar-archive-header__inner {
-    max-width: var(--wp-hero-measure);
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
-/* Title selbst hart zentriert — schlägt jedes
-   Parent-Theme-Override (z.B. .entry-title). */
-.hp-dossier-hero__title,
-.hp-glossar-hero__title,
-.hp-dossier-archive-header__title,
-.hp-glossar-archive-header__title {
-    text-align: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
 }
 
 /* =========================================
