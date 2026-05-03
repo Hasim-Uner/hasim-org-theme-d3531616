@@ -80,6 +80,14 @@ function hp_custom_body_classes( array $classes ): array {
 		$classes[] = 'archive-glossar';
 	}
 
+	if ( is_singular( 'dossier' ) ) {
+		$classes[] = 'single-dossier';
+	}
+
+	if ( is_post_type_archive( 'dossier' ) ) {
+		$classes[] = 'archive-dossiers';
+	}
+
 	if ( is_page( 'wissensgraph' ) ) {
 		$classes[] = 'page-wissensgraph';
 	}

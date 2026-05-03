@@ -2,7 +2,7 @@
  Theme Name:   Haşim Üner
  Description:  High-Performance Child Theme für GeneratePress — Editorial Design System
  Template:     generatepress
- Version:      5.5.1
+ Version:      5.5.2
 */
 
 /* =========================================
@@ -4221,6 +4221,29 @@ a.footnote-backref:hover {
 
 .hp-dossier-hero__topics {
     margin: var(--hj-space-sm) 0 0;
+}
+
+/* GP-Container auf Dossier-Seiten vollbreit machen.
+   Die Zentrierung passiert danach in den Dossier-eigenen
+   max-width-Containern. */
+.single-dossier .site-content,
+.single-dossier .content-area,
+.single-dossier .inside-article,
+.archive-dossiers .site-content,
+.archive-dossiers .content-area,
+.archive-dossiers .inside-article,
+.post-type-archive-dossier .site-content,
+.post-type-archive-dossier .content-area,
+.post-type-archive-dossier .inside-article {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.single-dossier .site-main,
+.archive-dossiers .site-main,
+.post-type-archive-dossier .site-main {
+    margin: 0;
 }
 
 /* --- Single Body --- */
