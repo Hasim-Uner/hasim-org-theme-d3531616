@@ -120,6 +120,11 @@ get_header(); ?>
             </div>
 
             <?php
+            // Mini-Graph: zeigt direkt verbundene Knoten als Lese-Begleiter
+            if ( function_exists( 'hp_render_mini_graph' ) ) {
+                hp_render_mini_graph( get_the_ID() );
+            }
+
             hp_render_newsletter_form( [
                 'id'           => 'newsletter-signup-essay',
                 'context'      => 'essay',

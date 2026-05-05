@@ -2,7 +2,7 @@
  Theme Name:   Haşim Üner
  Description:  High-Performance Child Theme für GeneratePress — Editorial Design System
  Template:     generatepress
- Version:      5.5.3
+ Version:      5.6.0
 */
 
 /* =========================================
@@ -4483,6 +4483,86 @@ a.footnote-backref:hover {
 
 .hp-dossier-quellen__list a:hover {
     border-bottom-color: var(--wp-accent);
+}
+
+/* =========================================
+   MINI-GRAPH — Wissensplattform Phase 5
+   ---------------------------------------------
+   Lese-Begleiter im Sidebar-/Footer-Bereich von
+   Essays, Notizen und Begriffen. Statisches SVG
+   mit focal-Knoten im Zentrum und 6–8 direkt
+   verbundenen Nachbarn auf einem Ring.
+   Strategie: STRATEGY.md §6 — Graph als Lese-
+   begleiter, nicht Hauptnavigation.
+   ========================================= */
+
+.hp-mini-graph {
+    max-width: var(--hj-measure);
+    margin: var(--hj-space-xl) auto 0;
+    padding: var(--hj-space-md) var(--hj-space-md) var(--hj-space-sm);
+    border: 1px solid var(--wp-border);
+    border-radius: var(--hj-radius-card);
+    background: var(--wp-bg-card-soft);
+}
+
+.hp-mini-graph__heading {
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--wp-ink-quiet);
+    margin: 0 0 var(--hj-space-sm);
+    text-align: center;
+}
+
+.hp-mini-graph__svg {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.hp-mini-graph__node {
+    cursor: pointer;
+    transition: opacity var(--wp-dur-fast) var(--wp-ease);
+}
+
+.hp-mini-graph__node:hover {
+    opacity: 0.78;
+}
+
+.hp-mini-graph__node:hover circle {
+    stroke-width: 2;
+}
+
+.hp-mini-graph__node:focus-visible {
+    outline: 2px solid var(--wp-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.hp-mini-graph__legend {
+    margin: var(--hj-space-sm) 0 0;
+    padding-top: var(--hj-space-xs);
+    border-top: 1px dotted var(--wp-rule-light);
+    text-align: center;
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+}
+
+.hp-mini-graph__legend a {
+    color: var(--wp-accent);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color var(--wp-dur-fast) var(--wp-ease);
+}
+
+.hp-mini-graph__legend a:hover {
+    color: var(--wp-accent-strong);
 }
 
 /* =========================================
