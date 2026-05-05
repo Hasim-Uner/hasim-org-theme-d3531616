@@ -88,6 +88,13 @@ $hp_stand    = get_post_meta( $hp_post_id, '_hp_glossar_stand', true );
     </div>
 
     <?php
+    // Mini-Graph: verbundene Knoten als Lese-Begleiter
+    if ( function_exists( 'hp_render_mini_graph' ) ) {
+        hp_render_mini_graph( get_the_ID() );
+    }
+    ?>
+
+    <?php
     // Verwandte Begriffe (kuratiert über _hp_glossar_verwandt)
     if ( $hp_verwandt ) :
         $hp_verwandt_ids = array_filter( array_map( 'intval', array_map( 'trim', explode( ',', $hp_verwandt ) ) ) );
