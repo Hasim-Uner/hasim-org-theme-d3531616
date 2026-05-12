@@ -2,7 +2,7 @@
  Theme Name:   Haşim Üner
  Description:  High-Performance Child Theme für GeneratePress — Editorial Design System
  Template:     generatepress
- Version:      5.6.0
+ Version:      5.6.1
 */
 
 /* =========================================
@@ -90,23 +90,32 @@
    Auf Singles und Archives schränkt das Parent-
    Theme den <main>-Container oft horizontal ein
    (Sidebar-Layout-Voreinstellungen, GP/Blocksy-
-   Defaults). Unsere Hero-/Archive-Header sollen
-   trotzdem über die volle Browser-Breite gehen.
-   Trick: 100vw + negative margin gleicht die
-   Container-Beschränkung aus, ohne PHP-Filter zu
-   brauchen. !important ist hier gerechtfertigt,
-   weil Parent-Theme mit Selektoren wie
-   ".content-area > * { max-width: ... }" gewinnt.
+   Defaults). Wir lösen das, indem wir GP's
+   site-content/content-area/inside-article auf
+   den jeweiligen body-Classes (.single-dossier,
+   .single-glossar, .archive-glossar, .archive-
+   dossiers, .post-type-archive-dossier) auf
+   max-width:none zurücksetzen (siehe Zeilen
+   3802 und 4329). Die Hero-Elemente brauchen
+   dann nur width:100%, statt mit dem brüchigen
+   100vw + calc(50% - 50vw)-Trick aus dem
+   Container auszubrechen.
+
+   Warum nicht mehr 100vw: der Trick zog den
+   Hero über den linken Viewport-Rand, sobald
+   irgendein Wrapper um <main> ein Padding
+   bekam (Plugin, GP-Update). Symptom: Titel
+   und Lauftext links abgeschnitten.
    ========================================= */
 .hp-dossier-hero,
 .hp-glossar-hero,
 .hp-dossier-archive-header,
 .hp-glossar-archive-header {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(50% - 50vw) !important;
-    margin-right: calc(50% - 50vw) !important;
-    text-align: center !important;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
     box-sizing: border-box;
 }
 
