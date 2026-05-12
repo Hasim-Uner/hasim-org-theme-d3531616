@@ -20,8 +20,9 @@
 
 **Offene Restaufgaben:**
 - Phase 6: Doku-Kommentar zu fehlenden Outfit/Figtree-Fonts (rein kosmetisch, Seite deaktiviert).
-- Cleanup-Entscheidung: `assets/js/journal.js` (19 KB) und `assets/js/d3.min.js` (279,7 KB) werden nicht mehr geladen; laut Plan absichtlich als Backup im Repo belassen.
 - Smoke-Test-Checkliste (siehe Ende dieses Dokuments) — manuelle Browser-Verifikation.
+
+**Cleanup 2026-05-12:** `assets/js/journal.js` und `assets/js/d3.min.js` wurden aus dem Repo entfernt. Die Wiederherstellung ist bei Bedarf über die Git-History möglich. Der auskommentierte Enqueue-Block in `page-diaspora-architektur.php:33–60` verweist noch auf `d3.min.js`; bei einer Reaktivierung der Diaspora-Seite müsste dort auf das Custom-Bundle umgestellt werden.
 
 ---
 
