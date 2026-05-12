@@ -7,6 +7,24 @@
 
 ---
 
+## Umsetzungsstand (Stand: 2026-05-12)
+
+| Phase | Status | Beleg |
+|-------|--------|-------|
+| 1. Diaspora-Assets entkoppeln | **umgesetzt** | `page-diaspora-architektur.php:33–60` Enqueue-Block auskommentiert |
+| 2. journal.js splitten | **umgesetzt** | `nav.js`, `journal-single.js`, `glossar-tooltip.js` vorhanden |
+| 3. enqueue.php umschreiben | **umgesetzt** | Bedingtes Laden in `inc/enqueue.php:35–86` |
+| 4. Popover API Migration | **umgesetzt** | `glossar-tooltip.js` nutzt `showPopover()` / `:popover-open` |
+| 5. D3 Custom-Bundle | **umgesetzt** | `d3-custom.min.js` aktiv über `inc/graph-api.php:367–377` |
+| 6. Font-Kommentare | **offen** | TODO-Block in `diaspora-scroll.css:18–43` (niedrige Prio) |
+
+**Offene Restaufgaben:**
+- Phase 6: Doku-Kommentar zu fehlenden Outfit/Figtree-Fonts (rein kosmetisch, Seite deaktiviert).
+- Cleanup-Entscheidung: `assets/js/journal.js` (19 KB) und `assets/js/d3.min.js` (279,7 KB) werden nicht mehr geladen; laut Plan absichtlich als Backup im Repo belassen.
+- Smoke-Test-Checkliste (siehe Ende dieses Dokuments) — manuelle Browser-Verifikation.
+
+---
+
 ## Ist-Zustand
 
 ```
