@@ -4391,8 +4391,86 @@ a.footnote-backref:hover {
 .archive-dossiers,
 .post-type-archive-dossier,
 .single-glossar,
-.post-type-archive-glossar {
+.post-type-archive-glossar,
+.single-essay,
+.single-note,
+.post-type-archive-essay,
+.post-type-archive-note {
     overflow-x: clip;
+}
+
+/* =========================================
+   NUCLEAR RESET — GP-Wrapper auf Editorial-Templates
+   ---------------------------------------------
+   Problem-Beobachtung: Selbst nach max-width:none auf
+   den Standard-Wrappern blieb der Body-Bereich
+   asymmetrisch (left-shifted), weil GP für Sidebar-
+   Layouts CSS-Grid auf .content-area legt
+   (grid-template-columns: 1fr <sidebar-px>).
+   max-width: none widert das Grid, ändert aber nicht
+   die Spalten-Definition — Main bleibt in Spalte 1
+   und wirkt linksbündig.
+
+   Lösung: display: block hart erzwingen + Grid-/Flex-
+   Spalten zurücksetzen. Damit ist garantiert, dass
+   jeder Wrapper ein simpler Block ist und der innere
+   `<main id="main-content">` 100% Breite bekommt.
+   ========================================= */
+:is(
+    .single-dossier,
+    .archive-dossiers,
+    .post-type-archive-dossier,
+    .single-glossar,
+    .post-type-archive-glossar,
+    .single-essay,
+    .single-note,
+    .post-type-archive-essay,
+    .post-type-archive-note
+) :is(
+    #page,
+    .site,
+    .site-content,
+    .content-area,
+    .inside-article,
+    .container,
+    .grid-container,
+    .site-main,
+    .entry-content,
+    main#main-content
+) {
+    display: block !important;
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+    grid-template-areas: none !important;
+    float: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* GP's sidebar-widget-area auf diesen Templates
+   ausblenden — der Sidebar-Filter in PHP ist die
+   Hauptmaßnahme, das hier ist der CSS-Belt. */
+:is(
+    .single-dossier,
+    .archive-dossiers,
+    .post-type-archive-dossier,
+    .single-glossar,
+    .post-type-archive-glossar,
+    .single-essay,
+    .single-note,
+    .post-type-archive-essay,
+    .post-type-archive-note
+) :is(
+    #right-sidebar,
+    #left-sidebar,
+    .widget-area,
+    .sidebar
+) {
+    display: none !important;
 }
 
 /* --- Single Body --- */
