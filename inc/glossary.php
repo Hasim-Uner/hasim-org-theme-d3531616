@@ -522,3 +522,67 @@ function hp_glossar_chip_markup_migration(): void {
 	update_option( 'hp_glossar_chip_v1', true, false );
 }
 add_action( 'init', 'hp_glossar_chip_markup_migration', 25 );
+
+
+/**
+ * Extrahiert die im Essay-/Notiz-Content tatsächlich
+ * vorkommenden Glossar-Begriffe.
+ *
+ * Scannt den rohen Post-Content auf Titel + Synonyme
+ * aller Glossar-Einträge. Liefert die ersten N Treffer
+ * in Erscheinungsreihenfolge — als Grundlage für den
+ * „Zentrale Begriffe"-Block am Essay-Ende.
+ *
+ * @param int $post_id Essay-/Notiz-Post-ID.
+ * @param int $limit   Maximalzahl Begriffe (Default 6).
+ * @return WP_Post[] Glossar-Posts, geordnet nach Erst-Vorkommen.
+ */
+function hp_get_central_terms( int $post_id, int $limit = 6 ): array {
+	$content = (string) get_post_field( 'post_content', $post_id );
+	if ( '' === $content ) {
+		return [];
+	}
+
+	$entries = get_posts( [
+		'post_type'      => 'glossar',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+	] );
+	if ( empty( $entries ) ) {
+		return [];
+	}
+
+	$plain = wp_strip_all_tags( $content );
+	$found = [];
+
+	foreach ( $entries as $entry ) {
+		$variants = [ get_the_title( $entry->ID ) ];
+		$syn      = (string) get_post_meta( $entry->ID, '_hp_glossar_synonyme', true );
+		if ( $syn ) {
+			foreach ( explode( ',', $syn ) as $s ) {
+				$s = trim( $s );
+				if ( $s ) { $variants[] = $s; }
+			}
+		}
+
+		$best_pos = PHP_INT_MAX;
+		foreach ( $variants as $v ) {
+			if ( '' === $v ) { continue; }
+			$pos = mb_stripos( $plain, $v );
+			if ( false !== $pos && $pos < $best_pos ) {
+				$best_pos = $pos;
+			}
+		}
+		if ( PHP_INT_MAX !== $best_pos ) {
+			$found[] = [ 'entry' => $entry, 'pos' => $best_pos ];
+		}
+	}
+
+	usort( $found, function ( $a, $b ) {
+		return $a['pos'] <=> $b['pos'];
+	} );
+
+	$found = array_slice( $found, 0, $limit );
+
+	return array_map( function ( $f ) { return $f['entry']; }, $found );
+}

@@ -176,6 +176,50 @@ get_header(); ?>
 
     </div>
 
+    <!-- Sog-Block: Essay als Teil von Dossier(s) + zentrale Begriffe -->
+    <?php
+    $hp_se_id        = get_the_ID();
+    $hp_se_dossiers  = function_exists( 'hp_post_get_dossiers' )  ? hp_post_get_dossiers( $hp_se_id )    : [];
+    $hp_se_terms     = function_exists( 'hp_get_central_terms' )  ? hp_get_central_terms( $hp_se_id, 6 ) : [];
+
+    if ( $hp_se_dossiers || $hp_se_terms ) : ?>
+        <aside class="hp-essay-sog" aria-label="Weiterführende Lektüre">
+            <div class="hp-essay-sog__inner">
+                <?php if ( $hp_se_dossiers ) : ?>
+                    <section class="hp-essay-sog__section hp-essay-sog__section--dossiers">
+                        <h2 class="hp-essay-sog__heading">Teil dieser Dossiers</h2>
+                        <ul class="hp-essay-sog__dossier-list">
+                            <?php foreach ( $hp_se_dossiers as $hp_se_d ) :
+                                $hp_se_d_intro = get_post_meta( $hp_se_d->ID, '_hp_dossier_intro', true );
+                            ?>
+                                <li>
+                                    <a class="hp-essay-sog__dossier" href="<?php echo esc_url( get_permalink( $hp_se_d ) ); ?>">
+                                        <span class="hp-essay-sog__dossier-kicker">Dossier</span>
+                                        <span class="hp-essay-sog__dossier-title"><?php echo esc_html( get_the_title( $hp_se_d ) ); ?></span>
+                                        <?php if ( $hp_se_d_intro ) : ?>
+                                            <span class="hp-essay-sog__dossier-lede"><?php echo esc_html( wp_trim_words( $hp_se_d_intro, 22, ' …' ) ); ?></span>
+                                        <?php endif; ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </section>
+                <?php endif; ?>
+
+                <?php if ( $hp_se_terms ) : ?>
+                    <section class="hp-essay-sog__section hp-essay-sog__section--terms">
+                        <h2 class="hp-essay-sog__heading">Zentrale Begriffe</h2>
+                        <div class="hp-essay-sog__term-list">
+                            <?php foreach ( $hp_se_terms as $hp_se_t ) : ?>
+                                <a class="hp-glossar-term hp-begriff-chip" href="<?php echo esc_url( get_permalink( $hp_se_t ) ); ?>"><?php echo esc_html( get_the_title( $hp_se_t ) ); ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </section>
+                <?php endif; ?>
+            </div>
+        </aside>
+    <?php endif; ?>
+
     <!-- Kommentarbereich -->
     <section class="hp-comments" aria-label="Kommentare">
         <div class="hp-comments__inner">

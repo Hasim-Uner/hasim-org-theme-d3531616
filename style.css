@@ -2915,6 +2915,131 @@ a.footnote-backref:hover {
     margin-top: var(--hj-space-sm);
 }
 
+/* =========================================
+   ESSAY-END SOG (Pillar 1+4: Festlesen)
+   ---------------------------------------------
+   Lockt den Leser nach dem letzten Absatz in die
+   tieferen Knoten: zugehörige Dossiers (systematische
+   Tiefenlektüre) und zentrale Begriffe (Wissens-
+   navigation). Sitzt vor den Kommentaren, weil der
+   Klick weiter ins Werk wichtiger ist als die Reply-CTA.
+   ========================================= */
+.hp-essay-sog {
+    margin: var(--hj-space-2xl) 0 0;
+    padding: var(--hj-space-xl) var(--hj-gutter);
+    background: var(--wp-bg-warm);
+    border-top: 1px solid var(--wp-border);
+    border-bottom: 1px solid var(--wp-border);
+}
+
+.hp-essay-sog__inner {
+    max-width: var(--hj-content-width);
+    margin: 0 auto;
+    display: grid;
+    gap: var(--hj-space-lg);
+}
+
+@media (min-width: 800px) {
+    .hp-essay-sog__inner {
+        grid-template-columns: 1.4fr 1fr;
+        align-items: start;
+    }
+}
+
+.hp-essay-sog__heading {
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--wp-ink-quiet);
+    margin: 0 0 var(--hj-space-sm);
+}
+
+.hp-essay-sog__dossier-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.85rem;
+}
+
+.hp-essay-sog__dossier {
+    display: block;
+    padding: 1rem 1.15rem;
+    background: #fff;
+    border: 1px solid var(--wp-border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--wp-ink-body);
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.hp-essay-sog__dossier:hover,
+.hp-essay-sog__dossier:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--wp-accent-hairline);
+    box-shadow: 0 6px 18px -8px rgba(133, 47, 25, 0.25);
+    outline: none;
+    text-decoration: none;
+}
+
+.hp-essay-sog__dossier-kicker {
+    display: block;
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--wp-accent);
+    margin-bottom: 0.25rem;
+}
+
+.hp-essay-sog__dossier-title {
+    display: block;
+    font-family: var(--hj-serif);
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--wp-ink);
+    margin-bottom: 0.35rem;
+}
+
+.hp-essay-sog__dossier-lede {
+    display: block;
+    font-family: var(--hj-serif);
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--wp-ink-muted);
+}
+
+.hp-essay-sog__term-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 6px;
+}
+
+.hp-essay-sog__term-list .hp-glossar-term.hp-begriff-chip {
+    font-size: 0.88rem;
+    padding: 0.3em 0.7em;
+    line-height: 1.3;
+    cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hp-essay-sog__dossier {
+        transition: border-color 0.15s ease;
+    }
+    .hp-essay-sog__dossier:hover,
+    .hp-essay-sog__dossier:focus-visible {
+        transform: none;
+    }
+}
+
 /* --- Kommentare (Diskussion) --- */
 
 .hp-comments {

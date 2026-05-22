@@ -345,6 +345,33 @@ function hp_dossier_get_begriffe( int $dossier_id ): array {
  * @param int $glossar_id Glossar-Post-ID.
  * @return WP_Post[] Liste von Dossier-Posts.
  */
+/**
+ * Reverse-Lookup: liefert alle Dossiers, in deren
+ * Leseplan dieser Essay/diese Notiz steht.
+ *
+ * @param int $post_id Essay- oder Notiz-Post-ID.
+ * @return WP_Post[] Liste von Dossier-Posts.
+ */
+function hp_post_get_dossiers( int $post_id ): array {
+	$dossiers = get_posts( [
+		'post_type'      => 'dossier',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+		'meta_query'     => [
+			[
+				'key'     => '_hp_dossier_leseplan',
+				'value'   => (string) $post_id,
+				'compare' => 'LIKE',
+			],
+		],
+	] );
+
+	return array_values( array_filter( $dossiers, function ( $d ) use ( $post_id ) {
+		$ids = hp_dossier_parse_ids( (string) get_post_meta( $d->ID, '_hp_dossier_leseplan', true ) );
+		return in_array( $post_id, $ids, true );
+	} ) );
+}
+
 function hp_glossar_get_dossiers( int $glossar_id ): array {
 	$dossiers = get_posts( [
 		'post_type'      => 'dossier',
