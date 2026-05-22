@@ -91,8 +91,8 @@ get_header(); ?>
     <section class="editorial-hero editorial-hero--atmospheric editorial-hero--empty" aria-label="Aktueller Essay">
         <div class="editorial-hero__grid">
             <div class="editorial-hero__meta hp-overline"><span>Hasim Üner</span></div>
-            <h1 class="editorial-hero__title">Macht. Medien. Gesellschaft.</h1>
-            <p class="editorial-hero__excerpt">Essays und Analysen zu Macht, Medien und Gesellschaft. Von Hasim Üner.</p>
+            <h1 class="editorial-hero__title">Macht. Medien. Perspektive.</h1>
+            <p class="editorial-hero__excerpt">Essays und Analysen zu Macht, Medien und Perspektive. Von Hasim Üner.</p>
         </div>
     </section>
 
