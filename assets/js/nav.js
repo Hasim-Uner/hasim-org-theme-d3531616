@@ -134,6 +134,119 @@
 } )();
 
 /* =========================================
+   NOTIFICATION BELL — Newsletter Modal
+   =========================================
+   Toggle für das Newsletter-Modal in der Kopfzeile.
+   Inklusive ESC-Schließen, Backdrop-Klick, Body-Lock
+   und Auto-Open nach Submission (data-open-on-load).
+*/
+( function () {
+    'use strict';
+
+    function init() {
+        var toggle  = document.querySelector( '.hp-nav__bell-toggle' );
+        var modal   = document.getElementById( 'hp-nav-bell-modal' );
+
+        if ( ! toggle || ! modal ) return;
+
+        var card        = modal.querySelector( '.hp-nav-bell-modal__card' );
+        var emailInput  = modal.querySelector( 'input[type="email"]' );
+        var lastFocused = null;
+
+        function isOpen() { return ! modal.hasAttribute( 'hidden' ); }
+
+        function open() {
+            if ( isOpen() ) return;
+            lastFocused = document.activeElement;
+            modal.removeAttribute( 'hidden' );
+            // Reflow für Animation
+            void modal.offsetHeight;
+            modal.classList.add( 'hp-nav-bell-modal--open' );
+            toggle.setAttribute( 'aria-expanded', 'true' );
+            document.body.classList.add( 'hp-no-scroll' );
+            // Fokus auf E-Mail-Feld (Dialog Discovery)
+            window.setTimeout( function () {
+                if ( emailInput ) {
+                    try { emailInput.focus( { preventScroll: true } ); }
+                    catch ( e ) { emailInput.focus(); }
+                }
+            }, 40 );
+        }
+
+        function close() {
+            if ( ! isOpen() ) return;
+            modal.classList.remove( 'hp-nav-bell-modal--open' );
+            toggle.setAttribute( 'aria-expanded', 'false' );
+            document.body.classList.remove( 'hp-no-scroll' );
+            window.setTimeout( function () {
+                modal.setAttribute( 'hidden', '' );
+                if ( lastFocused && typeof lastFocused.focus === 'function' ) {
+                    lastFocused.focus();
+                }
+            }, 200 );
+        }
+
+        toggle.addEventListener( 'click', function () {
+            if ( isOpen() ) {
+                close();
+            } else {
+                open();
+            }
+        } );
+
+        // Backdrop + Close-Button (alle Elemente mit data-bell-close)
+        modal.addEventListener( 'click', function ( e ) {
+            var target = e.target;
+            if ( target && target.closest && target.closest( '[data-bell-close="1"]' ) ) {
+                close();
+            }
+        } );
+
+        // ESC schließt
+        document.addEventListener( 'keydown', function ( e ) {
+            if ( e.key === 'Escape' && isOpen() ) {
+                close();
+            }
+        } );
+
+        // Einfacher Focus-Trap innerhalb des Modals
+        modal.addEventListener( 'keydown', function ( e ) {
+            if ( e.key !== 'Tab' || ! isOpen() ) return;
+            var focusables = card.querySelectorAll(
+                'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), [tabindex]:not([tabindex="-1"])'
+            );
+            if ( ! focusables.length ) return;
+            var first = focusables[0];
+            var last  = focusables[focusables.length - 1];
+            if ( e.shiftKey && document.activeElement === first ) {
+                e.preventDefault(); last.focus();
+            } else if ( ! e.shiftKey && document.activeElement === last ) {
+                e.preventDefault(); first.focus();
+            }
+        } );
+
+        // Auto-Open nach erfolgreichem POST (Flash-Notice gesetzt)
+        if ( modal.getAttribute( 'data-open-on-load' ) === '1' ) {
+            // URL-Param ?newsletter=... entfernen (kosmetisch)
+            if ( window.history && window.history.replaceState ) {
+                try {
+                    var url = new URL( window.location.href );
+                    url.searchParams.delete( 'newsletter' );
+                    window.history.replaceState( {}, document.title, url.toString() );
+                } catch ( err ) {}
+            }
+            open();
+        }
+    }
+
+    if ( document.readyState === 'loading' ) {
+        document.addEventListener( 'DOMContentLoaded', init );
+    } else {
+        init();
+    }
+} )();
+
+/* =========================================
    HEADER SCROLL STATE
    =========================================
    Lässt die Navigationsleiste beim Scrollen als

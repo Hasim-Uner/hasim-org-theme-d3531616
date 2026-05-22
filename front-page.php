@@ -235,20 +235,9 @@ get_header(); ?>
     <hr class="journal-rule" aria-hidden="true">
 
     <!-- ==========================================
-         3. NEWSLETTER / UPDATE-ABO
+         3. NEWSLETTER (entfernt — globale Header-Glocke übernimmt)
+         siehe inc/header-nav.php → hp-nav-bell-modal
          ========================================== -->
-    <?php
-    hp_render_newsletter_form( [
-        'id'           => 'newsletter-signup',
-        'context'      => 'front_page',
-        'variant'      => 'home',
-        'title'        => 'Neue Texte per E-Mail.',
-        'lede'         => 'Eine kurze Mail, wenn ein neuer Essay oder eine relevante Notiz erscheint.',
-        'submit_label' => 'Anmelden',
-    ] );
-    ?>
-
-    <hr class="journal-rule" aria-hidden="true">
 
     <!-- ==========================================
          4. THEMENFELDER (Taxonomie)

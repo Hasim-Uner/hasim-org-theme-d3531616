@@ -6176,3 +6176,180 @@ a.footnote-backref:hover {
         transition: none !important;
     }
 }
+
+/* =========================================
+   NOTIFICATION BELL — Header-Button
+   ========================================= */
+
+.hp-nav__bell-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(20, 24, 29, 0.04);
+    border: 1px solid rgba(20, 24, 29, 0.08);
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--hj-text);
+    padding: 0;
+    margin-left: 0;
+    line-height: 1;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.hp-nav__bell-toggle:hover,
+.hp-nav__bell-toggle:focus-visible {
+    color: var(--hj-accent);
+    background: rgba(20, 24, 29, 0.07);
+    border-color: rgba(20, 24, 29, 0.12);
+    outline: none;
+}
+
+.hp-nav__bell-toggle[aria-expanded="true"] {
+    color: var(--hj-accent);
+    background: rgba(189, 78, 47, 0.08);
+    border-color: rgba(189, 78, 47, 0.16);
+}
+
+/* =========================================
+   NOTIFICATION BELL — Modal Overlay
+   ========================================= */
+
+.hp-nav-bell-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.75rem, 4vw, 2rem);
+}
+
+.hp-nav-bell-modal[hidden] {
+    display: none;
+}
+
+.hp-nav-bell-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(27, 27, 27, 0.42);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+.hp-nav-bell-modal--open .hp-nav-bell-modal__backdrop {
+    opacity: 1;
+}
+
+.hp-nav-bell-modal__card {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    background: #faf8f5;
+    border: 1px solid rgba(20, 24, 29, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 28px 80px rgba(15, 18, 22, 0.28), 0 4px 16px rgba(15, 18, 22, 0.12);
+    transform: translateY(12px) scale(0.985);
+    opacity: 0;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.hp-nav-bell-modal--open .hp-nav-bell-modal__card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.hp-nav-bell-modal__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(20, 24, 29, 0.04);
+    border: 1px solid rgba(20, 24, 29, 0.08);
+    border-radius: 999px;
+    color: var(--hj-text, #1b1f23);
+    cursor: pointer;
+    padding: 0;
+    z-index: 2;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.hp-nav-bell-modal__close:hover,
+.hp-nav-bell-modal__close:focus-visible {
+    color: var(--hj-accent, #bd4e2f);
+    background: rgba(189, 78, 47, 0.08);
+    border-color: rgba(189, 78, 47, 0.16);
+    outline: none;
+}
+
+/* Newsletter-Formular im Modal-Kontext entzackern */
+.hp-nav-bell-modal .hp-newsletter--modal {
+    padding: 1.6rem clamp(1rem, 4vw, 1.8rem) 1.4rem;
+}
+
+.hp-nav-bell-modal .hp-newsletter__shell {
+    grid-template-columns: 1fr;
+    border: none;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+}
+
+.hp-nav-bell-modal .hp-newsletter__shell::before,
+.hp-nav-bell-modal .hp-newsletter__shell::after {
+    display: none;
+}
+
+.hp-nav-bell-modal .hp-newsletter__intro,
+.hp-nav-bell-modal .hp-newsletter__form-wrap {
+    padding: 0;
+}
+
+.hp-nav-bell-modal .hp-newsletter__form-wrap {
+    background: transparent;
+    box-shadow: none;
+    margin-top: 0.6rem;
+}
+
+.hp-nav-bell-modal .hp-newsletter__title {
+    font-size: clamp(1.4rem, 2.4vw, 1.7rem);
+    line-height: 1.18;
+    margin-top: 0.2rem;
+    padding-right: 2.4rem; /* Platz für Close-Button */
+}
+
+.hp-nav-bell-modal .hp-newsletter__lede {
+    margin-top: 0.5rem;
+    font-size: 0.98rem;
+}
+
+/* Body-Scroll-Lock, wenn Modal offen */
+body.hp-no-scroll {
+    overflow: hidden;
+}
+
+@media (max-width: 640px) {
+    .hp-nav-bell-modal__card {
+        border-radius: 14px;
+    }
+    .hp-nav-bell-modal .hp-newsletter--modal {
+        padding: 1.2rem 1rem 1.1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hp-nav-bell-modal__backdrop,
+    .hp-nav-bell-modal__card {
+        transition: none !important;
+    }
+}
+

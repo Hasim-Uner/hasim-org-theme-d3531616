@@ -1078,6 +1078,7 @@ function hp_handle_newsletter_form_submission(): void {
 	$consent    = isset( $_POST['hp_newsletter_consent'] ) ? (string) wp_unslash( $_POST['hp_newsletter_consent'] ) : '';
 	$flash      = [
 		'status' => 'error',
+		'source' => $source,
 		'fields' => [
 			'email' => $email,
 		],
@@ -1143,6 +1144,7 @@ function hp_handle_newsletter_form_submission(): void {
 			$target_url,
 			[
 				'status'  => 'success',
+				'source'  => $source,
 				'message' => 'Diese Adresse ist bereits eingetragen. Neue Texte gehen künftig an dieses Postfach.',
 			]
 		);
@@ -1168,6 +1170,7 @@ function hp_handle_newsletter_form_submission(): void {
 		$target_url,
 		[
 			'status'  => 'success',
+			'source'  => $source,
 			'message' => 'Fast geschafft. Bitte bestätigen Sie Ihre Anmeldung über die E-Mail, die gerade unterwegs ist.',
 		]
 	);
