@@ -289,3 +289,97 @@ function hp_note_jsonld_schema(): void {
 	echo "</script>\n";
 }
 add_action( 'wp_head', 'hp_note_jsonld_schema', 5 );
+
+/* =========================================
+   Article-Schema für Dossiers (Pillar 4)
+   ========================================= */
+
+/**
+ * Injiziert Article JSON-LD für Dossier-Singles.
+ *
+ * Strategischer Zweck: Dossiers als zitierfähige
+ * Wissensknoten in den Google Knowledge Graph
+ * einspeisen. hasPart referenziert die Leseplan-
+ * Beiträge, mentions die Begriffe im Apparat.
+ * citation enthält die APA-Zitation als String —
+ * macht das Dossier für Citation-Scraper (Google
+ * Scholar, Semantic Scholar) maschinell lesbar.
+ */
+function hp_dossier_jsonld_schema(): void {
+	if ( ! is_singular( 'dossier' ) ) {
+		return;
+	}
+
+	$post     = get_queried_object();
+	$post_id  = (int) $post->ID;
+	$intro    = (string) get_post_meta( $post_id, '_hp_dossier_intro', true );
+	$version  = (string) get_post_meta( $post_id, '_hp_dossier_version', true );
+	$stand    = (string) get_post_meta( $post_id, '_hp_dossier_stand', true );
+	$desc     = $intro
+		? wp_strip_all_tags( $intro )
+		: wp_trim_words( wp_strip_all_tags( $post->post_content ), 40, ' …' );
+
+	$schema = [
+		'@context'         => 'https://schema.org',
+		'@type'            => 'Article',
+		'headline'         => get_the_title( $post ),
+		'datePublished'    => get_the_date( 'c', $post ),
+		'dateModified'     => $stand ? date( 'c', strtotime( $stand ) ) : get_the_modified_date( 'c', $post ),
+		'description'      => $desc,
+		'abstract'         => $desc,
+		'author'           => [ '@id' => home_url( '/' ) . '#person' ],
+		'publisher'        => [ '@id' => home_url( '/' ) . '#organization' ],
+		'mainEntityOfPage' => [
+			'@type' => 'WebPage',
+			'@id'   => get_permalink( $post ),
+		],
+		'url'              => get_permalink( $post ),
+		'inLanguage'       => get_locale(),
+	];
+
+	if ( $version ) {
+		$schema['version'] = $version;
+	}
+
+	// hasPart: Leseplan-Beiträge als Article-Referenzen
+	if ( function_exists( 'hp_dossier_get_leseplan' ) ) {
+		$leseplan = hp_dossier_get_leseplan( $post_id );
+		if ( $leseplan ) {
+			$schema['hasPart'] = array_map( function ( $p ) {
+				return [
+					'@type'    => 'essay' === get_post_type( $p ) ? 'ScholarlyArticle' : 'BlogPosting',
+					'headline' => get_the_title( $p ),
+					'url'      => get_permalink( $p ),
+				];
+			}, $leseplan );
+		}
+	}
+
+	// mentions: Begriffsapparat als DefinedTerm-Referenzen
+	if ( function_exists( 'hp_dossier_get_begriffe' ) ) {
+		$begriffe = hp_dossier_get_begriffe( $post_id );
+		if ( $begriffe ) {
+			$schema['mentions'] = array_map( function ( $b ) {
+				return [
+					'@type' => 'DefinedTerm',
+					'name'  => get_the_title( $b ),
+					'url'   => get_permalink( $b ),
+				];
+			}, $begriffe );
+		}
+	}
+
+	// citation: APA-Zitation als String — Citation-Scraper-Bait
+	if ( function_exists( 'hp_dossier_get_citations' ) ) {
+		$c = hp_dossier_get_citations( $post_id );
+		if ( ! empty( $c['apa'] ) ) {
+			$schema['citation'] = $c['apa'];
+		}
+	}
+
+	echo "\n<!-- Haşim Üner: Dossier Article JSON-LD -->\n";
+	echo '<script type="application/ld+json">';
+	echo wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+	echo "</script>\n";
+}
+add_action( 'wp_head', 'hp_dossier_jsonld_schema', 5 );
