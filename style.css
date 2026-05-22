@@ -387,57 +387,150 @@ h4 {
     display: none !important;
 }
 
-/* --- Masthead (Titel + Tagline) --- */
+/* =========================================
+   MASTHEAD v2 — Editorial Issue-Plate
+   ---------------------------------------------
+   Vintage-Zeitungs-Masthead: Meta-Zeile oben
+   („Hannover · Ein Journal von Haşim Üner"),
+   gestapelte Wortmarke darunter („Macht. Medien."
+   schmal über kursivem, kräftigem „Perspektive.").
+   Die Wortmarke sitzt in einem horizontalen
+   Hairline-Rahmen, dessen Linie durch einen
+   knock-out-Hintergrund hinter „Perspektive."
+   unterbrochen wird — klassischer Issue-Plate-
+   Trick.
+   ========================================= */
 
 .hp-site-header {
     position: relative;
-    background:
-        linear-gradient(180deg, rgba(247,243,237,0.98), rgba(247,243,237,0.92));
-    border-bottom: 1px solid var(--hj-border);
+    background: var(--hj-bg-warm);
+    border-bottom: 1px solid var(--hj-rule);
 }
 
 .hp-masthead {
-    padding: clamp(1.35rem, 3vw, 2.4rem) var(--hj-gutter) 1rem;
-    text-align: center;
-    border-bottom: 0;
+    padding: 1.6rem var(--hj-gutter) 0;
 }
 
-.hp-masthead__inner {
-    max-width: min(52rem, calc(100% - 2rem));
-    margin: 0 auto;
-}
+/* --- Meta-Zeile --- */
 
-.hp-masthead__link {
-    text-decoration: none;
-    color: var(--hj-rule);
-    display: inline-block;
-}
-
-.hp-masthead__link:hover {
-    text-decoration: none;
-    color: var(--hj-rule);
-}
-
-.hp-masthead__title {
-    display: block;
-    font-family: var(--hj-serif);
-    font-weight: 900;
-    font-size: clamp(2rem, 4.2vw, 3.2rem);
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    color: var(--hj-rule);
-    text-transform: none;
-}
-
-.hp-masthead__tagline {
+.hp-masthead__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-family: var(--hj-sans);
-    font-size: 0.72rem;
-    font-weight: 400;
+    font-size: 0.66rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.24em;
     color: var(--hj-text-muted);
-    margin: 0.55rem 0 0;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.12);
 }
+
+.hp-masthead__meta-left {
+    color: var(--hj-text-muted);
+}
+
+.hp-masthead__meta-right {
+    color: var(--hj-text-secondary);
+}
+
+.hp-masthead__meta-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--hj-accent);
+    vertical-align: middle;
+    margin: -2px 0.65em 0 0;
+}
+
+/* --- Wortmarke (gestapelt) --- */
+
+.hp-masthead__home {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.hp-masthead__home:hover,
+.hp-masthead__home:focus-visible {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+}
+
+.hp-masthead__wordmark {
+    margin: 0;
+    text-align: center;
+    font-family: var(--hj-serif);
+    color: var(--hj-rule);
+    line-height: 0.92;
+    padding: 1.8rem 0 1.4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.hp-masthead__wordmark-upper {
+    display: block;
+    font-weight: 300;
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+    letter-spacing: 0;
+    color: var(--hj-text-secondary);
+}
+
+/* Frame: relativer Container, der die Hairline
+   trägt — sie geht von Kante zu Kante durch die
+   Mitte des kursiven Wortes. */
+.hp-masthead__wordmark-frame {
+    position: relative;
+    display: block;
+}
+
+.hp-masthead__wordmark-frame::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(17, 17, 17, 0.08);
+    transform: translateY(60%);
+    z-index: 0;
+}
+
+.hp-masthead__wordmark-lower {
+    display: block;
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3.6rem, 8.5vw, 6.4rem);
+    letter-spacing: -0.035em;
+    color: var(--hj-rule);
+    margin-top: 0.15em;
+    position: relative;
+    z-index: 1;
+}
+
+/* Knockout: der innere Wrap legt die Hintergrund-
+   Farbe der Masthead über die Hairline — das Wort
+   „Perspektive." sitzt damit IM Rahmen, nicht über
+   einer durchgehenden Linie. */
+.hp-masthead__wordmark-lower-wrap {
+    display: inline-block;
+    background: var(--hj-bg-warm);
+    padding: 0 0.25em;
+    position: relative;
+    z-index: 1;
+}
+
+/* DEPRECATED — alte Masthead-Klassen, leer gehalten
+   für den Fall, dass externe Caches noch HTML mit
+   diesen Klassen ausliefern. Sicher zu entfernen,
+   sobald alle Caches gepurged sind.
+.hp-masthead__inner,
+.hp-masthead__link,
+.hp-masthead__title,
+.hp-masthead__tagline {} */
 
 /* --- Schwebende Header-Bar --- */
 
@@ -669,7 +762,25 @@ h4 {
 
 @media (max-width: 767px) {
     .hp-masthead {
-        padding: 1.15rem var(--hj-gutter) 0.8rem;
+        padding: 1.15rem 1.1rem 0;
+    }
+
+    .hp-masthead__meta {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        padding-bottom: 0.7rem;
+    }
+
+    .hp-masthead__meta-dot {
+        margin-right: 0.5em;
+    }
+
+    .hp-masthead__wordmark {
+        padding: 1.2rem 0 1rem;
+    }
+
+    .hp-masthead__wordmark-lower-wrap {
+        padding: 0 0.18em;
     }
 
     .hp-header-bar {
@@ -6660,83 +6771,97 @@ a.footnote-backref:hover {
 }
 
 /* =========================================
-   NOTIFICATION BELL — Header-Button
+   ABO-PILLE — Newsletter-CTA im Header
+   ---------------------------------------------
+   Ersetzt die frühere Glocke (.hp-nav__bell-toggle)
+   durch eine textbasierte „Abonnieren"-Pille.
+   Die alte Klasse bleibt als JS-Hook bestehen
+   (nav.js → Modal-Trigger), trägt aber keine
+   eigenen Styles mehr.
    ========================================= */
 
-.hp-nav__bell-toggle {
-    position: relative;
+.hp-nav__abo-btn {
+    height: 38px;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(145deg, #c25b3b 0%, #ad4023 100%);
-    border: 1px solid rgba(133, 47, 25, 0.45);
-    border-radius: 999px;
+    gap: 0.45rem;
+    padding: 0 1rem 0 0.85rem;
+    margin-left: 0.3rem;
+    border: 0;
+    border-radius: var(--hj-radius-pill);
+    background: var(--hj-accent);
+    color: #fff;
+    text-decoration: none;
     cursor: pointer;
-    color: #fdf6f1;
-    padding: 0;
-    margin-left: 0;
+    font-family: var(--hj-sans);
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
     line-height: 1;
-    box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.18) inset,
-        0 1px 2px rgba(133, 47, 25, 0.18),
-        0 6px 14px -6px rgba(133, 47, 25, 0.45);
+    box-shadow: 0 6px 14px rgba(177, 42, 42, 0.25);
     transition:
-        transform 0.18s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease,
-        border-color 0.2s ease;
+        background var(--hj-dur-fast) var(--hj-ease),
+        transform   var(--hj-dur-fast) var(--hj-ease),
+        box-shadow  var(--hj-dur-fast) var(--hj-ease);
 }
 
-.hp-nav__bell-toggle svg {
-    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.08));
-}
-
-.hp-nav__bell-toggle:hover,
-.hp-nav__bell-toggle:focus-visible {
+.hp-nav__abo-btn:hover,
+.hp-nav__abo-btn:focus-visible {
+    background: var(--hj-accent-strong);
     color: #fff;
-    background: linear-gradient(145deg, #cc6243 0%, #b1432a 100%);
-    border-color: rgba(133, 47, 25, 0.65);
     transform: translateY(-1px);
-    box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.22) inset,
-        0 2px 4px rgba(133, 47, 25, 0.22),
-        0 10px 22px -8px rgba(133, 47, 25, 0.55);
+    box-shadow: 0 10px 18px rgba(177, 42, 42, 0.3);
     outline: none;
+    text-decoration: none;
 }
 
-.hp-nav__bell-toggle:active {
+.hp-nav__abo-btn:active {
     transform: translateY(0);
-    box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.14) inset,
-        0 1px 2px rgba(133, 47, 25, 0.25);
+    box-shadow: 0 4px 10px rgba(177, 42, 42, 0.22);
 }
 
-.hp-nav__bell-toggle[aria-expanded="true"] {
-    background: linear-gradient(145deg, #a23a1f 0%, #8c2f17 100%);
-    border-color: rgba(110, 35, 17, 0.7);
-    color: #fff;
+.hp-nav__abo-btn[aria-expanded="true"] {
+    background: var(--hj-accent-strong);
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.14) inset,
-        0 1px 2px rgba(110, 35, 17, 0.3),
-        0 0 0 3px rgba(189, 78, 47, 0.18);
+        0 4px 10px rgba(177, 42, 42, 0.22),
+        0 0 0 3px rgba(177, 42, 42, 0.18);
 }
 
-@media (max-width: 768px) {
-    .hp-nav__bell-toggle {
-        width: 42px;
-        height: 42px;
+.hp-nav__abo-btn svg {
+    opacity: 0.95;
+    flex-shrink: 0;
+}
+
+.hp-nav__abo-label {
+    /* Wird auf sehr engen Mobilen ausgeblendet */
+}
+
+@media (max-width: 480px) {
+    .hp-nav__abo-btn {
+        padding: 0 0.75rem;
+        gap: 0;
+    }
+    .hp-nav__abo-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+    .hp-nav__abo-btn svg {
+        margin: 0;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .hp-nav__bell-toggle,
-    .hp-nav__bell-toggle:hover,
-    .hp-nav__bell-toggle:focus-visible,
-    .hp-nav__bell-toggle:active {
+    .hp-nav__abo-btn,
+    .hp-nav__abo-btn:hover,
+    .hp-nav__abo-btn:focus-visible,
+    .hp-nav__abo-btn:active {
         transform: none;
-        transition: background 0.15s ease, border-color 0.15s ease;
+        transition: background var(--hj-dur-fast) var(--hj-ease);
     }
 }
 

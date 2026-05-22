@@ -108,14 +108,33 @@ function hp_render_journal_header(): void {
 
 	<header class="hp-site-header" role="banner">
 
-		<!-- Masthead: Titel + Tagline -->
+		<!-- Masthead v2: Editorial Issue-Plate (Meta-Zeile + Wortmarke) -->
 		<div class="hp-masthead">
-			<div class="hp-masthead__inner">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hp-masthead__link" rel="home">
-					<span class="hp-masthead__title">Haşim Üner</span>
-				</a>
-				<p class="hp-masthead__tagline">Macht. Medien. Gesellschaft.</p>
+			<div class="hp-masthead__meta">
+				<span class="hp-masthead__meta-left">Hannover</span>
+				<span class="hp-masthead__meta-right">
+					<span class="hp-masthead__meta-dot" aria-hidden="true"></span>
+					Ein Journal von Haşim Üner
+				</span>
 			</div>
+
+			<?php
+			// Wortmarke ist <h1> NUR auf der Startseite — sonst ergäbe
+			// es zwei H1s pro Seite (Masthead + Artikeltitel) und zer-
+			// schießt die Outline-Hierarchie für Screen-Reader und SEO.
+			// Auf Unterseiten visuell identisch als <p> gerendert.
+			$hp_mh_tag = is_front_page() ? 'h1' : 'p';
+			?>
+			<a class="hp-masthead__home" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="Zur Startseite">
+				<<?php echo $hp_mh_tag; ?> class="hp-masthead__wordmark">
+					<span class="hp-masthead__wordmark-upper">Macht. Medien.</span>
+					<span class="hp-masthead__wordmark-frame">
+						<span class="hp-masthead__wordmark-lower">
+							<span class="hp-masthead__wordmark-lower-wrap">Perspektive.</span>
+						</span>
+					</span>
+				</<?php echo $hp_mh_tag; ?>>
+			</a>
 		</div>
 	</header>
 
@@ -155,12 +174,15 @@ function hp_render_journal_header(): void {
 						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
 					</button>
 
-					<!-- Benachrichtigungs-Glocke (öffnet Newsletter-Modal) -->
-					<button class="hp-nav__bell-toggle" aria-label="Neue Texte abonnieren" aria-expanded="false" aria-controls="hp-nav-bell-modal" type="button">
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-							<path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+					<!-- Abonnieren-Pille (öffnet Newsletter-Modal) -->
+					<!-- Behält .hp-nav__bell-toggle als JS-Hook (siehe nav.js),
+					     erbt .hp-nav__abo-btn für das neue Styling. -->
+					<button class="hp-nav__abo-btn hp-nav__bell-toggle" aria-label="Newsletter abonnieren" aria-expanded="false" aria-controls="hp-nav-bell-modal" type="button">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M4 6h16v12H4z"/>
+							<path d="m4 7 8 6 8-6"/>
 						</svg>
+						<span class="hp-nav__abo-label">Abonnieren</span>
 					</button>
 
 					<!-- Hamburger (Mobile) -->
