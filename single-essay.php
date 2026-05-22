@@ -176,6 +176,21 @@ get_header(); ?>
 
     </div>
 
+    <!-- Inline-CTA: Newsletter am Essay-Ende (CRO-Konvertierungspfad) -->
+    <?php
+    if ( function_exists( 'hp_render_newsletter_form' ) ) {
+        hp_render_newsletter_form( [
+            'id'           => 'essay-end-newsletter',
+            'context'      => 'essay_end',
+            'variant'      => 'essay',
+            'eyebrow'      => 'Bleiben Sie verbunden',
+            'title'        => 'Wenn der nächste Essay erscheint.',
+            'lede'         => 'Eine kurze Mail, sobald ein neuer Langtext oder eine relevante Notiz veröffentlicht wird.',
+            'submit_label' => 'Anmelden',
+        ] );
+    }
+    ?>
+
     <!-- Kommentarbereich -->
     <section class="hp-comments" aria-label="Kommentare">
         <div class="hp-comments__inner">

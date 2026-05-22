@@ -155,6 +155,15 @@ function hp_render_journal_header(): void {
 						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
 					</button>
 
+					<!-- Benachrichtigungs-Glocke (öffnet Newsletter-Modal) -->
+					<button class="hp-nav__bell-toggle" aria-label="Neue Texte abonnieren" aria-expanded="false" aria-controls="hp-nav-bell-modal" type="button">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+							<path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+						</svg>
+						<span class="hp-nav__bell-dot" aria-hidden="true"></span>
+					</button>
+
 					<!-- Hamburger (Mobile) -->
 					<button class="hp-nav__toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="hp-nav-mobile">
 						<span class="hp-nav__toggle-icon" aria-hidden="true">
@@ -173,6 +182,34 @@ function hp_render_journal_header(): void {
 		<div class="hp-nav-search" id="hp-nav-search" hidden>
 			<div class="hp-nav-search__inner">
 				<?php get_search_form(); ?>
+			</div>
+		</div>
+
+		<!-- Newsletter-Modal (Bell-Trigger) -->
+		<?php
+		$hp_bell_flash      = function_exists( 'hp_get_newsletter_flash' ) ? hp_get_newsletter_flash() : [];
+		$hp_bell_source     = isset( $hp_bell_flash['source'] ) ? (string) $hp_bell_flash['source'] : '';
+		$hp_bell_open_attr  = ( 'header_bell' === $hp_bell_source ) ? ' data-open-on-load="1"' : '';
+		?>
+		<div class="hp-nav-bell-modal" id="hp-nav-bell-modal" role="dialog" aria-modal="true" aria-labelledby="header-newsletter-signup-title" hidden<?php echo $hp_bell_open_attr; ?>>
+			<div class="hp-nav-bell-modal__backdrop" data-bell-close="1" aria-hidden="true"></div>
+			<div class="hp-nav-bell-modal__card" role="document">
+				<button type="button" class="hp-nav-bell-modal__close" data-bell-close="1" aria-label="Schließen">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+				</button>
+				<?php
+				if ( function_exists( 'hp_render_newsletter_form' ) ) {
+					hp_render_newsletter_form( [
+						'id'           => 'header-newsletter-signup',
+						'context'      => 'header_bell',
+						'variant'      => 'modal',
+						'eyebrow'      => 'Benachrichtigung',
+						'title'        => 'Neue Texte per E-Mail.',
+						'lede'         => 'Eine kurze Nachricht, wenn ein neuer Essay oder eine relevante Notiz erscheint.',
+						'submit_label' => 'Anmelden',
+					] );
+				}
+				?>
 			</div>
 		</div>
 

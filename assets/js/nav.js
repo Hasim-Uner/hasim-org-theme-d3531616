@@ -134,6 +134,144 @@
 } )();
 
 /* =========================================
+   NOTIFICATION BELL — Newsletter Modal
+   =========================================
+   Toggle für das Newsletter-Modal in der Kopfzeile.
+   Inklusive ESC-Schließen, Backdrop-Klick, Body-Lock
+   und Auto-Open nach Submission (data-open-on-load).
+*/
+( function () {
+    'use strict';
+
+    function init() {
+        var toggle  = document.querySelector( '.hp-nav__bell-toggle' );
+        var modal   = document.getElementById( 'hp-nav-bell-modal' );
+
+        if ( ! toggle || ! modal ) return;
+
+        var dot           = toggle.querySelector( '.hp-nav__bell-dot' );
+        var card          = modal.querySelector( '.hp-nav-bell-modal__card' );
+        var firstField    = modal.querySelector( 'input[type="email"]' );
+        var emailInput    = firstField;
+        var lastFocused   = null;
+        var STORAGE_KEY   = 'hp_newsletter_subscribed';
+
+        function isSubscribed() {
+            try { return window.localStorage && localStorage.getItem( STORAGE_KEY ) === '1'; }
+            catch ( e ) { return false; }
+        }
+
+        function markSubscribed() {
+            try { if ( window.localStorage ) localStorage.setItem( STORAGE_KEY, '1' ); }
+            catch ( e ) {}
+        }
+
+        function isOpen() { return ! modal.hasAttribute( 'hidden' ); }
+
+        function open() {
+            if ( isOpen() ) return;
+            lastFocused = document.activeElement;
+            modal.removeAttribute( 'hidden' );
+            // Reflow für Animation
+            void modal.offsetHeight;
+            modal.classList.add( 'hp-nav-bell-modal--open' );
+            toggle.setAttribute( 'aria-expanded', 'true' );
+            document.body.classList.add( 'hp-no-scroll' );
+            if ( dot ) dot.classList.add( 'hp-nav__bell-dot--hidden' );
+            // Fokus erst auf Schließen-Button, dann E-Mail-Feld (UX-Best-Practice: Dialog Discovery)
+            window.setTimeout( function () {
+                if ( emailInput && ! isSubscribed() ) {
+                    try { emailInput.focus( { preventScroll: true } ); }
+                    catch ( e ) { emailInput.focus(); }
+                } else {
+                    var closeBtn = modal.querySelector( '.hp-nav-bell-modal__close' );
+                    if ( closeBtn ) closeBtn.focus();
+                }
+            }, 40 );
+        }
+
+        function close() {
+            if ( ! isOpen() ) return;
+            modal.classList.remove( 'hp-nav-bell-modal--open' );
+            toggle.setAttribute( 'aria-expanded', 'false' );
+            document.body.classList.remove( 'hp-no-scroll' );
+            window.setTimeout( function () {
+                modal.setAttribute( 'hidden', '' );
+                if ( lastFocused && typeof lastFocused.focus === 'function' ) {
+                    lastFocused.focus();
+                }
+            }, 200 );
+        }
+
+        toggle.addEventListener( 'click', function () {
+            if ( isOpen() ) {
+                close();
+            } else {
+                open();
+            }
+        } );
+
+        // Backdrop + Close-Button (alle Elemente mit data-bell-close)
+        modal.addEventListener( 'click', function ( e ) {
+            var target = e.target;
+            if ( target && target.closest && target.closest( '[data-bell-close="1"]' ) ) {
+                close();
+            }
+        } );
+
+        // ESC schließt
+        document.addEventListener( 'keydown', function ( e ) {
+            if ( e.key === 'Escape' && isOpen() ) {
+                close();
+            }
+        } );
+
+        // Einfacher Focus-Trap innerhalb des Modals
+        modal.addEventListener( 'keydown', function ( e ) {
+            if ( e.key !== 'Tab' || ! isOpen() ) return;
+            var focusables = card.querySelectorAll(
+                'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), [tabindex]:not([tabindex="-1"])'
+            );
+            if ( ! focusables.length ) return;
+            var first = focusables[0];
+            var last  = focusables[focusables.length - 1];
+            if ( e.shiftKey && document.activeElement === first ) {
+                e.preventDefault(); last.focus();
+            } else if ( ! e.shiftKey && document.activeElement === last ) {
+                e.preventDefault(); first.focus();
+            }
+        } );
+
+        // Auto-Open nach erfolgreichem POST (Flash-Notice gesetzt)
+        if ( modal.getAttribute( 'data-open-on-load' ) === '1' ) {
+            // Wenn Submission erfolgreich war → Cookie/LocalStorage setzen
+            var notice = modal.querySelector( '.hp-newsletter__notice--success' );
+            if ( notice ) {
+                markSubscribed();
+            }
+            // URL-Param ?newsletter=... entfernen (kosmetisch)
+            if ( window.history && window.history.replaceState ) {
+                try {
+                    var url = new URL( window.location.href );
+                    url.searchParams.delete( 'newsletter' );
+                    window.history.replaceState( {}, document.title, url.toString() );
+                } catch ( err ) {}
+            }
+            open();
+        } else if ( isSubscribed() && dot ) {
+            // Wenn bereits abonniert → kein „Neu"-Dot
+            dot.classList.add( 'hp-nav__bell-dot--hidden' );
+        }
+    }
+
+    if ( document.readyState === 'loading' ) {
+        document.addEventListener( 'DOMContentLoaded', init );
+    } else {
+        init();
+    }
+} )();
+
+/* =========================================
    HEADER SCROLL STATE
    =========================================
    Lässt die Navigationsleiste beim Scrollen als
