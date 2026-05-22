@@ -85,27 +85,35 @@
 }
 
 /* =========================================
-   FULL-BLEED HERO/ARCHIVE-HEADER
+   HERO/ARCHIVE-HEADER — robust zentriert
    ---------------------------------------------
-   Auf Singles und Archives schränkt das Parent-
-   Theme den <main>-Container oft horizontal ein
-   (Sidebar-Layout-Voreinstellungen, GP/Blocksy-
-   Defaults). Unsere Hero-/Archive-Header sollen
-   trotzdem über die volle Browser-Breite gehen.
-   Trick: 100vw + negative margin gleicht die
-   Container-Beschränkung aus, ohne PHP-Filter zu
-   brauchen. !important ist hier gerechtfertigt,
-   weil Parent-Theme mit Selektoren wie
-   ".content-area > * { max-width: ... }" gewinnt.
+   Frühere Variante nutzte width: 100vw +
+   margin: calc(50% - 50vw), um das Hero über
+   den Parent-Container hinaus auf volle
+   Browserbreite zu ziehen. Das funktioniert nur,
+   wenn der Parent exakt mittig im Viewport
+   sitzt. Bei GP-Layouts mit Sidebar oder anderen
+   asymmetrischen Containern wurde das Hero
+   stattdessen weit nach links geschoben und
+   Inhalte am linken Rand abgeschnitten.
+
+   Neue Strategie:
+   1) Der Parent-Container (.site-content,
+      .content-area, .inside-article, .container,
+      .grid-container) wird auf den jeweiligen
+      Post-Type-Seiten hart auf volle Breite
+      gesetzt (siehe Block weiter unten).
+   2) Das Hero füllt nur 100% des Parents —
+      kein vw-Hack mehr.
    ========================================= */
 .hp-dossier-hero,
 .hp-glossar-hero,
 .hp-dossier-archive-header,
 .hp-glossar-archive-header {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(50% - 50vw) !important;
-    margin-right: calc(50% - 50vw) !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     text-align: center !important;
     box-sizing: border-box;
 }
@@ -4323,27 +4331,68 @@ a.footnote-backref:hover {
     }
 }
 
-/* GP-Container auf Dossier-Seiten vollbreit machen.
-   Die Zentrierung passiert danach in den Dossier-eigenen
-   max-width-Containern. */
+/* GP-Container auf Dossier-/Glossar-Seiten vollbreit machen.
+   Die Zentrierung passiert danach in den eigenen
+   max-width-Containern. Wichtig: Alle möglichen GP-Wrapper
+   müssen erfasst sein, sonst sitzt der innere Hero-Block
+   nicht mittig im Viewport. */
 .single-dossier .site-content,
 .single-dossier .content-area,
 .single-dossier .inside-article,
+.single-dossier .site-content > .container,
+.single-dossier .site-content > .grid-container,
+.single-dossier .container.grid-container,
 .archive-dossiers .site-content,
 .archive-dossiers .content-area,
 .archive-dossiers .inside-article,
+.archive-dossiers .site-content > .container,
+.archive-dossiers .site-content > .grid-container,
+.archive-dossiers .container.grid-container,
 .post-type-archive-dossier .site-content,
 .post-type-archive-dossier .content-area,
-.post-type-archive-dossier .inside-article {
+.post-type-archive-dossier .inside-article,
+.post-type-archive-dossier .site-content > .container,
+.post-type-archive-dossier .site-content > .grid-container,
+.post-type-archive-dossier .container.grid-container,
+.single-glossar .site-content,
+.single-glossar .content-area,
+.single-glossar .inside-article,
+.single-glossar .site-content > .container,
+.single-glossar .site-content > .grid-container,
+.single-glossar .container.grid-container,
+.post-type-archive-glossar .site-content,
+.post-type-archive-glossar .content-area,
+.post-type-archive-glossar .inside-article,
+.post-type-archive-glossar .site-content > .container,
+.post-type-archive-glossar .site-content > .grid-container,
+.post-type-archive-glossar .container.grid-container {
     max-width: none !important;
     width: 100% !important;
     padding: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    float: none !important;
 }
 
 .single-dossier .site-main,
 .archive-dossiers .site-main,
-.post-type-archive-dossier .site-main {
+.post-type-archive-dossier .site-main,
+.single-glossar .site-main,
+.post-type-archive-glossar .site-main {
     margin: 0;
+    width: 100%;
+}
+
+/* Belt & suspenders: horizontalen Overflow auf den
+   betroffenen Page-Types hart kappen. Verhindert,
+   dass irgendein Restbestand-Bleed Inhalte
+   off-screen schiebt. */
+.single-dossier,
+.archive-dossiers,
+.post-type-archive-dossier,
+.single-glossar,
+.post-type-archive-glossar {
+    overflow-x: clip;
 }
 
 /* --- Single Body --- */

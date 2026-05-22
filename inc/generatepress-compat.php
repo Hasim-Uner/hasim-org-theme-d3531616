@@ -103,3 +103,24 @@ function hp_remove_gp_credits( $output ) {
 	return '';
 }
 add_filter( 'generate_copyright', 'hp_remove_gp_credits' );
+
+/* -----------------------------------------
+   GP-Sidebar auf CPT-Templates abschalten
+   -----------------------------------------
+   Dossier/Glossar/Essay/Note nutzen volle Breite
+   und eigene Hero-Layouts. Eine GP-Sidebar würde
+   den Content-Bereich asymmetrisch verkleinern
+   und die zentrierten Heroes off-center wirken
+   lassen (linksbündig-Bug, beobachtet auf
+   Dossier-Singles im Mai 2026).
+
+   Sidebar-Layout 'no-sidebar' wird per Filter
+   erzwungen — überstimmt GP-Customizer-Default
+   sowie postmeta-basierte Per-Post-Layouts. */
+add_filter( 'generate_sidebar_layout', function ( $layout ) {
+	if ( is_singular( [ 'essay', 'note', 'glossar', 'dossier' ] )
+		|| is_post_type_archive( [ 'essay', 'note', 'glossar', 'dossier' ] ) ) {
+		return 'no-sidebar';
+	}
+	return $layout;
+} );
