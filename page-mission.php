@@ -19,11 +19,11 @@ $hp_contact_url = hp_get_contact_page_url();
 <main id="main-content" class="hp-mission" aria-labelledby="mission-title" role="main">
 
 	<header class="hp-mission__hero">
-		<span class="hp-kicker">Mission</span>
-		<h1 id="mission-title" class="hp-mission__title">Mission</h1>
-		<p class="hp-mission__lede">Dieses Journal ist kein Ort für Lagerdenken oder moralische Belehrungen. Es ist der Versuch, gesellschaftliche und technologische Dynamiken mit radikaler Klarheit zu sezieren – jenseits von algorithmischen Erregungsmustern.</p>
+		<span class="hp-kicker">Über mich</span>
+		<h1 id="mission-title" class="hp-mission__title">Warum dieses Journal existiert</h1>
+		<p class="hp-mission__lede">Ich schreibe, um präziser zu denken.</p>
 		<p class="hp-mission__structure-note" style="font-style: italic; margin-top: 1.5rem; opacity: 0.95; font-size: 1.05rem; border-left: 3px solid #b12a2a; padding-left: 1rem;">
-			<strong>Die Struktur:</strong> Dieses Journal arbeitet als vernetztes System. Jeder tiefgehende Essay ist mit den datenbasierten Materialsammlungen der Dossiers untermauert und greift auf den präzisen Begriffsapparat des Glossars zurück.
+			Für mich ist Schreiben kein dekorativer Akt. Es ist ein Werkzeug gegen Unschärfe. Wer komplexe Themen ernst nimmt, kann sich nicht mit schnellen Meinungen zufriedengeben. Er muss sortieren, unterscheiden, aushalten, neu prüfen. Genau dafür existiert dieses Journal.
 		</p>
 	</header>
 
@@ -32,18 +32,26 @@ $hp_contact_url = hp_get_contact_page_url();
 		<aside class="hp-toc hp-mission__toc" aria-label="Inhaltsverzeichnis" data-visible="true">
 			<span class="hp-toc__title">Struktur</span>
 			<ol>
-				<li><a href="#das-territorium">1. Das Territorium</a></li>
+				<li><a href="#der-impuls">1. Der Impuls</a></li>
 				<li><a href="#die-perspektive">2. Die Perspektive</a></li>
-				<li><a href="#die-infrastruktur">3. Die Infrastruktur</a></li>
-				<li><a href="#der-modus">4. Der Modus</a></li>
+				<li><a href="#das-ziel">3. Das Ziel</a></li>
 			</ol>
 		</aside>
 
 		<div class="single-body__main hp-mission__content">
 
-			<section class="hp-mission__section" aria-labelledby="das-territorium">
-				<h2 id="das-territorium">1. Das Territorium</h2>
-				<p>Ich analysiere die Verwicklungen von Macht, Medien und Gesellschaft. Hier gibt es keine fertigen Antworten oder ideologischen Trost. Mich interessiert das System dahinter: Wie Narrative entstehen, wer von ihnen profitiert und wo die blinden Flecken unserer Gegenwart liegen.</p>
+			<section class="hp-mission__section" aria-label="Einleitung">
+				<p>Es ist der Versuch, Gedanken nicht einfach loszuwerden, sondern sie zu klären. Ihnen Tiefe zu geben. Widersprüche sichtbar zu machen. Der Realität so ernsthaft auf den Grund zu gehen, wie sie es verdient.</p>
+				<p>Weil das Leben zu wertvoll und zu vielschichtig ist, um es an tägliche Oberflächlichkeit, digitale Zerstreuung und vorgefertigte Deutungen zu verlieren.</p>
+			</section>
+
+			<section class="hp-mission__section" aria-labelledby="der-impuls">
+				<h2 id="der-impuls">1. Der Impuls</h2>
+				<p>Vieles in der heutigen Medienlandschaft wirkt auf mich erschöpft. Nicht, weil es zu wenig Inhalte gibt, sondern weil so vieles nur noch auf Reaktion gebaut ist: schnelle Erregung, kurze Empörung, kalkulierte Zuspitzung, Klicks, Lagerdenken.</p>
+				<p>Es wird viel gesprochen, aber wenig wirklich gedacht.</p>
+				<p>Aus meiner Beschäftigung mit Medienwissenschaft, Philosophie und gesellschaftlichen Dynamiken entstand deshalb das Bedürfnis, einen Gegenraum zu schaffen. Nicht aus Überlegenheit. Nicht, weil ich fertige Antworten besitze. Sondern weil ich selbst nach klareren Fragen suche.</p>
+				<p>Dieses Journal ist Ausdruck dieses Suchens.</p>
+				<p>Ich glaube nicht, dass wir die Welt, in die wir hineingeworfen wurden, einfach als selbstverständlich hinnehmen sollten. Die Systeme, Bilder, Begriffe und Erzählungen, die uns umgeben, formen unser Denken stärker, als wir oft wahrhaben wollen. Wer sie nicht untersucht, wird von ihnen untersucht. Wer sie nicht durchdringt, wird von ihnen gelenkt.</p>
 			</section>
 
 			<section class="hp-mission__section hp-mission__section--with-portrait" aria-labelledby="die-perspektive">
@@ -61,17 +69,23 @@ $hp_contact_url = hp_get_contact_page_url();
 					</figcaption>
 				</figure>
 				<h2 id="die-perspektive">2. Die Perspektive</h2>
-				<p>Mein Blick ist durch die Bewegung zwischen drei Sprachen geprägt: Deutsch, Kurdisch und Türkisch. Das ist keine Folklore. Wer die historischen Brüche, Traumata und politischen Empfindlichkeiten dieser drei Räume permanent balancieren muss, verliert die Fähigkeit zu einfachen, eindimensionalen Feindbildern.</p>
+				<p>Mein Blick auf gesellschaftliche Entwicklungen ist unweigerlich politisiert. Nicht im Sinne einer einfachen Parteihaltung, sondern durch Herkunft, Sprache, Geschichte und Reibung.</p>
+				<p>Ich denke aus den Spannungen dreier Sprachräume heraus: Deutsch, Kurdisch und Türkisch. Wer die historischen Brüche, Konflikte, Verletzungen und feinen Nuancen dieser Welten im eigenen Denken ausbalancieren muss, verliert irgendwann die Geduld mit einfachen Antworten.</p>
+				<p>Schwarz-Weiß-Denken wird schwer, wenn man gelernt hat, dass jede Geschichte mehrere Schichten hat.</p>
+				<p>Diese Perspektive prägt mein Schreiben. Sie macht mich misstrauisch gegenüber allem, was zu glatt klingt. Gegenüber Erzählungen, die keine Brüche kennen. Gegenüber Analysen, die schon fertig sind, bevor sie angefangen haben. Gegenüber Meinungen, die nur deshalb stark wirken, weil sie nichts Komplexes an sich heranlassen.</p>
+				<p>Ich will das Eindimensionale verweigern.</p>
+				<p>Nicht aus Trotz, sondern aus Respekt vor der Wirklichkeit.</p>
 			</section>
 
-			<section class="hp-mission__section" aria-labelledby="die-infrastruktur">
-				<h2 id="die-infrastruktur">3. Die Infrastruktur</h2>
-				<p>Social-Media-Plattformen und ihre Algorithmen belohnen die schnelle Eskalation. Dieses Journal entzieht sich dieser Logik bewusst durch ein geschlossenes, hartcodiertes System. Kein Tracking, keine Klick-Optimierung. Nur Text, Netzwerk-Graph und Fokus. Das Ziel ist ein ungestörtes Lese-Ökosystem.</p>
-			</section>
-
-			<section class="hp-mission__section" aria-labelledby="der-modus">
-				<h2 id="der-modus">4. Der Modus</h2>
-				<p>Das Journal ist eine Einladung zum strukturierten Mitdenken und zum harten Widerspruch. Reibung bringt Schärfe. Wer hier liest, sucht keine Bestätigung, sondern Analysen, an denen sich das eigene Denken abarbeiten kann.</p>
+			<section class="hp-mission__section" aria-labelledby="das-ziel">
+				<h2 id="das-ziel">3. Das Ziel</h2>
+				<p>Dieses Journal ist als ruhiger, unabhängiger Gegenraum gebaut.</p>
+				<p>Kein Tracking. Keine Klick-Köder. Kein digitaler Lärm. Keine künstliche Verknappung von Aufmerksamkeit. Nur Texte, Begriffe, Verbindungen und der ernsthafte Versuch, strukturierter zu denken.</p>
+				<p>Das vernetzte Glossar ist dabei kein Beiwerk. Es ist Teil der Methode. Begriffe sollen nicht lose herumstehen, sondern Beziehungen bilden. Essays sollen nicht isoliert wirken, sondern ein wachsendes Denknetz ergeben. Mit jedem Text wird dieses Netz präziser.</p>
+				<p>Wenn du hier einen Essay liest, triffst du nicht auf schnelle Meinungen, sondern auf Analysen, an denen gearbeitet wurde. Nicht perfekt. Nicht endgültig. Aber ernst gemeint.</p>
+				<p>Dieses Journal ist eine Einladung, aus der alltäglichen Zerstreuung auszusteigen und sich wieder auf etwas einzulassen, das selten geworden ist: gedankliche Tiefe ohne Lärm.</p>
+				<p>Nicht als Flucht aus der Welt.</p>
+				<p>Sondern als Versuch, ihr genauer zu begegnen.</p>
 			</section>
 
 			<section class="hp-mission__closing" aria-label="Abschluss und nächste Schritte">
