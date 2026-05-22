@@ -1625,7 +1625,7 @@ a.footnote-backref:hover {
 }
 
 .hp-mission__frame {
-    padding-top: var(--hj-space-lg);
+    padding-top: var(--hj-space-2xl);
     border-top: 1px solid var(--hj-rule);
 }
 
