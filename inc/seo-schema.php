@@ -136,7 +136,7 @@ function hp_org_website_jsonld_schema(): void {
 		'@id'         => $site_url . '#organization',
 		'name'        => $site_name,
 		'url'         => $site_url,
-		'description' => $site_desc ?: 'Essays und Analysen zu Macht, Medien und Gesellschaft. Von Haşim Üner.',
+		'description' => $site_desc ?: 'Essays und Analysen zu Macht, Medien und Perspektive. Von Haşim Üner.',
 		'founder'     => [
 			'@id' => $site_url . '#person',
 		],

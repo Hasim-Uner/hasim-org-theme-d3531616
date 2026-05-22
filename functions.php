@@ -59,3 +59,4 @@ require_once $hp_inc_dir . '/mini-graph.php';
 require_once $hp_inc_dir . '/votes.php';
 require_once $hp_inc_dir . '/votes-api.php';
 require_once $hp_inc_dir . '/content-seed.php';
+require_once $hp_inc_dir . '/glossar-seed.php';
