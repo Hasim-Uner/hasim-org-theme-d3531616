@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-22-sterblichkeit';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-22-sterblichkeit-r2';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -227,14 +227,22 @@ function hp_seed_perspektive_glossary(): void {
  * Legt den Essay „Sterblichkeit ist kein Softwarefehler" idempotent an.
  */
 function hp_seed_sterblichkeit_essay(): void {
-	$slug = 'sterblichkeit-kein-softwarefehler';
+	$slug            = 'sterblichkeit-kein-softwarefehler';
+	$content_version = 'r2-wissensgraph-links';
+
+	$content = hp_get_sterblichkeit_essay_content();
 
 	$existing = get_page_by_path( $slug, OBJECT, 'essay' );
 	if ( $existing instanceof WP_Post ) {
+		if ( get_post_meta( $existing->ID, '_hp_essay_content_version', true ) !== $content_version ) {
+			wp_update_post( [
+				'ID'           => $existing->ID,
+				'post_content' => $content,
+			] );
+			update_post_meta( $existing->ID, '_hp_essay_content_version', $content_version );
+		}
 		return;
 	}
-
-	$content = hp_get_sterblichkeit_essay_content();
 
 	$post_id = wp_insert_post( [
 		'post_type'    => 'essay',
@@ -257,6 +265,7 @@ function hp_seed_sterblichkeit_essay(): void {
 
 	update_post_meta( $post_id, '_hp_reading_time', 20 );
 	update_post_meta( $post_id, '_hp_reading_minutes', 20 );
+	update_post_meta( $post_id, '_hp_essay_content_version', $content_version );
 
 	if ( taxonomy_exists( 'topic' ) ) {
 		wp_set_object_terms( $post_id, [ 'Gesellschaft', 'Technologie', 'Philosophie' ], 'topic', false );
@@ -282,7 +291,7 @@ function hp_get_sterblichkeit_essay_content(): string {
 		'Der Mensch als fehlerhafte Maschine' => [
 			'<p>Das eigentliche Problem liegt nicht in einzelnen Werkzeugen. Es liegt im Menschenbild, das diese Werkzeuge oft begleitet. Dieses Menschenbild beruht auf einem <a href="/glossar/reduktionismus-methodischer/">methodischen Reduktionismus</a>: Bewusstsein wird als Datenverarbeitung verstanden, Körper als Hardware, Erinnerung als Speicher, Intelligenz als Rechenleistung, Identität als Muster und Leben als Optimierungsproblem. Was sich nicht messen, modellieren, beschleunigen oder kontrollieren lässt, erscheint darin zweitrangig, irrational oder veraltet.</p>',
 			'<p>Aber der Mensch ist keine Excel-Tabelle mit Stoffwechsel.</p>',
-			'<p>Die Ironie dabei ist: Die Tech-Elite gibt sich avantgardistisch, operiert aber mit einem Weltbild, das wissenschaftsgeschichtlich im mechanistischen Determinismus von Gottfried Wilhelm Leibniz hängengeblieben ist. Sie betrachten das Universum und den Geist als ein lineares, berechenbares Uhrwerk. Dabei ignorieren sie geflissentlich, dass Max Planck und Werner Heisenberg diese mechanische Kausalität vor über einhundert Jahren zertrümmert haben. Die Quantenphysik hat gezeigt, dass die fundamentale Realität eben nicht deterministisch, sondern voller Unschärfen, Brüche und nicht-linearer Potenziale ist. Während antike Denker wie Heraklit bereits das universelle Prinzip des permanenten, dynamischen Werdens verstanden, klammert sich der Transhumanismus an ein vor-modernes Konzept starrer, berechenbarer Materie. Ihr Verständnis von Intelligenz ist kein Blick in die Zukunft, sondern der leblose Rückzug in ein überholtes, mechanisches Weltbild des Barock.</p>',
+			'<p>Die Ironie dabei ist: Die Tech-Elite gibt sich avantgardistisch, operiert aber mit einem Weltbild, das wissenschaftsgeschichtlich im <a href="/glossar/determinismus-mechanistischer/">mechanistischen Determinismus</a> von Gottfried Wilhelm Leibniz hängengeblieben ist. Sie betrachten das Universum und den Geist als ein lineares, berechenbares Uhrwerk. Dabei ignorieren sie geflissentlich, dass Max Planck und Werner Heisenberg diese mechanische Kausalität vor über einhundert Jahren zertrümmert haben. Die Quantenphysik hat gezeigt, dass die fundamentale Realität eben nicht deterministisch, sondern voller Unschärfen, Brüche und nicht-linearer Potenziale ist. Während antike Denker wie Heraklit bereits das universelle Prinzip des permanenten, dynamischen Werdens verstanden, klammert sich der Transhumanismus an ein vor-modernes Konzept starrer, berechenbarer Materie. Ihr Verständnis von Intelligenz ist kein Blick in die Zukunft, sondern der leblose Rückzug in ein überholtes, mechanisches Weltbild des Barock.</p>',
 			'<p>Ein Mensch ist nicht bloß eine Ansammlung von Funktionen. Er ist nicht nur sein Gehirn, nicht nur sein Genom, nicht nur seine Produktivität, nicht nur sein kognitives Profil. Menschliches Leben entsteht aus Körper, Sprache, Erinnerung, Beziehung, Schmerz, Begehren, Angst, Geschichte, Kultur, Endlichkeit und Sinn. Es ist nicht einfach Information, die zufällig auf biologischem Trägermaterial läuft.</p>',
 			'<p>Genau diese Verwechslung ist zentral: Das Lebendige wird behandelt, als sei es im Kern bereits maschinell. Die Maschine erscheint dann nicht mehr als Werkzeug des Menschen, sondern als dessen bessere Version. Das Organische wird zum Provisorium erklärt. Das Digitale wird zur Verheißung.</p>',
 			'<p>Dabei ist eine Maschine immer nur in Teilbereichen überlegen. Sie kann schneller rechnen, präziser sortieren, größere Datenmengen verarbeiten, Muster erkennen, Texte erzeugen, Bilder berechnen und Entscheidungen simulieren. Aber aus funktionaler Überlegenheit folgt kein existenzieller Vorrang. Ein Taschenrechner ist besser im Rechnen als ein Kind. Trotzdem ist das Kind nicht die minderwertige Version des Taschenrechners. Der Mensch ist nicht deshalb wertvoll, weil er effizient ist. Er ist wertvoll, bevor er überhaupt etwas leistet.</p>',
@@ -298,21 +307,20 @@ function hp_get_sterblichkeit_essay_content(): string {
 		'Die Klassenfrage der Optimierung' => [
 			'<p>Die transhumanistische Zukunft wird gerne als Menschheitsprojekt verkauft. Aber technologische Revolutionen kommen selten gleichmäßig bei der Menschheit an. Sie beginnen dort, wo Geld, Labore, Plattformen, Patente und Zugang konzentriert sind.</p>',
 			'<p>Deshalb muss man die Machtfrage stellen: Wer wird optimiert? Wer bleibt zurück? Wer besitzt die Infrastruktur? Wer kontrolliert die Daten? Wer bestimmt die Norm? Wer entscheidet, welche Körper als reparaturbedürftig gelten und welche als überlegen?</p>',
-			'<p>Eine Gesellschaft, die schon heute extreme Ungleichheit produziert, wird durch Enhancement-Technologien nicht automatisch gerechter. Wenn biologische, kognitive oder digitale Erweiterungen marktförmig organisiert werden, entsteht nicht die befreite Menschheit, sondern eine neue Klassengesellschaft. Oben diejenigen, die sich Zugriff auf Optimierung kaufen können. Unten diejenigen, deren Körper weiterhin verschleißen, deren Aufmerksamkeit ausgebeutet wird, deren Daten geerntet werden und deren Lebensbedingungen sich nicht verbessern.</p>',
+			'<p>Eine Gesellschaft, die schon heute extreme Ungleichheit produziert, wird durch <a href="/glossar/enhancement-technologien/">Enhancement-Technologien</a> nicht automatisch gerechter. Wenn biologische, kognitive oder digitale Erweiterungen marktförmig organisiert werden, entsteht nicht die befreite Menschheit, sondern eine neue Klassengesellschaft. Oben diejenigen, die sich Zugriff auf Optimierung kaufen können. Unten diejenigen, deren Körper weiterhin verschleißen, deren Aufmerksamkeit ausgebeutet wird, deren Daten geerntet werden und deren Lebensbedingungen sich nicht verbessern.</p>',
 			'<p>Der Transhumanismus spricht vom Menschen der Zukunft, während die Gegenwart zerfällt. Er träumt von digitaler Unsterblichkeit, während Bildungssysteme ausbluten, Pflegekräfte kollabieren, Kinder in algorithmischen Reizmaschinen aufwachsen, psychische Erkrankungen zunehmen, Demokratien unter Plattformlogiken leiden und ökologische Grenzen ignoriert bleiben.</p>',
 			'<p>Hier berührt der Transhumanismus die <a href="/glossar/algorithmische-oeffentlichkeit/">algorithmische Öffentlichkeit</a>: eine Öffentlichkeit, in der Aufmerksamkeit nicht mehr frei entsteht, sondern durch Rankings, Feeds, Empfehlungslogiken, Erregungsschleifen und automatisierte Verstärkung geformt wird. Diese Systeme belohnen Affekte, verstärken Fragmentierung und schwächen Urteilskraft. So entsteht eine paradoxe Lage: Während oben von Bewusstseinserweiterung, Langlebigkeit und technischer Evolution gesprochen wird, wird unten die alltägliche Aufmerksamkeit zerlegt. Die Zukunft wird optimiert, während die Gegenwart zerstreut wird.</p>',
 			'<p>Die Flucht in eine fantastische Zukunft entlastet von der Reparatur der konkreten Gegenwart. Wer vom Upload des Bewusstseins träumt, muss sich weniger mit der Einsamkeit alter Menschen beschäftigen. Wer vom optimierten Körper schwärmt, muss weniger über Arbeitsbedingungen sprechen, die Körper zerstören. Die große Obszönität des Transhumanismus liegt darin, dass er das Falsche zuerst will.</p>',
 		],
 		'Digitale Unsterblichkeit ist keine Unsterblichkeit' => [
-			'<p>Besonders deutlich wird der Denkfehler beim Traum vom Mind Uploading. Die Idee klingt spektakulär: Das Gehirn wird kartiert, Bewusstsein wird rekonstruiert, Persönlichkeit wird digitalisiert, der Mensch lebt als Informationsmuster weiter.</p>',
+			'<p>Besonders deutlich wird der Denkfehler beim Traum vom <a href="/glossar/mind-uploading/">Mind Uploading</a>. Die Idee klingt spektakulär: Das Gehirn wird kartiert, Bewusstsein wird rekonstruiert, Persönlichkeit wird digitalisiert, der Mensch lebt als Informationsmuster weiter.</p>',
 			'<p>Aber selbst wenn man eines Tages eine perfekte digitale Kopie eines Menschen erzeugen könnte, wäre damit die entscheidende Frage nicht gelöst: Warum sollte diese Kopie ich sein?</p>',
 			'<p>Eine Kopie kann sprechen wie ich, erinnern wie ich, reagieren wie ich, meine Vorlieben imitieren, meine Stimme nachbilden, meine Texte schreiben und meine biografischen Muster fortsetzen. Aber Ähnlichkeit ist keine Kontinuität. Simulation ist keine Erfahrung. Ein digitales Modell meiner Person wäre vielleicht ein beeindruckendes Archiv, vielleicht ein interaktives Denkmal, vielleicht eine perfekte Täuschung für andere. Aber es wäre nicht automatisch die Fortsetzung meines gelebten Bewusstseins.</p>',
 			'<p>Der Tod wird dadurch nicht überwunden. Er wird nur ästhetisch kaschiert. Digitale Unsterblichkeit ist keine Auferstehung. Sie ist Nachlassverwaltung mit Benutzeroberfläche. Der Wunsch, weiterzuleben, ist menschlich. Aber gerade deshalb ist es gefährlich, diese Angst in ein Geschäftsmodell zu verwandeln. Wer Menschen digitale Fortexistenz verkauft, verkauft Trost. Und Trost ist einer der empfindlichsten Märkte überhaupt.</p>',
 		],
 		'Endlichkeit als Bedingung von Sinn' => [
 			'<p>Der Transhumanismus behandelt Sterblichkeit als Niederlage. Aber vielleicht ist gerade das sein tiefster Irrtum. Endlichkeit ist nicht bloß ein Defekt. Sie ist eine Bedingung von Bedeutung. Weil Zeit begrenzt ist, haben Entscheidungen Gewicht. Weil Leben nicht unendlich verfügbar ist, wird Aufmerksamkeit kostbar. Weil Beziehungen sterblich sind, können sie tragisch, zärtlich und verbindlich sein. Weil wir verschwinden, ist es nicht egal, wie wir leben.</p>',
-			'<p>Eine endlose Existenz wäre nicht automatisch tiefer. Sie könnte auch flacher werden. Wenn alles auf unendliche Verlängerung angelegt ist, verliert das Jetzt seine Dringlichkeit. Wenn der Tod nur noch als technisches Versagen gilt, wird das Leben selbst zur Warteschleife vor dem nächsten Update.</p>',
-			'<p>Der Mensch braucht nicht die Verachtung seiner Grenzen. Er braucht ein würdiges Verhältnis zu ihnen im Rahmen der <a href="/glossar/conditio-humana/">conditio humana</a>. Es gibt einen Unterschied zwischen dem Kampf gegen vermeidbares Leiden und dem Krieg gegen die conditio humana. Heilung achtet das Leben. Transhumanistische Erlösungsfantasie misstraut ihm.</p>',
+			'<p>Eine endlose Existenz wäre nicht automatisch tiefer. Sie könnte auch flacher werden. Wenn alles auf unendliche Verlängerung angelegt ist, verliert das Jetzt seine Dringlichkeit. Wenn der Tod nur noch als technisches Versagen gilt, wird das Leben selbst zur Warteschleife vor dem nächsten Update. Der Mensch braucht nicht die Verachtung seiner Grenzen. Er braucht ein würdiges Verhältnis zu ihnen im Rahmen der <a href="/glossar/conditio-humana/">conditio humana</a>. Es gibt einen Unterschied zwischen dem Kampf gegen vermeidbares Leiden und dem Krieg gegen die conditio humana. Heilung achtet das Leben. Transhumanistische Erlösungsfantasie misstraut ihm.</p>',
 		],
 		'Kosmotechnik statt Götzendienst' => [
 			'<p>Die richtige Antwort auf den Transhumanismus ist nicht Technikfeindlichkeit. Sie ist Entzauberung. Technik ist Werkzeug. Sie kann heilen, entlasten, verbinden, schützen, erweitern. Aber sie darf nicht zum Maßstab des Menschlichen werden. Sie darf nicht definieren, welches Leben als gelungen gilt. Sie darf nicht darüber entscheiden, welche Körper wertvoll, welche Gefühle störend, welche Denkweisen ineffizient und welche Menschen verbesserungsbedürftig sind.</p>',
@@ -374,6 +382,21 @@ function hp_seed_sterblichkeit_glossary(): void {
 			'slug'  => 'conditio-humana',
 			'title' => 'Conditio humana',
 			'kurz'  => 'Die fundamentale, unveränderliche Ur-Bedingung der menschlichen Existenz. Sie definiert das Menschsein durch Verletzlichkeit, Körperlichkeit und Sterblichkeit – Grenzen, die nicht als Systemfehler, sondern als die zwingende Voraussetzung für Sinn, Verbindlichkeit und Tragik begriffen werden.',
+		],
+		[
+			'slug'  => 'determinismus-mechanistischer',
+			'title' => 'Determinismus (mechanistischer)',
+			'kurz'  => 'Das im Barock geprägte Weltbild, das das Universum und den menschlichen Geist als lineares, berechenbares Uhrwerk betrachtet. Ignoriert die Erkenntnisse der modernen Quantenphysik über fundamentale Unschärfen.',
+		],
+		[
+			'slug'  => 'mind-uploading',
+			'title' => 'Mind Uploading',
+			'kurz'  => 'Die hypothetische transhumanistische Technologie, bei der das menschliche Gehirn vollständig kartiert und das Bewusstsein als digitaler Datensatz rekonstruiert werden soll.',
+		],
+		[
+			'slug'  => 'enhancement-technologien',
+			'title' => 'Enhancement-Technologien',
+			'kurz'  => 'Technologische Eingriffe, die nicht der Heilung dienen, sondern der künstlichen Erweiterung und Optimierung des Menschen über die biologischen Speziesgrenzen hinaus.',
 		],
 	];
 
