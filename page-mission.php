@@ -46,7 +46,20 @@ $hp_contact_url = hp_get_contact_page_url();
 				<p>Ich analysiere die Verwicklungen von Macht, Medien und Gesellschaft. Hier gibt es keine fertigen Antworten oder ideologischen Trost. Mich interessiert das System dahinter: Wie Narrative entstehen, wer von ihnen profitiert und wo die blinden Flecken unserer Gegenwart liegen.</p>
 			</section>
 
-			<section class="hp-mission__section" aria-labelledby="die-perspektive">
+			<section class="hp-mission__section hp-mission__section--with-portrait" aria-labelledby="die-perspektive">
+				<figure class="hp-mission__portrait" role="group" aria-label="Porträt Haşim Üner">
+					<img
+						src="https://hasimuener.org/wp-content/uploads/2026/05/Hasim-Uener_portait.png"
+						alt="Porträt Haşim Üner"
+						loading="lazy"
+						decoding="async"
+						width="320"
+						height="320">
+					<figcaption>
+						<span class="hp-mission__portrait-name">Haşim Üner</span>
+						<span class="hp-mission__portrait-meta">Hannover · Autor dieses Journals</span>
+					</figcaption>
+				</figure>
 				<h2 id="die-perspektive">2. Die Perspektive</h2>
 				<p>Mein Blick ist durch die Bewegung zwischen drei Sprachen geprägt: Deutsch, Kurdisch und Türkisch. Das ist keine Folklore. Wer die historischen Brüche, Traumata und politischen Empfindlichkeiten dieser drei Räume permanent balancieren muss, verliert die Fähigkeit zu einfachen, eindimensionalen Feindbildern.</p>
 			</section>

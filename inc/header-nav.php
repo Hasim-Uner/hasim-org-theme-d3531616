@@ -174,12 +174,15 @@ function hp_render_journal_header(): void {
 						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
 					</button>
 
-					<!-- Benachrichtigungs-Glocke (öffnet Newsletter-Modal) -->
-					<button class="hp-nav__bell-toggle" aria-label="Benachrichtigungen verwalten" aria-expanded="false" aria-controls="hp-nav-bell-modal" type="button">
-						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-							<path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+					<!-- Abonnieren-Pille (öffnet Newsletter-Modal) -->
+					<!-- Behält .hp-nav__bell-toggle als JS-Hook (siehe nav.js),
+					     erbt .hp-nav__abo-btn für das neue Styling. -->
+					<button class="hp-nav__abo-btn hp-nav__bell-toggle" aria-label="Newsletter abonnieren" aria-expanded="false" aria-controls="hp-nav-bell-modal" type="button">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M4 6h16v12H4z"/>
+							<path d="m4 7 8 6 8-6"/>
 						</svg>
+						<span class="hp-nav__abo-label">Abonnieren</span>
 					</button>
 
 					<!-- Hamburger (Mobile) -->
