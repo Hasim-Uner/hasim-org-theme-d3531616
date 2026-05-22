@@ -334,3 +334,160 @@ function hp_dossier_get_begriffe( int $dossier_id ): array {
 
 	return $posts;
 }
+
+/**
+ * Reverse-Lookup: liefert alle Dossiers, in deren
+ * Begriffsapparat der gegebene Glossar-Eintrag steht.
+ *
+ * Wird auf single-glossar.php verwendet, um die
+ * Klick-Kette Glossar → Dossier zu schließen.
+ *
+ * @param int $glossar_id Glossar-Post-ID.
+ * @return WP_Post[] Liste von Dossier-Posts.
+ */
+function hp_glossar_get_dossiers( int $glossar_id ): array {
+	$dossiers = get_posts( [
+		'post_type'      => 'dossier',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+		'meta_query'     => [
+			[
+				'key'     => '_hp_dossier_begriffe',
+				'value'   => (string) $glossar_id,
+				'compare' => 'LIKE',
+			],
+		],
+	] );
+
+	// LIKE matcht auch Teilstrings (1 in 12). Sauber per
+	// PHP-Filter über die exakte ID-Liste filtern.
+	return array_values( array_filter( $dossiers, function ( $d ) use ( $glossar_id ) {
+		$ids = hp_dossier_parse_ids( (string) get_post_meta( $d->ID, '_hp_dossier_begriffe', true ) );
+		return in_array( $glossar_id, $ids, true );
+	} ) );
+}
+
+/**
+ * Generiert Zitations-Strings für ein Dossier in den
+ * akademisch gängigen Formaten APA + BibTeX.
+ *
+ * Strategischer Zweck: Dossiers als Zitier-Fundamente
+ * positionieren. Journalisten/Akademiker bekommen die
+ * fertige Zitation in der jeweiligen Konvention zum
+ * Kopieren — senkt die Hürde drastisch, das Dossier
+ * tatsächlich in eigenen Texten zu verlinken.
+ *
+ * @param int $dossier_id Dossier-Post-ID.
+ * @return array{ apa: string, bibtex: string, url: string, title: string }
+ */
+function hp_dossier_get_citations( int $dossier_id ): array {
+	$title    = get_the_title( $dossier_id );
+	$url      = get_permalink( $dossier_id );
+	$author   = (string) get_post_meta( $dossier_id, '_hp_dossier_kuratiert_von', true );
+	$version  = (string) get_post_meta( $dossier_id, '_hp_dossier_version', true );
+	$stand    = (string) get_post_meta( $dossier_id, '_hp_dossier_stand', true );
+	$site     = wp_parse_url( home_url(), PHP_URL_HOST ) ?: 'hasimuener.org';
+
+	// Fallbacks
+	if ( '' === $author ) {
+		$author = 'Üner, Haşim';
+	} else {
+		// "Haşim Üner" → "Üner, Haşim" für APA
+		$parts = preg_split( '/\s+/', trim( $author ) );
+		if ( count( $parts ) >= 2 ) {
+			$last  = array_pop( $parts );
+			$first = implode( ' ', $parts );
+			$author_apa = $last . ', ' . $first;
+		} else {
+			$author_apa = $author;
+		}
+	}
+	if ( ! isset( $author_apa ) ) {
+		$author_apa = $author;
+	}
+
+	// Jahr aus Stand-Datum oder Publish-Datum
+	$year = $stand ? date_i18n( 'Y', strtotime( $stand ) ) : get_the_date( 'Y', $dossier_id );
+
+	// --- APA-Style ---
+	$apa_parts = [ $author_apa . ' (' . $year . ').' ];
+	$apa_parts[] = $title;
+	if ( $version ) {
+		$apa_parts[ count( $apa_parts ) - 1 ] .= ' (Version ' . $version . ')';
+	}
+	$apa_parts[ count( $apa_parts ) - 1 ] .= '.';
+	$apa_parts[] = $site . '.';
+	$apa_parts[] = $url;
+	$apa = implode( ' ', $apa_parts );
+
+	// --- BibTeX ---
+	// Cite-Key: nachname + jahr + erstes-titelwort (slugged)
+	$last_only      = preg_replace( '/[^a-zA-Z]/', '', strtolower( explode( ',', $author_apa )[0] ) );
+	$first_keyword  = preg_replace( '/[^a-z0-9]/', '', strtolower( strtok( $title, ' —-,:.' ) ) );
+	$cite_key       = $last_only . $year . $first_keyword;
+	$note_parts     = [];
+	if ( $version ) { $note_parts[] = 'Version ' . $version; }
+	if ( $stand )   { $note_parts[] = 'Stand: ' . date_i18n( 'j. F Y', strtotime( $stand ) ); }
+	$bibtex_lines = [
+		'@misc{' . $cite_key . ',',
+		'  author = {' . $author . '},',
+		'  title  = {' . str_replace( [ '{', '}' ], '', $title ) . '},',
+		'  year   = {' . $year . '},',
+		'  howpublished = {' . $site . '},',
+	];
+	if ( $note_parts ) {
+		$bibtex_lines[] = '  note   = {' . implode( ', ', $note_parts ) . '},';
+	}
+	$bibtex_lines[] = '  url    = {' . $url . '}';
+	$bibtex_lines[] = '}';
+	$bibtex = implode( "\n", $bibtex_lines );
+
+	return [
+		'apa'    => $apa,
+		'bibtex' => $bibtex,
+		'url'    => $url,
+		'title'  => $title,
+	];
+}
+
+/**
+ * Rendert die Cite-this-Box auf Dossier-Singles.
+ *
+ * Zwei Tabs (APA / BibTeX), Copy-Buttons pro Tab,
+ * progressive Enhancement: ohne JS sind beide
+ * Codeblöcke sichtbar und manuell markierbar.
+ *
+ * @param int $dossier_id Dossier-Post-ID.
+ */
+function hp_dossier_render_cite_box( int $dossier_id ): void {
+	$c = hp_dossier_get_citations( $dossier_id );
+	?>
+	<aside class="hp-cite" aria-label="Dieses Dossier zitieren" data-cite-box>
+		<header class="hp-cite__header">
+			<h2 class="hp-cite__heading">Zitieren</h2>
+			<p class="hp-cite__lede">Belegfertige Zitation in akademischer Konvention.</p>
+		</header>
+
+		<div class="hp-cite__tabs" role="tablist">
+			<button type="button" class="hp-cite__tab is-active" role="tab" aria-selected="true" aria-controls="hp-cite-panel-apa-<?php echo (int) $dossier_id; ?>" data-cite-tab="apa">APA</button>
+			<button type="button" class="hp-cite__tab" role="tab" aria-selected="false" aria-controls="hp-cite-panel-bib-<?php echo (int) $dossier_id; ?>" data-cite-tab="bibtex">BibTeX</button>
+		</div>
+
+		<div class="hp-cite__panel is-active" id="hp-cite-panel-apa-<?php echo (int) $dossier_id; ?>" role="tabpanel" data-cite-panel="apa">
+			<pre class="hp-cite__text" data-cite-text><?php echo esc_html( $c['apa'] ); ?></pre>
+			<button type="button" class="hp-cite__copy" data-cite-copy aria-label="APA-Zitation kopieren">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+				<span>Kopieren</span>
+			</button>
+		</div>
+
+		<div class="hp-cite__panel" id="hp-cite-panel-bib-<?php echo (int) $dossier_id; ?>" role="tabpanel" data-cite-panel="bibtex" hidden>
+			<pre class="hp-cite__text" data-cite-text><?php echo esc_html( $c['bibtex'] ); ?></pre>
+			<button type="button" class="hp-cite__copy" data-cite-copy aria-label="BibTeX-Zitation kopieren">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+				<span>Kopieren</span>
+			</button>
+		</div>
+	</aside>
+	<?php
+}

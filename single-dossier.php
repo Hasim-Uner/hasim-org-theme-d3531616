@@ -120,6 +120,13 @@ get_header(); ?>
         <?php endif;
     endif; ?>
 
+    <?php
+    // Cite-this-Box: macht das Dossier zitierfähig (APA + BibTeX)
+    if ( function_exists( 'hp_dossier_render_cite_box' ) ) {
+        hp_dossier_render_cite_box( $hp_d_id );
+    }
+    ?>
+
     <?php if ( $hp_d_version || $hp_d_stand ) : ?>
         <footer class="hp-begriff-stand" aria-label="Versionsinformation">
             <?php if ( $hp_d_version ) : ?>

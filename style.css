@@ -3823,6 +3823,94 @@ a.footnote-backref:hover {
     padding: 0;
 }
 
+/* --- Cross-Link Glossar → Dossier (Lese-Sog) ---
+   Wenn ein Begriff Teil eines Dossier-Begriffsapparats
+   ist, listet dieser Block die Dossiers prominent — als
+   Einladung in die systematische Tiefenlektüre. */
+.hp-glossar-dossiers {
+    max-width: var(--hj-measure);
+    margin: var(--hj-space-xl) auto 0;
+    padding-top: var(--hj-space-md);
+    border-top: 1px solid var(--wp-border);
+}
+
+.hp-glossar-dossiers__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.85rem;
+}
+
+.hp-glossar-dossiers__item {
+    margin: 0;
+}
+
+.hp-glossar-dossiers__link {
+    display: block;
+    padding: 1rem 1.15rem;
+    background: var(--wp-bg-warm);
+    border: 1px solid var(--wp-border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--wp-ink-body);
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.hp-glossar-dossiers__link:hover,
+.hp-glossar-dossiers__link:focus-visible {
+    transform: translateY(-1px);
+    background: #fbf8f3;
+    border-color: var(--wp-accent-hairline);
+    box-shadow: 0 6px 18px -8px rgba(133, 47, 25, 0.25);
+    outline: none;
+    text-decoration: none;
+}
+
+.hp-glossar-dossiers__kicker {
+    display: block;
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--wp-accent);
+    margin-bottom: 0.25rem;
+}
+
+.hp-glossar-dossiers__title {
+    display: block;
+    font-family: var(--hj-serif);
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--wp-ink);
+    margin-bottom: 0.35rem;
+}
+
+.hp-glossar-dossiers__lede {
+    display: block;
+    font-family: var(--hj-serif);
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--wp-ink-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hp-glossar-dossiers__link {
+        transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .hp-glossar-dossiers__link:hover,
+    .hp-glossar-dossiers__link:focus-visible {
+        transform: none;
+    }
+}
+
 /* --- Rückverlinkungen --- */
 .hp-glossar-related {
     max-width: var(--hj-measure);
@@ -4483,6 +4571,148 @@ a.footnote-backref:hover {
 .hp-dossier-body__content {
     max-width: var(--hj-measure);
     margin: 0 auto;
+}
+
+/* --- Cite-this-Box (Pillar 4: Zitier-Fundamente) ---
+   Akademisch-formelle Zitations-Box am Dossier-Ende.
+   Zwei Tabs: APA + BibTeX. Kopier-Button pro Tab. Ohne
+   JS bleibt der aktive Tab sichtbar; mit JS schaltbar. */
+.hp-cite {
+    max-width: var(--hj-measure);
+    margin: var(--hj-space-xl) auto 0;
+    padding: var(--hj-space-md) 0 0;
+    border-top: 1px solid var(--wp-border);
+}
+
+.hp-cite__header {
+    margin-bottom: var(--hj-space-sm);
+}
+
+.hp-cite__heading {
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--wp-ink-quiet);
+    margin: 0 0 0.25rem;
+}
+
+.hp-cite__lede {
+    margin: 0;
+    font-family: var(--hj-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--wp-ink-muted);
+}
+
+.hp-cite__tabs {
+    display: flex;
+    gap: 0;
+    margin: 0 0 0.85rem;
+    border-bottom: 1px solid var(--wp-border);
+}
+
+.hp-cite__tab {
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 0.5rem 1rem;
+    margin-bottom: -1px;
+    font-family: var(--hj-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--wp-ink-quiet);
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.hp-cite__tab:hover {
+    color: var(--wp-ink-body);
+}
+
+.hp-cite__tab.is-active {
+    color: var(--wp-accent);
+    border-bottom-color: var(--wp-accent);
+}
+
+.hp-cite__tab:focus-visible {
+    outline: 2px solid var(--wp-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.hp-cite__panel {
+    position: relative;
+}
+
+.hp-cite__panel[hidden] {
+    display: none;
+}
+
+.hp-cite__text {
+    background: var(--wp-bg-warm);
+    border: 1px solid var(--wp-border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    padding-right: 6rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--wp-ink-body);
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+    overflow-x: auto;
+}
+
+.hp-cite__copy {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.7rem;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--wp-border);
+    border-radius: 6px;
+    font-family: var(--hj-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--wp-ink-body);
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.hp-cite__copy:hover,
+.hp-cite__copy:focus-visible {
+    background: var(--wp-accent);
+    color: var(--wp-ink-on-accent);
+    border-color: var(--wp-accent);
+    outline: none;
+}
+
+.hp-cite__copy[data-copied="1"] {
+    background: #1f7a37;
+    border-color: #1f7a37;
+    color: #fff;
+}
+
+.hp-cite__copy svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .hp-cite__copy {
+        position: static;
+        margin-top: 0.5rem;
+    }
+    .hp-cite__text {
+        padding-right: 1.1rem;
+    }
 }
 
 /* --- Sektionen (Leseplan / Begriffe / Quellen) --- */

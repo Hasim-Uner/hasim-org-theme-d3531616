@@ -125,6 +125,33 @@ $hp_stand    = get_post_meta( $hp_post_id, '_hp_glossar_stand', true );
     ?>
 
     <?php
+    // Cross-Link: Dossiers, in deren Begriffsapparat dieser Eintrag steht
+    if ( function_exists( 'hp_glossar_get_dossiers' ) ) :
+        $hp_glossar_dossiers = hp_glossar_get_dossiers( $hp_post_id );
+        if ( $hp_glossar_dossiers ) : ?>
+            <aside class="hp-begriff-section hp-glossar-dossiers" aria-label="Dossiers, die diesen Begriff systematisch behandeln">
+                <h2 class="hp-begriff-section__heading">Teil dieser Dossiers</h2>
+                <ul class="hp-glossar-dossiers__list">
+                    <?php foreach ( $hp_glossar_dossiers as $hp_gd_post ) :
+                        $hp_gd_intro = get_post_meta( $hp_gd_post->ID, '_hp_dossier_intro', true );
+                    ?>
+                        <li class="hp-glossar-dossiers__item">
+                            <a class="hp-glossar-dossiers__link" href="<?php echo esc_url( get_permalink( $hp_gd_post ) ); ?>">
+                                <span class="hp-glossar-dossiers__kicker">Dossier</span>
+                                <span class="hp-glossar-dossiers__title"><?php echo esc_html( get_the_title( $hp_gd_post ) ); ?></span>
+                                <?php if ( $hp_gd_intro ) : ?>
+                                    <span class="hp-glossar-dossiers__lede"><?php echo esc_html( wp_trim_words( $hp_gd_intro, 22, ' …' ) ); ?></span>
+                                <?php endif; ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </aside>
+        <?php endif;
+    endif;
+    ?>
+
+    <?php
     // Rückverlinkungen: Essays & Notizen, die diesen Begriff enthalten
     $hp_title   = get_the_title();
     $hp_related = new WP_Query( [
