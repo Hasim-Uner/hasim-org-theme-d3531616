@@ -149,22 +149,9 @@
 
         if ( ! toggle || ! modal ) return;
 
-        var dot           = toggle.querySelector( '.hp-nav__bell-dot' );
-        var card          = modal.querySelector( '.hp-nav-bell-modal__card' );
-        var firstField    = modal.querySelector( 'input[type="email"]' );
-        var emailInput    = firstField;
-        var lastFocused   = null;
-        var STORAGE_KEY   = 'hp_newsletter_subscribed';
-
-        function isSubscribed() {
-            try { return window.localStorage && localStorage.getItem( STORAGE_KEY ) === '1'; }
-            catch ( e ) { return false; }
-        }
-
-        function markSubscribed() {
-            try { if ( window.localStorage ) localStorage.setItem( STORAGE_KEY, '1' ); }
-            catch ( e ) {}
-        }
+        var card        = modal.querySelector( '.hp-nav-bell-modal__card' );
+        var emailInput  = modal.querySelector( 'input[type="email"]' );
+        var lastFocused = null;
 
         function isOpen() { return ! modal.hasAttribute( 'hidden' ); }
 
@@ -177,15 +164,11 @@
             modal.classList.add( 'hp-nav-bell-modal--open' );
             toggle.setAttribute( 'aria-expanded', 'true' );
             document.body.classList.add( 'hp-no-scroll' );
-            if ( dot ) dot.classList.add( 'hp-nav__bell-dot--hidden' );
-            // Fokus erst auf Schließen-Button, dann E-Mail-Feld (UX-Best-Practice: Dialog Discovery)
+            // Fokus auf E-Mail-Feld (Dialog Discovery)
             window.setTimeout( function () {
-                if ( emailInput && ! isSubscribed() ) {
+                if ( emailInput ) {
                     try { emailInput.focus( { preventScroll: true } ); }
                     catch ( e ) { emailInput.focus(); }
-                } else {
-                    var closeBtn = modal.querySelector( '.hp-nav-bell-modal__close' );
-                    if ( closeBtn ) closeBtn.focus();
                 }
             }, 40 );
         }
@@ -244,11 +227,6 @@
 
         // Auto-Open nach erfolgreichem POST (Flash-Notice gesetzt)
         if ( modal.getAttribute( 'data-open-on-load' ) === '1' ) {
-            // Wenn Submission erfolgreich war → Cookie/LocalStorage setzen
-            var notice = modal.querySelector( '.hp-newsletter__notice--success' );
-            if ( notice ) {
-                markSubscribed();
-            }
             // URL-Param ?newsletter=... entfernen (kosmetisch)
             if ( window.history && window.history.replaceState ) {
                 try {
@@ -258,9 +236,6 @@
                 } catch ( err ) {}
             }
             open();
-        } else if ( isSubscribed() && dot ) {
-            // Wenn bereits abonniert → kein „Neu"-Dot
-            dot.classList.add( 'hp-nav__bell-dot--hidden' );
         }
     }
 

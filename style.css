@@ -6213,23 +6213,6 @@ a.footnote-backref:hover {
     border-color: rgba(189, 78, 47, 0.16);
 }
 
-.hp-nav__bell-dot {
-    position: absolute;
-    top: 8px;
-    right: 9px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--hj-accent, #bd4e2f);
-    box-shadow: 0 0 0 2px rgba(248, 244, 239, 0.95);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.hp-nav__bell-dot--hidden {
-    opacity: 0;
-    transform: scale(0.4);
-}
-
 /* =========================================
    NOTIFICATION BELL — Modal Overlay
    ========================================= */
@@ -6365,8 +6348,7 @@ body.hp-no-scroll {
 
 @media (prefers-reduced-motion: reduce) {
     .hp-nav-bell-modal__backdrop,
-    .hp-nav-bell-modal__card,
-    .hp-nav__bell-dot {
+    .hp-nav-bell-modal__card {
         transition: none !important;
     }
 }
