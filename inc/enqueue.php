@@ -35,6 +35,21 @@ defined( 'ABSPATH' ) || exit;
 function hp_journal_enqueue_assets(): void {
 	$theme_version = wp_get_theme()->get( 'Version' );
 	$uri           = get_stylesheet_directory_uri();
+	$dir           = get_stylesheet_directory();
+
+	// filemtime() pro Asset → automatischer Cache-Bust bei jeder Änderung.
+	$style_ver = file_exists( $dir . '/style.css' )
+		? (string) filemtime( $dir . '/style.css' )
+		: $theme_version;
+	$nav_ver   = file_exists( $dir . '/assets/js/nav.js' )
+		? (string) filemtime( $dir . '/assets/js/nav.js' )
+		: $theme_version;
+	$single_ver = file_exists( $dir . '/assets/js/journal-single.js' )
+		? (string) filemtime( $dir . '/assets/js/journal-single.js' )
+		: $theme_version;
+	$glossar_ver = file_exists( $dir . '/assets/js/glossar-tooltip.js' )
+		? (string) filemtime( $dir . '/assets/js/glossar-tooltip.js' )
+		: $theme_version;
 
 	// Parent-Theme — nötig für korrekte CSS-Kaskade
 	wp_enqueue_style(
@@ -49,7 +64,7 @@ function hp_journal_enqueue_assets(): void {
 		'hp-journal-style',
 		$uri . '/style.css',
 		[ 'generatepress-style', 'generate-style' ],
-		$theme_version
+		$style_ver
 	);
 
 	// 1. Global: Navigation JS (Hamburger, Suche, Header-Scroll)
@@ -57,7 +72,7 @@ function hp_journal_enqueue_assets(): void {
 		'hp-nav-js',
 		$uri . '/assets/js/nav.js',
 		[],
-		$theme_version,
+		$nav_ver,
 		true
 	);
 
@@ -67,7 +82,7 @@ function hp_journal_enqueue_assets(): void {
 			'hp-journal-single',
 			$uri . '/assets/js/journal-single.js',
 			[],
-			$theme_version,
+			$single_ver,
 			true
 		);
 	}
@@ -78,7 +93,7 @@ function hp_journal_enqueue_assets(): void {
 			'hp-glossar-tooltip',
 			$uri . '/assets/js/glossar-tooltip.js',
 			[],
-			$theme_version,
+			$glossar_ver,
 			true
 		);
 	}
