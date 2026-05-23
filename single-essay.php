@@ -22,8 +22,10 @@ get_header(); ?>
         <header class="essay-hero">
             <div class="essay-hero__image-wrap">
                 <?php the_post_thumbnail( 'full', array(
-                    'class'   => 'essay-hero__img',
-                    'loading' => 'eager',
+                    'class'         => 'essay-hero__img',
+                    'loading'       => 'eager',
+                    'fetchpriority' => 'high',
+                    'decoding'      => 'async',
                 ) ); ?>
                 <div class="essay-hero__overlay" aria-hidden="true"></div>
             </div>

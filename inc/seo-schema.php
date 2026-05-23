@@ -467,3 +467,90 @@ function hp_dossier_jsonld_schema(): void {
 	echo "</script>\n";
 }
 add_action( 'wp_head', 'hp_dossier_jsonld_schema', 5 );
+
+/* =========================================
+   CollectionPage Schema für Archive
+   ========================================= */
+
+/**
+ * Injiziert CollectionPage JSON-LD für CPT-Archive und die Topic-Taxonomie.
+ *
+ * Felder: name, description, url, isPartOf (WebSite), inLanguage,
+ * mainEntity (ItemList mit den auf der Seite gelisteten Beiträgen).
+ *
+ * Wirkt nur auf Seite 1 — paginierte Archive sind ohnehin noindex.
+ */
+function hp_archive_jsonld_schema(): void {
+	$is_cpt_archive = is_post_type_archive( [ 'essay', 'note', 'glossar', 'dossier' ] );
+	$is_topic_tax   = is_tax( 'topic' );
+
+	if ( ( ! $is_cpt_archive && ! $is_topic_tax ) || is_paged() ) {
+		return;
+	}
+
+	$site_url = home_url( '/' );
+	$obj      = get_queried_object();
+
+	if ( $is_cpt_archive ) {
+		$name = post_type_archive_title( '', false );
+		$url  = get_post_type_archive_link( $obj->name );
+		$desc = ! empty( $obj->description ) ? wp_strip_all_tags( $obj->description ) : '';
+	} else {
+		$name = single_term_title( '', false );
+		$url  = get_term_link( $obj );
+		$desc = wp_strip_all_tags( term_description() );
+	}
+
+	if ( ! $url || is_wp_error( $url ) ) {
+		return;
+	}
+
+	$schema = [
+		'@context'   => 'https://schema.org',
+		'@type'      => 'CollectionPage',
+		'name'       => $name,
+		'url'        => $url,
+		'inLanguage' => get_locale(),
+		'isPartOf'   => [ '@id' => $site_url . '#website' ],
+		'publisher'  => [ '@id' => $site_url . '#organization' ],
+	];
+
+	if ( $desc ) {
+		$schema['description'] = $desc;
+	}
+
+	// ItemList mit den aktuell ausgegebenen Beiträgen (max. 20)
+	global $wp_query;
+	if ( $wp_query instanceof WP_Query && $wp_query->have_posts() ) {
+		$items = [];
+		$pos   = 1;
+
+		foreach ( $wp_query->posts as $p ) {
+			if ( $pos > 20 ) {
+				break;
+			}
+			if ( ! ( $p instanceof WP_Post ) ) {
+				continue;
+			}
+			$items[] = [
+				'@type'    => 'ListItem',
+				'position' => $pos++,
+				'url'      => get_permalink( $p ),
+				'name'     => get_the_title( $p ),
+			];
+		}
+
+		if ( $items ) {
+			$schema['mainEntity'] = [
+				'@type'           => 'ItemList',
+				'itemListElement' => $items,
+			];
+		}
+	}
+
+	echo "\n<!-- Haşim Üner: CollectionPage JSON-LD -->\n";
+	echo '<script type="application/ld+json">';
+	echo wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+	echo "</script>\n";
+}
+add_action( 'wp_head', 'hp_archive_jsonld_schema', 5 );

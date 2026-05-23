@@ -169,3 +169,202 @@ function hp_remove_pingback_header( array $headers ): array {
 	return $headers;
 }
 add_filter( 'wp_headers', 'hp_remove_pingback_header' );
+
+/* =========================================
+   6. IMAGE-ALT-FALLBACK
+   ========================================= */
+
+/**
+ * Setzt automatisch ein `alt`-Attribut, wenn das Bild keins hat.
+ *
+ * Fallback-Kette:
+ * 1. vorhandenes alt
+ * 2. Bild-Titel (Attachment-Post-Title)
+ * 3. Bild-Caption
+ * 4. Titel des Parent-Posts
+ *
+ * Wirkt nur, wenn alt fehlt — überschreibt nie redaktionelle alts.
+ *
+ * @param array<string,string> $attr       Bestehende Attribute.
+ * @param WP_Post              $attachment Attachment-Post.
+ * @return array<string,string>
+ */
+function hp_image_alt_fallback( $attr, $attachment ): array {
+	if ( ! empty( $attr['alt'] ) ) {
+		return $attr;
+	}
+
+	if ( ! ( $attachment instanceof WP_Post ) ) {
+		return $attr;
+	}
+
+	$alt = trim( (string) get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ) );
+
+	if ( ! $alt ) {
+		$alt = trim( (string) $attachment->post_title );
+	}
+
+	if ( ! $alt ) {
+		$alt = trim( (string) $attachment->post_excerpt );
+	}
+
+	if ( ! $alt && $attachment->post_parent ) {
+		$alt = trim( (string) get_the_title( $attachment->post_parent ) );
+	}
+
+	if ( $alt ) {
+		$attr['alt'] = $alt;
+	}
+
+	return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'hp_image_alt_fallback', 10, 2 );
+
+/* =========================================
+   7. LAST-MODIFIED HEADER (Singles)
+   ========================================= */
+
+/**
+ * Setzt `Last-Modified` und `ETag` auf singulären Inhalten.
+ *
+ * Erhöht die Crawl-Effizienz: Google darf mit `If-Modified-Since`
+ * antworten und spart Roundtrips — das Crawl-Budget fließt
+ * stattdessen in neue/aktualisierte Inhalte.
+ */
+function hp_send_last_modified_header(): void {
+	if ( is_admin() || ! is_singular() ) {
+		return;
+	}
+
+	$post = get_queried_object();
+	if ( ! ( $post instanceof WP_Post ) ) {
+		return;
+	}
+
+	$modified_gmt = get_post_modified_time( 'U', true, $post );
+	if ( ! $modified_gmt ) {
+		return;
+	}
+
+	$last_modified = gmdate( 'D, d M Y H:i:s', $modified_gmt ) . ' GMT';
+	$etag          = '"' . md5( $modified_gmt . '-' . $post->ID ) . '"';
+
+	header( 'Last-Modified: ' . $last_modified );
+	header( 'ETag: ' . $etag );
+
+	$ims  = $_SERVER['HTTP_IF_MODIFIED_SINCE'] ?? '';
+	$inm  = $_SERVER['HTTP_IF_NONE_MATCH']     ?? '';
+	$hit  = ( $ims && strtotime( $ims ) >= $modified_gmt )
+		|| ( $inm && trim( $inm ) === $etag );
+
+	if ( $hit ) {
+		status_header( 304 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'hp_send_last_modified_header' );
+
+/* =========================================
+   8. REL="ME" IDENTITY-LINKS
+   ========================================= */
+
+/* =========================================
+   9. FRONTEND-PERFORMANCE (CWV)
+   ========================================= */
+
+/**
+ * Entfernt das WP-Emoji-Script + zugehörige Styles im Frontend.
+ *
+ * Spart ~10 KB JS, einen Inline-Script-Block und einen externen
+ * Render-Pfad — moderne Browser rendern Emojis nativ.
+ */
+function hp_disable_wp_emojis(): void {
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
+	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+
+	add_filter( 'tiny_mce_plugins', static function ( $plugins ) {
+		return is_array( $plugins ) ? array_diff( $plugins, [ 'wpemoji' ] ) : $plugins;
+	} );
+
+	add_filter( 'emoji_svg_url', '__return_false' );
+}
+add_action( 'init', 'hp_disable_wp_emojis' );
+
+/**
+ * Entfernt das wp-embed.min.js im Frontend.
+ *
+ * Wird nur für oEmbed-iframe-Resizing fremder Seiten gebraucht —
+ * im redaktionellen Setup hier nicht relevant. Spart ~2 KB JS.
+ */
+function hp_disable_wp_embed(): void {
+	wp_deregister_script( 'wp-embed' );
+}
+add_action( 'wp_footer', 'hp_disable_wp_embed', 1 );
+
+/**
+ * Entfernt jQuery-Migrate vom Frontend (Admin bleibt unangetastet).
+ *
+ * Migrate ist nur für Legacy-Plugins nötig — eigene Scripts laufen
+ * ohne. Spart ~10 KB JS + einen Parse-Pass.
+ *
+ * @param WP_Scripts $scripts
+ */
+function hp_remove_jquery_migrate( $scripts ): void {
+	if ( is_admin() || ! ( $scripts instanceof WP_Scripts ) ) {
+		return;
+	}
+
+	if ( ! empty( $scripts->registered['jquery'] ) ) {
+		$jquery = $scripts->registered['jquery'];
+		if ( ! empty( $jquery->deps ) ) {
+			$jquery->deps = array_diff( $jquery->deps, [ 'jquery-migrate' ] );
+		}
+	}
+}
+add_action( 'wp_default_scripts', 'hp_remove_jquery_migrate' );
+
+/**
+ * Gibt dns-prefetch- und preconnect-Hinweise für externe Domains aus.
+ *
+ * x.com + orcid.org sind im Footer/sameAs verlinkt — frühe DNS-Auflösung
+ * spart Latenz, wenn Nutzer:innen den Links folgen.
+ *
+ * @param array<int,string> $hints
+ * @param string            $relation
+ * @return array<int,string>
+ */
+function hp_resource_hints( array $hints, string $relation ): array {
+	if ( 'dns-prefetch' === $relation ) {
+		$hints[] = '//x.com';
+		$hints[] = '//orcid.org';
+	}
+
+	return $hints;
+}
+add_filter( 'wp_resource_hints', 'hp_resource_hints', 10, 2 );
+
+/* =========================================
+   10. REL="ME" IDENTITY-LINKS
+   ========================================= */
+
+/**
+ * Gibt `<link rel="me">` für ORCID und X aus.
+ *
+ * Verifiziert die Author-Identität für IndieWeb-Konsumenten
+ * und stärkt sameAs/Person-Schema durch HTML-Microformats.
+ */
+function hp_output_rel_me(): void {
+	$orcid_url = defined( 'HP_ORCID_URL' ) ? HP_ORCID_URL : '';
+
+	if ( $orcid_url ) {
+		printf( '<link rel="me" href="%s" />' . "\n", esc_url( $orcid_url ) );
+	}
+
+	printf( '<link rel="me" href="%s" />' . "\n", esc_url( 'https://x.com/_0239983326111' ) );
+}
+add_action( 'wp_head', 'hp_output_rel_me', 5 );
