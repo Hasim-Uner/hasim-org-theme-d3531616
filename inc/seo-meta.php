@@ -28,6 +28,18 @@ defined( 'ABSPATH' ) || exit;
    ========================================= */
 
 /**
+ * Registriert eine dedizierte Social-Share-Bildgröße (1200×675, 16:9).
+ *
+ * Garantiert ein gut komponiertes OG-/Twitter-Card-Bild,
+ * auch wenn das Beitragsbild größer/kleiner ist als das
+ * von Plattformen erwartete 16:9-Format.
+ */
+function hp_register_og_image_size(): void {
+	add_image_size( 'hp-og', 1200, 675, true );
+}
+add_action( 'after_setup_theme', 'hp_register_og_image_size' );
+
+/**
  * Registriert `_hp_meta_description` für Essays und Notes.
  *
  * Das Feld ist REST-fähig und im Block-Editor verfügbar.
@@ -160,6 +172,38 @@ function hp_filter_mission_document_title( string $title ): string {
 }
 add_filter( 'pre_get_document_title', 'hp_filter_mission_document_title' );
 
+/**
+ * Vereinheitlicht die Title-Tags für Archive, Suche und 404.
+ *
+ * Standard-WP-Titel wirken auf Archiven oft generisch
+ * („Essays – Site-Name"). Wir setzen präzise, gleich
+ * formatierte Titel mit Kontext-Suffix, damit die SERP-
+ * Snippets klarer sind.
+ *
+ * @param array<string,string> $parts Title-Bestandteile.
+ * @return array<string,string>
+ */
+function hp_filter_document_title_parts( array $parts ): array {
+	if ( is_post_type_archive( 'essay' ) ) {
+		$parts['title'] = 'Essays — Langform-Analysen';
+	} elseif ( is_post_type_archive( 'note' ) ) {
+		$parts['title'] = 'Notizen — Beobachtungen & Fragmente';
+	} elseif ( is_post_type_archive( 'glossar' ) ) {
+		$parts['title'] = 'Glossar — Begriffsdefinitionen';
+	} elseif ( is_post_type_archive( 'dossier' ) ) {
+		$parts['title'] = 'Dossiers — Kuratierte Wissensknoten';
+	} elseif ( is_tax( 'topic' ) ) {
+		$parts['title'] = 'Thema: ' . single_term_title( '', false );
+	} elseif ( is_search() ) {
+		$parts['title'] = sprintf( 'Suche: %s', get_search_query() );
+	} elseif ( is_404() ) {
+		$parts['title'] = 'Seite nicht gefunden';
+	}
+
+	return $parts;
+}
+add_filter( 'document_title_parts', 'hp_filter_document_title_parts' );
+
 /* =========================================
    4. DESCRIPTION RESOLVER
    ========================================= */
@@ -208,6 +252,17 @@ function hp_get_meta_description(): string {
 		$obj = get_queried_object();
 		if ( $obj && ! empty( $obj->description ) ) {
 			$desc = $obj->description;
+		} else {
+			$cpt_descriptions = [
+				'essay'   => 'Langform-Essays zu Macht, Medien, Erinnerung, Sprache und Gesellschaft — analytisch, mit Apparat und Quellen.',
+				'note'    => 'Kurze Notizen, Fragmente und Beobachtungen — schneller getaktet als Essays, mit Quellenverweisen.',
+				'glossar' => 'Glossar: Begriffsdefinitionen aus Medienwissenschaft, Diskursanalyse und Gesellschaftstheorie.',
+				'dossier' => 'Dossiers: kuratierte Wissensknoten mit Leseplan, Begriffsapparat und Quellen zu einem Themenfeld.',
+			];
+
+			if ( $obj && isset( $cpt_descriptions[ $obj->name ] ) ) {
+				$desc = $cpt_descriptions[ $obj->name ];
+			}
 		}
 	} elseif ( is_tax() || is_category() || is_tag() ) {
 		$desc = term_description();
@@ -384,12 +439,19 @@ function hp_get_front_page_hero_post_id(): int {
  * @param string|int[] $size          Bildgröße.
  * @return array<string, int|string>|null
  */
-function hp_get_attachment_social_image_data( int $attachment_id, $size = 'full' ): ?array {
+function hp_get_attachment_social_image_data( int $attachment_id, $size = 'hp-og' ): ?array {
 	if ( $attachment_id <= 0 ) {
 		return null;
 	}
 
 	$image = wp_get_attachment_image_src( $attachment_id, $size );
+
+	// Fallback auf `full`, falls die `hp-og`-Größe (noch) nicht generiert ist —
+	// z. B. bei älteren Bildern vor Theme-Update.
+	if ( ( ! $image || empty( $image[0] ) ) && 'hp-og' === $size ) {
+		$image = wp_get_attachment_image_src( $attachment_id, 'full' );
+	}
+
 	if ( ! $image || empty( $image[0] ) ) {
 		return null;
 	}

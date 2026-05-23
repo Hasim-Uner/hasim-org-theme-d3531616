@@ -368,3 +368,62 @@ function hp_output_rel_me(): void {
 	printf( '<link rel="me" href="%s" />' . "\n", esc_url( 'https://x.com/_0239983326111' ) );
 }
 add_action( 'wp_head', 'hp_output_rel_me', 5 );
+
+/* =========================================
+   11. PINGBACKS / TRACKBACKS / XML-RPC
+   ========================================= */
+
+/**
+ * Schaltet XML-RPC im Frontend komplett ab.
+ *
+ * Reduziert Angriffsfläche (Brute-Force, Pingback-DDoS) und
+ * spart minimal Bytes — kein moderner Workflow nutzt es noch.
+ */
+add_filter( 'xmlrpc_enabled', '__return_false' );
+
+/**
+ * Entfernt XML-RPC- und Pingback-Header-Endpunkte.
+ *
+ * @param array<string,string> $methods
+ * @return array<string,string>
+ */
+function hp_disable_xmlrpc_methods( array $methods ): array {
+	unset( $methods['pingback.ping'], $methods['pingback.extensions.getPingbacks'] );
+	return $methods;
+}
+add_filter( 'xmlrpc_methods', 'hp_disable_xmlrpc_methods' );
+
+/**
+ * Schließt eingehende Pings site-weit (Trackback-Spam-Surface weg).
+ */
+add_filter( 'pings_open', '__return_false' );
+
+/* =========================================
+   12. HEARTBEAT-DROSSEL (Frontend)
+   ========================================= */
+
+/**
+ * Drosselt die Heartbeat-API im Frontend stark und
+ * deaktiviert sie auf nicht-eingeloggten Sessions.
+ *
+ * Heartbeat ist primär für Admin-Locking & Autosave
+ * relevant — im Frontend kostet sie nur Bandbreite.
+ */
+function hp_throttle_heartbeat(): void {
+	if ( is_admin() ) {
+		return;
+	}
+
+	if ( ! is_user_logged_in() ) {
+		wp_deregister_script( 'heartbeat' );
+		return;
+	}
+
+	// Eingeloggte Frontend-Sessions: 120 s statt 15-60 s
+	wp_localize_script(
+		'heartbeat',
+		'heartbeatSettings',
+		[ 'interval' => 120 ]
+	);
+}
+add_action( 'wp_enqueue_scripts', 'hp_throttle_heartbeat', 100 );
