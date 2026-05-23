@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-23-quellen-aufklappbar';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-23-dedupe-glossar';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -30,6 +30,7 @@ function hp_run_glossar_seed_once(): void {
 	}
 
 	hp_remove_abrechnung_transhumanismus_essay();
+	hp_glossar_dedupe_once();
 	hp_seed_perspektive_glossary();
 	hp_seed_sterblichkeit_essay();
 	hp_seed_sterblichkeit_glossary();
@@ -37,6 +38,112 @@ function hp_run_glossar_seed_once(): void {
 	update_option( 'hp_glossar_seed_version', HP_GLOSSAR_SEED_VERSION, false );
 }
 add_action( 'admin_init', 'hp_run_glossar_seed_once', 25 );
+
+/**
+ * Sucht einen Glossar-Eintrag per Slug — über alle relevanten Stati.
+ *
+ * `get_page_by_path()` filtert per Default auf `publish` und übersieht
+ * dadurch Drafts/Trash, was den Seeder zwingt, denselben Begriff erneut
+ * anzulegen und Slug-Suffixe (`begriff-2`) zu vergeben.
+ *
+ * @param string $slug Glossar-Slug.
+ * @return WP_Post|null
+ */
+function hp_glossar_find_by_slug( string $slug ): ?WP_Post {
+	$post = get_page_by_path(
+		$slug,
+		OBJECT,
+		'glossar',
+		[ 'publish', 'draft', 'pending', 'private', 'future' ]
+	);
+
+	return $post instanceof WP_Post ? $post : null;
+}
+
+/**
+ * Einmaliger Cleanup: entfernt Duplikate aus dem Glossar.
+ *
+ * Strategie:
+ * - Alle Glossar-Posts in allen relevanten Stati laden.
+ * - Nach normalisiertem Titel gruppieren (case-insensitive, Whitespace-getrimmt).
+ * - Pro Gruppe einen "Keeper" wählen — Reihenfolge:
+ *     1. Status `publish`
+ *     2. Slug ohne `-N`-Suffix
+ *     3. älteste Post-ID
+ * - Alle übrigen Duplikate via `wp_delete_post( ..., true )` hart löschen
+ *   (umgeht den Trash, da der Slug sonst weiter blockiert wäre).
+ * - Hat der Keeper einen Slug-Suffix und der kanonische Slug ist nach
+ *   dem Löschen frei: Slug auf die Basis zurücksetzen.
+ *
+ * Sicher gegen Re-Run: wird über `HP_GLOSSAR_SEED_VERSION` einmalig
+ * ausgeführt.
+ */
+function hp_glossar_dedupe_once(): void {
+	$posts = get_posts(
+		[
+			'post_type'   => 'glossar',
+			'post_status' => [ 'publish', 'draft', 'pending', 'private', 'future' ],
+			'numberposts' => -1,
+			'orderby'     => 'ID',
+			'order'       => 'ASC',
+		]
+	);
+
+	if ( count( $posts ) < 2 ) {
+		return;
+	}
+
+	$by_title = [];
+	foreach ( $posts as $p ) {
+		$key = mb_strtolower( trim( (string) preg_replace( '/\s+/u', ' ', $p->post_title ) ) );
+		if ( '' === $key ) {
+			continue;
+		}
+		$by_title[ $key ][] = $p;
+	}
+
+	foreach ( $by_title as $group ) {
+		if ( count( $group ) < 2 ) {
+			continue;
+		}
+
+		usort( $group, static function ( $a, $b ) {
+			$a_pub = 'publish' === $a->post_status ? 0 : 1;
+			$b_pub = 'publish' === $b->post_status ? 0 : 1;
+			if ( $a_pub !== $b_pub ) {
+				return $a_pub - $b_pub;
+			}
+
+			$a_suffix = preg_match( '/-\d+$/', $a->post_name ) ? 1 : 0;
+			$b_suffix = preg_match( '/-\d+$/', $b->post_name ) ? 1 : 0;
+			if ( $a_suffix !== $b_suffix ) {
+				return $a_suffix - $b_suffix;
+			}
+
+			return (int) $a->ID - (int) $b->ID;
+		} );
+
+		$keep = array_shift( $group );
+
+		foreach ( $group as $dup ) {
+			wp_delete_post( (int) $dup->ID, true );
+		}
+
+		// Keeper-Slug von Suffix befreien, wenn der kanonische Slug nun frei ist
+		if ( preg_match( '/^(.*)-\d+$/', $keep->post_name, $m ) ) {
+			$base       = $m[1];
+			$still_used = hp_glossar_find_by_slug( $base );
+			if ( ! $still_used ) {
+				wp_update_post(
+					[
+						'ID'        => (int) $keep->ID,
+						'post_name' => $base,
+					]
+				);
+			}
+		}
+	}
+}
 
 /**
  * Einmaliger Cleanup: löscht den abgelösten Essay „Abrechnung mit dem
@@ -110,7 +217,7 @@ function hp_seed_perspektive_glossary(): void {
 	];
 
 	foreach ( $entries as $entry ) {
-		$existing = get_page_by_path( $entry['slug'], OBJECT, 'glossar' );
+		$existing = hp_glossar_find_by_slug( $entry['slug'] );
 		if ( $existing instanceof WP_Post ) {
 			continue;
 		}
@@ -356,7 +463,7 @@ function hp_seed_sterblichkeit_glossary(): void {
 	];
 
 	foreach ( $entries as $entry ) {
-		$existing = get_page_by_path( $entry['slug'], OBJECT, 'glossar' );
+		$existing = hp_glossar_find_by_slug( $entry['slug'] );
 		if ( $existing instanceof WP_Post ) {
 			continue;
 		}
