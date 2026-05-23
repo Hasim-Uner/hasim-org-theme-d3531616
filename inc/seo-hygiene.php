@@ -268,6 +268,90 @@ add_action( 'template_redirect', 'hp_send_last_modified_header' );
    8. REL="ME" IDENTITY-LINKS
    ========================================= */
 
+/* =========================================
+   9. FRONTEND-PERFORMANCE (CWV)
+   ========================================= */
+
+/**
+ * Entfernt das WP-Emoji-Script + zugehörige Styles im Frontend.
+ *
+ * Spart ~10 KB JS, einen Inline-Script-Block und einen externen
+ * Render-Pfad — moderne Browser rendern Emojis nativ.
+ */
+function hp_disable_wp_emojis(): void {
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
+	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+
+	add_filter( 'tiny_mce_plugins', static function ( $plugins ) {
+		return is_array( $plugins ) ? array_diff( $plugins, [ 'wpemoji' ] ) : $plugins;
+	} );
+
+	add_filter( 'emoji_svg_url', '__return_false' );
+}
+add_action( 'init', 'hp_disable_wp_emojis' );
+
+/**
+ * Entfernt das wp-embed.min.js im Frontend.
+ *
+ * Wird nur für oEmbed-iframe-Resizing fremder Seiten gebraucht —
+ * im redaktionellen Setup hier nicht relevant. Spart ~2 KB JS.
+ */
+function hp_disable_wp_embed(): void {
+	wp_deregister_script( 'wp-embed' );
+}
+add_action( 'wp_footer', 'hp_disable_wp_embed', 1 );
+
+/**
+ * Entfernt jQuery-Migrate vom Frontend (Admin bleibt unangetastet).
+ *
+ * Migrate ist nur für Legacy-Plugins nötig — eigene Scripts laufen
+ * ohne. Spart ~10 KB JS + einen Parse-Pass.
+ *
+ * @param WP_Scripts $scripts
+ */
+function hp_remove_jquery_migrate( $scripts ): void {
+	if ( is_admin() || ! ( $scripts instanceof WP_Scripts ) ) {
+		return;
+	}
+
+	if ( ! empty( $scripts->registered['jquery'] ) ) {
+		$jquery = $scripts->registered['jquery'];
+		if ( ! empty( $jquery->deps ) ) {
+			$jquery->deps = array_diff( $jquery->deps, [ 'jquery-migrate' ] );
+		}
+	}
+}
+add_action( 'wp_default_scripts', 'hp_remove_jquery_migrate' );
+
+/**
+ * Gibt dns-prefetch- und preconnect-Hinweise für externe Domains aus.
+ *
+ * x.com + orcid.org sind im Footer/sameAs verlinkt — frühe DNS-Auflösung
+ * spart Latenz, wenn Nutzer:innen den Links folgen.
+ *
+ * @param array<int,string> $hints
+ * @param string            $relation
+ * @return array<int,string>
+ */
+function hp_resource_hints( array $hints, string $relation ): array {
+	if ( 'dns-prefetch' === $relation ) {
+		$hints[] = '//x.com';
+		$hints[] = '//orcid.org';
+	}
+
+	return $hints;
+}
+add_filter( 'wp_resource_hints', 'hp_resource_hints', 10, 2 );
+
+/* =========================================
+   10. REL="ME" IDENTITY-LINKS
+   ========================================= */
+
 /**
  * Gibt `<link rel="me">` für ORCID und X aus.
  *
