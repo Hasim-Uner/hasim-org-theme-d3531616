@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-23-abrechnung-removed';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-23-quellen-aufklappbar';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -139,7 +139,7 @@ function hp_seed_perspektive_glossary(): void {
  */
 function hp_seed_sterblichkeit_essay(): void {
 	$slug            = 'sterblichkeit-kein-softwarefehler';
-	$content_version = 'r3-milliarden-quellen';
+	$content_version = 'r4-quellen-aufklappbar';
 	$title           = 'Sterblichkeit ist kein Softwarefehler';
 	$excerpt         = 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.';
 
@@ -289,13 +289,15 @@ function hp_get_sterblichkeit_essay_content(): string {
 	}
 
 	$out .= $separator;
-	$out .= "<!-- wp:heading -->\n<h2>Quellen und Anmerkungen</h2>\n<!-- /wp:heading -->\n\n";
 
 	$list_items = '';
 	foreach ( $sources as $item ) {
 		$list_items .= "<li>{$item}</li>\n";
 	}
-	$out .= "<!-- wp:list -->\n<ul>\n{$list_items}</ul>\n<!-- /wp:list -->\n\n";
+	$out .= "<!-- wp:details -->\n";
+	$out .= "<details class=\"wp-block-details\"><summary>Quellen und Anmerkungen</summary>\n";
+	$out .= "<!-- wp:list -->\n<ul>\n{$list_items}</ul>\n<!-- /wp:list -->\n";
+	$out .= "</details>\n<!-- /wp:details -->\n\n";
 
 	return trim( $out );
 }
