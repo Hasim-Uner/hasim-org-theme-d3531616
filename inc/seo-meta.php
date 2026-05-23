@@ -475,10 +475,26 @@ function hp_get_seo_image_data(): ?array {
 		// Erstes Bild im Content als Fallback
 		preg_match( '/<img[^>]+src=["\']([^"\']+)/i', $post->post_content, $matches );
 		if ( ! empty( $matches[1] ) ) {
-			return [
+			$ext  = strtolower( pathinfo( wp_parse_url( $matches[1], PHP_URL_PATH ) ?? '', PATHINFO_EXTENSION ) );
+			$mime = [
+				'jpg'  => 'image/jpeg',
+				'jpeg' => 'image/jpeg',
+				'png'  => 'image/png',
+				'webp' => 'image/webp',
+				'gif'  => 'image/gif',
+				'avif' => 'image/avif',
+			][ $ext ] ?? '';
+
+			$fallback = [
 				'url' => $matches[1],
 				'alt' => get_the_title( $post ),
 			];
+
+			if ( $mime ) {
+				$fallback['type'] = $mime;
+			}
+
+			return $fallback;
 		}
 	}
 
