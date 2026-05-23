@@ -4055,6 +4055,47 @@ a.footnote-backref:hover {
     text-decoration: underline;
 }
 
+/* -----------------------------------------
+   Link-Preview-Variante (.hp-gtt--link-preview)
+   ----------------------------------------- */
+
+.hp-gtt--link-preview {
+    width: 320px;
+    pointer-events: none;
+}
+
+.hp-gtt--link-preview.hp-gtt--visible,
+.hp-gtt--link-preview:popover-open {
+    pointer-events: auto;
+}
+
+.hp-gtt--link-preview .hp-gtt__title-line {
+    display: block;
+    font-family: var(--hj-serif);
+    font-weight: 700;
+    font-size: var(--hj-fs-base);
+    line-height: 1.35;
+    color: #fff;
+    margin-bottom: 0.35em;
+}
+
+.hp-gtt--link-preview .hp-gtt__excerpt-line {
+    display: block;
+    font-family: var(--hj-serif);
+    font-size: var(--hj-fs-sm);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.hp-gtt__meta {
+    display: block;
+    font-family: var(--hj-sans);
+    font-size: var(--hj-fs-xs);
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0.4em 0 var(--hj-space-sm);
+}
+
 /* =========================================
    GLOSSAR — Single: Hero + Body
    ========================================= */
