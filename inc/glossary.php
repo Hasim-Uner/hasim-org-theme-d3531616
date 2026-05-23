@@ -314,6 +314,7 @@ function hp_glossar_auto_link( string $content ): string {
 		// Hauptbegriff
 		if ( $title ) {
 			$terms[] = [
+				'key'     => (string) $entry_id,
 				'pattern' => preg_quote( $title, '/' ),
 				'url'     => $url,
 				'tooltip' => $tooltip,
@@ -328,10 +329,11 @@ function hp_glossar_auto_link( string $content ): string {
 				$syn = trim( $syn );
 				if ( $syn ) {
 					$terms[] = [
+						'key'     => (string) $entry_id,
 						'pattern' => preg_quote( $syn, '/' ),
 						'url'     => $url,
 						'tooltip' => $tooltip,
-						'label'   => $syn,
+						'label'   => $title,
 					];
 				}
 			}
@@ -409,34 +411,71 @@ function hp_glossar_auto_link( string $content ): string {
 		// des gerade erzeugten Markups suchen.
 		$link_placeholders = [];
 
+		$term_matches = [];
+
 		foreach ( $terms as $term ) {
-			if ( isset( $linked[ $term['pattern'] ] ) ) {
+			if ( isset( $linked[ $term['key'] ] ) ) {
 				continue;
 			}
 
-			$regex = '/\b(' . $term['pattern'] . ')\b/u';
+			$regex = '/(?<![\p{L}\p{N}_])(' . $term['pattern'] . ')(?![\p{L}\p{N}_])/iu';
 
-			if ( preg_match( $regex, $part ) ) {
-				$part = preg_replace_callback(
-					$regex,
-					function ( $match ) use ( $term, &$link_placeholders ) {
-						$key = '%%HP_GL_LINK_' . count( $link_placeholders ) . '%%';
-
-						$link_placeholders[ $key ] = sprintf(
-							'<span class="hp-glossar-term hp-begriff-chip" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-describedby="hp-gtt">%s</span>',
-							esc_attr( $term['label'] ),
-							esc_attr( $term['tooltip'] ),
-							esc_url( $term['url'] ),
-							esc_html( $match[1] )
-						);
-
-						return $key;
-					},
-					$part,
-					1
-				);
-				$linked[ $term['pattern'] ] = true;
+			if ( ! preg_match( $regex, $part, $match, PREG_OFFSET_CAPTURE ) ) {
+				continue;
 			}
+
+			$matched_text = (string) $match[1][0];
+			$matched_pos  = (int) $match[1][1];
+			$matched_len  = strlen( $matched_text );
+			$match_key    = (string) $term['key'];
+			$current      = $term_matches[ $match_key ] ?? null;
+
+			if (
+				null === $current
+				|| $matched_pos < (int) $current['offset']
+				|| ( $matched_pos === (int) $current['offset'] && $matched_len > (int) $current['length'] )
+			) {
+				$term_matches[ $match_key ] = [
+					'term'   => $term,
+					'regex'  => $regex,
+					'offset' => $matched_pos,
+					'length' => $matched_len,
+				];
+			}
+		}
+
+		if ( $term_matches ) {
+			uasort(
+				$term_matches,
+				function ( $a, $b ) {
+					return (int) $a['offset'] <=> (int) $b['offset'];
+				}
+			);
+		}
+
+		foreach ( $term_matches as $best_match ) {
+			$term  = $best_match['term'];
+			$regex = (string) $best_match['regex'];
+
+			$part = preg_replace_callback(
+				$regex,
+				function ( $match ) use ( $term, &$link_placeholders ) {
+					$key = '%%HP_GL_LINK_' . count( $link_placeholders ) . '%%';
+
+					$link_placeholders[ $key ] = sprintf(
+						'<span class="hp-glossar-term hp-begriff-chip" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-describedby="hp-gtt">%s</span>',
+						esc_attr( $term['label'] ),
+						esc_attr( $term['tooltip'] ),
+						esc_url( $term['url'] ),
+						esc_html( $match[1] )
+					);
+
+					return $key;
+				},
+				$part,
+				1
+			);
+			$linked[ $term['key'] ] = true;
 		}
 
 		if ( $link_placeholders ) {

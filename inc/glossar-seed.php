@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-24-unified-clean-glossary';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-24-link-synonyms';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -57,19 +57,22 @@ function hp_seed_all_glossary_terms(): void {
 	$entries = [
 		// --- Perspektive- & System-Komplex ---
 		[
-			'slug'  => 'transhumanismus',
-			'title' => 'Transhumanismus',
-			'kurz'  => 'Eine im Silicon Valley verwurzelte ideologische Bewegung, die die Überwindung der biologischen Grenzen des Menschen (Altern, Tod) durch Technologie anstrebt. Agiert als säkulare Ersatzreligion für eine hyperreiche Elite zur Betäubung von existenzieller Verlustangst.',
+			'slug'     => 'transhumanismus',
+			'title'    => 'Transhumanismus',
+			'kurz'     => 'Eine im Silicon Valley verwurzelte ideologische Bewegung, die die Überwindung der biologischen Grenzen des Menschen (Altern, Tod) durch Technologie anstrebt. Agiert als säkulare Ersatzreligion für eine hyperreiche Elite zur Betäubung von existenzieller Verlustangst.',
+			'synonyme' => [ 'transhumanistische', 'transhumanistischen', 'transhumanistischer', 'transhumanistischem', 'transhumanistisches' ],
 		],
 		[
-			'slug'  => 'reduktionismus-methodischer',
-			'title' => 'Reduktionismus (methodischer)',
-			'kurz'  => 'Der fundamentale Fehler der modernen westlichen Wissenschaft seit Descartes, das Lebendige und das Bewusstsein rein als Summe mechanischer, berechenbarer Einzelteile zu betrachten. Ignoriert die holistische Komplexität biologischer und kosmischer Systeme.',
+			'slug'     => 'reduktionismus-methodischer',
+			'title'    => 'Reduktionismus (methodischer)',
+			'kurz'     => 'Der fundamentale Fehler der modernen westlichen Wissenschaft seit Descartes, das Lebendige und das Bewusstsein rein als Summe mechanischer, berechenbarer Einzelteile zu betrachten. Ignoriert die holistische Komplexität biologischer und kosmischer Systeme.',
+			'synonyme' => [ 'methodischer Reduktionismus', 'methodischen Reduktionismus', 'cartesianischer Dualismus', 'cartesianischen Dualismus' ],
 		],
 		[
-			'slug'  => 'biophobie',
-			'title' => 'Biophobie',
-			'kurz'  => 'Die pathologische Angst vor der Unberechenbarkeit, Vergänglichkeit und Fleischlichkeit des organischen Lebens, die sich im transhumanistischen Drang äußert, alles Lebendige in sterile, kontrollierbare Datensätze (Silizium) zu pressen.',
+			'slug'     => 'biophobie',
+			'title'    => 'Biophobie',
+			'kurz'     => 'Die pathologische Angst vor der Unberechenbarkeit, Vergänglichkeit und Fleischlichkeit des organischen Lebens, die sich im transhumanistischen Drang äußert, alles Lebendige in sterile, kontrollierbare Datensätze (Silizium) zu pressen.',
+			'synonyme' => [ 'transhumanistische Biophobie', 'transhumanistischen Biophobie' ],
 		],
 		[
 			'slug'  => 'algorithmische-oeffentlichkeit',
@@ -104,39 +107,46 @@ function hp_seed_all_glossary_terms(): void {
 
 		// --- Sterblichkeits- & Erkenntnistheorie-Komplex ---
 		[
-			'slug'  => 'conditio-humana',
-			'title' => 'Conditio humana',
-			'kurz'  => 'Die fundamentale, unveränderliche Ur-Bedingung der menschlichen Existenz. Sie definiert das Menschsein durch Verletzlichkeit, Körperlichkeit und Sterblichkeit – Grenzen, die nicht als Systemfehler, sondern als die zwingende Voraussetzung für Sinn, Verbindlichkeit und Tragik begriffen werden.',
+			'slug'     => 'conditio-humana',
+			'title'    => 'Conditio humana',
+			'kurz'     => 'Die fundamentale, unveränderliche Ur-Bedingung der menschlichen Existenz. Sie definiert das Menschsein durch Verletzlichkeit, Körperlichkeit und Sterblichkeit – Grenzen, die nicht als Systemfehler, sondern als die zwingende Voraussetzung für Sinn, Verbindlichkeit und Tragik begriffen werden.',
+			'synonyme' => [ 'conditio humana' ],
 		],
 		[
-			'slug'  => 'determinismus-mechanistischer',
-			'title' => 'Determinismus (mechanistischer)',
-			'kurz'  => 'Das im Barock geprägte Weltbild, das das Universum und den menschlichen Geist als lineares, berechenbares Uhrwerk betrachtet. Ignoriert die Erkenntnisse der modernen Quantenphysik über fundamentale Unschärfen.',
+			'slug'     => 'determinismus-mechanistischer',
+			'title'    => 'Determinismus (mechanistischer)',
+			'kurz'     => 'Das im Barock geprägte Weltbild, das das Universum und den menschlichen Geist als lineares, berechenbares Uhrwerk betrachtet. Ignoriert die Erkenntnisse der modernen Quantenphysik über fundamentale Unschärfen.',
+			'synonyme' => [ 'mechanistischer Determinismus', 'mechanistischen Determinismus', 'berechenbares Uhrwerk' ],
 		],
 		[
-			'slug'  => 'mind-uploading',
-			'title' => 'Mind Uploading',
-			'kurz'  => 'Die hypothetische transhumanistische Technologie, bei der das menschliche Gehirn vollständig kartiert und das Bewusstsein als digitaler Datensatz rekonstruiert werden soll.',
+			'slug'     => 'mind-uploading',
+			'title'    => 'Mind Uploading',
+			'kurz'     => 'Die hypothetische transhumanistische Technologie, bei der das menschliche Gehirn vollständig kartiert und das Bewusstsein als digitaler Datensatz rekonstruiert werden soll.',
+			'synonyme' => [ 'Mind-Uploading', 'Upload des Menschen', 'digitale Unsterblichkeit' ],
 		],
 		[
-			'slug'  => 'enhancement-technologien',
-			'title' => 'Enhancement-Technologien',
-			'kurz'  => 'Technologische Eingriffe, die nicht der Heilung dienen, sondern der künstlichen Erweiterung und Optimierung des Menschen über die biologischen Speziesgrenzen hinaus.',
+			'slug'     => 'enhancement-technologien',
+			'title'    => 'Enhancement-Technologien',
+			'kurz'     => 'Technologische Eingriffe, die nicht der Heilung dienen, sondern der künstlichen Erweiterung und Optimierung des Menschen über die biologischen Speziesgrenzen hinaus.',
+			'synonyme' => [ 'Enhancement', 'Enhancements', 'technologische Erweiterungen', 'kognitive Erweiterungen' ],
 		],
 		[
-			'slug'  => 'phanomenologie-des-leibes',
-			'title' => 'Phänomenologie des Leibes',
-			'kurz'  => 'Der philosophische Gegenentwurf (u. a. Merleau-Ponty) zum cartesianischen Dualismus. Beschreibt, dass der Mensch seinen Körper nicht bloß besitzt, sondern als leibliches Wesen in ständiger, unteilbarer Rückkopplung mit der Umwelt existiert. Bewusstsein ist primär ein leiblicher Vollzug.',
+			'slug'     => 'phanomenologie-des-leibes',
+			'title'    => 'Phänomenologie des Leibes',
+			'kurz'     => 'Der philosophische Gegenentwurf (u. a. Merleau-Ponty) zum cartesianischen Dualismus. Beschreibt, dass der Mensch seinen Körper nicht bloß besitzt, sondern als leibliches Wesen in ständiger, unteilbarer Rückkopplung mit der Umwelt existiert. Bewusstsein ist primär ein leiblicher Vollzug.',
+			'synonyme' => [ 'Phänomenologie des Leibs', 'leiblicher Vollzug' ],
 		],
 		[
-			'slug'  => 'verkoerperte-kognition',
-			'title' => 'Verkörperte Kognition (Embodied Cognition)',
-			'kurz'  => 'Der kognitionswissenschaftliche Nachweis, dass Denken und Bewusstsein keine abstrakten, gehirn-isolierten Rechenprozesse sind, sondern untrennbar an die physischen Schleifen, das Nervensystem und die gesamte Biologie des lebendigen Körpers gebunden bleiben.',
+			'slug'     => 'verkoerperte-kognition',
+			'title'    => 'Verkörperte Kognition (Embodied Cognition)',
+			'kurz'     => 'Der kognitionswissenschaftliche Nachweis, dass Denken und Bewusstsein keine abstrakten, gehirn-isolierten Rechenprozesse sind, sondern untrennbar an die physischen Schleifen, das Nervensystem und die gesamte Biologie des lebendigen Körpers gebunden bleiben.',
+			'synonyme' => [ 'verkörperte Kognition', 'verkörperten Kognition', 'Embodied Cognition' ],
 		],
 		[
-			'slug'  => 'hartes-problem-des-bewusstseins',
-			'title' => 'Hartes Problem des Bewusstseins',
-			'kurz'  => 'Die von David Chalmers benannte fundamentale Erklärungslücke der Wissenschaft, warum physikalische oder informationsverarbeitende Prozesse im Gehirn überhaupt von subjektivem Erleben (Qualia) begleitet werden. Vom Transhumanismus dogmatisch ignoriert.',
+			'slug'     => 'hartes-problem-des-bewusstseins',
+			'title'    => 'Hartes Problem des Bewusstseins',
+			'kurz'     => 'Die von David Chalmers benannte fundamentale Erklärungslücke der Wissenschaft, warum physikalische oder informationsverarbeitende Prozesse im Gehirn überhaupt von subjektivem Erleben (Qualia) begleitet werden. Vom Transhumanismus dogmatisch ignoriert.',
+			'synonyme' => [ 'harte Problem des Bewusstseins', 'hartes Problem', 'harte Problem', 'hard problem of consciousness' ],
 		],
 		[
 			'slug'  => 'biophilie',
@@ -144,15 +154,19 @@ function hp_seed_all_glossary_terms(): void {
 			'kurz'  => 'Die von Erich Fromm definierte tiefe psychologische Zuneigung zu allem Lebendigen, Wachsenden und fundamental Unberechenbaren. Bildet den direkten evolutionären Gegenpol zur transhumanistischen Biophobie.',
 		],
 		[
-			'slug'  => 'pessimismus-philosophischer',
-			'title' => 'Pessimismus (philosophischer)',
-			'kurz'  => 'Die philosophische Haltung (historisch geprägt durch Arthur Schopenhauer), die das Leiden als Grundton des Daseins begreift. Im Essay demaskiert als Fehlschluss, der historisch-ökonomisch erzeugtes Leid mit einer metaphysischen Signatur des Menschseins verwechselt.',
+			'slug'     => 'pessimismus-philosophischer',
+			'title'    => 'Pessimismus (philosophischer)',
+			'kurz'     => 'Die philosophische Haltung (historisch geprägt durch Arthur Schopenhauer), die das Leiden als Grundton des Daseins begreift. Im Essay demaskiert als Fehlschluss, der historisch-ökonomisch erzeugtes Leid mit einer metaphysischen Signatur des Menschseins verwechselt.',
+			'synonyme' => [ 'Pessimismus', 'philosophischer Pessimismus' ],
 		],
 	];
+
+	$changed = false;
 
 	foreach ( $entries as $entry ) {
 		$existing = get_page_by_path( $entry['slug'], OBJECT, 'glossar' );
 		if ( $existing instanceof WP_Post ) {
+			$changed = hp_update_seeded_glossar_meta( $existing->ID, $entry ) || $changed;
 			continue;
 		}
 
@@ -171,8 +185,85 @@ function hp_seed_all_glossary_terms(): void {
 			continue;
 		}
 
-		update_post_meta( $post_id, '_hp_glossar_kurz', $entry['kurz'] );
+		$changed = hp_update_seeded_glossar_meta( (int) $post_id, $entry ) || $changed;
 	}
+
+	if ( $changed ) {
+		hp_glossar_seed_bump_cache_version();
+	}
+}
+
+/**
+ * Aktualisiert Seed-Meta für bestehende und neue Glossar-Begriffe.
+ *
+ * @param int                  $post_id Glossar-Post-ID.
+ * @param array<string, mixed> $entry   Seed-Definition.
+ * @return bool Ob sich ein Wert geändert hat.
+ */
+function hp_update_seeded_glossar_meta( int $post_id, array $entry ): bool {
+	$changed = false;
+
+	if ( isset( $entry['kurz'] ) ) {
+		$changed = update_post_meta( $post_id, '_hp_glossar_kurz', (string) $entry['kurz'] ) || $changed;
+	}
+
+	if ( ! empty( $entry['synonyme'] ) && is_array( $entry['synonyme'] ) ) {
+		$existing = (string) get_post_meta( $post_id, '_hp_glossar_synonyme', true );
+		$merged   = hp_merge_glossar_synonyms( $existing, $entry['synonyme'] );
+
+		$changed = update_post_meta( $post_id, '_hp_glossar_synonyme', implode( ', ', $merged ) ) || $changed;
+	}
+
+	return $changed;
+}
+
+/**
+ * Merged bestehende und neue Synonyme case-insensitiv und stabil.
+ *
+ * @param string       $existing_csv Bestehende Synonyme.
+ * @param array<mixed> $seeded       Neue Seed-Synonyme.
+ * @return array<int, string>
+ */
+function hp_merge_glossar_synonyms( string $existing_csv, array $seeded ): array {
+	$items = array_merge(
+		array_map( 'trim', explode( ',', $existing_csv ) ),
+		array_map( 'strval', $seeded )
+	);
+
+	$seen   = [];
+	$merged = [];
+
+	foreach ( $items as $item ) {
+		$item = trim( (string) $item );
+		if ( '' === $item ) {
+			continue;
+		}
+
+		$key = function_exists( 'mb_strtolower' ) ? mb_strtolower( $item, 'UTF-8' ) : strtolower( $item );
+		if ( isset( $seen[ $key ] ) ) {
+			continue;
+		}
+
+		$seen[ $key ] = true;
+		$merged[]     = $item;
+	}
+
+	return $merged;
+}
+
+/**
+ * Invalidiert Auto-Link-Caches nach Seed-Meta-Updates.
+ */
+function hp_glossar_seed_bump_cache_version(): void {
+	$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
+	update_option( 'hp_glossar_version', $new_version, false );
+
+	global $wpdb;
+	$wpdb->query(
+		"DELETE FROM {$wpdb->options}
+		 WHERE option_name LIKE '_transient_hp_gl_%'
+		    OR option_name LIKE '_transient_timeout_hp_gl_%'"
+	);
 }
 
 /**
