@@ -50,6 +50,9 @@ function hp_journal_enqueue_assets(): void {
 	$glossar_ver = file_exists( $dir . '/assets/js/glossar-tooltip.js' )
 		? (string) filemtime( $dir . '/assets/js/glossar-tooltip.js' )
 		: $theme_version;
+	$linkprev_ver = file_exists( $dir . '/assets/js/link-preview.js' )
+		? (string) filemtime( $dir . '/assets/js/link-preview.js' )
+		: $theme_version;
 
 	// Parent-Theme — nötig für korrekte CSS-Kaskade
 	wp_enqueue_style(
@@ -95,6 +98,24 @@ function hp_journal_enqueue_assets(): void {
 			[],
 			$glossar_ver,
 			true
+		);
+	}
+
+	// 4. Link-Preview-Tooltips: alle Singles + redaktionellen Seiten
+	if ( is_singular( [ 'essay', 'note', 'post', 'glossar', 'dossier', 'page' ] ) ) {
+		wp_enqueue_script(
+			'hp-link-preview',
+			$uri . '/assets/js/link-preview.js',
+			[],
+			$linkprev_ver,
+			true
+		);
+		wp_localize_script(
+			'hp-link-preview',
+			'hpLinkPreview',
+			[
+				'restUrl' => esc_url_raw( rest_url( 'hp/v1/link-preview' ) ),
+			]
 		);
 	}
 }

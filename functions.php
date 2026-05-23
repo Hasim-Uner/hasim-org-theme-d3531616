@@ -45,6 +45,7 @@ require_once $hp_inc_dir . '/meta-fields.php';
 require_once $hp_inc_dir . '/seo-schema.php';
 require_once $hp_inc_dir . '/seo-meta.php';
 require_once $hp_inc_dir . '/glossary.php';
+require_once $hp_inc_dir . '/link-preview.php';
 require_once $hp_inc_dir . '/dossier.php';
 require_once $hp_inc_dir . '/breadcrumbs.php';
 require_once $hp_inc_dir . '/header-nav.php';
