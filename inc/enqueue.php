@@ -47,9 +47,6 @@ function hp_journal_enqueue_assets(): void {
 	$single_ver = file_exists( $dir . '/assets/js/journal-single.js' )
 		? (string) filemtime( $dir . '/assets/js/journal-single.js' )
 		: $theme_version;
-	$glossar_ver = file_exists( $dir . '/assets/js/glossar-tooltip.js' )
-		? (string) filemtime( $dir . '/assets/js/glossar-tooltip.js' )
-		: $theme_version;
 	$linkprev_ver = file_exists( $dir . '/assets/js/link-preview.js' )
 		? (string) filemtime( $dir . '/assets/js/link-preview.js' )
 		: $theme_version;
@@ -90,18 +87,9 @@ function hp_journal_enqueue_assets(): void {
 		);
 	}
 
-	// 3. Glossar-Tooltips: nur auf Post-Typen mit Glossar-Auto-Linking
-	if ( is_singular( [ 'essay', 'note', 'post' ] ) ) {
-		wp_enqueue_script(
-			'hp-glossar-tooltip',
-			$uri . '/assets/js/glossar-tooltip.js',
-			[],
-			$glossar_ver,
-			true
-		);
-	}
-
-	// 4. Link-Preview-Tooltips: alle Singles + redaktionellen Seiten
+	// 3. Link-Preview-Tooltips: alle Singles + redaktionellen Seiten.
+	// Übernimmt seit 5.2.0 auch die Glossar-Chip-Tooltips —
+	// glossar-tooltip.js wird daher nicht mehr geladen.
 	if ( is_singular( [ 'essay', 'note', 'post', 'glossar', 'dossier', 'page' ] ) ) {
 		wp_enqueue_script(
 			'hp-link-preview',

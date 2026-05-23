@@ -62,7 +62,6 @@
     ];
 
     var SKIP_ANCESTORS = [
-        '.hp-glossar-term',
         '.main-navigation',
         '.site-header',
         '.site-footer',
@@ -242,52 +241,101 @@
     }
 
     /* =========================================
+       TARGET-RESOLUTION (Link ODER Glossar-Chip)
+       ========================================= */
+
+    /**
+     * Liefert das hover-fähige Element (a[href] ODER .hp-glossar-term)
+     * oder null, wenn nichts Passendes vorliegt.
+     */
+    function resolveTarget( eventTarget ) {
+        var chip = eventTarget.closest( '.hp-glossar-term' );
+        if ( chip ) {
+            return chip;
+        }
+        var a = eventTarget.closest( 'a[href]' );
+        if ( ! a ) return null;
+        if ( ! isInternal( a ) ) return null;
+        if ( shouldSkip( a ) ) return null;
+        if ( ! inScope( a ) ) return null;
+        return a;
+    }
+
+    /**
+     * Liefert Preview-Payload für einen Glossar-Chip aus seinen
+     * Inline-Data-Attributen — ohne Netzwerk-Roundtrip.
+     */
+    function payloadFromChip( chip ) {
+        return {
+            id:         0,
+            type:       'glossar',
+            type_label: 'Glossar',
+            title:      chip.dataset.term || chip.textContent.trim(),
+            excerpt:    chip.dataset.def  || '',
+            url:        chip.dataset.url  || '#',
+            meta:       '',
+        };
+    }
+
+    /* =========================================
        EVENT-HANDLING (delegation)
        ========================================= */
 
     function onMouseOver( e ) {
-        var a = e.target.closest( 'a[href]' );
-        if ( ! a ) return;
-        if ( ! isInternal( a ) ) return;
-        if ( shouldSkip( a ) ) return;
-        if ( ! inScope( a ) ) return;
+        var target = resolveTarget( e.target );
+        if ( ! target ) return;
 
         clearTimeout( showTimer );
         clearTimeout( hideTimer );
 
-        var href = a.href;
+        // Glossar-Chip: sofort verfügbare Inline-Daten
+        if ( target.classList.contains( 'hp-glossar-term' ) ) {
+            var chipData = payloadFromChip( target );
+            showTimer = setTimeout( function () {
+                if ( target.matches( ':hover' ) || document.activeElement === target ) {
+                    showFor( target, chipData );
+                }
+            }, SHOW_DELAY );
+            return;
+        }
+
+        // Regulärer Link: REST-Fetch
+        var href = target.href;
         showTimer = setTimeout( function () {
             fetchPreview( href ).then( function ( data ) {
                 if ( ! data ) return;
-                // Nur zeigen, wenn die Maus noch auf dem Link ist
-                if ( a.matches( ':hover' ) || document.activeElement === a ) {
-                    showFor( a, data );
+                if ( target.matches( ':hover' ) || document.activeElement === target ) {
+                    showFor( target, data );
                 }
             } );
         }, SHOW_DELAY );
     }
 
     function onMouseOut( e ) {
-        var a = e.target.closest( 'a[href]' );
-        if ( ! a ) return;
+        var target = e.target.closest( 'a[href], .hp-glossar-term' );
+        if ( ! target ) return;
 
         clearTimeout( showTimer );
-        if ( activeEl === a ) {
+        if ( activeEl === target ) {
             scheduleHide();
         }
     }
 
     function onFocusIn( e ) {
-        var a = e.target.closest( 'a[href]' );
-        if ( ! a ) return;
-        if ( ! isInternal( a ) ) return;
-        if ( shouldSkip( a ) ) return;
-        if ( ! inScope( a ) ) return;
+        var target = resolveTarget( e.target );
+        if ( ! target ) return;
 
-        fetchPreview( a.href ).then( function ( data ) {
+        if ( target.classList.contains( 'hp-glossar-term' ) ) {
+            if ( document.activeElement === target ) {
+                showFor( target, payloadFromChip( target ) );
+            }
+            return;
+        }
+
+        fetchPreview( target.href ).then( function ( data ) {
             if ( ! data ) return;
-            if ( document.activeElement === a ) {
-                showFor( a, data );
+            if ( document.activeElement === target ) {
+                showFor( target, data );
             }
         } );
     }
