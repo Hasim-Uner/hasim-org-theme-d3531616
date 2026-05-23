@@ -27,6 +27,67 @@ const HP_ORCID_ID  = '0009-0008-7500-2015';
 const HP_ORCID_URL = 'https://orcid.org/' . HP_ORCID_ID;
 
 /**
+ * Liefert ein Image-Objekt für JSON-LD aus den vorhandenen
+ * Social-Image-Daten. Fallback-Kette identisch zu OG-Image,
+ * damit Article-Rich-Results auch ohne Beitragsbild greifen.
+ *
+ * @return array<string,mixed>|null
+ */
+function hp_get_schema_image(): ?array {
+	if ( ! function_exists( 'hp_get_seo_image_data' ) ) {
+		return null;
+	}
+
+	$data = hp_get_seo_image_data();
+	if ( empty( $data['url'] ) ) {
+		return null;
+	}
+
+	$image = [
+		'@type' => 'ImageObject',
+		'url'   => $data['url'],
+	];
+
+	if ( ! empty( $data['width'] ) ) {
+		$image['width'] = (int) $data['width'];
+	}
+	if ( ! empty( $data['height'] ) ) {
+		$image['height'] = (int) $data['height'];
+	}
+	if ( ! empty( $data['alt'] ) ) {
+		$image['caption'] = $data['alt'];
+	}
+
+	return $image;
+}
+
+/**
+ * Liefert Topic-Begriffe eines Posts als Schema-Felder
+ * (`keywords` String + `articleSection` String).
+ *
+ * @param int $post_id
+ * @return array{keywords?:string,articleSection?:string}
+ */
+function hp_get_schema_topic_fields( int $post_id ): array {
+	$out    = [];
+	$topics = get_the_terms( $post_id, 'topic' );
+
+	if ( ! $topics || is_wp_error( $topics ) ) {
+		return $out;
+	}
+
+	$names = array_values( array_filter( wp_list_pluck( $topics, 'name' ) ) );
+	if ( ! $names ) {
+		return $out;
+	}
+
+	$out['keywords']       = implode( ', ', $names );
+	$out['articleSection'] = $names[0];
+
+	return $out;
+}
+
+/**
  * Injiziert ScholarlyArticle JSON-LD für Essay-Singles.
  *
  * Felder: headline, datePublished, dateModified, abstract,
@@ -64,13 +125,14 @@ function hp_essay_jsonld_schema(): void {
 		'inLanguage'    => get_locale(),
 	];
 
-	// Beitragsbild als Schema-Image
-	if ( has_post_thumbnail( $post->ID ) ) {
-		$img_url = get_the_post_thumbnail_url( $post->ID, 'full' );
-		if ( $img_url ) {
-			$schema['image'] = $img_url;
-		}
+	// Beitragsbild — mit Fallback aus Social-Image-Resolver
+	$image = hp_get_schema_image();
+	if ( $image ) {
+		$schema['image'] = $image;
 	}
+
+	// Topic-Taxonomie → keywords + articleSection
+	$schema = array_merge( $schema, hp_get_schema_topic_fields( (int) $post->ID ) );
 
 	// Wortanzahl — relevantes Signal für Longform-Erkennung
 	$word_count = str_word_count( wp_strip_all_tags( $post->post_content ) );
@@ -217,12 +279,20 @@ function hp_glossar_jsonld_schema(): void {
 		? wp_strip_all_tags( $kurz )
 		: wp_trim_words( wp_strip_all_tags( $post->post_content ), 40, ' …' );
 
+	$permalink = get_permalink( $post );
+
 	$schema = [
-		'@context'    => 'https://schema.org',
-		'@type'       => 'DefinedTerm',
-		'name'        => get_the_title( $post ),
-		'description' => $desc,
-		'url'         => get_permalink( $post ),
+		'@context'         => 'https://schema.org',
+		'@type'            => 'DefinedTerm',
+		'@id'              => $permalink . '#term',
+		'name'             => get_the_title( $post ),
+		'description'      => $desc,
+		'url'              => $permalink,
+		'inLanguage'       => get_locale(),
+		'mainEntityOfPage' => [
+			'@type' => 'WebPage',
+			'@id'   => $permalink,
+		],
 		'inDefinedTermSet' => [
 			'@type' => 'DefinedTermSet',
 			'name'  => 'Glossar — ' . get_bloginfo( 'name' ),
@@ -277,6 +347,13 @@ function hp_note_jsonld_schema(): void {
 		'url'           => get_permalink( $post ),
 		'inLanguage'    => get_locale(),
 	];
+
+	$image = hp_get_schema_image();
+	if ( $image ) {
+		$schema['image'] = $image;
+	}
+
+	$schema = array_merge( $schema, hp_get_schema_topic_fields( (int) $post->ID ) );
 
 	$word_count = str_word_count( wp_strip_all_tags( $post->post_content ) );
 	if ( $word_count > 0 ) {
@@ -340,6 +417,13 @@ function hp_dossier_jsonld_schema(): void {
 	if ( $version ) {
 		$schema['version'] = $version;
 	}
+
+	$image = hp_get_schema_image();
+	if ( $image ) {
+		$schema['image'] = $image;
+	}
+
+	$schema = array_merge( $schema, hp_get_schema_topic_fields( $post_id ) );
 
 	// hasPart: Leseplan-Beiträge als Article-Referenzen
 	if ( function_exists( 'hp_dossier_get_leseplan' ) ) {
