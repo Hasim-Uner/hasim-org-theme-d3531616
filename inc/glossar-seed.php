@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-22-sterblichkeit-r2';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-23-sterblichkeit-r3';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -228,7 +228,9 @@ function hp_seed_perspektive_glossary(): void {
  */
 function hp_seed_sterblichkeit_essay(): void {
 	$slug            = 'sterblichkeit-kein-softwarefehler';
-	$content_version = 'r2-wissensgraph-links';
+	$content_version = 'r3-milliarden-quellen';
+	$title           = 'Sterblichkeit ist kein Softwarefehler';
+	$excerpt         = 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.';
 
 	$content = hp_get_sterblichkeit_essay_content();
 
@@ -237,8 +239,13 @@ function hp_seed_sterblichkeit_essay(): void {
 		if ( get_post_meta( $existing->ID, '_hp_essay_content_version', true ) !== $content_version ) {
 			wp_update_post( [
 				'ID'           => $existing->ID,
+				'post_title'   => $title,
+				'post_excerpt' => $excerpt,
 				'post_content' => $content,
 			] );
+			update_post_meta( $existing->ID, '_hp_meta_description', $excerpt );
+			update_post_meta( $existing->ID, '_hp_reading_time', 22 );
+			update_post_meta( $existing->ID, '_hp_reading_minutes', 22 );
 			update_post_meta( $existing->ID, '_hp_essay_content_version', $content_version );
 		}
 		return;
@@ -248,8 +255,8 @@ function hp_seed_sterblichkeit_essay(): void {
 		'post_type'    => 'essay',
 		'post_status'  => 'publish',
 		'post_name'    => $slug,
-		'post_title'   => 'Sterblichkeit ist kein Softwarefehler',
-		'post_excerpt' => 'Warum der transhumanistische Traum vom ewigen Leben weniger Fortschritt ist als Flucht – und warum der Mensch nicht gerettet wird, indem man ihn abschafft.',
+		'post_title'   => $title,
+		'post_excerpt' => $excerpt,
 		'post_content' => $content,
 	], true );
 
@@ -257,14 +264,9 @@ function hp_seed_sterblichkeit_essay(): void {
 		return;
 	}
 
-	update_post_meta(
-		$post_id,
-		'_hp_meta_description',
-		'Warum der transhumanistische Traum vom ewigen Leben weniger Fortschritt ist als Flucht – und warum der Mensch nicht gerettet wird, indem man ihn abschafft.'
-	);
-
-	update_post_meta( $post_id, '_hp_reading_time', 20 );
-	update_post_meta( $post_id, '_hp_reading_minutes', 20 );
+	update_post_meta( $post_id, '_hp_meta_description', $excerpt );
+	update_post_meta( $post_id, '_hp_reading_time', 22 );
+	update_post_meta( $post_id, '_hp_reading_minutes', 22 );
 	update_post_meta( $post_id, '_hp_essay_content_version', $content_version );
 
 	if ( taxonomy_exists( 'topic' ) ) {
@@ -274,75 +276,115 @@ function hp_seed_sterblichkeit_essay(): void {
 
 /**
  * Liefert den HTML-Body des Essays „Sterblichkeit ist kein Softwarefehler"
- * als Gutenberg-Blockfolge mit interner Verlinkung in den Wissensgraphen.
+ * als Gutenberg-Blockfolge mit interner Verlinkung in den Wissensgraphen
+ * sowie einem abschließenden Quellenapparat.
  */
 function hp_get_sterblichkeit_essay_content(): string {
-	$blocks = [
-		'<p>Der <a href="/glossar/transhumanismus/">Transhumanismus</a> tritt selten als Religion auf. Er spricht lieber die Sprache der Forschung, der Innovation, der Effizienz und des technischen Fortschritts. Er verspricht Heilung, längeres Leben, höhere Intelligenz, bessere Körper, perfektere Entscheidungen, vielleicht sogar eines Tages die Überwindung des Todes. Wer wollte dagegen sein? Wer wollte Krankheit, Demenz, körperlichen Verfall oder frühes Sterben verteidigen?</p>',
+	$lead = 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.';
+
+	$intro = [
+		'<p>Der <a href="/glossar/transhumanismus/">Transhumanismus</a> tritt selten als Religion auf. Er spricht die Sprache der Forschung, der Innovation, der Effizienz. Er verspricht Heilung, längeres Leben, höhere Intelligenz, bessere Körper, perfektere Entscheidungen, vielleicht eines Tages die Überwindung des Todes. Wer wollte dagegen sein? Wer wollte Krankheit, Demenz, körperlichen Verfall oder frühes Sterben verteidigen?</p>',
 		'<p>Genau hier beginnt seine Verführung.</p>',
-		'<p>Denn der stärkste Teil des transhumanistischen Versprechens ist nicht falsch. Es ist gut, Leiden zu lindern. Es ist gut, Krankheiten zu behandeln. Es ist gut, Prothesen zu verbessern, blinden Menschen Sehen zu ermöglichen, gelähmten Menschen Bewegung zurückzugeben, Alterungsprozesse besser zu verstehen und medizinische Möglichkeiten zu erweitern.</p>',
-		'<p>Eine Kritik des Transhumanismus darf deshalb nicht mit Fortschrittsfeindschaft verwechselt werden. Nicht jede Form technologischer Erweiterung ist Entmenschlichung. Nicht jede Forschung an Langlebigkeit ist Hybris. Nicht jeder medizinische Eingriff ist ein Angriff auf das Wesen des Menschen.</p>',
-		'<p>Der Bruch beginnt an einer anderen Stelle.</p>',
-		'<p>Er beginnt dort, wo Heilung zur Erlösungsfantasie wird. Dort, wo der Mensch nicht mehr als lebendiges, verletzliches, soziales, sterbliches Wesen verstanden wird, sondern als defektes System. Als schlecht optimierte Maschine. Als biologischer Altbau. Als Bündel aus Daten, Reizen, Hormonen, Signalen und Rechenprozessen. Dort, wo der Körper nicht mehr Heimat ist, sondern Hindernis. Dort, wo Sterblichkeit nicht mehr zur menschlichen Existenz gehört, sondern als technisches Problem behandelt wird, das nur noch auf seine Lösung wartet.</p>',
+		'<p>Denn der stärkste Teil des transhumanistischen Versprechens ist nicht falsch. Es ist gut, Leiden zu lindern. Es ist gut, Krankheiten zu behandeln, Prothesen zu verbessern, blinden Menschen Sehen zu ermöglichen, gelähmten Menschen Bewegung zurückzugeben, Alterungsprozesse besser zu verstehen. Eine Kritik des Transhumanismus darf deshalb nicht mit Fortschrittsfeindschaft verwechselt werden. Nicht jede Form technologischer Erweiterung ist Entmenschlichung. Nicht jede Forschung an Langlebigkeit ist Hybris. Nicht jeder medizinische Eingriff ist ein Angriff auf das Wesen des Menschen.</p>',
+		'<p>Der Bruch beginnt an einer anderen Stelle. Er beginnt dort, wo Heilung zur Erlösungsfantasie wird. Dort, wo der Mensch nicht mehr als lebendiges, verletzliches, soziales, sterbliches Wesen verstanden wird, sondern als defektes System. Als schlecht optimierte Maschine. Als biologischer Altbau. Dort, wo der Körper nicht mehr Heimat ist, sondern Hindernis. Dort, wo Sterblichkeit nicht mehr zur menschlichen Existenz gehört, sondern als technisches Problem behandelt wird, das nur noch auf seine Lösung wartet.</p>',
 		'<p>Transhumanismus wird gefährlich, sobald er aus Medizin eine Metaphysik macht.</p>',
 	];
 
 	$sections = [
 		'Der Mensch als fehlerhafte Maschine' => [
-			'<p>Das eigentliche Problem liegt nicht in einzelnen Werkzeugen. Es liegt im Menschenbild, das diese Werkzeuge oft begleitet. Dieses Menschenbild beruht auf einem <a href="/glossar/reduktionismus-methodischer/">methodischen Reduktionismus</a>: Bewusstsein wird als Datenverarbeitung verstanden, Körper als Hardware, Erinnerung als Speicher, Intelligenz als Rechenleistung, Identität als Muster und Leben als Optimierungsproblem. Was sich nicht messen, modellieren, beschleunigen oder kontrollieren lässt, erscheint darin zweitrangig, irrational oder veraltet.</p>',
+			'<p>Dass dies kein Strohmann ist, lässt sich an Bilanzen ablesen. Altos Labs startete 2022 mit drei Milliarden Dollar Anschubfinanzierung — der bestfinanzierte Biotech-Start der Geschichte, gestützt unter anderem von Jeff Bezos. Retro Biosciences, finanziert vom OpenAI-Chef Sam Altman, sammelt Kapital für eine Bewertung von rund fünf Milliarden Dollar ein, ohne eine einzige klinische Datenreihe vorweisen zu können; das erklärte Ziel ist, dem Menschen zehn Jahre hinzuzufügen. Peter Thiels Methuselah-Stiftung will „90 zum neuen 50" machen — bis 2030. Das Vokabular dieser Projekte ist nicht das der Heilung, sondern das der Versionierung. Der Körper erscheint als veraltete Ausgabe, der ein Update fehlt.</p>',
+			'<p>Das eigentliche Problem liegt nicht in einzelnen Werkzeugen. Es liegt im Menschenbild, das diese Werkzeuge begleitet. Dieses Bild beruht auf einem <a href="/glossar/reduktionismus-methodischer/">methodischen Reduktionismus</a>: Bewusstsein wird als Datenverarbeitung verstanden, Körper als Hardware, Erinnerung als Speicher, Intelligenz als Rechenleistung, Identität als Muster, Leben als Optimierungsproblem. Was sich nicht messen, modellieren oder beschleunigen lässt, erscheint zweitrangig, irrational, veraltet.</p>',
 			'<p>Aber der Mensch ist keine Excel-Tabelle mit Stoffwechsel.</p>',
-			'<p>Die Ironie dabei ist: Die Tech-Elite gibt sich avantgardistisch, operiert aber mit einem Weltbild, das wissenschaftsgeschichtlich im <a href="/glossar/determinismus-mechanistischer/">mechanistischen Determinismus</a> von Gottfried Wilhelm Leibniz hängengeblieben ist. Sie betrachten das Universum und den Geist als ein lineares, berechenbares Uhrwerk. Dabei ignorieren sie geflissentlich, dass Max Planck und Werner Heisenberg diese mechanische Kausalität vor über einhundert Jahren zertrümmert haben. Die Quantenphysik hat gezeigt, dass die fundamentale Realität eben nicht deterministisch, sondern voller Unschärfen, Brüche und nicht-linearer Potenziale ist. Während antike Denker wie Heraklit bereits das universelle Prinzip des permanenten, dynamischen Werdens verstanden, klammert sich der Transhumanismus an ein vor-modernes Konzept starrer, berechenbarer Materie. Ihr Verständnis von Intelligenz ist kein Blick in die Zukunft, sondern der leblose Rückzug in ein überholtes, mechanisches Weltbild des Barock.</p>',
-			'<p>Ein Mensch ist nicht bloß eine Ansammlung von Funktionen. Er ist nicht nur sein Gehirn, nicht nur sein Genom, nicht nur seine Produktivität, nicht nur sein kognitives Profil. Menschliches Leben entsteht aus Körper, Sprache, Erinnerung, Beziehung, Schmerz, Begehren, Angst, Geschichte, Kultur, Endlichkeit und Sinn. Es ist nicht einfach Information, die zufällig auf biologischem Trägermaterial läuft.</p>',
-			'<p>Genau diese Verwechslung ist zentral: Das Lebendige wird behandelt, als sei es im Kern bereits maschinell. Die Maschine erscheint dann nicht mehr als Werkzeug des Menschen, sondern als dessen bessere Version. Das Organische wird zum Provisorium erklärt. Das Digitale wird zur Verheißung.</p>',
-			'<p>Dabei ist eine Maschine immer nur in Teilbereichen überlegen. Sie kann schneller rechnen, präziser sortieren, größere Datenmengen verarbeiten, Muster erkennen, Texte erzeugen, Bilder berechnen und Entscheidungen simulieren. Aber aus funktionaler Überlegenheit folgt kein existenzieller Vorrang. Ein Taschenrechner ist besser im Rechnen als ein Kind. Trotzdem ist das Kind nicht die minderwertige Version des Taschenrechners. Der Mensch ist nicht deshalb wertvoll, weil er effizient ist. Er ist wertvoll, bevor er überhaupt etwas leistet.</p>',
+			'<p>Der Reduktionismus gibt sich als Wissenschaft, ist aber eine Setzung. Seit der Philosoph David Chalmers 1995 das „harte Problem des Bewusstseins" formulierte, ist eine Frage offengeblieben, die keine Hirnscan-Auflösung schließt: Warum geht Informationsverarbeitung überhaupt mit subjektivem Erleben einher? Niemand weiß es. Der Transhumanismus überspringt diese Lücke nicht — er verhält sich, als gäbe es sie nicht. Er erklärt für gelöst, was bisher niemand gelöst hat.</p>',
+			'<p>Das anschaulichste Maß für diesen Abstand ist kein Argument, sondern ein Wurm. Das Forschungsprojekt OpenWorm versucht seit über einem Jahrzehnt, das Nervensystem des Fadenwurms <em>Caenorhabditis elegans</em> vollständig digital nachzubilden — ganze 302 Neuronen, jede Verbindung kartiert und bekannt. Es ist bis heute nicht abschließend gelungen, dieses Nervensystem so zu emulieren, dass sich der Wurm verhält wie sein lebendiges Vorbild. 302 Neuronen. Das menschliche Gehirn hat rund 86 Milliarden. Wer einen Wurm nicht hochladen kann, sollte vom Upload des Menschen schweigen.</p>',
+			'<p>Ein Mensch ist nicht bloß eine Ansammlung von Funktionen. Er ist nicht nur sein Gehirn, nicht nur sein Genom, nicht nur seine Produktivität, nicht nur sein kognitives Profil. Menschliches Leben entsteht aus Körper, Sprache, Erinnerung, Beziehung, Schmerz, Begehren, Angst, Geschichte, Kultur, Endlichkeit und Sinn. Es ist nicht Information, die zufällig auf biologischem Trägermaterial läuft.</p>',
+			'<p>Genau diese Verwechslung ist zentral: Das Lebendige wird behandelt, als sei es im Kern bereits maschinell. Die Maschine erscheint dann nicht mehr als Werkzeug des Menschen, sondern als dessen bessere Version. Das Organische wird zum Provisorium erklärt, das Digitale zur Verheißung.</p>',
+			'<p>Dabei ist eine Maschine immer nur in Teilbereichen überlegen. Sie rechnet schneller, sortiert präziser, erkennt Muster, erzeugt Texte. Aber aus funktionaler Überlegenheit folgt kein existenzieller Vorrang. Ein Taschenrechner ist besser im Rechnen als ein Kind. Trotzdem ist das Kind nicht die minderwertige Version des Taschenrechners. Der Mensch ist nicht deshalb wertvoll, weil er effizient ist. Er ist wertvoll, bevor er überhaupt etwas leistet.</p>',
 		],
 		'Die Ersatzreligion der Kontrolle' => [
-			'<p>Der moderne Transhumanismus gibt sich nüchtern, aber sein innerer Antrieb ist oft religiöser, als seine Anhänger zugeben würden. Er verspricht das, was Religionen immer versprochen haben: Erlösung vom Leiden, Überwindung der Begrenzung, Rettung vor dem Tod, Fortexistenz über den Zerfall des Körpers hinaus.</p>',
+			'<p>Der moderne Transhumanismus gibt sich nüchtern, aber sein innerer Antrieb ist religiöser, als seine Anhänger zugeben würden. Er verspricht, was Religionen immer versprochen haben: Erlösung vom Leiden, Überwindung der Begrenzung, Rettung vor dem Tod, Fortexistenz über den Zerfall des Körpers hinaus.</p>',
 			'<p>Nur sind die alten Symbole ersetzt worden. Aus Seele wird Information. Aus Auferstehung wird Upload. Aus Paradies wird Simulation. Aus Askese wird Selbstoptimierung. Aus Gott wird Technik. Aus Erlösung wird Produktentwicklung.</p>',
+			'<p>Es ist kein Zufall, dass diese Bewegung Prognose von Erweckung schwer unterscheidet. Ray Kurzweil, der bekannteste Prophet des Transhumanismus, terminiert die „Singularität" auf das Jahr 2045 und das Erreichen der Langlebigkeits-Fluchtgeschwindigkeit auf etwa 2030 — Daten so präzise wie die einer Wiederkunft. Eine Vorhersage, die ein Datum nennt, ohne einen Mechanismus zu nennen, ist kein Forschungsergebnis. Sie ist ein Glaubensbekenntnis im Tonfall der Ingenieurskunst.</p>',
 			'<p>Dahinter steht eine Angst, die selten offen ausgesprochen wird: die Angst vor dem Unverfügbaren. Vor dem Körper. Vor Alterung. Vor Krankheit. Vor Abhängigkeit. Vor Kontrollverlust. Vor dem Tod.</p>',
-			'<p>Man kann diese Angst <a href="/glossar/biophobie/">Biophobie</a> nennen: nicht im Sinne eines bloßen Ekels vor Leben, sondern als tiefe Abwehr gegen das Unberechenbare, Fleischliche, Endliche und Widersprüchliche des organischen Daseins. Das Lebendige soll in kontrollierbare Datensätze übersetzt werden, damit es endlich berechenbar wird.</p>',
+			'<p>Man kann diese Angst <a href="/glossar/biophobie/">Biophobie</a> nennen — nicht im Sinne eines bloßen Ekels vor Leben, sondern, in der Tradition von Erich Fromms Unterscheidung zwischen Biophilie und Nekrophilie, als tiefe Abwehr gegen das Unberechenbare, Fleischliche, Endliche und Widersprüchliche des organischen Daseins. Das Lebendige soll in kontrollierbare Datensätze übersetzt werden, damit es endlich berechenbar wird.</p>',
 			'<p>Das macht den Transhumanismus nicht automatisch falsch. Aber es macht ihn unehrlich, wenn er so tut, als sei er bloß Wissenschaft. Wissenschaft beschreibt, prüft, verwirft, korrigiert. Ideologie verspricht eine Richtung der Geschichte. Der Transhumanismus kippt genau dort in Ideologie, wo er nicht mehr fragt, was Technik kann, sondern behauptet, wohin der Mensch sich entwickeln müsse.</p>',
 			'<p>Darin liegt sein autoritärer Kern. Wer den Menschen als Mängelwesen definiert, braucht irgendwann Instanzen, die festlegen, welche Mängel beseitigt werden sollen. Wer Optimierung zum Ziel erklärt, muss bestimmen, was als besser gilt. Solche Fragen sind nie rein technisch. Sie sind politisch, ethisch und sozial. Und sie sind gefährlich, wenn sie von denen beantwortet werden, die ohnehin schon über Kapital, Infrastruktur und Deutungsmacht verfügen.</p>',
 		],
 		'Die Klassenfrage der Optimierung' => [
-			'<p>Die transhumanistische Zukunft wird gerne als Menschheitsprojekt verkauft. Aber technologische Revolutionen kommen selten gleichmäßig bei der Menschheit an. Sie beginnen dort, wo Geld, Labore, Plattformen, Patente und Zugang konzentriert sind.</p>',
-			'<p>Deshalb muss man die Machtfrage stellen: Wer wird optimiert? Wer bleibt zurück? Wer besitzt die Infrastruktur? Wer kontrolliert die Daten? Wer bestimmt die Norm? Wer entscheidet, welche Körper als reparaturbedürftig gelten und welche als überlegen?</p>',
-			'<p>Eine Gesellschaft, die schon heute extreme Ungleichheit produziert, wird durch <a href="/glossar/enhancement-technologien/">Enhancement-Technologien</a> nicht automatisch gerechter. Wenn biologische, kognitive oder digitale Erweiterungen marktförmig organisiert werden, entsteht nicht die befreite Menschheit, sondern eine neue Klassengesellschaft. Oben diejenigen, die sich Zugriff auf Optimierung kaufen können. Unten diejenigen, deren Körper weiterhin verschleißen, deren Aufmerksamkeit ausgebeutet wird, deren Daten geerntet werden und deren Lebensbedingungen sich nicht verbessern.</p>',
+			'<p>Die transhumanistische Zukunft wird gerne als Menschheitsprojekt verkauft. Die Gegenwart sagt etwas anderes. Technologische Revolutionen beginnen dort, wo Geld, Labore, Patente und Zugang konzentriert sind — und das ist messbar.</p>',
+			'<p>Schon heute, ganz ohne Enhancement, ist Lebenszeit eine Funktion des Einkommens. Eine der größten Studien dazu, von Raj Chetty und Kollegen 2016 im <em>Journal of the American Medical Association</em> veröffentlicht und auf 1,4 Milliarden Steuerdatensätzen beruhend, zeigt: Zwischen dem reichsten und dem ärmsten Prozent der US-Bevölkerung klafft eine Lücke in der Lebenserwartung von fünfzehn Jahren bei Männern und zehn Jahren bei Frauen. Und sie wächst. Zwischen 2001 und 2014 gewannen die obersten fünf Prozent rund zweieinhalb bis drei Jahre Lebenserwartung hinzu. Die untersten fünf Prozent gewannen 0,3 Jahre — oder nichts.</p>',
+			'<p>Das ist der Boden, auf den die Versprechen treffen. Eine Technologie, die Lebenszeit verlängert, verteilt sie nicht um. Sie legt sich auf ein bestehendes Gefälle und macht es steiler. Werden biologische, kognitive oder digitale <a href="/glossar/enhancement-technologien/">Erweiterungen</a> marktförmig organisiert, entsteht nicht die befreite Menschheit, sondern eine neue Klassengesellschaft: oben, wer sich Zugriff auf Optimierung kaufen kann; unten, wessen Körper weiterhin verschleißen, wessen Aufmerksamkeit ausgebeutet, wessen Daten geerntet werden.</p>',
+			'<p>Deshalb ist die Machtfrage unausweichlich: Wer wird optimiert? Wer bleibt zurück? Wer besitzt die Infrastruktur? Wer kontrolliert die Daten? Wer bestimmt die Norm? Wer entscheidet, welche Körper als reparaturbedürftig gelten und welche als überlegen?</p>',
 			'<p>Der Transhumanismus spricht vom Menschen der Zukunft, während die Gegenwart zerfällt. Er träumt von digitaler Unsterblichkeit, während Bildungssysteme ausbluten, Pflegekräfte kollabieren, Kinder in algorithmischen Reizmaschinen aufwachsen, psychische Erkrankungen zunehmen, Demokratien unter Plattformlogiken leiden und ökologische Grenzen ignoriert bleiben.</p>',
-			'<p>Hier berührt der Transhumanismus die <a href="/glossar/algorithmische-oeffentlichkeit/">algorithmische Öffentlichkeit</a>: eine Öffentlichkeit, in der Aufmerksamkeit nicht mehr frei entsteht, sondern durch Rankings, Feeds, Empfehlungslogiken, Erregungsschleifen und automatisierte Verstärkung geformt wird. Diese Systeme belohnen Affekte, verstärken Fragmentierung und schwächen Urteilskraft. So entsteht eine paradoxe Lage: Während oben von Bewusstseinserweiterung, Langlebigkeit und technischer Evolution gesprochen wird, wird unten die alltägliche Aufmerksamkeit zerlegt. Die Zukunft wird optimiert, während die Gegenwart zerstreut wird.</p>',
+			'<p>Hier berührt er die <a href="/glossar/algorithmische-oeffentlichkeit/">algorithmische Öffentlichkeit</a>: eine Öffentlichkeit, in der Aufmerksamkeit nicht mehr frei entsteht, sondern durch Rankings, Feeds, Empfehlungslogiken und automatisierte Verstärkung geformt wird. Diese Systeme belohnen Affekte, verstärken Fragmentierung, schwächen Urteilskraft. So entsteht eine paradoxe Lage: Während oben von Bewusstseinserweiterung, Langlebigkeit und technischer Evolution gesprochen wird, wird unten die alltägliche Aufmerksamkeit zerlegt. Die Zukunft wird optimiert, während die Gegenwart zerstreut wird.</p>',
 			'<p>Die Flucht in eine fantastische Zukunft entlastet von der Reparatur der konkreten Gegenwart. Wer vom Upload des Bewusstseins träumt, muss sich weniger mit der Einsamkeit alter Menschen beschäftigen. Wer vom optimierten Körper schwärmt, muss weniger über Arbeitsbedingungen sprechen, die Körper zerstören. Die große Obszönität des Transhumanismus liegt darin, dass er das Falsche zuerst will.</p>',
 		],
 		'Digitale Unsterblichkeit ist keine Unsterblichkeit' => [
-			'<p>Besonders deutlich wird der Denkfehler beim Traum vom <a href="/glossar/mind-uploading/">Mind Uploading</a>. Die Idee klingt spektakulär: Das Gehirn wird kartiert, Bewusstsein wird rekonstruiert, Persönlichkeit wird digitalisiert, der Mensch lebt als Informationsmuster weiter.</p>',
-			'<p>Aber selbst wenn man eines Tages eine perfekte digitale Kopie eines Menschen erzeugen könnte, wäre damit die entscheidende Frage nicht gelöst: Warum sollte diese Kopie ich sein?</p>',
-			'<p>Eine Kopie kann sprechen wie ich, erinnern wie ich, reagieren wie ich, meine Vorlieben imitieren, meine Stimme nachbilden, meine Texte schreiben und meine biografischen Muster fortsetzen. Aber Ähnlichkeit ist keine Kontinuität. Simulation ist keine Erfahrung. Ein digitales Modell meiner Person wäre vielleicht ein beeindruckendes Archiv, vielleicht ein interaktives Denkmal, vielleicht eine perfekte Täuschung für andere. Aber es wäre nicht automatisch die Fortsetzung meines gelebten Bewusstseins.</p>',
+			'<p>Am deutlichsten wird der Denkfehler beim Traum vom <a href="/glossar/mind-uploading/">Mind Uploading</a>. Die Idee klingt spektakulär: Das Gehirn wird kartiert, Bewusstsein rekonstruiert, Persönlichkeit digitalisiert, der Mensch lebt als Informationsmuster weiter.</p>',
+			'<p>Aber selbst wenn man eines Tages eine perfekte digitale Kopie eines Menschen erzeugen könnte, bliebe die entscheidende Frage offen: Warum sollte diese Kopie ich sein?</p>',
+			'<p>Der Philosoph Derek Parfit hat dieses Problem 1984 in <em>Reasons and Persons</em> mit dem Gedankenexperiment der Teletransportation geschärft. Ein Gerät scannt einen Menschen, zerstört das Original und baut an einem anderen Ort eine atomgenaue Kopie. Die Kopie erinnert sich an alles, hält sich für dieselbe Person — und ist es doch nicht im Sinne numerischer Identität: Bliebe das Original am Leben, stünden sich zwei Menschen gegenüber, nicht einer. Ähnlichkeit ist keine Kontinuität. Simulation ist keine Erfahrung. Ein digitales Modell meiner Person wäre vielleicht ein beeindruckendes Archiv, ein interaktives Denkmal, eine perfekte Täuschung für andere. Aber es wäre nicht die Fortsetzung meines gelebten Bewusstseins.</p>',
+			'<p>Wie weit diese Logik führt, zeigt das Startup Nectome, das Gehirnkonservierung für ein späteres Upload anbot — mit einem Verfahren, das den Tod des Kunden voraussetzt: Konserviert werden kann nur ein Gehirn, dessen Träger dafür stirbt. Das MIT beendete 2018 seine Zusammenarbeit mit dem Unternehmen. Deutlicher lässt sich der Widerspruch kaum fassen — eine Unsterblichkeitstechnik, deren erster Schritt das Sterben ist.</p>',
 			'<p>Der Tod wird dadurch nicht überwunden. Er wird nur ästhetisch kaschiert. Digitale Unsterblichkeit ist keine Auferstehung. Sie ist Nachlassverwaltung mit Benutzeroberfläche. Der Wunsch, weiterzuleben, ist menschlich. Aber gerade deshalb ist es gefährlich, diese Angst in ein Geschäftsmodell zu verwandeln. Wer Menschen digitale Fortexistenz verkauft, verkauft Trost. Und Trost ist einer der empfindlichsten Märkte überhaupt.</p>',
 		],
 		'Endlichkeit als Bedingung von Sinn' => [
-			'<p>Der Transhumanismus behandelt Sterblichkeit als Niederlage. Aber vielleicht ist gerade das sein tiefster Irrtum. Endlichkeit ist nicht bloß ein Defekt. Sie ist eine Bedingung von Bedeutung. Weil Zeit begrenzt ist, haben Entscheidungen Gewicht. Weil Leben nicht unendlich verfügbar ist, wird Aufmerksamkeit kostbar. Weil Beziehungen sterblich sind, können sie tragisch, zärtlich und verbindlich sein. Weil wir verschwinden, ist es nicht egal, wie wir leben.</p>',
-			'<p>Eine endlose Existenz wäre nicht automatisch tiefer. Sie könnte auch flacher werden. Wenn alles auf unendliche Verlängerung angelegt ist, verliert das Jetzt seine Dringlichkeit. Wenn der Tod nur noch als technisches Versagen gilt, wird das Leben selbst zur Warteschleife vor dem nächsten Update. Der Mensch braucht nicht die Verachtung seiner Grenzen. Er braucht ein würdiges Verhältnis zu ihnen im Rahmen der <a href="/glossar/conditio-humana/">conditio humana</a>. Es gibt einen Unterschied zwischen dem Kampf gegen vermeidbares Leiden und dem Krieg gegen die conditio humana. Heilung achtet das Leben. Transhumanistische Erlösungsfantasie misstraut ihm.</p>',
+			'<p>Der Transhumanismus behandelt Sterblichkeit als Niederlage. Vielleicht ist gerade das sein tiefster Irrtum.</p>',
+			'<p>Der Philosoph Bernard Williams hat 1973 in seinem Essay über den „Fall Makropulos" eine unbequeme These formuliert: Ein unendliches Leben wäre nicht erstrebenswert, sondern unerträglich. Williams\' Figur, Elina Makropulos, lebt durch ein Elixier dreihundert Jahre im biologischen Alter von zweiundvierzig — und erstarrt in Kälte, Langeweile, Gleichgültigkeit. Sein Argument: Was unsere Wünsche und Bindungen überhaupt mit Bedeutung auflädt, ist ihre Verknüpfung mit einem endlichen Leben. Eine Existenz ohne Horizont verliert die Form, die sie zu einem Leben macht.</p>',
+			'<p>Endlichkeit ist nicht bloß ein Defekt. Sie ist eine Bedingung von Bedeutung. Weil Zeit begrenzt ist, haben Entscheidungen Gewicht. Weil Leben nicht unendlich verfügbar ist, wird Aufmerksamkeit kostbar. Weil Beziehungen sterblich sind, können sie tragisch, zärtlich und verbindlich sein. Weil wir verschwinden, ist es nicht egal, wie wir leben.</p>',
+			'<p>Eine endlose Existenz wäre nicht automatisch tiefer. Sie könnte auch flacher werden. Wenn alles auf unendliche Verlängerung angelegt ist, verliert das Jetzt seine Dringlichkeit. Wenn der Tod nur noch als technisches Versagen gilt, wird das Leben selbst zur Warteschleife vor dem nächsten Update.</p>',
+			'<p>Der Mensch braucht nicht die Verachtung seiner Grenzen. Er braucht ein würdiges Verhältnis zu ihnen, im Rahmen der <a href="/glossar/conditio-humana/">conditio humana</a>. Es gibt einen Unterschied zwischen dem Kampf gegen vermeidbares Leiden und dem Krieg gegen die Bedingung des Menschseins selbst. Heilung achtet das Leben. Die transhumanistische Erlösungsfantasie misstraut ihm.</p>',
 		],
 		'Kosmotechnik statt Götzendienst' => [
-			'<p>Die richtige Antwort auf den Transhumanismus ist nicht Technikfeindlichkeit. Sie ist Entzauberung. Technik ist Werkzeug. Sie kann heilen, entlasten, verbinden, schützen, erweitern. Aber sie darf nicht zum Maßstab des Menschlichen werden. Sie darf nicht definieren, welches Leben als gelungen gilt. Sie darf nicht darüber entscheiden, welche Körper wertvoll, welche Gefühle störend, welche Denkweisen ineffizient und welche Menschen verbesserungsbedürftig sind.</p>',
-			'<p>Hier braucht es eine andere technologische Kultur. Man könnte sie <a href="/glossar/kosmotechnik/">Kosmotechnik</a> nennen: Technik, die nicht als universale Optimierungsmaschine auftritt, sondern in Beziehung steht zu Körper, Kultur, Natur, Gemeinschaft, Ort, Grenze und Sinn. Kosmotechnik bedeutet nicht Rückzug in Romantik. Sie bedeutet, technische Entwicklung nicht aus jeder Bindung zu lösen. Sie fragt nicht nur, was machbar ist. Sie fragt, in welche Ordnung das Machbare eingebettet wird.</p>',
-			'<p>Eine humane technologische Kultur müsste deshalb anders beginnen. Nicht mit der Frage: Wie überwinden wir den Menschen? Sondern: Welche Technik dient dem Leben, ohne es zu entwürdigen? Nicht: Wie machen wir Menschen kompatibel mit Systemen? Sondern: Wie bauen wir Systeme, die menschliche Verletzlichkeit, Aufmerksamkeit, Körperlichkeit, Würde und Gemeinschaft respektieren? Nicht: Wie verlängern wir das Leben einiger weniger ins Absurde? Sondern: Wie verbessern wir die Lebensbedingungen vieler im Konkreten? Nicht: Wie fliehen wir aus dem Körper? Sondern: Wie bewohnen wir ihn gerechter, gesünder und bewusster? Das wäre echter Fortschritt: nicht die Abschaffung des Menschen, sondern die Befreiung des Menschen von Systemen, die ihn bereits heute deformieren.</p>',
+			'<p>Die richtige Antwort auf den Transhumanismus ist nicht Technikfeindlichkeit. Sie ist Entzauberung. Technik ist Werkzeug. Sie kann heilen, entlasten, verbinden, schützen, erweitern. Aber sie darf nicht zum Maßstab des Menschlichen werden. Sie darf nicht definieren, welches Leben als gelungen gilt, welche Körper wertvoll, welche Gefühle störend, welche Denkweisen ineffizient und welche Menschen verbesserungsbedürftig sind.</p>',
+			'<p>Es braucht eine andere technologische Kultur. Der Philosoph Yuk Hui hat dafür den Begriff der <a href="/glossar/kosmotechnik/">Kosmotechnik</a> vorgeschlagen: die Einsicht, dass es nicht die eine, universale Technik gibt, sondern dass technische Entwicklung immer in eine kosmische und moralische Ordnung eingebettet ist — in Beziehung zu Körper, Kultur, Natur, Gemeinschaft, Ort und Grenze. Kosmotechnik bedeutet nicht Rückzug in Romantik. Sie bedeutet, technische Entwicklung nicht aus jeder Bindung zu lösen. Sie fragt nicht nur, was machbar ist. Sie fragt, in welche Ordnung das Machbare eingebettet wird.</p>',
+			'<p>Eine humane technologische Kultur müsste deshalb anders beginnen. Nicht mit der Frage: Wie überwinden wir den Menschen? Sondern: Welche Technik dient dem Leben, ohne es zu entwürdigen? Nicht: Wie machen wir Menschen kompatibel mit Systemen? Sondern: Wie bauen wir Systeme, die menschliche Verletzlichkeit, Aufmerksamkeit, Körperlichkeit und Würde respektieren? Nicht: Wie verlängern wir das Leben einiger weniger ins Absurde? Sondern: Wie verbessern wir die Lebensbedingungen vieler im Konkreten? Nicht: Wie fliehen wir aus dem Körper? Sondern: Wie bewohnen wir ihn gerechter, gesünder und bewusster?</p>',
+			'<p>Das wäre echter Fortschritt: nicht die Abschaffung des Menschen, sondern die Befreiung des Menschen von Systemen, die ihn schon heute deformieren.</p>',
 		],
 		'Der Gegenentwurf' => [
-			'<p>Der Mensch ist kein defektes Gerät. Der Körper ist kein Gefängnis. Bewusstsein ist keine Datei. Sterblichkeit ist kein Softwarefehler. Wir müssen nicht kleiner von Technik denken. Wir müssen größer vom Menschen denken.</p>',
-			'<p>Größer heißt nicht größenwahnsinnig. Es heißt: den Menschen nicht auf Leistung, Daten, Gene, Rechenprozesse oder Marktwert zu reduzieren. Es heißt, das Lebendige nicht zu verachten, nur weil es verletzlich ist. Es heißt, die Grenze nicht sofort als Feind zu behandeln. Es heißt, Fortschritt nicht daran zu messen, wie weit wir uns vom Menschlichen entfernen, sondern wie tief wir ihm gerecht werden. Der transhumanistische Traum vom ewigen Leben ist deshalb kein mutiger Blick nach vorn. Er ist oft eine Flucht vor der schwersten Aufgabe: dieses endliche Leben so zu gestalten, dass es nicht permanent nach Flucht verlangt. Die Zukunft des Menschen liegt nicht darin, sich selbst abzuschaffen. Sie liegt darin, endlich Bedingungen zu schaffen, unter denen Menschsein nicht als Mangel erlebt werden muss. Das wäre die eigentliche Revolution.</p>',
+			'<p>Der Mensch ist kein defektes Gerät. Der Körper ist kein Gefängnis. Bewusstsein ist keine Datei. Sterblichkeit ist kein Softwarefehler.</p>',
+			'<p>Wir müssen nicht kleiner von Technik denken. Wir müssen größer vom Menschen denken. Größer heißt nicht größenwahnsinnig. Es heißt: den Menschen nicht auf Leistung, Daten, Gene, Rechenprozesse oder Marktwert zu reduzieren. Es heißt, das Lebendige nicht zu verachten, nur weil es verletzlich ist. Es heißt, die Grenze nicht sofort als Feind zu behandeln. Es heißt, Fortschritt nicht daran zu messen, wie weit wir uns vom Menschlichen entfernen, sondern wie tief wir ihm gerecht werden.</p>',
+			'<p>Der transhumanistische Traum vom ewigen Leben ist deshalb kein mutiger Blick nach vorn. Er ist oft eine Flucht vor der schwersten Aufgabe: dieses endliche Leben so zu gestalten, dass es nicht permanent nach Flucht verlangt.</p>',
+			'<p>Die Zukunft des Menschen liegt nicht darin, sich selbst abzuschaffen. Sie liegt darin, Bedingungen zu schaffen, unter denen Menschsein nicht als Mangel erlebt werden muss. Das wäre die eigentliche Revolution.</p>',
 		],
 	];
 
-	$out = '';
-	foreach ( $blocks as $p ) {
+	$sources = [
+		'<strong>Altos Labs</strong> — 2022 mit 3 Mrd. USD Startfinanzierung gegründet (u. a. Jeff Bezos, Yuri Milner, ARCH Venture Partners); bestfinanzierter Biotech-Start der Geschichte; wissenschaftlicher Berater ist der Nobelpreisträger Shinya Yamanaka.',
+		'<strong>Retro Biosciences</strong> — gegründet mit 180 Mio. USD Seed-Kapital von Sam Altman; Series-A-Runde mit angestrebter Bewertung von ca. 5 Mrd. USD ohne klinische Daten; erklärtes Ziel: zehn zusätzliche gesunde Lebensjahre. (Financial Times / STAT News, 2025)',
+		'<strong>Methuselah Foundation</strong> — von Peter Thiel mit 1 Mio. USD unterstützt; Leitslogan „make 90 the new 50 by 2030".',
+		'<strong>Raj Chetty et al.</strong> — „The Association Between Income and Life Expectancy in the United States, 2001–2014", <em>JAMA</em> 2016; 1,4 Mrd. Steuerdatensätze. Lebenserwartungslücke reichstes/ärmstes 1 %: 15 Jahre (Männer), 10 Jahre (Frauen).',
+		'<strong>David Chalmers</strong> — „Facing Up to the Problem of Consciousness", 1995 (das „hard problem of consciousness").',
+		'<strong>OpenWorm</strong> — seit 2011 laufendes Open-Science-Projekt zur vollständigen digitalen Emulation des Nervensystems von <em>C. elegans</em> (302 Neuronen).',
+		'<strong>Derek Parfit</strong> — <em>Reasons and Persons</em>, 1984 (Teletransportations-Gedankenexperiment, Problem der personalen Identität).',
+		'<strong>Nectome</strong> — Brain-Preservation-Startup; das MIT beendete die Kooperation 2018.',
+		'<strong>Bernard Williams</strong> — „The Makropulos Case: Reflections on the Tedium of Immortality", in: <em>Problems of the Self</em>, 1973.',
+		'<strong>Yuk Hui</strong> — <em>The Question Concerning Technology in China: An Essay in Cosmotechnics</em>, 2016.',
+		'<strong>Erich Fromm</strong> — Unterscheidung Biophilie/Nekrophilie, u. a. in <em>The Anatomy of Human Destructiveness</em>, 1973.',
+	];
+
+	$separator = "<!-- wp:separator -->\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n<!-- /wp:separator -->\n\n";
+
+	$out  = "<!-- wp:paragraph -->\n<p><em>" . $lead . "</em></p>\n<!-- /wp:paragraph -->\n\n";
+	$out .= $separator;
+
+	foreach ( $intro as $p ) {
 		$out .= "<!-- wp:paragraph -->\n{$p}\n<!-- /wp:paragraph -->\n\n";
 	}
+
 	foreach ( $sections as $heading => $paragraphs ) {
 		$out .= "<!-- wp:heading -->\n<h2>" . esc_html( $heading ) . "</h2>\n<!-- /wp:heading -->\n\n";
 		foreach ( $paragraphs as $p ) {
 			$out .= "<!-- wp:paragraph -->\n{$p}\n<!-- /wp:paragraph -->\n\n";
 		}
 	}
+
+	$out .= $separator;
+	$out .= "<!-- wp:heading -->\n<h2>Quellen und Anmerkungen</h2>\n<!-- /wp:heading -->\n\n";
+
+	$list_items = '';
+	foreach ( $sources as $item ) {
+		$list_items .= "<li>{$item}</li>\n";
+	}
+	$out .= "<!-- wp:list -->\n<ul>\n{$list_items}</ul>\n<!-- /wp:list -->\n\n";
 
 	return trim( $out );
 }
