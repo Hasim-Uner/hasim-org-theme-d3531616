@@ -403,7 +403,12 @@ function hp_glossar_auto_link( string $content ): string {
 			continue;
 		}
 
-		// Text-Node: Begriffe ersetzen (nur erstes Vorkommen pro Begriff)
+		// Text-Node: Begriffe ersetzen (nur erstes Vorkommen pro Begriff).
+		// Neu erzeugte Chips bleiben bis zum Ende dieses Text-Nodes als
+		// Platzhalter geschützt, damit Folgetreffer nicht in data-Attributen
+		// des gerade erzeugten Markups suchen.
+		$link_placeholders = [];
+
 		foreach ( $terms as $term ) {
 			if ( isset( $linked[ $term['pattern'] ] ) ) {
 				continue;
@@ -412,16 +417,30 @@ function hp_glossar_auto_link( string $content ): string {
 			$regex = '/\b(' . $term['pattern'] . ')\b/u';
 
 			if ( preg_match( $regex, $part ) ) {
-				$replacement = sprintf(
-					'<span class="hp-glossar-term hp-begriff-chip" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-describedby="hp-gtt">$1</span>',
-					esc_attr( $term['label'] ),
-					esc_attr( $term['tooltip'] ),
-					esc_url( $term['url'] )
-				);
+				$part = preg_replace_callback(
+					$regex,
+					function ( $match ) use ( $term, &$link_placeholders ) {
+						$key = '%%HP_GL_LINK_' . count( $link_placeholders ) . '%%';
 
-				$part = preg_replace( $regex, $replacement, $part, 1 );
+						$link_placeholders[ $key ] = sprintf(
+							'<span class="hp-glossar-term hp-begriff-chip" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-describedby="hp-gtt">%s</span>',
+							esc_attr( $term['label'] ),
+							esc_attr( $term['tooltip'] ),
+							esc_url( $term['url'] ),
+							esc_html( $match[1] )
+						);
+
+						return $key;
+					},
+					$part,
+					1
+				);
 				$linked[ $term['pattern'] ] = true;
 			}
+		}
+
+		if ( $link_placeholders ) {
+			$part = str_replace( array_keys( $link_placeholders ), array_values( $link_placeholders ), $part );
 		}
 
 		$processed .= $part;
@@ -522,6 +541,29 @@ function hp_glossar_chip_markup_migration(): void {
 	update_option( 'hp_glossar_chip_v1', true, false );
 }
 add_action( 'init', 'hp_glossar_chip_markup_migration', 25 );
+
+/**
+ * Bumpt die Glossar-Version einmal nach dem Autolink-Attributschutz,
+ * damit bereits gecachte, kaputte Chips neu gerendert werden.
+ */
+function hp_glossar_autolink_attr_guard_migration(): void {
+	if ( get_option( 'hp_glossar_attr_guard_v1' ) ) {
+		return;
+	}
+
+	$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
+	update_option( 'hp_glossar_version', $new_version, false );
+
+	global $wpdb;
+	$wpdb->query(
+		"DELETE FROM {$wpdb->options}
+		 WHERE option_name LIKE '_transient_hp_gl_%'
+		    OR option_name LIKE '_transient_timeout_hp_gl_%'"
+	);
+
+	update_option( 'hp_glossar_attr_guard_v1', true, false );
+}
+add_action( 'init', 'hp_glossar_autolink_attr_guard_migration', 26 );
 
 
 /**
