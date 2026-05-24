@@ -21,6 +21,7 @@ return [
 	'seo-schema.php',
 	'seo-meta.php',
 	'seo-hygiene.php',
+	'seo-cockpit/seo-cockpit.php',
 	'sitemap.php',
 	'glossary.php',
 	'link-preview.php',

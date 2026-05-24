@@ -24,6 +24,7 @@ Frontend assets are owned by PHP modules and should be loaded only where needed.
 |---|---|---|---|
 | `hp-social-teaser-panel` | inline JS attached to `wp-edit-post` | `inc/meta-fields.php` | block editor for supported content |
 | `hp-seo-meta-panel` | inline JS attached to `wp-edit-post` | `inc/seo-meta.php` | block editor for SEO-enabled content |
+| `hp-seo-cockpit-admin` | `assets/css/seo-cockpit-admin.css` | `inc/seo-cockpit/seo-cockpit-core.php` | SEO Cockpit admin screens and WP dashboard |
 | `wp-edit-post` inline panel | inline JS | `inc/glossary.php` | glossary editor |
 | `wp-edit-post` inline panel | inline JS | `inc/dossier.php` | dossier editor |
 

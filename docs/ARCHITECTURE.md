@@ -23,23 +23,24 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | 7 | `inc/seo-schema.php` | JSON-LD for site, essays, notes, glossary, dossiers, archives |
 | 8 | `inc/seo-meta.php` | titles, descriptions, Open Graph, Twitter image metadata |
 | 9 | `inc/seo-hygiene.php` | robots, redirects, head cleanup, headers, heartbeat, XML-RPC hardening |
-| 10 | `inc/sitemap.php` | WordPress core sitemap hygiene |
-| 11 | `inc/glossary.php` | glossary CPT, meta, editor UI, auto-linking, cache invalidation |
-| 12 | `inc/link-preview.php` | REST preview data for internal links |
-| 13 | `inc/dossier.php` | dossier CPT, meta, editor UI, relationships, citation box |
-| 14 | `inc/breadcrumbs.php` | breadcrumb schema |
-| 15 | `inc/header-nav.php` | custom header, menus, active nav state |
-| 16 | `inc/comments.php` | editorial comment UX, validation, anti-spam, moderation |
-| 17 | `inc/contacts-admin.php` | contact submission storage and admin/export UI |
-| 18 | `inc/contact.php` | stable contact loader for `inc/forms/contact/*` |
-| 19 | `inc/newsletter.php` | stable newsletter loader for `inc/forms/newsletter/*` |
-| 20 | `inc/newsletter-broadcast.php` | optional publish broadcast to subscribers |
-| 21 | `inc/privacy-maintenance.php` | scheduled cleanup for contact/newsletter retention |
-| 22 | `inc/graph-api.php` | graph REST data, cache, graph page assets |
-| 23 | `inc/mini-graph.php` | static SVG neighbor graph for single content |
-| 24 | `inc/votes.php` | vote table and vote business logic |
-| 25 | `inc/votes-api.php` | vote REST route and vote assets |
-| 26 | `inc/glossar-seed.php` | one-time glossary/essay seed content |
+| 10 | `inc/seo-cockpit/seo-cockpit.php` | Search Console admin cockpit, sync, insights, internal-link context |
+| 11 | `inc/sitemap.php` | WordPress core sitemap hygiene |
+| 12 | `inc/glossary.php` | glossary CPT, meta, editor UI, auto-linking, cache invalidation |
+| 13 | `inc/link-preview.php` | REST preview data for internal links |
+| 14 | `inc/dossier.php` | dossier CPT, meta, editor UI, relationships, citation box |
+| 15 | `inc/breadcrumbs.php` | breadcrumb schema |
+| 16 | `inc/header-nav.php` | custom header, menus, active nav state |
+| 17 | `inc/comments.php` | editorial comment UX, validation, anti-spam, moderation |
+| 18 | `inc/contacts-admin.php` | contact submission storage and admin/export UI |
+| 19 | `inc/contact.php` | stable contact loader for `inc/forms/contact/*` |
+| 20 | `inc/newsletter.php` | stable newsletter loader for `inc/forms/newsletter/*` |
+| 21 | `inc/newsletter-broadcast.php` | optional publish broadcast to subscribers |
+| 22 | `inc/privacy-maintenance.php` | scheduled cleanup for contact/newsletter retention |
+| 23 | `inc/graph-api.php` | graph REST data, cache, graph page assets |
+| 24 | `inc/mini-graph.php` | static SVG neighbor graph for single content |
+| 25 | `inc/votes.php` | vote table and vote business logic |
+| 26 | `inc/votes-api.php` | vote REST route and vote assets |
+| 27 | `inc/glossar-seed.php` | one-time glossary/essay seed content |
 
 ## Content Model
 
@@ -70,6 +71,7 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | `hp_newsletter_suppressions` | `inc/forms/newsletter/install.php`, `inc/forms/newsletter/subscribers.php` | minimized unsubscribe suppression records |
 | contact submissions table | `inc/contacts-admin.php` | local contact submission archive |
 | votes table | `inc/votes.php` | like/dislike counts and user vote tracking |
+| `nexus_seo_cockpit_*` options/transients | `inc/seo-cockpit/` | Search Console settings, OAuth tokens, runtime state and report caches |
 | transients | graph/link/glossary modules | graph data, link previews, glossary caches |
 
 ## Known Architecture Debt
