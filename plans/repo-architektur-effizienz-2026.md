@@ -14,7 +14,7 @@ Das Theme ist bereits in sinnvolle PHP-Module unter `inc/` getrennt und laedt As
 |---|---:|---|
 | CSS | `style.css` hat 7.139 Zeilen | teuer fuer Reviews, KI-Kontext und gezielte Aenderungen |
 | Newsletter | `inc/newsletter.php` war 1.816 Zeilen; jetzt Loader + `inc/forms/newsletter/*` | Verantwortlichkeiten sind getrennt, Feinschliff/Doku bleibt |
-| Kontakt | `inc/contact.php` hat 930 Zeilen | Formular, Seite, Mailer und Provider-Fallback vermischt |
+| Kontakt | `inc/contact.php` war 930 Zeilen; jetzt Loader + `inc/forms/contact/*` | Verantwortlichkeiten sind getrennt |
 | Wissensgraph | Graph-Build kombiniert Vollscan, O(n^2)-Topic-Vergleich und Regex-Suche | wird mit wachsendem Content teurer |
 | KI-Kontext | `.github/copilot-instructions.md` nennt entfernte/veraenderte Dateien und alte Annahmen | Agenten lesen falschen Kontext und verbrauchen mehr Tokens |
 | Artefakte | Fonts in vielen Formaten, deaktivierte Diaspora-Assets, lokale `_stitch/`-Artefakte | Repo ist groesser und unklarer als der aktive Ladepfad |
@@ -159,17 +159,15 @@ Regel: Der Loader registriert nur Includes. Bestehende Funktionsnamen bleiben er
 
 Prioritaet 2: Kontakt
 
+**Umsetzungsstand 2026-05-24:** erledigt. `inc/contact.php` ist jetzt ein stabiler Loader; die fachlichen Teile liegen unter `inc/forms/contact/`.
+
 ```text
 inc/forms/contact/
-  index.php
   config.php
   page.php
-  validation.php
-  mailer-brevo.php
-  mailer-wp.php
+  request.php
+  mail.php
   handlers.php
-  render.php
-  admin-storage.php
 ```
 
 Prioritaet 3: CSS
@@ -319,7 +317,7 @@ Definition of Done:
 | `docs/ARCHITECTURE.md` + `ASSET_MATRIX.md` | klein | niedrig | hoch fuer Orientierung |
 | `_stitch/`-Entscheidung + `.gitignore` finalisieren | klein | niedrig | mittel |
 | Newsletter splitten | **erledigt** | mittel | hoch |
-| Kontakt splitten | mittel | mittel | hoch |
+| Kontakt splitten | **erledigt** | mittel | hoch |
 | CSS bedingt splitten | mittel | mittel | hoch |
 | Graph-Builder optimieren | mittel | mittel | hoch bei Content-Wachstum |
 | CI/PHPCS/PHPStan einfuehren | mittel | niedrig-mittel | mittel-hoch |
@@ -329,7 +327,7 @@ Empfohlener erster Sprint:
 1. Doku-/Kontext-Sprint: Copilot, `AI_CONTEXT.md`, `ARCHITECTURE.md`, `ASSET_MATRIX.md`.
 2. Hygiene-Sprint: `_stitch/`, Fonts, Diaspora-Kennzeichnung.
 3. Struktur-Sprint: `inc/bootstrap.php` + Manifest ohne fachliche Logik-Aenderung. **Umgesetzt 2026-05-24.**
-4. Split-Sprint: Newsletter **erledigt**, Kontakt in kleinere Domaenen-Dateien.
+4. Split-Sprint: Newsletter und Kontakt **erledigt**.
 5. Performance-Sprint: Graph-Build und Cache-Versionen.
 
 ---
@@ -339,5 +337,4 @@ Empfohlener erster Sprint:
 1. `.github/copilot-instructions.md` auf aktuellen Stand bringen.
 2. `docs/AI_CONTEXT.md` mit einer kompakten "Was zuerst lesen?"-Matrix anlegen.
 3. `_stitch/package-lock.json` entweder ignorieren oder `_stitch/` als echtes Teilprojekt mit `package.json` dokumentieren.
-4. `inc/contact.php` anhand der Funktionsgruppen in kleinere Dateien aufteilen, ohne Public-Funktionsnamen zu aendern.
-5. `style.css` nach globalen Basisregeln, Komponenten und Seitentypen inventarisieren.
+4. `style.css` nach globalen Basisregeln, Komponenten und Seitentypen inventarisieren.

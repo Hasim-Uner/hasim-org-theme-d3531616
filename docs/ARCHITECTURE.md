@@ -30,7 +30,7 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | 14 | `inc/header-nav.php` | custom header, menus, active nav state |
 | 15 | `inc/comments.php` | editorial comment UX, validation, anti-spam, moderation |
 | 16 | `inc/contacts-admin.php` | contact submission storage and admin/export UI |
-| 17 | `inc/contact.php` | contact page, validation, Brevo/wp_mail mail handling, form handler |
+| 17 | `inc/contact.php` | stable contact loader for `inc/forms/contact/*` |
 | 18 | `inc/newsletter.php` | stable newsletter loader for `inc/forms/newsletter/*` |
 | 19 | `inc/newsletter-broadcast.php` | optional publish broadcast to subscribers |
 | 20 | `inc/privacy-maintenance.php` | scheduled cleanup for contact/newsletter retention |
@@ -74,7 +74,6 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 ## Known Architecture Debt
 
 - `style.css` should be split into base, components, pages, and feature CSS.
-- `inc/contact.php` should be split into domain submodules.
 - Graph cache versions should be separated from glossary cache versions.
 - Editor inline JS should move to small editor assets when those panels are next touched.
 

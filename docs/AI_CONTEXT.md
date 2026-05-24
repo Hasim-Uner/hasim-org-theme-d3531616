@@ -24,7 +24,7 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 | Wissensgraph | `inc/graph-api.php` | `assets/js/graph.js`, `page-wissensgraph.php`, `_build-d3/src/d3-custom.js` |
 | Mini graph | `inc/mini-graph.php` | `inc/graph-api.php`, CSS in `style.css` |
 | SEO/meta/schema | `inc/seo-meta.php`, `inc/seo-schema.php`, `inc/seo-hygiene.php` | `inc/breadcrumbs.php` |
-| Contact form | `inc/contact.php` | `inc/contacts-admin.php`, `page-kontakt.php`, `inc/contact-local.php.example` |
+| Contact form | `inc/contact.php`, `inc/forms/contact/` | `inc/contacts-admin.php`, `page-kontakt.php`, `inc/contact-local.php.example` |
 | Newsletter | `inc/newsletter.php`, `inc/forms/newsletter/` | `inc/newsletter-broadcast.php`, `front-page.php` |
 | Comments | `inc/comments.php` | `comments.php`, relevant CSS in `style.css` |
 | Votes | `inc/votes.php`, `inc/votes-api.php` | `assets/js/votes.js`, `assets/css/votes.css` |
@@ -43,7 +43,6 @@ Do not open these unless the task directly needs them:
 ## Current Hotspots
 
 - `style.css`: 7k+ lines, should be split later.
-- `inc/contact.php`: 900+ lines, should be split by config, validation, mailer, handlers, page bootstrap.
 - `inc/graph-api.php`: graph build combines topic edges and glossary regex scanning; optimize before major content growth.
 
 ## Context Budget Rules
