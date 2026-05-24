@@ -95,25 +95,23 @@ Definition of Done:
 
 **Ziel:** Die flache `inc/`-Struktur in Domaenen aufteilen, ohne WordPress-Hooks oder bestehende `hp_*`-APIs zu brechen.
 
+**Umsetzungsstand 2026-05-24:** Loader-Teil umgesetzt. `functions.php` laedt nur noch `inc/bootstrap.php`; die konkrete Reihenfolge steht in `inc/manifest.php`. Die fachliche Verschiebung in Domaenen-Unterordner bleibt der naechste Struktur-Schritt.
+
 Aktionen:
 
-1. `inc/bootstrap.php` einfuehren:
+1. `inc/bootstrap.php` einfuehren: **umgesetzt**
    - laedt `inc/manifest.php`;
    - prueft Dateien;
    - laedt Module in definierter Reihenfolge.
 
-2. `inc/manifest.php` als zentrale Modulkarte:
+2. `inc/manifest.php` als zentrale Modulkarte: **umgesetzt**
 
 ```php
 return [
-    'core/helpers.php',
-    'core/enqueue.php',
-    'content/post-types.php',
-    'content/taxonomies.php',
-    'seo/meta.php',
-    'seo/schema.php',
-    'forms/contact/index.php',
-    'forms/newsletter/index.php',
+    'helpers.php',
+    'enqueue.php',
+    'post-types.php',
+    'taxonomies.php',
 ];
 ```
 
@@ -327,7 +325,7 @@ Empfohlener erster Sprint:
 
 1. Doku-/Kontext-Sprint: Copilot, `AI_CONTEXT.md`, `ARCHITECTURE.md`, `ASSET_MATRIX.md`.
 2. Hygiene-Sprint: `_stitch/`, Fonts, Diaspora-Kennzeichnung.
-3. Struktur-Sprint: `inc/bootstrap.php` + Manifest ohne fachliche Logik-Aenderung.
+3. Struktur-Sprint: `inc/bootstrap.php` + Manifest ohne fachliche Logik-Aenderung. **Umgesetzt 2026-05-24.**
 4. Split-Sprint: Newsletter und Kontakt in kleinere Domaenen-Dateien.
 5. Performance-Sprint: Graph-Build und Cache-Versionen.
 

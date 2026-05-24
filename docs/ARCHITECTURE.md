@@ -1,6 +1,14 @@
 # Architecture
 
-This is a WordPress child theme. `functions.php` is the bootstrap entry point and loads modules from `inc/` in dependency order.
+This is a WordPress child theme. `functions.php` is the WordPress entry point. It loads `inc/bootstrap.php`, which reads `inc/manifest.php` and loads modules from `inc/` in dependency order.
+
+## Loader Files
+
+| File | Responsibility |
+|---|---|
+| `functions.php` | WordPress theme entry point, no business logic |
+| `inc/bootstrap.php` | loads the module manifest and requires each module |
+| `inc/manifest.php` | explicit module list in load order |
 
 ## Bootstrap Order
 
@@ -67,7 +75,6 @@ This is a WordPress child theme. `functions.php` is the bootstrap entry point an
 
 - `style.css` should be split into base, components, pages, and feature CSS.
 - `inc/newsletter.php` and `inc/contact.php` should be split into domain submodules.
-- `functions.php` should eventually load `inc/bootstrap.php` plus a module manifest.
 - Graph cache versions should be separated from glossary cache versions.
 - Editor inline JS should move to small editor assets when those panels are next touched.
 

@@ -5,7 +5,7 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 ## Repo Shape
 
 - WordPress child theme for GeneratePress.
-- `functions.php` loads feature modules from `inc/`.
+- `functions.php` loads `inc/bootstrap.php`; `inc/bootstrap.php` loads modules from `inc/manifest.php`.
 - Active CSS is still concentrated in `style.css`.
 - Frontend JS is split by feature under `assets/js/`.
 - Generated/minified code and archived Diaspora assets should not be read for normal theme work.
@@ -14,7 +14,7 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 
 | Task | Start here | Usually also read |
 |---|---|---|
-| Bootstrap/module order | `functions.php` | `docs/ARCHITECTURE.md` |
+| Bootstrap/module order | `functions.php`, `inc/bootstrap.php`, `inc/manifest.php` | `docs/ARCHITECTURE.md` |
 | Asset loading | `inc/enqueue.php` | `inc/graph-api.php`, `inc/votes-api.php`, `docs/ASSET_MATRIX.md` |
 | Header/navigation | `inc/header-nav.php` | `assets/js/nav.js`, header sections in `style.css` |
 | Essay/note templates | `single-essay.php`, `single-note.php` | `assets/js/journal-single.js`, related CSS in `style.css` |
@@ -50,7 +50,7 @@ Do not open these unless the task directly needs them:
 ## Context Budget Rules
 
 - For narrow changes, read only the owner module plus the template/asset it touches.
-- For architecture work, read `functions.php`, this file, `docs/ARCHITECTURE.md`, and targeted `rg` output.
+- For architecture work, read `functions.php`, `inc/bootstrap.php`, `inc/manifest.php`, this file, `docs/ARCHITECTURE.md`, and targeted `rg` output.
 - Avoid pasting large PHP/CSS files into prompts. Use line-targeted reads.
 - Prefer updating the docs when a module, asset handle, or REST route changes.
 

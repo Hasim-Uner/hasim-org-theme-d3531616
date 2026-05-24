@@ -6,7 +6,7 @@ Hasimuener Journal is a WordPress child theme for hasimuener.org, extending Gene
 
 - Parent theme: GeneratePress
 - Runtime: WordPress, PHP hooks/actions, CSS, vanilla JavaScript
-- Bootstrap: `functions.php` loads modules from `inc/`
+- Bootstrap: `functions.php` delegates module loading to `inc/bootstrap.php`; module order lives in `inc/manifest.php`
 - Naming: custom PHP functions use `hp_`; custom CSS classes use `hp-`; custom CSS properties use `--hj-`
 
 ## First Files To Read
@@ -30,7 +30,9 @@ Avoid reading generated/minified or archived files unless directly needed:
 
 ## Active Architecture
 
-`functions.php` is intended to contain no business logic. It currently loads these module groups:
+`functions.php` contains no business logic. It loads `inc/bootstrap.php`, which loads the files listed in `inc/manifest.php`.
+
+Current module groups:
 
 - Core: `helpers.php`, `enqueue.php`, `generatepress-compat.php`, `header-nav.php`
 - Content: `post-types.php`, `taxonomies.php`, `glossary.php`, `dossier.php`, `glossar-seed.php`
@@ -89,7 +91,7 @@ Adding a module:
 1. Create an `inc/*.php` file with `defined( 'ABSPATH' ) || exit;`.
 2. Keep one clear responsibility per module.
 3. Register hooks at the bottom.
-4. Add `require_once` in `functions.php` in dependency order.
+4. Add the file to `inc/manifest.php` in dependency order.
 
 Adding styles:
 
