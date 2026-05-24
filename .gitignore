@@ -3,3 +3,8 @@ inc/contact-local.php
 # D3 Custom-Bundle Build (einmaliger Build-Schritt)
 _build-d3/node_modules/
 _build-d3/package-lock.json
+
+# Stitch API — Node-Module und Secrets nicht versionieren
+_stitch/node_modules/
+_stitch/.env
+_stitch/package-lock.json
