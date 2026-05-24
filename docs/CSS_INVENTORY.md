@@ -6,7 +6,8 @@ Purpose: make `style.css` navigable before splitting it. Line ranges are approxi
 
 | File | Lines | Status |
 |---|---:|---|
-| `style.css` | 7,227 | active global theme stylesheet |
+| `style.css` | 7,147 | active global theme stylesheet |
+| `assets/css/pages/legal.css` | 76 | active conditional legal pages stylesheet |
 | `assets/css/votes.css` | 183 | active conditional votes stylesheet |
 | `assets/css/diaspora-scroll.css` | 2,998 | deactivated/archived Diaspora page stylesheet |
 
@@ -33,20 +34,25 @@ Purpose: make `style.css` navigable before splitting it. Line ranges are approxi
 | 4508-5212 | dossier archive/single, GP wrapper reset, cite box | `features/dossier.css` |
 | 5213-5292 | mini graph | `features/mini-graph.css` |
 | 5293-5471 | glossary archive | fold into `features/glossary.css` |
-| 5472-5550 | legal pages | `pages/legal.css` |
-| 5551-5684 | 404 page | `pages/error.css` |
-| 5685-5839 | search form and search results | `pages/search.css` |
-| 5840-5980 | topic archive | `pages/topic-archive.css` |
-| 5981-6061 | related essays | `components/related.css` |
-| 6062-6136 | previous/next navigation | `components/post-nav.css` |
-| 6137-6184 | small modifiers, reduced motion, focus-visible | merge into owners/base |
-| 6185-6257 | nav search toggle and overlay | `layout/header.css` |
-| 6258-6992 | Wissensgraph page | `features/graph.css` |
-| 6993-7227 | newsletter CTA pill and notification modal | `components/newsletter-modal.css` |
+| 5472-5605 | 404 page | `pages/error.css` |
+| 5606-5760 | search form and search results | `pages/search.css` |
+| 5761-5901 | topic archive | `pages/topic-archive.css` |
+| 5902-5982 | related essays | `components/related.css` |
+| 5983-6057 | previous/next navigation | `components/post-nav.css` |
+| 6058-6105 | small modifiers, reduced motion, focus-visible | merge into owners/base |
+| 6106-6178 | nav search toggle and overlay | `layout/header.css` |
+| 6179-6913 | Wissensgraph page | `features/graph.css` |
+| 6914-7147 | newsletter CTA pill and notification modal | `components/newsletter-modal.css` |
+
+## Extracted CSS
+
+| File | Handle | Owner/load condition |
+|---|---|---|
+| `assets/css/pages/legal.css` | `hp-legal-pages` | `inc/enqueue.php`; page templates/slugs `impressum`, `datenschutz` |
 
 ## Split Order
 
-1. Extract page-only CSS first: contact, mission, legal, 404, search, topic archive.
+1. Extract page-only CSS first: contact, mission, 404, search, topic archive. Legal pages are already extracted.
 2. Extract feature CSS with clear PHP owners: graph, glossary, dossier, mini-graph, newsletter.
 3. Extract layout/components: header/nav, footer, TOC, prose, post nav, related.
 4. Keep base tokens, fonts, base typography, and shared utilities in global CSS.

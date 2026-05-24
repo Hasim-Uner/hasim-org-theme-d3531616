@@ -50,6 +50,9 @@ function hp_journal_enqueue_assets(): void {
 	$linkprev_ver = file_exists( $dir . '/assets/js/link-preview.js' )
 		? (string) filemtime( $dir . '/assets/js/link-preview.js' )
 		: $theme_version;
+	$legal_ver = file_exists( $dir . '/assets/css/pages/legal.css' )
+		? (string) filemtime( $dir . '/assets/css/pages/legal.css' )
+		: $theme_version;
 
 	// Parent-Theme — nötig für korrekte CSS-Kaskade
 	wp_enqueue_style(
@@ -66,6 +69,16 @@ function hp_journal_enqueue_assets(): void {
 		[ 'generatepress-style', 'generate-style' ],
 		$style_ver
 	);
+
+	// Legal pages: Impressum + Datenschutz.
+	if ( is_page_template( [ 'page-impressum.php', 'page-datenschutz.php' ] ) || is_page( [ 'impressum', 'datenschutz' ] ) ) {
+		wp_enqueue_style(
+			'hp-legal-pages',
+			$uri . '/assets/css/pages/legal.css',
+			[ 'hp-journal-style' ],
+			$legal_ver
+		);
+	}
 
 	// 1. Global: Navigation JS (Hamburger, Suche, Header-Scroll)
 	wp_enqueue_script(

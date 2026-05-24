@@ -172,7 +172,7 @@ inc/forms/contact/
 
 Prioritaet 3: CSS
 
-**Umsetzungsstand 2026-05-24:** Inventar angelegt in `docs/CSS_INVENTORY.md`. Die eigentliche Extraktion in bedingte CSS-Dateien ist noch offen.
+**Umsetzungsstand 2026-05-24:** Inventar angelegt in `docs/CSS_INVENTORY.md`. Legal-Page-CSS ist nach `assets/css/pages/legal.css` extrahiert und wird als `hp-legal-pages` bedingt geladen. Weitere Extraktionen sind offen.
 
 ```text
 assets/css/
