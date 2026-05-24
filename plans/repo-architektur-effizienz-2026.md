@@ -13,7 +13,7 @@ Das Theme ist bereits in sinnvolle PHP-Module unter `inc/` getrennt und laedt As
 | Bereich | Befund | Effekt |
 |---|---:|---|
 | CSS | `style.css` hat 7.139 Zeilen | teuer fuer Reviews, KI-Kontext und gezielte Aenderungen |
-| Newsletter | `inc/newsletter.php` hat 1.816 Zeilen | zu viele Verantwortlichkeiten in einer Datei |
+| Newsletter | `inc/newsletter.php` war 1.816 Zeilen; jetzt Loader + `inc/forms/newsletter/*` | Verantwortlichkeiten sind getrennt, Feinschliff/Doku bleibt |
 | Kontakt | `inc/contact.php` hat 930 Zeilen | Formular, Seite, Mailer und Provider-Fallback vermischt |
 | Wissensgraph | Graph-Build kombiniert Vollscan, O(n^2)-Topic-Vergleich und Regex-Suche | wird mit wachsendem Content teurer |
 | KI-Kontext | `.github/copilot-instructions.md` nennt entfernte/veraenderte Dateien und alte Annahmen | Agenten lesen falschen Kontext und verbrauchen mehr Tokens |
@@ -138,21 +138,24 @@ Definition of Done:
 
 Prioritaet 1: Newsletter
 
+**Umsetzungsstand 2026-05-24:** erledigt. `inc/newsletter.php` ist jetzt ein stabiler Loader; die fachlichen Teile liegen unter `inc/forms/newsletter/`.
+
 ```text
 inc/forms/newsletter/
-  index.php
   config.php
-  storage.php
-  tokens.php
+  install.php
+  request.php
+  subscribers.php
+  urls.php
   mail-templates.php
   mailer.php
   handlers.php
+  queries-cleanup.php
   render.php
   admin.php
-  cleanup.php
 ```
 
-Regel: `index.php` registriert nur Includes. Bestehende Funktionsnamen bleiben zunaechst erhalten, damit keine Templates brechen.
+Regel: Der Loader registriert nur Includes. Bestehende Funktionsnamen bleiben erhalten, damit keine Templates brechen.
 
 Prioritaet 2: Kontakt
 
@@ -315,7 +318,7 @@ Definition of Done:
 | Copilot-/AI-Kontext aktualisieren | klein | niedrig | hoch fuer Tokenkosten |
 | `docs/ARCHITECTURE.md` + `ASSET_MATRIX.md` | klein | niedrig | hoch fuer Orientierung |
 | `_stitch/`-Entscheidung + `.gitignore` finalisieren | klein | niedrig | mittel |
-| Newsletter splitten | mittel | mittel | hoch |
+| Newsletter splitten | **erledigt** | mittel | hoch |
 | Kontakt splitten | mittel | mittel | hoch |
 | CSS bedingt splitten | mittel | mittel | hoch |
 | Graph-Builder optimieren | mittel | mittel | hoch bei Content-Wachstum |
@@ -326,7 +329,7 @@ Empfohlener erster Sprint:
 1. Doku-/Kontext-Sprint: Copilot, `AI_CONTEXT.md`, `ARCHITECTURE.md`, `ASSET_MATRIX.md`.
 2. Hygiene-Sprint: `_stitch/`, Fonts, Diaspora-Kennzeichnung.
 3. Struktur-Sprint: `inc/bootstrap.php` + Manifest ohne fachliche Logik-Aenderung. **Umgesetzt 2026-05-24.**
-4. Split-Sprint: Newsletter und Kontakt in kleinere Domaenen-Dateien.
+4. Split-Sprint: Newsletter **erledigt**, Kontakt in kleinere Domaenen-Dateien.
 5. Performance-Sprint: Graph-Build und Cache-Versionen.
 
 ---
@@ -336,5 +339,5 @@ Empfohlener erster Sprint:
 1. `.github/copilot-instructions.md` auf aktuellen Stand bringen.
 2. `docs/AI_CONTEXT.md` mit einer kompakten "Was zuerst lesen?"-Matrix anlegen.
 3. `_stitch/package-lock.json` entweder ignorieren oder `_stitch/` als echtes Teilprojekt mit `package.json` dokumentieren.
-4. `inc/newsletter.php` anhand der Funktionsgruppen in 8-10 Dateien aufteilen, ohne Public-Funktionsnamen zu aendern.
+4. `inc/contact.php` anhand der Funktionsgruppen in kleinere Dateien aufteilen, ohne Public-Funktionsnamen zu aendern.
 5. `style.css` nach globalen Basisregeln, Komponenten und Seitentypen inventarisieren.

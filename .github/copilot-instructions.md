@@ -37,14 +37,13 @@ Current module groups:
 - Core: `helpers.php`, `enqueue.php`, `generatepress-compat.php`, `header-nav.php`
 - Content: `post-types.php`, `taxonomies.php`, `glossary.php`, `dossier.php`, `glossar-seed.php`
 - SEO: `seo-meta.php`, `seo-schema.php`, `seo-hygiene.php`, `breadcrumbs.php`
-- Forms/admin: `contact.php`, `contacts-admin.php`, `newsletter.php`, `newsletter-broadcast.php`, `privacy-maintenance.php`
+- Forms/admin: `contact.php`, `contacts-admin.php`, `newsletter.php`, `forms/newsletter/*`, `newsletter-broadcast.php`, `privacy-maintenance.php`
 - Graph/engagement: `graph-api.php`, `mini-graph.php`, `comments.php`, `votes.php`, `votes-api.php`
 - Editor meta: `meta-fields.php`
 
 Large files that should be touched carefully:
 
 - `style.css` - all active global CSS, currently very large
-- `inc/newsletter.php` - newsletter storage, mail, handlers, admin UI
 - `inc/contact.php` - contact page, validation, Brevo/wp_mail handling
 - `inc/glossary.php` - glossary CPT, meta, editor UI, auto-linking
 

@@ -31,7 +31,7 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | 15 | `inc/comments.php` | editorial comment UX, validation, anti-spam, moderation |
 | 16 | `inc/contacts-admin.php` | contact submission storage and admin/export UI |
 | 17 | `inc/contact.php` | contact page, validation, Brevo/wp_mail mail handling, form handler |
-| 18 | `inc/newsletter.php` | newsletter table, tokens, mail, handlers, render, admin/export |
+| 18 | `inc/newsletter.php` | stable newsletter loader for `inc/forms/newsletter/*` |
 | 19 | `inc/newsletter-broadcast.php` | optional publish broadcast to subscribers |
 | 20 | `inc/privacy-maintenance.php` | scheduled cleanup for contact/newsletter retention |
 | 21 | `inc/graph-api.php` | graph REST data, cache, graph page assets |
@@ -65,8 +65,8 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 |---|---|---|
 | WordPress posts/postmeta | content modules | CPT content and feature metadata |
 | `topic` terms | `inc/taxonomies.php` | topic grouping and pillar pages |
-| `hp_newsletter_subscribers` | `inc/newsletter.php` | local newsletter subscriptions |
-| `hp_newsletter_suppressions` | `inc/newsletter.php` | minimized unsubscribe suppression records |
+| `hp_newsletter_subscribers` | `inc/forms/newsletter/install.php`, `inc/forms/newsletter/subscribers.php` | local newsletter subscriptions |
+| `hp_newsletter_suppressions` | `inc/forms/newsletter/install.php`, `inc/forms/newsletter/subscribers.php` | minimized unsubscribe suppression records |
 | contact submissions table | `inc/contacts-admin.php` | local contact submission archive |
 | votes table | `inc/votes.php` | like/dislike counts and user vote tracking |
 | transients | graph/link/glossary modules | graph data, link previews, glossary caches |
@@ -74,7 +74,7 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 ## Known Architecture Debt
 
 - `style.css` should be split into base, components, pages, and feature CSS.
-- `inc/newsletter.php` and `inc/contact.php` should be split into domain submodules.
+- `inc/contact.php` should be split into domain submodules.
 - Graph cache versions should be separated from glossary cache versions.
 - Editor inline JS should move to small editor assets when those panels are next touched.
 
