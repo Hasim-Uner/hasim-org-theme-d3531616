@@ -58,6 +58,63 @@ get_header(); ?>
         </div>
     </section>
 
+    <!-- Verwandte Notizen -->
+    <?php
+    $hp_current_id     = get_the_ID();
+    $hp_current_topics = get_the_terms( $hp_current_id, 'topic' );
+    $hp_related_args   = [
+        'post_type'      => 'note',
+        'posts_per_page' => 3,
+        'post__not_in'   => [ $hp_current_id ],
+        'post_status'    => 'publish',
+    ];
+
+    if ( $hp_current_topics && ! is_wp_error( $hp_current_topics ) ) {
+        $hp_related_args['tax_query'] = [ [
+            'taxonomy' => 'topic',
+            'field'    => 'term_id',
+            'terms'    => wp_list_pluck( $hp_current_topics, 'term_id' ),
+        ] ];
+    }
+
+    $hp_related = new WP_Query( $hp_related_args );
+
+    if ( $hp_related->found_posts < 2 ) {
+        $hp_related = new WP_Query( [
+            'post_type'      => 'note',
+            'posts_per_page' => 3,
+            'post__not_in'   => [ $hp_current_id ],
+            'post_status'    => 'publish',
+        ] );
+    }
+
+    if ( $hp_related->have_posts() ) : ?>
+    <section class="hp-related" aria-label="Verwandte Notizen">
+        <h2 class="hp-related__title">Weiterlesen</h2>
+        <div class="hp-related__grid">
+            <?php while ( $hp_related->have_posts() ) : $hp_related->the_post(); ?>
+            <article class="hp-related__item">
+                <div class="hp-meta">
+                    <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
+                        <?php echo esc_html( get_the_date( 'j. F Y' ) ); ?>
+                    </time>
+                    <span class="hp-meta__separator"></span>
+                    <span class="hp-reading-time"><?php echo esc_html( hp_reading_time() ); ?></span>
+                </div>
+                <h3 class="hp-related__item-title">
+                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                </h3>
+                <?php if ( has_excerpt() ) : ?>
+                    <p class="hp-related__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 18, ' …' ) ); ?></p>
+                <?php endif; ?>
+            </article>
+            <?php endwhile; ?>
+        </div>
+    </section>
+    <?php
+    wp_reset_postdata();
+    endif; ?>
+
     <!-- Prev / Next Navigation -->
     <?php
     $hp_prev = get_previous_post( true, '', 'topic' );

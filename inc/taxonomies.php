@@ -55,16 +55,51 @@ function hp_get_default_topics_config(): array {
 	return [
 		'macht-und-ordnung' => [
 			'name'        => 'Macht & Ordnung',
-			'description' => 'Staat, Hierarchie, Technologie, Kontrolle',
+			'description' => 'Staat, Hierarchie, Kontrolle, Technologie — wie Ordnung hergestellt, legitimiert und herausgefordert wird.',
+		],
+		'medien-und-narrative' => [
+			'name'        => 'Medien & Narrative',
+			'description' => 'Diskurs, Framing, Plattformen, Öffentlichkeit — wie über Wirklichkeit gesprochen und sie dadurch geformt wird.',
+		],
+		'sprache-und-begriff' => [
+			'name'        => 'Sprache & Begriff',
+			'description' => 'Sprachpolitik, Semantik, Begriffsgeschichte — wie Wörter Welten ordnen und wer ihre Bedeutung kontrolliert.',
 		],
 		'erinnerung-und-identitaet' => [
 			'name'        => 'Erinnerung & Identität',
-			'description' => 'Gedächtnis, Widerstand, Zugehörigkeit, Wandel',
+			'description' => 'Gedächtnis, Diaspora, Zugehörigkeit — wie Vergangenheit Gegenwart strukturiert und Identitäten geformt werden.',
 		],
-		'medien-und-sprache' => [
-			'name'        => 'Medien & Sprache',
-			'description' => 'Narrative, Diskurs, Sichtbarkeit, Medienkritik',
+		'gesellschaft-und-wandel' => [
+			'name'        => 'Gesellschaft & Wandel',
+			'description' => 'Migration, Demokratie, Transformation — wie Gesellschaften sich verändern und wer den Wandel gestaltet.',
 		],
+	];
+}
+
+/**
+ * 301-Redirect-Map: Alte Topic-Slugs → neue Ziel-Slugs.
+ *
+ * Wird in seo-hygiene über `hp_get_legacy_topic_redirect_map()`
+ * abgegriffen und auf `/thema/<alt>/`-URLs angewendet.
+ *
+ * Bei Splits (z. B. medien-und-sprache → 2 neue Topics) wird auf
+ * den fachlich näheren Ziel-Slug umgeleitet. Editorische
+ * Feinzuordnung passiert manuell auf Post-Ebene.
+ *
+ * @return array<string,string> Map: alt-slug => ziel-slug
+ */
+function hp_get_legacy_topic_redirect_map(): array {
+	return [
+		// v3 → v4 (Split „Medien & Sprache"): default auf Medien & Narrative,
+		// `Sprache & Begriff`-Beiträge müssen manuell umgehängt werden.
+		'medien-und-sprache' => 'medien-und-narrative',
+
+		// Frühere v1/v2-Slugs, falls sie als URL irgendwo überleben
+		'macht-und-technologie'       => 'macht-und-ordnung',
+		'digitale-macht'              => 'macht-und-ordnung',
+		'code-und-politik'            => 'macht-und-ordnung',
+		'identitaet-und-widerstand'   => 'erinnerung-und-identitaet',
+		'identitaet-und-zugehoerigkeit' => 'erinnerung-und-identitaet',
 	];
 }
 
@@ -83,10 +118,15 @@ function hp_get_topic_migration_map(): array {
 		'erinnerung-und-identitaet' => [
 			'identitaet-und-widerstand',
 			'identitaet-und-zugehoerigkeit',
-			'gesellschaft-und-wandel',
 		],
-		'medien-und-sprache' => [
-			'medien-und-narrative',
+		'medien-und-narrative' => [
+			// Wird in v4 von `medien-und-sprache` umbenannt (Slug-Wechsel).
+		],
+		'sprache-und-begriff' => [
+			// Neu in v4 — keine direkten Vorgänger, Posts werden editorisch zugeordnet.
+		],
+		'gesellschaft-und-wandel' => [
+			// Reaktiviert in v4 — vormals in v3 gemergt, Posts editorisch zuordnen.
 		],
 	];
 }
@@ -281,3 +321,49 @@ function hp_migrate_topics_v3(): void {
 	update_option( 'hp_topics_migrated_v3', true );
 }
 add_action( 'init', 'hp_migrate_topics_v3', 30 );
+
+/* -----------------------------------------
+   Einmalige Migration: v3 (3 Topics) → v4 (5 Topics)
+   ----------------------------------------- */
+
+/**
+ * Überführt die Drei-Topic-Struktur in die kuratierte Fünf-Topic-Struktur.
+ *
+ * - `medien-und-sprache` wird umbenannt zu `medien-und-narrative`
+ *   (bestehende Post-Zuordnungen bleiben erhalten).
+ * - `sprache-und-begriff` und `gesellschaft-und-wandel` werden neu angelegt.
+ * - Editorische Feinzuordnung (Posts von Medien & Narrative → Sprache & Begriff
+ *   bzw. Erinnerung → Gesellschaft & Wandel) erfolgt manuell.
+ *
+ * URL-Stabilität: 301-Redirect von `/thema/medien-und-sprache/` auf
+ * `/thema/medien-und-narrative/` wird über `hp_redirect_legacy_topic_urls()`
+ * in seo-hygiene.php sichergestellt.
+ */
+function hp_migrate_topics_v4(): void {
+	if ( get_option( 'hp_topics_migrated_v4' ) ) {
+		return;
+	}
+
+	// 1. medien-und-sprache → medien-und-narrative (Rename, Posts bleiben)
+	$legacy = get_term_by( 'slug', 'medien-und-sprache', 'topic' );
+	$target = get_term_by( 'slug', 'medien-und-narrative', 'topic' );
+
+	if ( $legacy && ! $target ) {
+		$cfg = hp_get_default_topics_config();
+		wp_update_term( $legacy->term_id, 'topic', [
+			'name'        => $cfg['medien-und-narrative']['name'],
+			'slug'        => 'medien-und-narrative',
+			'description' => $cfg['medien-und-narrative']['description'],
+		] );
+	} elseif ( $legacy && $target && (int) $legacy->term_id !== (int) $target->term_id ) {
+		// Beide existieren (z. B. manueller Eingriff) → in Ziel mergen.
+		hp_merge_topic_term_into_target( (int) $target->term_id, (int) $legacy->term_id );
+	}
+
+	// 2. Fehlende neue Topics anlegen
+	delete_option( 'hp_default_topics_created' );
+	hp_create_default_topics();
+
+	update_option( 'hp_topics_migrated_v4', true );
+}
+add_action( 'init', 'hp_migrate_topics_v4', 35 );

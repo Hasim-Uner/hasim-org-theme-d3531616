@@ -5890,6 +5890,94 @@ a.footnote-backref:hover {
     padding: var(--hj-space-xl) 0;
 }
 
+.hp-topic-archive__count {
+    font-family: var(--hj-sans);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--hj-text-secondary);
+    margin: var(--hj-space-sm) 0 0;
+    text-align: center;
+}
+
+/* --- Pillar-Page-Sektionen --- */
+
+.hp-topic-archive__section {
+    max-width: var(--hj-measure);
+    margin: 0 auto var(--hj-space-2xl);
+}
+
+.hp-topic-archive__section + .hp-topic-archive__section {
+    padding-top: var(--hj-space-xl);
+    border-top: 1px solid var(--hj-rule-soft, var(--hj-rule));
+}
+
+.hp-topic-archive__section-title {
+    font-family: var(--hj-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--hj-text-secondary);
+    margin: 0 0 var(--hj-space-lg);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hp-topic-archive__notes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--hj-space-sm);
+}
+
+.hp-topic-archive__note-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--hj-space-md);
+    padding: var(--hj-space-xs) 0;
+    border-bottom: 1px dotted var(--hj-rule-soft, var(--hj-rule));
+    text-decoration: none;
+    color: inherit;
+}
+
+.hp-topic-archive__note-link:hover,
+.hp-topic-archive__note-link:focus {
+    color: var(--hj-link, var(--hj-rule));
+}
+
+.hp-topic-archive__note-title {
+    font-family: var(--hj-serif);
+    font-size: 1.05rem;
+    line-height: 1.4;
+    flex: 1 1 auto;
+}
+
+.hp-topic-archive__note-date {
+    font-family: var(--hj-sans);
+    font-size: 0.75rem;
+    color: var(--hj-text-secondary);
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.hp-topic-archive__terms,
+.hp-topic-archive__cross {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hj-space-xs) var(--hj-space-sm);
+}
+
+.hp-topic-archive__pagination {
+    max-width: var(--hj-measure);
+    margin: var(--hj-space-2xl) auto 0;
+    padding-top: var(--hj-space-lg);
+    border-top: 1px solid var(--hj-rule-soft, var(--hj-rule));
+}
+
 /* =========================================
    RELATED ESSAYS
    ========================================= */
