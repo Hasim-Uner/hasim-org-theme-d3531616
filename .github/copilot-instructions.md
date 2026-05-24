@@ -1,121 +1,119 @@
 # Copilot Instructions: Hasimuener Journal Theme
 
-## Project Overview
-**Hasim Üner** (hasimuener.org) is a WordPress child theme extending [GeneratePress](https://generatepress.com/). High-performance editorial theme for hasimuener.org. Claim: „Macht. Medien. Gesellschaft."
+## Project
 
-- **Parent Theme**: GeneratePress (assumed active in WordPress installation)
-- **Language**: PHP (hooks/actions), CSS, vanilla JS
-- **Architecture**: Modular child theme with `functions.php` as bootstrap loader
+Hasimuener Journal is a WordPress child theme for hasimuener.org, extending GeneratePress. It is an editorial publication theme for long-form political and social analysis, not a marketing site or portfolio.
 
-## Architecture
+- Parent theme: GeneratePress
+- Runtime: WordPress, PHP hooks/actions, CSS, vanilla JavaScript
+- Bootstrap: `functions.php` loads modules from `inc/`
+- Naming: custom PHP functions use `hp_`; custom CSS classes use `hp-`; custom CSS properties use `--hj-`
 
-### Module System (`inc/`)
-`functions.php` contains **no business logic** — it only loads modules from `inc/`:
+## First Files To Read
 
-| File | Responsibility |
-|------|---------------|
-| `inc/helpers.php` | Utility functions (reading time, body classes, rewrite flush) |
-| `inc/post-types.php` | CPT registration (essay, note) |
-| `inc/taxonomies.php` | Taxonomy "topic" + default term seeding |
-| `inc/enqueue.php` | Asset loading, font preload, script defer |
-| `inc/generatepress-compat.php` | GP meta suppression (3 strategies) |
-| `inc/meta-fields.php` | Social teaser meta + Gutenberg sidebar panel |
-| `inc/seo-schema.php` | JSON-LD ScholarlyArticle for essays |
+For orientation, read these small docs before opening large files:
 
-### Template Structure
-- `front-page.php` — Editorial hero + notes + topic grid
-- `single-essay.php` — Longform with hero, TOC, share buttons
-- `single-note.php` — Compact format, no TOC
-- `archive-essay.php` / `archive-note.php` — List views
-- `page-mission.php` — About/mission page
-- `footer.php` — Three-column colophon
-- `template-parts/content-essay.php` / `content-note.php` — List items
+- `docs/AI_CONTEXT.md` - task-to-file map and context budget
+- `docs/ARCHITECTURE.md` - modules, data flows, REST routes
+- `docs/ASSET_MATRIX.md` - frontend assets, handles, load conditions
+- `plans/repo-architektur-effizienz-2026.md` - current architecture improvement plan
 
-## Editorial Context
-This is a **journalistic publication for political and societal discourse** — not a blog, not a portfolio. Every technical decision must serve the reader's ability to engage with complex, long-form argumentation without distraction.
+Avoid reading generated/minified or archived files unless directly needed:
 
-### Content Priorities (apply to ALL output)
-1. **Lesefluss (Reading Flow)**: Visual and structural decisions optimize for distraction-free reading of essay-length texts. Typography, whitespace, and layout serve the argument — not decoration.
-2. **Barrierefreiheit (a11y)**: Societal topics demand maximum accessibility. Semantic HTML (`<article>`, `<nav>`, `<aside>`, `aria-label`), WCAG AA contrast ratios, and logical heading hierarchy are mandatory — not optional.
-3. **Ernsthaftigkeit (Scholarly Rigor)**: Metadata, structured data (ScholarlyArticle), and markup must reflect journalistic or academic depth. No superficial patterns — every schema field, every `<time>` element, every citation structure must be defensible.
+- `assets/js/d3-custom.min.js`
+- `assets/css/diaspora-scroll.css`
+- `assets/js/diaspora-scroll.js`
+- `page-diaspora-architektur.php`
+- `fonts/*`
+- `_build-d3/node_modules/*`
+- `_stitch/*`
 
-### Gesellschaftskritische Perspektive auf Erinnerungspolitik
+## Active Architecture
 
-Hasims Arbeit — insbesondere im Kontext kurdischer Gedenkarbeit — basiert auf einer strukturellen gesellschaftskritischen Analyse:
+`functions.php` is intended to contain no business logic. It currently loads these module groups:
 
-**Kernthese:** Die Welt ist hierarchisch-irrational strukturiert. Diese hierarchische Ordnung erzeugt eine fundamentale Dysfunktionalität zwischen Gesellschaft und Staat bzw. staatlichem Monopol. Diese Dysfunktionalität manifestiert sich besonders deutlich in der Kontrolle über kollektive Erinnerung.
+- Core: `helpers.php`, `enqueue.php`, `generatepress-compat.php`, `header-nav.php`
+- Content: `post-types.php`, `taxonomies.php`, `glossary.php`, `dossier.php`, `glossar-seed.php`
+- SEO: `seo-meta.php`, `seo-schema.php`, `seo-hygiene.php`, `breadcrumbs.php`
+- Forms/admin: `contact.php`, `contacts-admin.php`, `newsletter.php`, `newsletter-broadcast.php`, `privacy-maintenance.php`
+- Graph/engagement: `graph-api.php`, `mini-graph.php`, `comments.php`, `votes.php`, `votes-api.php`
+- Editor meta: `meta-fields.php`
 
-**Implikationen für Content & Kommunikation:**
-- Erinnerung wird nicht individuell oder zufällig konstruiert, sondern durch staatliche Machtstrukturen geformt
-- Die Leitfrage ist nicht „Wer wird erinnert?", sondern „Was geschieht mit Erinnerung in hierarchisch organisierten Gesellschaften?"
-- Fokus auf systemische Mechanismen statt personalisierte Schuldzuweisungen
-- Betonung der Spannung zwischen gesellschaftlicher Selbstorganisation und staatlicher Kontrolle
+Large files that should be touched carefully:
 
-**Sprachliche Konsequenzen (gelten für alle generierten Texte):**
-- Vermeide menschzentrierte Formulierungen („Wer darf sprechen?")
-- Präferiere strukturelle und prozessorientierte Sprache („Wie formt staatliche Macht …")
-- Mache Machtverhältnisse als System sichtbar, nicht nur als individuelle Handlungen
-- Verbinde Erinnerungspolitik mit breiteren Fragen gesellschaftlicher Organisation
+- `style.css` - all active global CSS, currently very large
+- `inc/newsletter.php` - newsletter storage, mail, handlers, admin UI
+- `inc/contact.php` - contact page, validation, Brevo/wp_mail handling
+- `inc/glossary.php` - glossary CPT, meta, editor UI, auto-linking
 
-**Beispiel-Transformation:**
-| Vermeiden | Bevorzugen |
-|-----------|-----------|
-| „Wer wird erinnert, wer vergessen? Wer darf sprechen, wer soll schweigen?" | „Was geschieht mit Erinnerung in hierarchisch organisierten Gesellschaften? Wie formt staatliche Macht, was gedacht und gesagt werden darf?" |
+## Editorial Constraints
 
-Diese Perspektive ist bei der Erstellung von Content für Gedenkprojekte, politische Analysen und Solidaritätsarbeit stets mitzudenken.
+All changes should support serious, accessible reading:
 
-## Key Principles
+- Prioritize reading flow for long-form essays.
+- Keep semantic HTML and logical heading structure.
+- Maintain WCAG AA contrast and keyboard usability.
+- Treat structured data, timestamps, citations, and metadata as part of the editorial product.
+- Use structural and process-oriented wording for political/commemorative content.
 
-### 1. Hook-System (Strict)
-- Modifications to parent theme **exclusively** via `add_action`, `add_filter`
-- Never modify parent theme files; extend via child theme only
+## Implementation Rules
 
-### 2. Naming Convention
-- **`hp_` prefix** for ALL custom functions and variables (e.g., `hp_reading_time()`, `$hp_inc_dir`)
-- CSS custom properties: `--hj-` prefix (e.g., `--hj-accent`, `--hj-serif`)
-- CSS classes: `hp-` prefix for custom components (e.g., `.hp-topic-pill`, `.hp-colophon`)
+- Extend GeneratePress only through hooks and filters.
+- Do not edit parent theme files.
+- Keep functions prefixed with `hp_`.
+- Register hooks at the bottom of each module.
+- Prefer small, domain-specific modules over adding more code to the largest files.
+- Use conditional asset loading. Do not enqueue feature JS/CSS globally unless it is used globally.
+- Preserve existing public function names unless doing a deliberate migration.
 
-### 3. Modularity
-- Complex logic MUST go in separate `inc/` files
-- Each module is self-contained with its own hook registrations
-- New modules: create file in `inc/`, add `require_once` in `functions.php`
+## Assets
 
-### 4. Performance-First
-- Assets loaded conditionally (`is_singular()`, screen checks)
-- Font preloading for critical woff2 files
-- `defer` on render-blocking GP scripts
-- Duplicate style dequeue (GP auto-enqueue)
-- Only woff2 + woff font formats (no eot/svg/ttf)
+Current active global frontend assets:
 
-### 5. CSS Design System
-- Design tokens via CSS Custom Properties in `:root`
-- Fonts: Merriweather (serif, self-hosted), system sans-serif stack
-- `font-display: swap` on all @font-face declarations
-- Measure: `72ch` for optimal reading width
+- `style.css` via `hp-journal-style`
+- `assets/js/nav.js` via `hp-nav-js`
+
+Current conditional assets:
+
+- `assets/js/journal-single.js` on singular essay/note/post
+- `assets/js/link-preview.js` on singular essay/note/post/glossar/dossier/page
+- `assets/js/d3-custom.min.js` and `assets/js/graph.js` on `/wissensgraph/`
+- `assets/js/votes.js` and `assets/css/votes.css` on essay/note singles and archives
+
+`assets/js/journal.js` and full `assets/js/d3.min.js` are no longer active.
 
 ## Common Workflows
 
-### Adding a New Module
-1. Create `inc/my-module.php` with `defined('ABSPATH') || exit;` guard
-2. Define functions with `hp_` prefix
-3. Register hooks at the bottom of the file
-4. Add `require_once $hp_inc_dir . '/my-module.php';` to `functions.php`
+Adding a module:
 
-### Adding Custom Styles
-1. Add CSS to `style.css` using `--hj-` tokens
-2. Use specific selectors to override GeneratePress defaults
-3. Follow existing BEM-like naming (`.hp-component__element`)
+1. Create an `inc/*.php` file with `defined( 'ABSPATH' ) || exit;`.
+2. Keep one clear responsibility per module.
+3. Register hooks at the bottom.
+4. Add `require_once` in `functions.php` in dependency order.
 
-### Adding a New CPT
-1. Add registration to `inc/post-types.php`
-2. Create `single-{cpt}.php` and `archive-{cpt}.php`
-3. Create `template-parts/content-{cpt}.php` for list items
-4. Add body class in `inc/helpers.php`
+Adding styles:
 
-## Files & Their Roles
-- `style.css` — Theme metadata + design tokens + all CSS
-- `functions.php` — Bootstrap loader only (~45 lines)
-- `inc/` — Modular PHP logic (one concern per file)
-- `assets/js/journal.js` — TOC, reading progress, footnotes, share
-- `fonts/` — Self-hosted Merriweather (woff2 + woff only)
-- `template-parts/` — Reusable template fragments
+1. Prefer existing `--hj-` design tokens.
+2. Keep selectors scoped to `hp-` classes where possible.
+3. Avoid unrelated CSS cleanup in feature changes.
+4. For new feature CSS, consider a conditional asset instead of growing `style.css`.
+
+Adding JavaScript:
+
+1. Use vanilla JS unless the existing feature depends on a library.
+2. Enqueue only on pages where needed.
+3. Use `wp_localize_script()` only for runtime data passed from PHP.
+
+## Verification
+
+Baseline check:
+
+```sh
+find . -name '*.php' -not -path './_stitch/*' -not -path './_build-d3/*' -print0 | xargs -0 -n 1 php -l
+```
+
+For D3 bundle changes:
+
+```sh
+npm --prefix _build-d3 run build
+```
