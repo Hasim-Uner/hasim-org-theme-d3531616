@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-24-sterblichkeit-r6-text';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-24-glossar-r7-content-split';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -59,104 +59,194 @@ function hp_seed_all_glossary_terms(): void {
 		[
 			'slug'     => 'transhumanismus',
 			'title'    => 'Transhumanismus',
-			'kurz'     => 'Eine im Silicon Valley verwurzelte ideologische Bewegung, die die Überwindung der biologischen Grenzen des Menschen (Altern, Tod) durch Technologie anstrebt. Agiert als säkulare Ersatzreligion für eine hyperreiche Elite zur Betäubung von existenzieller Verlustangst.',
+			'kurz'     => 'Transhumanismus ist die Ideologie, den Menschen durch Technologie über seine biologischen Grenzen hinaus zu optimieren. Im Kern verwechselt er Endlichkeit mit einem technischen Defekt.',
+			'content'  => [
+				'Transhumanismus erscheint oft als Zukunftsvision, ist aber zuerst ein Menschenbild. Der Körper gilt ihm als unzureichende Hardware, das Bewusstsein als übertragbare Information und der Tod als ein lösbares Ingenieursproblem.',
+				'Darin liegt seine eigentliche Radikalität: Nicht einzelne Krankheiten sollen geheilt werden, sondern die conditio humana selbst soll überwunden werden. Verletzlichkeit, Alter, Abhängigkeit und Sterblichkeit erscheinen nicht mehr als Bedingungen menschlicher Existenz, sondern als peinliche Restbestände biologischer Vergangenheit.',
+				'Kritisch betrachtet ist Transhumanismus deshalb weniger Wissenschaft als säkulare Erlösungslehre. Er verspricht Rettung durch Technik, verschweigt aber, dass Sinn, Verantwortung und Bindung gerade aus Grenzen entstehen.',
+			],
 			'synonyme' => [ 'transhumanistische', 'transhumanistischen', 'transhumanistischer', 'transhumanistischem', 'transhumanistisches' ],
 		],
 		[
 			'slug'     => 'reduktionismus-methodischer',
 			'title'    => 'Reduktionismus (methodischer)',
-			'kurz'     => 'Der fundamentale Fehler der modernen westlichen Wissenschaft seit Descartes, das Lebendige und das Bewusstsein rein als Summe mechanischer, berechenbarer Einzelteile zu betrachten. Ignoriert die holistische Komplexität biologischer und kosmischer Systeme.',
+			'kurz'     => 'Methodischer Reduktionismus beschreibt die Zerlegung komplexer Wirklichkeit in isolierte Einzelteile. Problematisch wird er, wenn diese Methode zur Weltanschauung wird.',
+			'content'  => [
+				'Reduktionismus ist als Werkzeug mächtig: Er macht Dinge messbar, zerlegbar und technisch bearbeitbar. Ohne ihn gäbe es keine moderne Medizin, keine Ingenieurskunst und keine exakte Naturwissenschaft.',
+				'Sein Fehler beginnt dort, wo das Zerlegen mit dem Verstehen verwechselt wird. Ein lebendiger Organismus, ein Bewusstsein oder eine Gesellschaft ist nicht einfach die Summe seiner Bestandteile, sondern ein Geflecht aus Beziehungen, Rückkopplungen und Bedeutungen.',
+				'In seiner ideologischen Form verengt Reduktionismus den Blick auf das, was berechenbar ist. Alles andere wirkt dann wie Störung: Leib, Gefühl, Geschichte, Kultur, Tod, Ambivalenz.',
+			],
 			'synonyme' => [ 'methodischer Reduktionismus', 'methodischen Reduktionismus', 'cartesianischer Dualismus', 'cartesianischen Dualismus' ],
 		],
 		[
 			'slug'     => 'biophobie',
 			'title'    => 'Biophobie',
-			'kurz'     => 'Die pathologische Angst vor der Unberechenbarkeit, Vergänglichkeit und Fleischlichkeit des organischen Lebens, die sich im transhumanistischen Drang äußert, alles Lebendige in sterile, kontrollierbare Datensätze (Silizium) zu pressen.',
+			'kurz'     => 'Biophobie bezeichnet die Angst vor dem Lebendigen: vor Körperlichkeit, Unordnung, Verletzlichkeit und Vergänglichkeit. Sie zeigt sich im Wunsch, organisches Leben vollständig kontrollierbar zu machen.',
+			'content'  => [
+				'Biophobie ist keine bloße Abneigung gegen Natur. Sie ist tiefer: eine Abwehr gegen das, was sich nicht restlos planen, speichern, optimieren oder berechnen lässt.',
+				'In technokratischen Weltbildern erscheint das Lebendige oft als Risiko. Körper altern, Beziehungen scheitern, Gefühle widersprechen sich, Ökosysteme reagieren unvorhersehbar. Genau diese Offenheit wird dann nicht als Wesensmerkmal des Lebens verstanden, sondern als Mangel.',
+				'Der Begriff ist besonders wichtig zur Kritik transhumanistischer Fantasien. Dort wird Erlösung häufig als Flucht aus dem Organischen gedacht: weg vom Fleisch, weg vom Altern, weg vom Tod, hinein in eine sterile Ordnung aus Daten und Kontrolle.',
+			],
 			'synonyme' => [ 'transhumanistische Biophobie', 'transhumanistischen Biophobie' ],
 		],
 		[
 			'slug'  => 'algorithmische-oeffentlichkeit',
 			'title' => 'Algorithmische Öffentlichkeit',
-			'kurz'  => 'Ein durch Plattform-Kapitalismus deformierter digitaler Raum, in dem Aufmerksamkeitsökonomie und automatisierte Erregungsschleifen die Fragmentierung des gesellschaftlichen Diskurses forcieren. Sie entzieht dem Individuum die freie Urteilskraft und ersetzt Verständigung durch algorithmisch belohntes Lagerdenken.',
+			'kurz'  => 'Algorithmische Öffentlichkeit ist ein digitaler Raum, in dem Sichtbarkeit durch Plattformlogiken, Ranking-Systeme und Aufmerksamkeitsökonomie geprägt wird. Was relevant erscheint, ist nicht zwingend wichtig, sondern oft nur algorithmisch belohnt.',
+			'content' => [
+				'Öffentlichkeit war nie neutral. Doch in der algorithmischen Öffentlichkeit wird ihre Struktur von privaten Plattformen, Empfehlungslogiken und Engagement-Metriken tiefgreifend vorgeformt.',
+				'Der gesellschaftliche Diskurs wird dadurch nicht einfach abgebildet, sondern sortiert, beschleunigt und emotionalisiert. Empörung, Lagerbildung und Wiederholung erhalten oft mehr Reichweite als Differenzierung, Geduld oder Verständigung.',
+				'Das Problem liegt nicht nur im einzelnen Algorithmus, sondern im ökonomischen Rahmen. Wo Aufmerksamkeit verwertet wird, wird Öffentlichkeit zur Infrastruktur der Erregung.',
+			],
 		],
 		[
 			'slug'  => 'kosmotechnik',
 			'title' => 'Kosmotechnik',
-			'kurz'  => 'Ein von Yuk Hui geprägter Begriff. Der Gegenentwurf zur linearen, westlichen Zerstörungstechnologie. Er fordert, dass technische Entwicklungen wieder an die jeweilige Kultur, Natur und kosmische Ordnung zurückgebunden werden, statt das Universum als tote Rechenmasse auszubeuten.',
+			'kurz'  => 'Kosmotechnik bezeichnet ein Denken von Technik, das nicht universalistisch und entgrenzt ist, sondern an Kultur, Natur und Weltverhältnis zurückgebunden bleibt.',
+			'content' => [
+				'Kosmotechnik steht gegen die Vorstellung, es gebe nur eine einzige technische Moderne. Technik ist nie bloß Werkzeug; sie trägt immer ein bestimmtes Verhältnis zur Welt in sich.',
+				'Der Begriff macht sichtbar, dass technische Entwicklung nicht automatisch Fortschritt bedeutet. Eine Technologie kann produktiv sein und zugleich Lebensformen zerstören, Abhängigkeiten vertiefen oder kulturelle Ordnungen entwerten.',
+				'Eine kosmotechnische Perspektive fragt deshalb nicht nur, was möglich ist. Sie fragt, in welche Welt eine Technik eingebettet ist, wem sie dient und welche Formen des Lebens sie stärkt oder beschädigt.',
+			],
 		],
 		[
 			'slug'  => 'kommune-grundzelle',
 			'title' => 'Kommune (als Grundzelle)',
-			'kurz'  => 'Die unteilbare Basiseinheit dezentraler gesellschaftlicher Selbstorganisation. Sie bildet das Fundament, aus dem sich alle nachgelagerten föderativen Fach- und Ratsstrukturen ableiten, um hierarchische Machtkonzentrationen systemisch zu verhindern.',
+			'kurz'  => 'Die Kommune ist die kleinste politische Einheit gesellschaftlicher Selbstorganisation. Sie bildet den Ort, an dem Verantwortung, Versorgung und Entscheidung wieder konkret werden.',
+			'content' => [
+				'Als Grundzelle ist die Kommune kein romantisches Dorfideal, sondern ein politisches Prinzip. Entscheidungen sollen dort beginnen, wo ihre Folgen tatsächlich getragen werden.',
+				'Gegen zentralistische Machtapparate setzt die Kommune auf Nähe, Überschaubarkeit und direkte Verantwortlichkeit. Sie verhindert nicht automatisch Herrschaft, aber sie erschwert ihre Abstraktion.',
+				'In föderativen Modellen ist die Kommune der Ausgangspunkt aller höheren Strukturen. Räte, Netzwerke und Dachformen dürfen ihr nicht befehlen, sondern müssen aus ihr hervorgehen und ihr rechenschaftspflichtig bleiben.',
+			],
 		],
 		[
 			'slug'  => 'foederative-dacharchitektur',
 			'title' => 'Föderative Dacharchitektur',
-			'kurz'  => 'Ein horizontales Organisationsmodell, bei dem die koordinierende Instanz (der Rat) nicht als legislative Herrschaftsebene operiert, sondern strikt als dezentraler Dienstleister und kollektives Sprachrohr der angegliederten Basiseinheiten fungiert.',
+			'kurz'  => 'Föderative Dacharchitektur beschreibt ein horizontales Organisationsmodell, in dem koordinierende Strukturen den Basiseinheiten dienen, statt über sie zu herrschen.',
+			'content' => [
+				'Eine föderative Dacharchitektur verbindet dezentrale Einheiten, ohne sie in eine zentrale Befehlsordnung aufzulösen. Ihr Zweck ist Koordination, nicht Kontrolle.',
+				'Der entscheidende Unterschied zu klassischer Hierarchie liegt im Mandat. Die Dachstruktur spricht nicht aus eigener Souveränität, sondern aus abgeleiteter Verantwortung gegenüber den verbundenen Basiseinheiten.',
+				'Damit solche Modelle nicht selbst wieder bürokratische Machtzentren werden, brauchen sie klare Grenzen: Transparenz, Rückholbarkeit von Mandaten, rotierende Aufgaben und eine Kultur des Misstrauens gegenüber permanenter Funktionärsmacht.',
+			],
 		],
 		[
 			'slug'  => 'schicht-modell-infrastruktur-schichten',
 			'title' => 'Schicht-Modell (Infrastruktur-Schichten)',
-			'kurz'  => 'Die strikte architektonische Trennung zwischen unveränderlicher Basisinfrastruktur (Schicht 1) und flexiblen, funktionalen Anwendungsebenen (Schicht 2+). Garantiert im digitalen wie im gesellschaftlichen Kontext die dauerhafte Autonomie des Systems gegenüber dem Zugriff temporärer Akteure.',
+			'kurz'  => 'Das Schicht-Modell trennt stabile Basisinfrastruktur von flexiblen Anwendungsebenen. Es schützt Systeme davor, dass kurzfristige Akteure die Grundlagen dauerhaft vereinnahmen.',
+			'content' => [
+				'Das Schicht-Modell denkt Systeme nicht als ungeordnetes Ganzes, sondern als Ebenen mit unterschiedlicher Stabilität. Was unten liegt, muss robuster, langsamer und schwerer veränderbar sein als das, was oben experimentiert.',
+				'In digitalen Systemen ist das sofort verständlich: Protokolle, Datenmodelle und Identitäten dürfen nicht beliebig von kurzfristigen Anwendungen abhängig sein. Sonst wird jedes System erpressbar durch seine Oberfläche.',
+				'Politisch gelesen beschreibt das Modell eine Architektur der Autonomie. Die Grundinfrastruktur einer Gemeinschaft muss so gebaut sein, dass sie nicht bei jeder neuen Führung, Plattform oder Mode neu gekapert werden kann.',
+			],
 		],
 		[
 			'slug'  => 'jin-jiyan-azadi',
 			'title' => 'Jin, Jiyan, Azadî (Frau, Leben, Freiheit)',
-			'kurz'  => 'Das existenzielle Kern-Narrativ emanzipatorischer Bewegungen im kurdischen Kontext. Es beschreibt die untrennbare dialektische Verknüpfung von Befreiung, organischem Leben und radikaler gesellschaftlicher Transformation abseits staatlicher Machtstrukturen.',
+			'kurz'  => 'Jin, Jiyan, Azadî bedeutet Frau, Leben, Freiheit. Der Slogan verdichtet eine politische Ethik, in der Befreiung, Lebendigkeit und Geschlechtergerechtigkeit untrennbar verbunden sind.',
+			'content' => [
+				'Jin, Jiyan, Azadî ist mehr als ein Protest-Slogan. Die Formel verbindet die Befreiung der Frau mit der Befreiung des Lebens selbst und stellt damit patriarchale Herrschaft ins Zentrum der Kritik.',
+				'Ihre Kraft liegt in der Einfachheit. Drei Begriffe bilden eine politische Grammatik: Ohne die Befreiung der Frau keine freie Gesellschaft, ohne Schutz des Lebens keine Freiheit, ohne Freiheit kein würdiges Leben.',
+				'Im kurdischen Kontext steht der Satz für eine radikale Abkehr von Staat, Nation und Patriarchat als alleinigen Ordnungsformen. Er ist zugleich Erinnerung, Programm und moralischer Maßstab.',
+			],
 		],
 
 		// --- Sterblichkeits- & Erkenntnistheorie-Komplex ---
 		[
 			'slug'     => 'conditio-humana',
 			'title'    => 'Conditio humana',
-			'kurz'     => 'Die fundamentale, unveränderliche Ur-Bedingung der menschlichen Existenz. Sie definiert das Menschsein durch Verletzlichkeit, Körperlichkeit und Sterblichkeit – Grenzen, die nicht als Systemfehler, sondern als die zwingende Voraussetzung für Sinn, Verbindlichkeit und Tragik begriffen werden.',
+			'kurz'     => 'Conditio humana bezeichnet die Grundbedingungen menschlicher Existenz: Körperlichkeit, Verletzlichkeit, Endlichkeit und Sterblichkeit. Sie sind keine Fehler des Menschseins, sondern seine Voraussetzung.',
+			'content'  => [
+				'Die conditio humana benennt das, wovor technische Erlösungsfantasien am liebsten fliehen: dass der Mensch geboren wird, leidet, liebt, altert und stirbt.',
+				'Gerade diese Grenzen machen menschliches Leben verbindlich. Weil Zeit begrenzt ist, bekommen Entscheidungen Gewicht. Weil Körper verletzlich sind, entsteht Fürsorge. Weil Menschen sterblich sind, wird Erinnerung bedeutsam.',
+				'Wer die conditio humana abschaffen will, riskiert, auch das Menschliche selbst zu verlieren. Nicht jede Grenze ist ein Gefängnis; manche Grenzen sind die Form, in der Sinn überhaupt entstehen kann.',
+			],
 			'synonyme' => [ 'conditio humana' ],
 		],
 		[
 			'slug'     => 'determinismus-mechanistischer',
 			'title'    => 'Determinismus (mechanistischer)',
-			'kurz'     => 'Das im Barock geprägte Weltbild, das das Universum und den menschlichen Geist als lineares, berechenbares Uhrwerk betrachtet. Ignoriert die Erkenntnisse der modernen Quantenphysik über fundamentale Unschärfen.',
+			'kurz'     => 'Mechanistischer Determinismus versteht Welt, Leben und Geist als vollständig berechenbare Kausalkette. Er reduziert Wirklichkeit auf Maschine, Ablauf und Kontrolle.',
+			'content'  => [
+				'Der mechanistische Determinismus denkt das Universum wie ein Uhrwerk: Wenn alle Ausgangsdaten bekannt wären, ließe sich alles berechnen. Zufall, Freiheit und Bewusstsein erscheinen dann als bloße Illusion oder als noch nicht verstandene Mechanik.',
+				'Dieses Weltbild hat enorme technische Macht freigesetzt. Gleichzeitig hat es eine Verengung produziert: Was nicht messbar, linear oder kausal eindeutig ist, wird schnell als irrational oder nebensächlich abgewertet.',
+				'Für das Verständnis des Menschen ist diese Perspektive zu arm. Sie erklärt Abläufe, aber nicht Bedeutung; Reizverarbeitung, aber nicht Erfahrung; Bewegung, aber nicht gelebtes Leben.',
+			],
 			'synonyme' => [ 'mechanistischer Determinismus', 'mechanistischen Determinismus', 'berechenbares Uhrwerk' ],
 		],
 		[
 			'slug'     => 'mind-uploading',
 			'title'    => 'Mind Uploading',
-			'kurz'     => 'Die hypothetische transhumanistische Technologie, bei der das menschliche Gehirn vollständig kartiert und das Bewusstsein als digitaler Datensatz rekonstruiert werden soll.',
+			'kurz'     => 'Mind Uploading ist die hypothetische Idee, Bewusstsein digital zu kopieren oder zu übertragen. Sie setzt voraus, dass ein Mensch letztlich als Informationsmuster rekonstruierbar ist.',
+			'content'  => [
+				'Mind Uploading gehört zu den zentralen Erlösungsbildern des Transhumanismus. Der Körper stirbt, aber das Ich soll als Datensatz, Simulation oder digitale Kontinuität weiterbestehen.',
+				'Das Versprechen hängt an einer gewaltigen Annahme: dass Bewusstsein vollständig aus Struktur, Information und Verarbeitung erklärbar ist. Doch selbst eine perfekte Kopie neuronaler Muster wäre nicht automatisch subjektives Erleben.',
+				'Philosophisch bleibt deshalb die entscheidende Frage offen: Würde dort jemand weiterleben, oder entstünde nur ein digitales Abbild, das behauptet, jemand zu sein?',
+			],
 			'synonyme' => [ 'Mind-Uploading', 'Upload des Menschen', 'digitale Unsterblichkeit' ],
 		],
 		[
 			'slug'     => 'enhancement-technologien',
 			'title'    => 'Enhancement-Technologien',
-			'kurz'     => 'Technologische Eingriffe, die nicht der Heilung dienen, sondern der künstlichen Erweiterung und Optimierung des Menschen über die biologischen Speziesgrenzen hinaus.',
+			'kurz'     => 'Enhancement-Technologien sind Eingriffe, die nicht primär heilen, sondern menschliche Fähigkeiten über ein normales Maß hinaus steigern sollen.',
+			'content'  => [
+				'Enhancement beginnt dort, wo Medizin nicht mehr nur Leid lindert, sondern Leistungsfähigkeit, Wahrnehmung, Körper oder Kognition optimieren soll.',
+				'Die Grenze zwischen Heilung und Steigerung ist nicht immer sauber. Eine Prothese kann verlorene Fähigkeit ersetzen, aber auch zur Fantasie eines überlegenen Körpers werden. Medikamente können Krankheit behandeln, aber auch Produktivität erzwingen.',
+				'Politisch brisant wird Enhancement, sobald Optimierung zur sozialen Pflicht wird. Dann entscheidet nicht mehr nur die Technik, was möglich ist, sondern der Markt, wer mithalten muss.',
+			],
 			'synonyme' => [ 'Enhancement', 'Enhancements', 'technologische Erweiterungen', 'kognitive Erweiterungen' ],
 		],
 		[
 			'slug'     => 'phanomenologie-des-leibes',
 			'title'    => 'Phänomenologie des Leibes',
-			'kurz'     => 'Der philosophische Gegenentwurf (u. a. Merleau-Ponty) zum cartesianischen Dualismus. Beschreibt, dass der Mensch seinen Körper nicht bloß besitzt, sondern als leibliches Wesen in ständiger, unteilbarer Rückkopplung mit der Umwelt existiert. Bewusstsein ist primär ein leiblicher Vollzug.',
+			'kurz'     => 'Die Phänomenologie des Leibes versteht den Körper nicht als Objekt, das der Mensch besitzt, sondern als Weise, in der er überhaupt Welt erfährt.',
+			'content'  => [
+				'Der Leib ist nicht bloß biologische Trägermasse. Er ist der Ort, von dem aus Welt erscheint: Nähe, Schmerz, Berührung, Müdigkeit, Orientierung und Angst sind keine abstrakten Daten, sondern leibliche Erfahrungen.',
+				'Damit widerspricht die Phänomenologie des Leibes der alten Trennung von Geist und Körper. Bewusstsein schwebt nicht über dem Organismus, sondern vollzieht sich durch ihn.',
+				'Für die Kritik digitaler Unsterblichkeitsfantasien ist das entscheidend. Ein entkörpertes Bewusstsein wäre nicht einfach derselbe Mensch ohne Fleisch, sondern ein radikal anderes Verhältnis zur Welt.',
+			],
 			'synonyme' => [ 'Phänomenologie des Leibs', 'leiblicher Vollzug' ],
 		],
 		[
 			'slug'     => 'verkoerperte-kognition',
 			'title'    => 'Verkörperte Kognition (Embodied Cognition)',
-			'kurz'     => 'Der kognitionswissenschaftliche Nachweis, dass Denken und Bewusstsein keine abstrakten, gehirn-isolierten Rechenprozesse sind, sondern untrennbar an die physischen Schleifen, das Nervensystem und die gesamte Biologie des lebendigen Körpers gebunden bleiben.',
+			'kurz'     => 'Verkörperte Kognition beschreibt Denken als leiblich eingebetteten Prozess. Geist entsteht nicht isoliert im Gehirn, sondern im Zusammenspiel von Körper, Umwelt und Handlung.',
+			'content'  => [
+				'Verkörperte Kognition bricht mit der Vorstellung, Denken sei reine Informationsverarbeitung im Kopf. Wahrnehmen, Erinnern und Entscheiden sind an Haltung, Bewegung, Nervensystem, Atmung, Raum und Situation gebunden.',
+				'Der Mensch erkennt Welt nicht wie ein Computer, der Daten verarbeitet. Er greift, scheitert, tastet, spürt, wiederholt und lernt durch leibliche Rückkopplung.',
+				'Diese Perspektive macht deutlich, warum Bewusstsein nicht beliebig vom Körper getrennt werden kann. Wer den Leib aus dem Denken herausrechnet, versteht Denken nur noch als blasse Simulation.',
+			],
 			'synonyme' => [ 'verkörperte Kognition', 'verkörperten Kognition', 'Embodied Cognition' ],
 		],
 		[
 			'slug'     => 'hartes-problem-des-bewusstseins',
 			'title'    => 'Hartes Problem des Bewusstseins',
-			'kurz'     => 'Die von David Chalmers benannte fundamentale Erklärungslücke der Wissenschaft, warum physikalische oder informationsverarbeitende Prozesse im Gehirn überhaupt von subjektivem Erleben (Qualia) begleitet werden. Vom Transhumanismus dogmatisch ignoriert.',
+			'kurz'     => 'Das harte Problem des Bewusstseins fragt, warum physikalische Prozesse überhaupt subjektives Erleben hervorbringen. Es markiert die Grenze zwischen Erklärung von Funktion und Erklärung von Erfahrung.',
+			'content'  => [
+				'Viele Vorgänge im Gehirn lassen sich funktional beschreiben: Reize werden verarbeitet, Informationen integriert, Verhalten gesteuert. Doch damit ist noch nicht erklärt, warum sich etwas innerlich anfühlt.',
+				'Das harte Problem beginnt genau an dieser Stelle. Es fragt nicht nur, wie Wahrnehmung funktioniert, sondern warum es überhaupt ein Erleben gibt: Schmerz, Rot, Angst, Musik, Erinnerung, Ich-Gefühl.',
+				'Für transhumanistische Modelle ist diese Lücke unbequem. Solange subjektives Erleben nicht verstanden ist, bleibt jede Behauptung einer digitalen Bewusstseinskopie metaphysisch überzogen.',
+			],
 			'synonyme' => [ 'harte Problem des Bewusstseins', 'hartes Problem', 'harte Problem', 'hard problem of consciousness' ],
 		],
 		[
 			'slug'  => 'biophilie',
 			'title' => 'Biophilie',
-			'kurz'  => 'Die von Erich Fromm definierte tiefe psychologische Zuneigung zu allem Lebendigen, Wachsenden und fundamental Unberechenbaren. Bildet den direkten evolutionären Gegenpol zur transhumanistischen Biophobie.',
+			'kurz'  => 'Biophilie bezeichnet die Zuneigung zum Lebendigen, Wachsenden und Unverfügbaren. Sie ist der Gegenbegriff zur Angst vor organischer Unordnung.',
+			'content' => [
+				'Biophilie meint nicht sentimentale Naturromantik. Sie beschreibt eine Grundhaltung, die Leben nicht zuerst kontrollieren, sondern verstehen, schützen und begleiten will.',
+				'Das Lebendige ist nie vollständig verfügbar. Es wächst, altert, widersetzt sich, verbindet sich und stirbt. Biophilie akzeptiert diese Offenheit nicht als Schwäche, sondern als Würde des Lebens.',
+				'Gegen technokratische Kontrollfantasien setzt Biophilie eine andere Ethik: Nicht alles Wertvolle muss optimiert werden. Manches muss bewahrt, gepflegt und in Ruhe gelassen werden.',
+			],
 		],
 		[
 			'slug'     => 'pessimismus-philosophischer',
 			'title'    => 'Pessimismus (philosophischer)',
-			'kurz'     => 'Die philosophische Haltung (historisch geprägt durch Arthur Schopenhauer), die das Leiden als Grundton des Daseins begreift. Im Essay demaskiert als Fehlschluss, der historisch-ökonomisch erzeugtes Leid mit einer metaphysischen Signatur des Menschseins verwechselt.',
+			'kurz'     => 'Philosophischer Pessimismus versteht Leiden nicht als Ausnahme, sondern als Grundzug des Daseins. Seine Stärke liegt in der Nüchternheit, seine Gefahr in der Verwechslung von Geschichte und Metaphysik.',
+			'content'  => [
+				'Philosophischer Pessimismus nimmt Schmerz, Verlust und Enttäuschung ernst. Er weigert sich, menschliches Leiden mit Fortschrittsparolen oder moralischem Kitsch zu überdecken.',
+				'Doch seine Schärfe kann in eine Falle führen. Wenn alles Leiden als metaphysische Grundsignatur des Lebens erscheint, verschwinden konkrete Ursachen: Ausbeutung, Armut, Patriarchat, Krieg, Entwurzelung und politische Gewalt.',
+				'Eine brauchbare Kritik muss deshalb unterscheiden. Nicht jedes Leid ist abschaffbar, aber vieles ist gemacht. Wer diesen Unterschied verwischt, verwandelt historische Verhältnisse in Schicksal.',
+			],
 			'synonyme' => [ 'Pessimismus', 'philosophischer Pessimismus' ],
 		],
 	];
@@ -166,11 +256,10 @@ function hp_seed_all_glossary_terms(): void {
 	foreach ( $entries as $entry ) {
 		$existing = get_page_by_path( $entry['slug'], OBJECT, 'glossar' );
 		if ( $existing instanceof WP_Post ) {
+			$changed = hp_update_seeded_glossar_post( $existing, $entry ) || $changed;
 			$changed = hp_update_seeded_glossar_meta( $existing->ID, $entry ) || $changed;
 			continue;
 		}
-
-		$body = "<!-- wp:paragraph -->\n<p>" . esc_html( $entry['kurz'] ) . "</p>\n<!-- /wp:paragraph -->";
 
 		$post_id = wp_insert_post( [
 			'post_type'    => 'glossar',
@@ -178,7 +267,7 @@ function hp_seed_all_glossary_terms(): void {
 			'post_name'    => $entry['slug'],
 			'post_title'   => $entry['title'],
 			'post_excerpt' => $entry['kurz'],
-			'post_content' => $body,
+			'post_content' => hp_build_glossar_seed_content( $entry ),
 		], true );
 
 		if ( is_wp_error( $post_id ) || ! $post_id ) {
@@ -191,6 +280,75 @@ function hp_seed_all_glossary_terms(): void {
 	if ( $changed ) {
 		hp_glossar_seed_bump_cache_version();
 	}
+}
+
+/**
+ * Aktualisiert redaktionelle Seed-Postfelder für bestehende Glossar-Begriffe.
+ *
+ * @param WP_Post              $post  Bestehender Glossar-Post.
+ * @param array<string, mixed> $entry Seed-Definition.
+ * @return bool Ob sich ein Wert geändert hat.
+ */
+function hp_update_seeded_glossar_post( WP_Post $post, array $entry ): bool {
+	$post_data = [
+		'ID' => $post->ID,
+	];
+
+	if ( isset( $entry['title'] ) && (string) $entry['title'] !== (string) $post->post_title ) {
+		$post_data['post_title'] = (string) $entry['title'];
+	}
+
+	if ( isset( $entry['kurz'] ) && (string) $entry['kurz'] !== (string) $post->post_excerpt ) {
+		$post_data['post_excerpt'] = (string) $entry['kurz'];
+	}
+
+	$content = hp_build_glossar_seed_content( $entry );
+	if ( '' !== $content && $content !== (string) $post->post_content ) {
+		$post_data['post_content'] = $content;
+	}
+
+	if ( 1 === count( $post_data ) ) {
+		return false;
+	}
+
+	$updated = wp_update_post( $post_data, true );
+
+	return ! is_wp_error( $updated ) && (bool) $updated;
+}
+
+/**
+ * Baut den Glossar-Body als Gutenberg-kompatible Absatzblöcke.
+ *
+ * @param array<string, mixed> $entry Seed-Definition.
+ * @return string Gutenberg-Block-Content.
+ */
+function hp_build_glossar_seed_content( array $entry ): string {
+	$paragraphs = [];
+
+	if ( ! empty( $entry['content'] ) && is_array( $entry['content'] ) ) {
+		$paragraphs = array_map( 'strval', $entry['content'] );
+	} elseif ( ! empty( $entry['content'] ) && is_string( $entry['content'] ) ) {
+		$split = preg_split( '/\R{2,}/', $entry['content'] );
+		if ( is_array( $split ) ) {
+			$paragraphs = $split;
+		}
+	}
+
+	if ( empty( $paragraphs ) && isset( $entry['kurz'] ) ) {
+		$paragraphs = [ (string) $entry['kurz'] ];
+	}
+
+	$blocks = [];
+	foreach ( $paragraphs as $paragraph ) {
+		$paragraph = trim( (string) $paragraph );
+		if ( '' === $paragraph ) {
+			continue;
+		}
+
+		$blocks[] = "<!-- wp:paragraph -->\n<p>" . esc_html( $paragraph ) . "</p>\n<!-- /wp:paragraph -->";
+	}
+
+	return implode( "\n\n", $blocks );
 }
 
 /**
@@ -212,6 +370,21 @@ function hp_update_seeded_glossar_meta( int $post_id, array $entry ): bool {
 		$merged   = hp_merge_glossar_synonyms( $existing, $entry['synonyme'] );
 
 		$changed = update_post_meta( $post_id, '_hp_glossar_synonyme', implode( ', ', $merged ) ) || $changed;
+	}
+
+	if ( array_key_exists( 'quellen', $entry ) ) {
+		$quellen = is_array( $entry['quellen'] )
+			? implode( "\n", array_map( 'strval', $entry['quellen'] ) )
+			: (string) $entry['quellen'];
+		$changed = update_post_meta( $post_id, '_hp_glossar_quellen', $quellen ) || $changed;
+	}
+
+	if ( array_key_exists( 'version', $entry ) ) {
+		$changed = update_post_meta( $post_id, '_hp_glossar_version', (string) $entry['version'] ) || $changed;
+	}
+
+	if ( array_key_exists( 'stand', $entry ) ) {
+		$changed = update_post_meta( $post_id, '_hp_glossar_stand', (string) $entry['stand'] ) || $changed;
 	}
 
 	return $changed;
