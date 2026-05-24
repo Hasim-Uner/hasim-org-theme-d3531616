@@ -16,6 +16,7 @@ For orientation, read these small docs before opening large files:
 - `docs/AI_CONTEXT.md` - task-to-file map and context budget
 - `docs/ARCHITECTURE.md` - modules, data flows, REST routes
 - `docs/ASSET_MATRIX.md` - frontend assets, handles, load conditions
+- `docs/CSS_INVENTORY.md` - map of `style.css` sections and future split owners
 - `plans/repo-architektur-effizienz-2026.md` - current architecture improvement plan
 
 Avoid reading generated/minified or archived files unless directly needed:
@@ -36,7 +37,7 @@ Current module groups:
 
 - Core: `helpers.php`, `enqueue.php`, `generatepress-compat.php`, `header-nav.php`
 - Content: `post-types.php`, `taxonomies.php`, `glossary.php`, `dossier.php`, `glossar-seed.php`
-- SEO: `seo-meta.php`, `seo-schema.php`, `seo-hygiene.php`, `breadcrumbs.php`
+- SEO: `seo-meta.php`, `seo-schema.php`, `seo-hygiene.php`, `sitemap.php`, `breadcrumbs.php`
 - Forms/admin: `contact.php`, `forms/contact/*`, `contacts-admin.php`, `newsletter.php`, `forms/newsletter/*`, `newsletter-broadcast.php`, `privacy-maintenance.php`
 - Graph/engagement: `graph-api.php`, `mini-graph.php`, `comments.php`, `votes.php`, `votes-api.php`
 - Editor meta: `meta-fields.php`

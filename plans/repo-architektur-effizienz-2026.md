@@ -172,6 +172,8 @@ inc/forms/contact/
 
 Prioritaet 3: CSS
 
+**Umsetzungsstand 2026-05-24:** Inventar angelegt in `docs/CSS_INVENTORY.md`. Die eigentliche Extraktion in bedingte CSS-Dateien ist noch offen.
+
 ```text
 assets/css/
   base.css
@@ -318,6 +320,7 @@ Definition of Done:
 | `_stitch/`-Entscheidung + `.gitignore` finalisieren | klein | niedrig | mittel |
 | Newsletter splitten | **erledigt** | mittel | hoch |
 | Kontakt splitten | **erledigt** | mittel | hoch |
+| CSS inventarisieren | **erledigt** | niedrig | hoch |
 | CSS bedingt splitten | mittel | mittel | hoch |
 | Graph-Builder optimieren | mittel | mittel | hoch bei Content-Wachstum |
 | CI/PHPCS/PHPStan einfuehren | mittel | niedrig-mittel | mittel-hoch |
@@ -337,4 +340,4 @@ Empfohlener erster Sprint:
 1. `.github/copilot-instructions.md` auf aktuellen Stand bringen.
 2. `docs/AI_CONTEXT.md` mit einer kompakten "Was zuerst lesen?"-Matrix anlegen.
 3. `_stitch/package-lock.json` entweder ignorieren oder `_stitch/` als echtes Teilprojekt mit `package.json` dokumentieren.
-4. `style.css` nach globalen Basisregeln, Komponenten und Seitentypen inventarisieren.
+4. CSS aus `docs/CSS_INVENTORY.md` schrittweise in bedingte Dateien extrahieren.

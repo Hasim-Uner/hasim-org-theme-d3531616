@@ -23,22 +23,23 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | 7 | `inc/seo-schema.php` | JSON-LD for site, essays, notes, glossary, dossiers, archives |
 | 8 | `inc/seo-meta.php` | titles, descriptions, Open Graph, Twitter image metadata |
 | 9 | `inc/seo-hygiene.php` | robots, redirects, head cleanup, headers, heartbeat, XML-RPC hardening |
-| 10 | `inc/glossary.php` | glossary CPT, meta, editor UI, auto-linking, cache invalidation |
-| 11 | `inc/link-preview.php` | REST preview data for internal links |
-| 12 | `inc/dossier.php` | dossier CPT, meta, editor UI, relationships, citation box |
-| 13 | `inc/breadcrumbs.php` | breadcrumb schema |
-| 14 | `inc/header-nav.php` | custom header, menus, active nav state |
-| 15 | `inc/comments.php` | editorial comment UX, validation, anti-spam, moderation |
-| 16 | `inc/contacts-admin.php` | contact submission storage and admin/export UI |
-| 17 | `inc/contact.php` | stable contact loader for `inc/forms/contact/*` |
-| 18 | `inc/newsletter.php` | stable newsletter loader for `inc/forms/newsletter/*` |
-| 19 | `inc/newsletter-broadcast.php` | optional publish broadcast to subscribers |
-| 20 | `inc/privacy-maintenance.php` | scheduled cleanup for contact/newsletter retention |
-| 21 | `inc/graph-api.php` | graph REST data, cache, graph page assets |
-| 22 | `inc/mini-graph.php` | static SVG neighbor graph for single content |
-| 23 | `inc/votes.php` | vote table and vote business logic |
-| 24 | `inc/votes-api.php` | vote REST route and vote assets |
-| 25 | `inc/glossar-seed.php` | one-time glossary/essay seed content |
+| 10 | `inc/sitemap.php` | WordPress core sitemap hygiene |
+| 11 | `inc/glossary.php` | glossary CPT, meta, editor UI, auto-linking, cache invalidation |
+| 12 | `inc/link-preview.php` | REST preview data for internal links |
+| 13 | `inc/dossier.php` | dossier CPT, meta, editor UI, relationships, citation box |
+| 14 | `inc/breadcrumbs.php` | breadcrumb schema |
+| 15 | `inc/header-nav.php` | custom header, menus, active nav state |
+| 16 | `inc/comments.php` | editorial comment UX, validation, anti-spam, moderation |
+| 17 | `inc/contacts-admin.php` | contact submission storage and admin/export UI |
+| 18 | `inc/contact.php` | stable contact loader for `inc/forms/contact/*` |
+| 19 | `inc/newsletter.php` | stable newsletter loader for `inc/forms/newsletter/*` |
+| 20 | `inc/newsletter-broadcast.php` | optional publish broadcast to subscribers |
+| 21 | `inc/privacy-maintenance.php` | scheduled cleanup for contact/newsletter retention |
+| 22 | `inc/graph-api.php` | graph REST data, cache, graph page assets |
+| 23 | `inc/mini-graph.php` | static SVG neighbor graph for single content |
+| 24 | `inc/votes.php` | vote table and vote business logic |
+| 25 | `inc/votes-api.php` | vote REST route and vote assets |
+| 26 | `inc/glossar-seed.php` | one-time glossary/essay seed content |
 
 ## Content Model
 

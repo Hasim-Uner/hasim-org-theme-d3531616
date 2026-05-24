@@ -1,6 +1,6 @@
 # Asset Matrix
 
-Frontend assets are owned by PHP modules and should be loaded only where needed.
+Frontend assets are owned by PHP modules and should be loaded only where needed. For planned CSS source ownership, see `docs/CSS_INVENTORY.md`.
 
 ## Active Assets
 
