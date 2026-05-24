@@ -77,6 +77,52 @@ function hp_redirect_attachment_pages(): void {
 add_action( 'template_redirect', 'hp_redirect_attachment_pages' );
 
 /* =========================================
+   2b. LEGACY TOPIC-SLUG REDIRECTS
+   ========================================= */
+
+/**
+ * Leitet alte Topic-Term-URLs 301 auf die aktuellen Slugs um.
+ *
+ * Greift, wenn ein 404 auf `/thema/<alt-slug>/` ausgelöst würde und
+ * der alte Slug in `hp_get_legacy_topic_redirect_map()` steht.
+ * Bewahrt eingehende Backlinks und Indexsignale bei Restrukturierungen.
+ */
+function hp_redirect_legacy_topic_urls(): void {
+	if ( ! is_404() || ! function_exists( 'hp_get_legacy_topic_redirect_map' ) ) {
+		return;
+	}
+
+	$path = isset( $_SERVER['REQUEST_URI'] )
+		? wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH )
+		: '';
+
+	if ( ! $path || ! preg_match( '#^/thema/([^/]+)/?$#', (string) $path, $m ) ) {
+		return;
+	}
+
+	$old_slug = sanitize_title( $m[1] );
+	$map      = hp_get_legacy_topic_redirect_map();
+
+	if ( ! isset( $map[ $old_slug ] ) ) {
+		return;
+	}
+
+	$target = get_term_by( 'slug', $map[ $old_slug ], 'topic' );
+	if ( ! $target ) {
+		return;
+	}
+
+	$target_url = get_term_link( $target );
+	if ( is_wp_error( $target_url ) ) {
+		return;
+	}
+
+	wp_safe_redirect( $target_url, 301 );
+	exit;
+}
+add_action( 'template_redirect', 'hp_redirect_legacy_topic_urls', 5 );
+
+/* =========================================
    3. AUTOREN-ARCHIVE DEAKTIVIEREN
    ========================================= */
 
