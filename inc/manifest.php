@@ -21,6 +21,7 @@ return [
 	'seo-schema.php',
 	'seo-meta.php',
 	'seo-hygiene.php',
+	'sitemap.php',
 	'glossary.php',
 	'link-preview.php',
 	'dossier.php',

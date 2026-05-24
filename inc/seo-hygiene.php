@@ -43,6 +43,28 @@ function hp_seo_robots( array $robots ): array {
 		unset( $robots['index'] );
 	}
 
+	// Leere Taxonomie-Archive (z. B. neu angelegte Topics ohne Posts):
+	// Soft-404-Risiko in Google Search Console. Lieber gleich noindex,
+	// follow, damit Crawl-Budget nicht für Leerhülsen draufgeht.
+	if ( is_tax() ) {
+		$term = get_queried_object();
+		if ( $term instanceof WP_Term && (int) $term->count === 0 ) {
+			$robots['noindex'] = true;
+			$robots['follow']  = true;
+			unset( $robots['index'] );
+		}
+	}
+
+	// Leere CPT-Archive (kein einziger publizierter Beitrag):
+	if ( is_post_type_archive() ) {
+		global $wp_query;
+		if ( $wp_query instanceof WP_Query && (int) $wp_query->found_posts === 0 ) {
+			$robots['noindex'] = true;
+			$robots['follow']  = true;
+			unset( $robots['index'] );
+		}
+	}
+
 	return $robots;
 }
 add_filter( 'wp_robots', 'hp_seo_robots' );

@@ -554,3 +554,61 @@ function hp_archive_jsonld_schema(): void {
 	echo "</script>\n";
 }
 add_action( 'wp_head', 'hp_archive_jsonld_schema', 5 );
+
+/* =========================================
+   AboutPage Schema für /mission/
+   ========================================= */
+
+/**
+ * Injiziert AboutPage JSON-LD für die Mission-Seite.
+ *
+ * Semantisch korrekt: /mission/ ist eine narrative Selbstdarstellung,
+ * keine Q&A-Sammlung — daher AboutPage statt FAQPage.
+ * Verknüpft per `mainEntity` mit Person + Organization aus dem
+ * globalen Graph (#person, #organization), damit Google die Seite
+ * als Author-Entity-Beleg lesen kann.
+ */
+function hp_mission_jsonld_schema(): void {
+	if ( ! function_exists( 'hp_is_mission_page' ) || ! hp_is_mission_page() ) {
+		return;
+	}
+
+	$post = get_queried_object();
+	if ( ! ( $post instanceof WP_Post ) ) {
+		return;
+	}
+
+	$permalink = get_permalink( $post );
+	$site_url  = home_url( '/' );
+
+	$schema = [
+		'@context'         => 'https://schema.org',
+		'@type'            => 'AboutPage',
+		'@id'              => $permalink . '#aboutpage',
+		'name'             => get_the_title( $post ),
+		'description'      => function_exists( 'hp_get_meta_description' )
+			? hp_get_meta_description()
+			: '',
+		'url'              => $permalink,
+		'inLanguage'       => get_locale(),
+		'isPartOf'         => [ '@id' => $site_url . '#website' ],
+		'about'            => [ '@id' => $site_url . '#person' ],
+		'mainEntity'       => [ '@id' => $site_url . '#person' ],
+		'publisher'        => [ '@id' => $site_url . '#organization' ],
+		'mainEntityOfPage' => [
+			'@type' => 'WebPage',
+			'@id'   => $permalink,
+		],
+	];
+
+	$image = hp_get_schema_image();
+	if ( $image ) {
+		$schema['image'] = $image;
+	}
+
+	echo "\n<!-- Haşim Üner: AboutPage JSON-LD -->\n";
+	echo '<script type="application/ld+json">';
+	echo wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+	echo "</script>\n";
+}
+add_action( 'wp_head', 'hp_mission_jsonld_schema', 5 );
