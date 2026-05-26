@@ -39,4 +39,5 @@ return [
 	'votes.php',
 	'votes-api.php',
 	'glossar-seed.php',
+	'dossier-transhumanismus-seed.php',
 ];
