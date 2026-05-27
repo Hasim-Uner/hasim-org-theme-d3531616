@@ -65,7 +65,7 @@ function hp_seed_transhumanismus_dossier(): void {
 		$term = get_page_by_path( $g_slug, OBJECT, 'glossar' );
 		if ( $term instanceof WP_Post ) {
 			$begriffe_ids[] = $term->ID;
-			$begriffe_list_html .= '<li><a href="/glossar/' . esc_attr( $g_slug ) . '/">' . esc_html( $term->post_title ) . '</a></li>';
+			$begriffe_list_html .= '<li><a href="' . esc_url( get_permalink( $term ) ) . '">' . esc_html( $term->post_title ) . '</a></li>';
 		} else {
 			$missing_begriffe_html .= '<li>' . esc_html( $g_name ) . '</li>';
 		}
@@ -189,7 +189,7 @@ function hp_seed_transhumanismus_dossier(): void {
 	update_post_meta( $post_id, '_hp_dossier_intro', $intro );
 	update_post_meta( $post_id, '_hp_meta_description', $meta_desc );
 	update_post_meta( $post_id, '_hp_dossier_version', '0.2 (Draft)' );
-	update_post_meta( $post_id, '_hp_dossier_stand', date( 'Y-m-d' ) );
+	update_post_meta( $post_id, '_hp_dossier_stand', current_time( 'Y-m-d' ) );
 
 	if ( $kernessay_id ) {
 		update_post_meta( $post_id, '_hp_dossier_leseplan', (string) $kernessay_id );
