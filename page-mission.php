@@ -3,7 +3,7 @@
  * Template Name: Mission
  *
  * @package Hasimuener_Journal
- * @version 8.0.0
+ * @version 8.1.0
  */
 
 get_header(); ?>
@@ -27,9 +27,15 @@ $hp_contact_url = hp_get_contact_page_url();
 
 		<div class="single-body__main hp-mission__content">
 
-			<p class="hp-mission__lede">Mich treibt eine Frage um, die ich nicht abschütteln kann: Warum nutzen Menschen ihr Potenzial nicht?</p>
+			<p class="hp-mission__lede">Die Frage, wie frei wir wirklich sind, kam für mich vor jedem Buch. Als Kurde wächst man mit ihr auf — bevor man weiß, dass es eine philosophische Frage ist. Welche Sprache du sprechen darfst. Welche Geschichte als wahr gilt. Welcher Name dir gehört. Erst später, mit Anfang zwanzig bei Nietzsche, hat sie eine Sprache bekommen, die zu ihr passte.</p>
 
-			<p>Nicht im Sinne von Karriere. Sondern im Sinne von Freiheit. Wir sind mehr, als von uns erwartet wird. Mehr, als Konsum, Lagerdenken und vorgefertigte Rollen es zulassen. Das ist keine Klage — die Welt ist reich, das Leben ist schön. Aber etwas geht verloren. Fähigkeiten, die wir hatten. Verbindungen, die überlagert wurden.</p>
+			<p>Seitdem lässt sie mich nicht los: Wie frei sind wir wirklich? Nicht nur in dem, was wir tun dürfen — sondern in dem, was wir überhaupt denken können.</p>
+
+			<p>Ich bin in der kurdischen Diaspora aufgewachsen, in der Freiheitsbewegung. Über Generationen wurde Kurdinnen und Kurden mit Gewalt die Identität abgesprochen — Sprachverbote, Massaker, Vertreibung, in vier Staaten zugleich. Was es heißt, für die eigene Existenz zu kämpfen, habe ich am eigenen Leib gespürt.</p>
+
+			<p>Kurde zu sein ist für mich mehr als eine Identität. Es ist eine Beziehung zur Frage der Freiheit selbst. Und gerade deshalb weiß ich, wie schwer Befreiung ist. Sie ist kein Zustand, den man erreicht. Sie ist ein Prozess, der nie aufhört.</p>
+
+			<p>Ich glaube: Wir sind mehr, als von uns erwartet wird. Mehr, als Konsum, Lagerdenken und vorgefertigte Rollen es zulassen. Das ist keine Klage — die Welt ist reich, das Leben ist schön. Aber etwas geht verloren. Fähigkeiten, die wir hatten. Verbindungen, die überlagert wurden.</p>
 
 			<p>Eine davon ist Resonanz.</p>
 
@@ -51,7 +57,7 @@ $hp_contact_url = hp_get_contact_page_url();
 				</figcaption>
 			</figure>
 
-			<p>Ich bin Kurde, in der Türkei (<a href="<?php echo esc_url( home_url( '/glossar/nordkurdistan/' ) ); ?>">Nordkurdistan</a> / Bakur) geboren, in Deutschland aufgewachsen. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Wer so aufwächst, verliert irgendwann die Geduld mit einfachen Antworten. Und gewinnt dafür etwas anderes: den Blick für das, was Narrative verdecken. Für das, was Hierarchien unsichtbar halten. Für die Risse im Selbstverständlichen.</p>
+			<p>Geboren in der Türkei (<a href="<?php echo esc_url( home_url( '/glossar/nordkurdistan/' ) ); ?>">Nordkurdistan</a> / Bakur), aufgewachsen in Deutschland. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Wer so aufwächst, verliert irgendwann die Geduld mit einfachen Antworten. Und gewinnt dafür etwas anderes: den Blick für das, was Narrative verdecken. Für das, was Hierarchien unsichtbar halten. Für die Risse im Selbstverständlichen.</p>
 
 			<p>Mein Blick auf Gesellschaft ist unweigerlich politisiert — nicht durch Parteihaltung, sondern durch Herkunft, Sprache, Geschichte und Reibung. Wer die historischen Brüche dreier Welten im eigenen Denken ausbalancieren muss, verliert irgendwann die Geduld mit Schwarz-Weiß.</p>
 
