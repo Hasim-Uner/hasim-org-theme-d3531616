@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-24-glossar-r7-content-split';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-28-glossar-r8-nordkurdistan';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -237,6 +237,18 @@ function hp_seed_all_glossary_terms(): void {
 				'Das Lebendige ist nie vollständig verfügbar. Es wächst, altert, widersetzt sich, verbindet sich und stirbt. Biophilie akzeptiert diese Offenheit nicht als Schwäche, sondern als Würde des Lebens.',
 				'Gegen technokratische Kontrollfantasien setzt Biophilie eine andere Ethik: Nicht alles Wertvolle muss optimiert werden. Manches muss bewahrt, gepflegt und in Ruhe gelassen werden.',
 			],
+		],
+		// --- Geopolitik & Kurdische Geschichte ---
+		[
+			'slug'    => 'nordkurdistan',
+			'title'   => 'Nordkurdistan',
+			'kurz'    => 'Nordkurdistan (kurdisch: Bakurê Kurdistanê, kurz: Bakur) bezeichnet die mehrheitlich kurdisch besiedelten Gebiete im Osten und Südosten der heutigen Türkei — darunter die Provinzen Diyarbakır, Van, Hakkari, Şırnak, Mardin und weitere.',
+			'content' => [
+				'Nordkurdistan (kurdisch: Bakurê Kurdistanê, kurz: Bakur) bezeichnet die mehrheitlich kurdisch besiedelten Gebiete im Osten und Südosten der heutigen Türkei — darunter die Provinzen Diyarbakır, Van, Hakkari, Şırnak, Mardin und weitere.',
+				'Die Bezeichnung ist ein politischer Akt: Sie verweigert die türkische Staatsgeografie als alleinigen Bezugsrahmen und setzt eine kurdische Selbstverortung dagegen. Der türkische Staat bezeichnet dieselbe Region als „Südosten der Türkei".',
+				'Weltweit leben schätzungsweise 40 Millionen Kurdinnen und Kurden — die größte ethnische Gruppe ohne eigenen Staat. Das Siedlungsgebiet verteilt sich auf vier Staaten: Türkei (Bakur/Nord), Irak (Başûr/Süd), Iran (Rojhilat/Ost), Syrien (Rojava/West). Die heutige Aufteilung geht auf den Vertrag von Lausanne (1923) zurück. In Deutschland lebt mit über 1,2 Millionen Menschen eine der größten kurdischen Diaspora-Gemeinschaften weltweit.',
+			],
+			'synonyme' => [ 'Bakur', 'Bakurê Kurdistanê', 'Nordkurdistans' ],
 		],
 		[
 			'slug'     => 'pessimismus-philosophischer',
