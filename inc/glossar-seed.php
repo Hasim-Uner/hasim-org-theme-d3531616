@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-28-glossar-r9-sympatheia';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-28-glossar-r10-transhumanismus-komplex';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -263,6 +263,58 @@ function hp_seed_all_glossary_terms(): void {
 			],
 			'synonyme' => [ 'Sympatheia', 'συμπάθεια', 'stoische Sympatheia' ],
 			'topics'   => [ 'sprache-und-begriff', 'gesellschaft-und-wandel' ],
+		],
+		// --- Transhumanismus-Komplex (erweitert) ---
+		[
+			'slug'    => 'terror-management-theorie',
+			'title'   => 'Terror-Management-Theorie',
+			'kurz'    => 'Psychologische Theorie (Ernest Becker), die postuliert, dass das Bewusstsein der eigenen Sterblichkeit eine fundamentale, unbewusste Angst erzeugt — und dass kulturelle Weltbilder, religiöse wie säkulare, primär als psychologischer Schutzschild gegen diesen Todesschrecken fungieren.',
+			'content' => [
+				'Die Terror-Management-Theorie (TMT) geht auf den Kulturanthropologen Ernest Becker und sein Werk „The Denial of Death" (1973) zurück. Sie postuliert: Die evolutionäre Entstehung des menschlichen Selbstbewusstseins kollidiert unweigerlich mit der Erkenntnis der eigenen Sterblichkeit. Das Ergebnis ist eine fundamentale, oft unbewusste Todesangst.',
+				'Zur Abwehr dieses lähmenden Terrors konstruiert der Mensch kulturelle Weltbilder — Systeme aus Werten, Bedeutungen und Überzeugungen, die Sinn, Ordnung und persönlichen Wert vermitteln. Wörtliche Unsterblichkeitskonzepte (religiöse Jenseitsversprechen) und symbolische (Weiterleben im kollektiven Gedächtnis durch Kunst, Nachkommen, Nation) erfüllen dieselbe psychologische Funktion.',
+				'Im Kontext des Transhumanismus ist TMT analytisch produktiv: Mit fortschreitender Säkularisierung verlieren metaphysische Unsterblichkeitserzählungen ihre Schutzwirkung. Der Transhumanismus füllt dieses Vakuum — er verlagert die wörtliche Unsterblichkeit aus dem transzendenten Jenseits in das immanente Diesseits der technologischen Machbarkeit. Kryokonservierung avanciert zur säkularen Auferstehungstechnologie; Mind Uploading zur technologischen Replikation der unsterblichen Seele.',
+			],
+			'synonyme' => [ 'TMT', 'Terror Management Theory', 'Mortalitätssalienz', 'Todesbewusstsein' ],
+			'quellen'  => 'Becker, E. (1973). The Denial of Death. Free Press. — Greenberg, J., Pyszczynski, T. & Solomon, S. (1986). The causes and consequences of a need for self-esteem. In Public self and private self, 189–212.',
+			'topics'   => [ 'gesellschaft-und-wandel', 'sprache-und-begriff' ],
+		],
+		[
+			'slug'    => 'posthumanismus',
+			'title'   => 'Posthumanismus',
+			'kurz'    => 'Sammelbegriff für philosophische und kulturelle Positionen, die den gegenwärtigen Menschen nicht als finalen Endzustand, sondern als Übergangsform zu einem fundamental transformierten — biologisch, kognitiv oder digital anderen — Wesen verstehen.',
+			'content' => [
+				'Als Begriff ist Posthumanismus weiter als Transhumanismus: Er umfasst sowohl techno-optimistische Visionen einer verbesserten Spezies (Transhumanismus) als auch kritische Theorien, die den humanistischen Sonderstatus des Menschen grundsätzlich befragen — etwa aus feministischer, ökologischer oder postkolonialer Perspektive.',
+				'In seiner affirmativ-transhumanistischen Variante beschreibt Posthumanismus den Zielzustand jenseits des biologisch determinierten Menschen: kognitiv erweitert, körperlich optimiert oder digital fortlebend. Nick Bostrom versteht den Transhumanen als Übergangsstadium auf dem Weg zum Posthumanen — einem Wesen mit so grundlegend veränderten Fähigkeiten, dass es nach heutigen Maßstäben nicht mehr als Mensch zu bezeichnen wäre.',
+				'Kritische Posthumanisten (Donna Haraway, Rosi Braidotti) wenden die Perspektive um: Nicht Verbesserung, sondern Dekonstruktion der Ausnahmestellung des Menschen ist ihr Anliegen. Sie betonen Verflechtung, Hybridität und die Relativierung menschlicher Grenzen — ohne das Silicon-Valley-Erlösungsversprechen zu teilen.',
+			],
+			'synonyme' => [ 'posthuman', 'post-human', 'Post-Humanismus', 'Posthumane' ],
+			'topics'   => [ 'gesellschaft-und-wandel', 'sprache-und-begriff' ],
+		],
+		[
+			'slug'    => 'technologische-singularitaet',
+			'title'   => 'Technologische Singularität',
+			'kurz'    => 'Hypothetischer Zeitpunkt, ab dem künstliche Intelligenz die menschliche übersteigt und eine exponentielle, für Menschen unvorhersehbare technologische Selbstbeschleunigung einsetzt. Ray Kurzweil prognostizierte diesen Punkt auf das Jahr 2045.',
+			'content' => [
+				'Der Begriff Singularität — aus Mathematik und Physik entlehnt, wo er Punkte bezeichnet, an denen Gleichungen divergieren — wurde von Vernor Vinge (1993) auf technologische Entwicklung übertragen. Die Kernidee: Sobald Maschinen intelligenter als Menschen werden, entsteht eine selbstverstärkende Schleife aus KI-Verbesserung, die menschlichem Verstehen entzogen ist.',
+				'Ray Kurzweil popularisierte die Singularität in „The Singularity Is Near" (2005) und datierte sie auf 2045. Bis dahin, so seine These, würden sich biologische und künstliche Intelligenz untrennbar verbinden. Kurzweil versteht die Singularität als Kulminationspunkt transhumanistischer Entwicklung: Tod, Krankheit und biologische Beschränkungen erscheinen als lösbare Ingenieursprobleme.',
+				'Kritiker wenden ein, dass die Singularität auf unkritischer Extrapolation exponentieller Wachstumskurven beruht — und dass das harte Problem des Bewusstseins zeigt, warum bloße Rechenleistung kein Äquivalent zu menschlicher Erfahrung oder Kreativität ist. Die Singularität ist weniger Prognose als Erlösungsnarrativ in der Sprache der Informatik.',
+			],
+			'synonyme' => [ 'Singularität', 'Technological Singularity', 'KI-Singularität', 'technologische Konvergenz' ],
+			'quellen'  => 'Kurzweil, R. (2005). The Singularity Is Near. Viking. — Vinge, V. (1993). The Coming Technological Singularity. VISION-21 Symposium.',
+			'topics'   => [ 'gesellschaft-und-wandel', 'macht-und-ordnung' ],
+		],
+		[
+			'slug'    => 'longtermismus',
+			'title'   => 'Longtermismus',
+			'kurz'    => 'Philosophische Haltung aus dem Effective-Altruism-Umfeld, die das langfristige Wohlergehen zukünftiger Generationen als primäre moralische Priorität der Gegenwart setzt — und daraus die Fokussierung auf existenzielle Risiken (besonders KI) ableitet.',
+			'content' => [
+				'Longtermismus geht davon aus, dass die Zukunft der Menschheit astronomisch lang und potenziell astronomisch gut sein könnte — vorausgesetzt, wir vermeiden existenzielle Katastrophen. Da die Anzahl zukünftiger Menschen alle bisher Geborenen übersteigt, folgt für Longtermisten: Die Verbesserung langfristiger Zukunftsperspektiven hat moralisch das größte Gewicht.',
+				'Theoretisch verankert bei William MacAskill und Toby Ord (Effective Altruism), institutionell im Future of Humanity Institute (FHI, Oxford, 2005–2024) und im Future of Life Institute. Das FHI — mitfinanziert von Elon Musk und Open Philanthropy — entwickelte Konzepte wie KI-Alignment, existenzielle Risikoforschung und die „vulnerable Welt"-Hypothese. Es wurde im April 2024 von der Universität Oxford geschlossen, was Beobachter als Ende der akademischen Phase und Beginn eines dezentralen, privatwirtschaftlichen Ökosystems interpretierten.',
+				'Kritiker werfen dem Longtermismus vor, gegenwärtiges Leid zu entwerten, eine techno-elitäre Agenda zu verfolgen und durch seinen universalistischen Anspruch reale Machtasymmetrien zu verschleiern. Die enge Verbindung zu Silicon-Valley-Milliardären und KI-Unternehmen macht die politische Neutralität des Projekts fraglich.',
+			],
+			'synonyme' => [ 'Longtermism', 'Langzeitorientierung', 'Existenzrisiko-Forschung', 'Effective Altruism' ],
+			'quellen'  => 'MacAskill, W. (2022). What We Owe the Future. Basic Books. — Future of Humanity Institute (2005–2024), Universität Oxford.',
+			'topics'   => [ 'gesellschaft-und-wandel', 'macht-und-ordnung' ],
 		],
 		[
 			'slug'     => 'pessimismus-philosophischer',
