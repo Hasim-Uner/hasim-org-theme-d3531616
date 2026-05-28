@@ -3,7 +3,7 @@
  * Template Name: Mission
  *
  * @package Hasimuener_Journal
- * @version 7.0.0
+ * @version 8.0.0
  */
 
 get_header(); ?>
@@ -21,57 +21,41 @@ $hp_contact_url = hp_get_contact_page_url();
 	<header class="hp-mission__hero">
 		<span class="hp-kicker">Über mich</span>
 		<h1 id="mission-title" class="hp-mission__title">Warum dieses Journal existiert</h1>
-		<p class="hp-mission__lede">Mich treibt eine Frage um, die ich nicht abschütteln kann: Warum nutzen Menschen ihr Potenzial nicht?</p>
-		<p class="hp-mission__lede">Nicht im Sinne von Karriere oder Leistung. Sondern im Sinne von Klarheit. Davon, sich aus Hass zu befreien. Nationalismus zu durchschauen. Hierarchien zu erkennen, bevor man ihnen gehorcht.</p>
-		<p class="hp-mission__lede">Ich bin Kurde, in der Türkei (Nordkurdistan / Bakur) geboren, in Deutschland aufgewachsen. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Das hat mir früh gezeigt: Wer wir sind, hängt stärker von den Narrativen ab, in denen wir aufgewachsen sind, als wir meistens bereit sind zuzugeben. Auch in Europa. Auch in Freiheit.</p>
-		<p class="hp-mission__lede">Diese Fragen treiben dieses Journal.</p>
 	</header>
 
-	<div class="single-body single-body--with-toc hp-mission__frame">
-
-		<aside class="hp-toc hp-mission__toc" aria-label="Inhaltsverzeichnis" data-visible="true">
-			<span class="hp-toc__title">Struktur</span>
-			<ol>
-				<li><a href="#die-perspektive">1. Die Perspektive</a></li>
-				<li><a href="#das-ziel">2. Das Ziel</a></li>
-			</ol>
-		</aside>
+	<div class="single-body hp-mission__frame">
 
 		<div class="single-body__main hp-mission__content">
 
-			<section class="hp-mission__section hp-mission__section--with-portrait" aria-labelledby="die-perspektive">
-				<figure class="hp-mission__portrait" role="group" aria-label="Porträt Haşim Üner">
-					<img
-						src="https://hasimuener.org/wp-content/uploads/2026/05/Hasim-Uener_portait.png"
-						alt="Porträt Haşim Üner"
-						loading="lazy"
-						decoding="async"
-						width="320"
-						height="320">
-					<figcaption>
-						<span class="hp-mission__portrait-name">Haşim Üner</span>
-						<span class="hp-mission__portrait-meta">Hannover · Autor dieses Journals</span>
-					</figcaption>
-				</figure>
-				<h2 id="die-perspektive">1. Die Perspektive</h2>
-				<p>Mein Blick auf gesellschaftliche Entwicklungen ist unweigerlich politisiert. Nicht im Sinne einer einfachen Parteihaltung, sondern durch Herkunft, Sprache, Geschichte und Reibung.</p>
-				<p>Ich denke aus den Spannungen dreier Sprachräume heraus: Deutsch, Kurdisch und Türkisch. Wer die historischen Brüche, Konflikte, Verletzungen und feinen Nuancen dieser Welten im eigenen Denken ausbalancieren muss, verliert irgendwann die Geduld mit einfachen Antworten.</p>
-				<p>Schwarz-Weiß-Denken wird schwer, wenn man gelernt hat, dass jede Geschichte mehrere Schichten hat.</p>
-				<p>Diese Perspektive prägt mein Schreiben. Sie macht mich misstrauisch gegenüber allem, was zu glatt klingt. Gegenüber Erzählungen, die keine Brüche kennen. Gegenüber Analysen, die schon fertig sind, bevor sie angefangen haben. Gegenüber Meinungen, die nur deshalb stark wirken, weil sie nichts Komplexes an sich heranlassen.</p>
-				<p>Ich will das Eindimensionale verweigern.</p>
-				<p>Nicht aus Trotz, sondern aus Respekt vor der Wirklichkeit.</p>
-			</section>
+			<p class="hp-mission__lede">Mich treibt eine Frage um, die ich nicht abschütteln kann: Warum nutzen Menschen ihr Potenzial nicht?</p>
 
-			<section class="hp-mission__section" aria-labelledby="das-ziel">
-				<h2 id="das-ziel">2. Das Ziel</h2>
-				<p>Dieses Journal ist als ruhiger, unabhängiger Gegenraum gebaut.</p>
-				<p>Kein Tracking. Keine Klick-Köder. Kein digitaler Lärm. Keine künstliche Verknappung von Aufmerksamkeit. Nur Texte, Begriffe, Verbindungen und der ernsthafte Versuch, strukturierter zu denken.</p>
-				<p>Das vernetzte Glossar ist dabei kein Beiwerk. Es ist Teil der Methode. Begriffe sollen nicht lose herumstehen, sondern Beziehungen bilden. Essays sollen nicht isoliert wirken, sondern ein wachsendes Denknetz ergeben. Mit jedem Text wird dieses Netz präziser.</p>
-				<p>Wenn du hier einen Essay liest, triffst du nicht auf schnelle Meinungen, sondern auf Analysen, an denen gearbeitet wurde. Nicht perfekt. Nicht endgültig. Aber ernst gemeint.</p>
-				<p>Dieses Journal ist eine Einladung, aus der alltäglichen Zerstreuung auszusteigen und sich wieder auf etwas einzulassen, das selten geworden ist: gedankliche Tiefe ohne Lärm.</p>
-				<p>Nicht als Flucht aus der Welt.</p>
-				<p>Sondern als Versuch, ihr genauer zu begegnen.</p>
-			</section>
+			<p>Nicht im Sinne von Karriere. Sondern im Sinne von Freiheit. Wir sind mehr, als von uns erwartet wird. Mehr, als Konsum, Lagerdenken und vorgefertigte Rollen es zulassen. Das ist keine Klage — die Welt ist reich, das Leben ist schön. Aber etwas geht verloren. Fähigkeiten, die wir hatten. Verbindungen, die überlagert wurden.</p>
+
+			<p>Eine davon ist Resonanz.</p>
+
+			<p>Resonanz ist nicht Stimulation. Kein Dopaminschub, kein Scroll-Reflex, kein kurzes Aufflackern von Erregung. Resonanz ist das Gegenteil: der Moment, in dem etwas wirklich antwortet — in dir und zwischen dir und der Welt. Sie ist kein Ausnahmezustand. Sie ist der Grundzustand. Sie wird nur gestört — von einem Lärm, der sich nach Erlebnis anfühlt, es aber nicht ist.</p>
+
+			<p>Je näher man der Natur ist, desto mehr wird man sich selbst. Du weißt das. Was uns mit allem verbindet, ist keine Tugend, sondern eine Grundresonanz zum Dasein — die Stoiker nannten sie <a href="<?php echo esc_url( home_url( '/glossar/sympatheia/' ) ); ?>">Sympatheia</a>.</p>
+
+			<figure class="hp-mission__portrait" role="group" aria-label="Porträt Haşim Üner">
+				<img
+					src="https://hasimuener.org/wp-content/uploads/2026/05/Hasim-Uener_portait.png"
+					alt="Porträt Haşim Üner"
+					loading="lazy"
+					decoding="async"
+					width="320"
+					height="320">
+				<figcaption>
+					<span class="hp-mission__portrait-name">Haşim Üner</span>
+					<span class="hp-mission__portrait-meta">Hannover · Autor dieses Journals</span>
+				</figcaption>
+			</figure>
+
+			<p>Ich bin Kurde, in der Türkei (<a href="<?php echo esc_url( home_url( '/glossar/nordkurdistan/' ) ); ?>">Nordkurdistan</a> / Bakur) geboren, in Deutschland aufgewachsen. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Wer so aufwächst, verliert irgendwann die Geduld mit einfachen Antworten. Und gewinnt dafür etwas anderes: den Blick für das, was Narrative verdecken. Für das, was Hierarchien unsichtbar halten. Für die Risse im Selbstverständlichen.</p>
+
+			<p>Mein Blick auf Gesellschaft ist unweigerlich politisiert — nicht durch Parteihaltung, sondern durch Herkunft, Sprache, Geschichte und Reibung. Wer die historischen Brüche dreier Welten im eigenen Denken ausbalancieren muss, verliert irgendwann die Geduld mit Schwarz-Weiß.</p>
+
+			<p>Dieses Journal ist der Versuch, mit Vernunft zu fragen — nicht um Recht zu haben, sondern um klarer zu sehen. Kein Tracking. Keine Klick-Köder. Nur Texte, Begriffe, Verbindungen — und ein Plädoyer für Vernunft als menschliches Vermögen, nicht als Kälte.</p>
 
 			<section class="hp-mission__closing" aria-label="Abschluss und nächste Schritte">
 				<div class="hp-mission__cta" aria-label="Nächste Schritte">

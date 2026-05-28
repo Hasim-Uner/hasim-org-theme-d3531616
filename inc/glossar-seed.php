@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-05-28-glossar-r8-nordkurdistan';
+const HP_GLOSSAR_SEED_VERSION = '2026-05-28-glossar-r9-sympatheia';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -246,9 +246,23 @@ function hp_seed_all_glossary_terms(): void {
 			'content' => [
 				'Nordkurdistan (kurdisch: Bakurê Kurdistanê, kurz: Bakur) bezeichnet die mehrheitlich kurdisch besiedelten Gebiete im Osten und Südosten der heutigen Türkei — darunter die Provinzen Diyarbakır, Van, Hakkari, Şırnak, Mardin und weitere.',
 				'Die Bezeichnung ist ein politischer Akt: Sie verweigert die türkische Staatsgeografie als alleinigen Bezugsrahmen und setzt eine kurdische Selbstverortung dagegen. Der türkische Staat bezeichnet dieselbe Region als „Südosten der Türkei".',
-				'Weltweit leben schätzungsweise 40 Millionen Kurdinnen und Kurden — die größte ethnische Gruppe ohne eigenen Staat. Das Siedlungsgebiet verteilt sich auf vier Staaten: Türkei (Bakur/Nord), Irak (Başûr/Süd), Iran (Rojhilat/Ost), Syrien (Rojava/West). Die heutige Aufteilung geht auf den Vertrag von Lausanne (1923) zurück. In Deutschland lebt mit über 1,2 Millionen Menschen eine der größten kurdischen Diaspora-Gemeinschaften weltweit.',
+				'Weltweit leben schätzungsweise 30 bis 45 Millionen Kurdinnen und Kurden — verlässliche Zahlen existieren nicht, da die betroffenen Staaten ethnische Zugehörigkeit nicht oder nur unvollständig erfassen und höhere Zahlen Autonomieansprüche stärken würden. Damit sind die Kurden die größte ethnische Gruppe ohne eigenen Staat. Das Siedlungsgebiet verteilt sich auf vier Staaten: Türkei (Bakur/Nord), Irak (Başûr/Süd), Iran (Rojhilat/Ost), Syrien (Rojava/West). Die heutige Aufteilung geht auf den Vertrag von Lausanne (1923) zurück. In Deutschland lebt mit rund 1,2 bis 1,5 Millionen Menschen eine der größten kurdischen Diaspora-Gemeinschaften weltweit.',
 			],
 			'synonyme' => [ 'Bakur', 'Bakurê Kurdistanê', 'Nordkurdistans' ],
+			'quellen'  => 'Kurdish Institute of Paris, Washington Kurdish Institute, CIA World Factbook, CNN (2026).',
+			'topics'   => [ 'erinnerung-und-identitaet' ],
+		],
+		[
+			'slug'    => 'sympatheia',
+			'title'   => 'Sympatheia',
+			'kurz'    => 'Stoischer Begriff für die Vorstellung, dass der gesamte Kosmos ein zusammenhängendes Ganzes bildet, dessen Teile aufeinander einwirken und miteinander schwingen.',
+			'content' => [
+				'Sympatheia (griechisch: συμπάθεια, „Mitempfinden") ist ein zentraler Begriff der stoischen Philosophie. Er bezeichnet die Vorstellung, dass der gesamte Kosmos ein zusammenhängendes, lebendiges Ganzes bildet, dessen Teile aufeinander einwirken und miteinander schwingen.',
+				'Für die Stoiker — etwa Chrysipp, Poseidonios und später Mark Aurel — war Sympatheia nicht emotional, sondern ontologisch gemeint: Alles, was existiert, steht in wechselseitiger Beziehung. Eine Veränderung an einem Punkt wirkt auf das Ganze. Der Mensch ist darin kein Beobachter von außen, sondern Teil eines durchgehenden Gewebes.',
+				'Der Begriff wirkt bis in die Moderne nach — in der Naturphilosophie, im ökologischen Denken und in Konzepten von Verbundenheit, die über das rein Zwischenmenschliche hinausgehen.',
+			],
+			'synonyme' => [ 'Sympatheia', 'συμπάθεια', 'stoische Sympatheia' ],
+			'topics'   => [ 'sprache-und-begriff', 'gesellschaft-und-wandel' ],
 		],
 		[
 			'slug'     => 'pessimismus-philosophischer',
@@ -270,6 +284,7 @@ function hp_seed_all_glossary_terms(): void {
 		if ( $existing instanceof WP_Post ) {
 			$changed = hp_update_seeded_glossar_post( $existing, $entry ) || $changed;
 			$changed = hp_update_seeded_glossar_meta( $existing->ID, $entry ) || $changed;
+			hp_seed_glossar_topics( $existing->ID, $entry );
 			continue;
 		}
 
@@ -287,6 +302,7 @@ function hp_seed_all_glossary_terms(): void {
 		}
 
 		$changed = hp_update_seeded_glossar_meta( (int) $post_id, $entry ) || $changed;
+		hp_seed_glossar_topics( (int) $post_id, $entry );
 	}
 
 	if ( $changed ) {
@@ -400,6 +416,24 @@ function hp_update_seeded_glossar_meta( int $post_id, array $entry ): bool {
 	}
 
 	return $changed;
+}
+
+/**
+ * Setzt Themenfelder (Taxonomy „topic") für einen Glossar-Eintrag.
+ *
+ * @param int                  $post_id Glossar-Post-ID.
+ * @param array<string, mixed> $entry   Seed-Definition.
+ */
+function hp_seed_glossar_topics( int $post_id, array $entry ): void {
+	if ( empty( $entry['topics'] ) || ! is_array( $entry['topics'] ) ) {
+		return;
+	}
+
+	if ( ! taxonomy_exists( 'topic' ) ) {
+		return;
+	}
+
+	wp_set_object_terms( $post_id, $entry['topics'], 'topic', false );
 }
 
 /**
