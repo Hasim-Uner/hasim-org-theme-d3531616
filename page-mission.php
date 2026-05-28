@@ -21,10 +21,10 @@ $hp_contact_url = hp_get_contact_page_url();
 	<header class="hp-mission__hero">
 		<span class="hp-kicker">Über mich</span>
 		<h1 id="mission-title" class="hp-mission__title">Warum dieses Journal existiert</h1>
-		<p class="hp-mission__lede">Ich schreibe, um präziser zu denken.</p>
-		<p class="hp-mission__structure-note" style="font-style: italic; margin-top: 1.5rem; opacity: 0.95; font-size: 1.05rem; border-left: 3px solid #b12a2a; padding-left: 1rem;">
-			Für mich ist Schreiben kein dekorativer Akt. Es ist ein Werkzeug gegen Unschärfe. Wer komplexe Themen ernst nimmt, kann sich nicht mit schnellen Meinungen zufriedengeben. Er muss sortieren, unterscheiden, aushalten, neu prüfen. Genau dafür existiert dieses Journal.
-		</p>
+		<p class="hp-mission__lede">Mich treibt eine Frage um, die ich nicht abschütteln kann: Warum nutzen Menschen ihr Potenzial nicht?</p>
+		<p class="hp-mission__lede">Nicht im Sinne von Karriere oder Leistung. Sondern im Sinne von Klarheit. Davon, sich aus Hass zu befreien. Nationalismus zu durchschauen. Hierarchien zu erkennen, bevor man ihnen gehorcht.</p>
+		<p class="hp-mission__lede">Ich bin Kurde, in der Türkei (Nordkurdistan / Bakur) geboren, in Deutschland aufgewachsen. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Das hat mir früh gezeigt: Wer wir sind, hängt stärker von den Narrativen ab, in denen wir aufgewachsen sind, als wir meistens bereit sind zuzugeben. Auch in Europa. Auch in Freiheit.</p>
+		<p class="hp-mission__lede">Diese Fragen treiben dieses Journal.</p>
 	</header>
 
 	<div class="single-body single-body--with-toc hp-mission__frame">
@@ -39,11 +39,6 @@ $hp_contact_url = hp_get_contact_page_url();
 		</aside>
 
 		<div class="single-body__main hp-mission__content">
-
-			<section class="hp-mission__section" aria-label="Einleitung">
-				<p>Es ist der Versuch, Gedanken nicht einfach loszuwerden, sondern sie zu klären. Ihnen Tiefe zu geben. Widersprüche sichtbar zu machen. Der Realität so ernsthaft auf den Grund zu gehen, wie sie es verdient.</p>
-				<p>Weil das Leben zu wertvoll und zu vielschichtig ist, um es an tägliche Oberflächlichkeit, digitale Zerstreuung und vorgefertigte Deutungen zu verlieren.</p>
-			</section>
 
 			<section class="hp-mission__section" aria-labelledby="der-impuls">
 				<h2 id="der-impuls">1. Der Impuls</h2>
