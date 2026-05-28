@@ -32,22 +32,12 @@ $hp_contact_url = hp_get_contact_page_url();
 		<aside class="hp-toc hp-mission__toc" aria-label="Inhaltsverzeichnis" data-visible="true">
 			<span class="hp-toc__title">Struktur</span>
 			<ol>
-				<li><a href="#der-impuls">1. Der Impuls</a></li>
-				<li><a href="#die-perspektive">2. Die Perspektive</a></li>
-				<li><a href="#das-ziel">3. Das Ziel</a></li>
+				<li><a href="#die-perspektive">1. Die Perspektive</a></li>
+				<li><a href="#das-ziel">2. Das Ziel</a></li>
 			</ol>
 		</aside>
 
 		<div class="single-body__main hp-mission__content">
-
-			<section class="hp-mission__section" aria-labelledby="der-impuls">
-				<h2 id="der-impuls">1. Der Impuls</h2>
-				<p>Vieles in der heutigen Medienlandschaft wirkt auf mich erschöpft. Nicht, weil es zu wenig Inhalte gibt, sondern weil so vieles nur noch auf Reaktion gebaut ist: schnelle Erregung, kurze Empörung, kalkulierte Zuspitzung, Klicks, Lagerdenken.</p>
-				<p>Es wird viel gesprochen, aber wenig wirklich gedacht.</p>
-				<p>Aus meiner Beschäftigung mit Medienwissenschaft, Philosophie und gesellschaftlichen Dynamiken entstand deshalb das Bedürfnis, einen Gegenraum zu schaffen. Nicht aus Überlegenheit. Nicht, weil ich fertige Antworten besitze. Sondern weil ich selbst nach klareren Fragen suche.</p>
-				<p>Dieses Journal ist Ausdruck dieses Suchens.</p>
-				<p>Ich glaube nicht, dass wir die Welt, in die wir hineingeworfen wurden, einfach als selbstverständlich hinnehmen sollten. Die Systeme, Bilder, Begriffe und Erzählungen, die uns umgeben, formen unser Denken stärker, als wir oft wahrhaben wollen. Wer sie nicht untersucht, wird von ihnen untersucht. Wer sie nicht durchdringt, wird von ihnen gelenkt.</p>
-			</section>
 
 			<section class="hp-mission__section hp-mission__section--with-portrait" aria-labelledby="die-perspektive">
 				<figure class="hp-mission__portrait" role="group" aria-label="Porträt Haşim Üner">
@@ -63,7 +53,7 @@ $hp_contact_url = hp_get_contact_page_url();
 						<span class="hp-mission__portrait-meta">Hannover · Autor dieses Journals</span>
 					</figcaption>
 				</figure>
-				<h2 id="die-perspektive">2. Die Perspektive</h2>
+				<h2 id="die-perspektive">1. Die Perspektive</h2>
 				<p>Mein Blick auf gesellschaftliche Entwicklungen ist unweigerlich politisiert. Nicht im Sinne einer einfachen Parteihaltung, sondern durch Herkunft, Sprache, Geschichte und Reibung.</p>
 				<p>Ich denke aus den Spannungen dreier Sprachräume heraus: Deutsch, Kurdisch und Türkisch. Wer die historischen Brüche, Konflikte, Verletzungen und feinen Nuancen dieser Welten im eigenen Denken ausbalancieren muss, verliert irgendwann die Geduld mit einfachen Antworten.</p>
 				<p>Schwarz-Weiß-Denken wird schwer, wenn man gelernt hat, dass jede Geschichte mehrere Schichten hat.</p>
@@ -73,7 +63,7 @@ $hp_contact_url = hp_get_contact_page_url();
 			</section>
 
 			<section class="hp-mission__section" aria-labelledby="das-ziel">
-				<h2 id="das-ziel">3. Das Ziel</h2>
+				<h2 id="das-ziel">2. Das Ziel</h2>
 				<p>Dieses Journal ist als ruhiger, unabhängiger Gegenraum gebaut.</p>
 				<p>Kein Tracking. Keine Klick-Köder. Kein digitaler Lärm. Keine künstliche Verknappung von Aufmerksamkeit. Nur Texte, Begriffe, Verbindungen und der ernsthafte Versuch, strukturierter zu denken.</p>
 				<p>Das vernetzte Glossar ist dabei kein Beiwerk. Es ist Teil der Methode. Begriffe sollen nicht lose herumstehen, sondern Beziehungen bilden. Essays sollen nicht isoliert wirken, sondern ein wachsendes Denknetz ergeben. Mit jedem Text wird dieses Netz präziser.</p>
