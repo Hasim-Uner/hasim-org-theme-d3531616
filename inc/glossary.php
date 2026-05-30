@@ -463,7 +463,7 @@ function hp_glossar_auto_link( string $content ): string {
 					$key = '%%HP_GL_LINK_' . count( $link_placeholders ) . '%%';
 
 					$link_placeholders[ $key ] = sprintf(
-						'<span class="hp-glossar-term hp-begriff-chip" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-describedby="hp-gtt">%s</span>',
+						'<span class="hp-glossar-term hp-begriff-chip" data-term="%s" data-def="%s" data-url="%s" tabindex="0" role="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="hp-link-preview">%s</span>',
 						esc_attr( $term['label'] ),
 						esc_attr( $term['tooltip'] ),
 						esc_url( $term['url'] ),
@@ -603,6 +603,29 @@ function hp_glossar_autolink_attr_guard_migration(): void {
 	update_option( 'hp_glossar_attr_guard_v1', true, false );
 }
 add_action( 'init', 'hp_glossar_autolink_attr_guard_migration', 26 );
+
+/**
+ * Bumpt die Glossar-Version einmal nach der Umstellung der Inline-Chips auf
+ * das barrierefreie Preview-Popover.
+ */
+function hp_glossar_accessible_popover_migration(): void {
+	if ( get_option( 'hp_glossar_accessible_popover_v1' ) ) {
+		return;
+	}
+
+	$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
+	update_option( 'hp_glossar_version', $new_version, false );
+
+	global $wpdb;
+	$wpdb->query(
+		"DELETE FROM {$wpdb->options}
+		 WHERE option_name LIKE '_transient_hp_gl_%'
+		    OR option_name LIKE '_transient_timeout_hp_gl_%'"
+	);
+
+	update_option( 'hp_glossar_accessible_popover_v1', true, false );
+}
+add_action( 'init', 'hp_glossar_accessible_popover_migration', 27 );
 
 
 /**

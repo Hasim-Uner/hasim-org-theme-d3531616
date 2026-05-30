@@ -1,24 +1,23 @@
 /**
- * Hasimuener Journal — Link Preview Tooltip
+ * Hasimuener Journal — Link Preview Popover
  *
- * Zeigt beim Hover über interne Links (Essays, Notizen, Dossiers,
- * Glossar, Seiten) einen kompakten Preview-Tooltip mit Titel,
- * Typ-Label und Kurzbeschreibung an. Identisches visuelles Vokabular
- * wie der bestehende Glossar-Tooltip (.hp-gtt).
+ * Zeigt für Glossar-Begriffe und interne redaktionelle Links eine kurze
+ * Vorschau an. Auf Desktop wird die Vorschau am Auslöser positioniert, auf
+ * Touch-/Mobil-Viewports als Bottom Sheet, damit sie nie außerhalb des
+ * sichtbaren Bereichs liegt.
  *
  * Datenquelle: GET /wp-json/hp/v1/link-preview?url=<href>
  *
  * Skip-Regeln:
  *  - Externe URLs (anderes Origin)
- *  - Anchor-Only (#…), mailto:, tel:
- *  - Links innerhalb .hp-glossar-term (eigener Tooltip)
- *  - Links innerhalb Navigation/Footer/Breadcrumbs
+ *  - Anchor-Only (#...), mailto:, tel:
+ *  - Navigation/Footer/Breadcrumbs
  *  - Klasse .hp-no-preview oder data-no-preview="1"
  *
  * Kein Framework. Kein Build-Step.
  *
  * @package Hasimuener_Journal
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 ( function () {
@@ -34,14 +33,20 @@
     var FETCH_CACHE = Object.create( null );
     var INFLIGHT    = Object.create( null );
 
-    var tooltip   = null;
-    var elTerm    = null;
-    var elDef     = null;
-    var elMeta    = null;
-    var elLink    = null;
-    var activeEl  = null;
-    var showTimer = null;
-    var hideTimer = null;
+    var TOOLTIP_ID = 'hp-link-preview';
+    var DESC_ID    = 'hp-link-preview-desc';
+
+    var tooltip     = null;
+    var elTerm      = null;
+    var elDef       = null;
+    var elMeta      = null;
+    var elLink      = null;
+    var elClose     = null;
+    var activeEl    = null;
+    var showTimer   = null;
+    var hideTimer   = null;
+    var managedFocus = false;
+    var openedByActivation = false;
 
     /* =========================================
        SCOPE & FILTER
@@ -67,8 +72,16 @@
         '.site-footer',
         '.hp-breadcrumbs',
         '#hp-gtt',
-        '#hp-link-preview',
+        '#' + TOOLTIP_ID,
     ];
+
+    function closestFrom( target, selector ) {
+        if ( ! target ) return null;
+        if ( target.nodeType !== 1 ) {
+            target = target.parentElement;
+        }
+        return target && target.closest ? target.closest( selector ) : null;
+    }
 
     function isInternal( a ) {
         if ( ! a.href ) return false;
@@ -105,66 +118,117 @@
     }
 
     /* =========================================
-       TOOLTIP
+       POPOVER
        ========================================= */
 
     function createTooltip() {
+        if ( tooltip ) return;
+
         tooltip = document.createElement( 'div' );
         tooltip.className = 'hp-gtt hp-gtt--link-preview';
-        tooltip.id        = 'hp-link-preview';
+        tooltip.id        = TOOLTIP_ID;
         tooltip.setAttribute( 'popover', 'manual' );
-        tooltip.setAttribute( 'role', 'tooltip' );
+        tooltip.setAttribute( 'role', 'dialog' );
+        tooltip.setAttribute( 'aria-modal', 'false' );
+        tooltip.setAttribute( 'aria-describedby', DESC_ID );
+        tooltip.setAttribute( 'tabindex', '-1' );
+        tooltip.setAttribute( 'aria-hidden', 'true' );
+        tooltip.hidden = true;
         tooltip.innerHTML =
+            '<button class="hp-gtt__close" type="button" aria-label="Vorschau schließen">' +
+                '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
             '<strong class="hp-gtt__term"></strong>' +
-            '<p class="hp-gtt__def"></p>' +
+            '<p class="hp-gtt__def" id="' + DESC_ID + '"></p>' +
             '<span class="hp-gtt__meta"></span>' +
             '<a class="hp-gtt__link" href="#">Weiterlesen →</a>';
 
         document.body.appendChild( tooltip );
 
-        elTerm = tooltip.querySelector( '.hp-gtt__term' );
-        elDef  = tooltip.querySelector( '.hp-gtt__def' );
-        elMeta = tooltip.querySelector( '.hp-gtt__meta' );
-        elLink = tooltip.querySelector( '.hp-gtt__link' );
+        elTerm  = tooltip.querySelector( '.hp-gtt__term' );
+        elDef   = tooltip.querySelector( '.hp-gtt__def' );
+        elMeta  = tooltip.querySelector( '.hp-gtt__meta' );
+        elLink  = tooltip.querySelector( '.hp-gtt__link' );
+        elClose = tooltip.querySelector( '.hp-gtt__close' );
 
         tooltip.addEventListener( 'mouseenter', function () {
             clearTimeout( hideTimer );
         } );
         tooltip.addEventListener( 'mouseleave', scheduleHide );
+        tooltip.addEventListener( 'focusin', function () {
+            clearTimeout( hideTimer );
+        } );
+        tooltip.addEventListener( 'focusout', function ( e ) {
+            if ( e.relatedTarget === activeEl || isInsideTooltip( e.relatedTarget ) ) {
+                return;
+            }
+            scheduleHide();
+        } );
+        tooltip.addEventListener( 'keydown', onTooltipKeyDown );
+
+        elClose.addEventListener( 'click', function () {
+            hide( { restoreFocus: true } );
+        } );
     }
 
     function renderPayload( data ) {
+        var label = data.type_label || 'Vorschau';
+        if ( data.title ) {
+            label += ': ' + data.title;
+        }
+
+        tooltip.setAttribute( 'aria-label', label );
         elTerm.textContent = data.type_label || '';
-        elDef.textContent  = data.excerpt || data.title || '';
+        elDef.textContent = '';
         elMeta.textContent = data.meta || '';
         elMeta.style.display = data.meta ? '' : 'none';
-        elLink.href        = data.url || '#';
+        elLink.href = data.url || '#';
+        elLink.textContent = data.type === 'glossar' ? 'Im Glossar lesen →' : 'Weiterlesen →';
 
-        // Titel als Sekundär-Info: wenn excerpt vorhanden, Titel als kleinen Vorspann
-        // einsetzen — sonst nur excerpt (oder Titel als Fallback).
+        // Titel als Sekundär-Info: wenn excerpt vorhanden, Titel als kleinen
+        // Vorspann einsetzen — sonst nur excerpt oder Titel als Fallback.
         if ( data.excerpt && data.title ) {
-            elDef.innerHTML = '<span class="hp-gtt__title-line"></span>' +
-                              '<span class="hp-gtt__excerpt-line"></span>';
-            elDef.querySelector( '.hp-gtt__title-line' ).textContent   = data.title;
-            elDef.querySelector( '.hp-gtt__excerpt-line' ).textContent = data.excerpt;
+            var titleLine = document.createElement( 'span' );
+            var excerptLine = document.createElement( 'span' );
+
+            titleLine.className = 'hp-gtt__title-line';
+            excerptLine.className = 'hp-gtt__excerpt-line';
+            titleLine.textContent = data.title;
+            excerptLine.textContent = data.excerpt;
+
+            elDef.appendChild( titleLine );
+            elDef.appendChild( excerptLine );
+        } else {
+            elDef.textContent = data.excerpt || data.title || '';
         }
     }
 
-    function showFor( el, data ) {
+    function showFor( el, data, options ) {
         if ( ! tooltip ) createTooltip();
 
         clearTimeout( hideTimer );
-        activeEl = el;
+        clearTimeout( showTimer );
 
-        renderPayload( data );
-
-        try {
-            tooltip.showPopover();
-        } catch ( e ) {
-            tooltip.classList.add( 'hp-gtt--visible' );
+        if ( activeEl && activeEl !== el ) {
+            setTriggerExpanded( activeEl, false );
         }
 
+        activeEl = el;
+        managedFocus = !! ( options && options.focusPreview );
+        openedByActivation = !! ( options && options.activation );
+
+        renderPayload( data );
+        setTriggerExpanded( el, true );
+        openTooltip();
         position( el );
+
+        if ( managedFocus ) {
+            window.setTimeout( function () {
+                if ( tooltip && isOpen() ) {
+                    focusNoScroll( tooltip );
+                }
+            }, 0 );
+        }
     }
 
     function scheduleHide() {
@@ -172,38 +236,161 @@
         hideTimer = setTimeout( hide, HIDE_DELAY );
     }
 
-    function hide() {
+    function hide( options ) {
         if ( ! tooltip ) return;
+
+        var trigger = activeEl;
+
         try {
-            tooltip.hidePopover();
+            if ( tooltip.matches( ':popover-open' ) ) {
+                tooltip.hidePopover();
+            }
         } catch ( e ) {
             tooltip.classList.remove( 'hp-gtt--visible' );
         }
+
+        tooltip.hidden = true;
+        tooltip.setAttribute( 'aria-hidden', 'true' );
+
+        tooltip.classList.remove( 'hp-gtt--above', 'hp-gtt--below', 'hp-gtt--sheet' );
+        tooltip.style.removeProperty( '--hp-gtt-arrow-left' );
+        tooltip.style.top = '';
+        tooltip.style.left = '';
+        tooltip.style.maxHeight = '';
+
+        setTriggerExpanded( trigger, false );
         activeEl = null;
+        managedFocus = false;
+        openedByActivation = false;
+
+        if ( options && options.restoreFocus && trigger && typeof trigger.focus === 'function' ) {
+            focusNoScroll( trigger );
+        }
+    }
+
+    function openTooltip() {
+        tooltip.hidden = false;
+        tooltip.removeAttribute( 'aria-hidden' );
+
+        try {
+            if ( ! tooltip.matches( ':popover-open' ) ) {
+                tooltip.showPopover();
+            }
+        } catch ( e ) {
+            tooltip.classList.add( 'hp-gtt--visible' );
+        }
+    }
+
+    function isOpen() {
+        if ( ! tooltip ) return false;
+        try {
+            return tooltip.matches( ':popover-open' ) || tooltip.classList.contains( 'hp-gtt--visible' );
+        } catch ( e ) {
+            return tooltip.classList.contains( 'hp-gtt--visible' );
+        }
     }
 
     function position( el ) {
-        var rect   = el.getBoundingClientRect();
-        var tW     = tooltip.offsetWidth  || 320;
-        var tH     = tooltip.offsetHeight || 140;
-        var vW     = window.innerWidth;
-        var scroll = window.scrollY || window.pageYOffset;
+        var margin = 12;
 
-        var top  = rect.top + scroll - tH - 12;
-        var left = rect.left + ( rect.width / 2 ) - ( tW / 2 );
-
-        if ( top < scroll + 8 ) {
-            top = rect.bottom + scroll + 12;
-            tooltip.classList.add( 'hp-gtt--below' );
-        } else {
-            tooltip.classList.remove( 'hp-gtt--below' );
+        if ( useSheetLayout() ) {
+            tooltip.classList.remove( 'hp-gtt--above', 'hp-gtt--below' );
+            tooltip.classList.add( 'hp-gtt--sheet' );
+            tooltip.style.top = '';
+            tooltip.style.left = '';
+            tooltip.style.maxHeight = Math.max( 240, Math.floor( window.innerHeight * 0.72 ) ) + 'px';
+            tooltip.style.removeProperty( '--hp-gtt-arrow-left' );
+            return;
         }
 
-        if ( left + tW > vW - 12 ) { left = vW - tW - 12; }
-        if ( left < 12 )           { left = 12; }
+        tooltip.classList.remove( 'hp-gtt--sheet', 'hp-gtt--above', 'hp-gtt--below' );
+        tooltip.style.maxHeight = Math.max( 160, window.innerHeight - ( margin * 2 ) ) + 'px';
 
-        tooltip.style.top  = top  + 'px';
-        tooltip.style.left = left + 'px';
+        var rect       = el.getBoundingClientRect();
+        var tW         = tooltip.offsetWidth || 320;
+        var tH         = tooltip.offsetHeight || 160;
+        var vW         = window.innerWidth;
+        var vH         = window.innerHeight;
+        var gap        = 12;
+        var spaceAbove = rect.top - margin - gap;
+        var spaceBelow = vH - rect.bottom - margin - gap;
+        var placeBelow = spaceBelow >= tH || spaceBelow > spaceAbove;
+
+        var top  = placeBelow ? rect.bottom + gap : rect.top - tH - gap;
+        var left = rect.left + ( rect.width / 2 ) - ( tW / 2 );
+
+        top  = clamp( top, margin, Math.max( margin, vH - tH - margin ) );
+        left = clamp( left, margin, Math.max( margin, vW - tW - margin ) );
+
+        var arrowLeft = clamp(
+            rect.left + ( rect.width / 2 ) - left,
+            18,
+            Math.max( 18, tW - 18 )
+        );
+
+        tooltip.classList.add( placeBelow ? 'hp-gtt--below' : 'hp-gtt--above' );
+        tooltip.style.top = Math.round( top ) + 'px';
+        tooltip.style.left = Math.round( left ) + 'px';
+        tooltip.style.setProperty( '--hp-gtt-arrow-left', Math.round( arrowLeft ) + 'px' );
+    }
+
+    function clamp( value, min, max ) {
+        return Math.min( Math.max( value, min ), max );
+    }
+
+    function useSheetLayout() {
+        if ( window.innerWidth <= 640 ) {
+            return true;
+        }
+        if ( ! window.matchMedia ) {
+            return false;
+        }
+        return window.matchMedia( '(hover: none), (pointer: coarse)' ).matches;
+    }
+
+    function isInsideTooltip( node ) {
+        return !! ( tooltip && node && tooltip.contains( node ) );
+    }
+
+    function focusNoScroll( el ) {
+        try {
+            el.focus( { preventScroll: true } );
+        } catch ( e ) {
+            el.focus();
+        }
+    }
+
+    function focusFirstControl() {
+        if ( ! tooltip ) return;
+        var control = tooltip.querySelector( 'button, a[href]' );
+        if ( control && typeof control.focus === 'function' ) {
+            focusNoScroll( control );
+        }
+    }
+
+    function focusLastControl() {
+        if ( ! tooltip ) return;
+        var controls = tooltip.querySelectorAll( 'button, a[href]' );
+        var control = controls.length ? controls[ controls.length - 1 ] : null;
+        if ( control && typeof control.focus === 'function' ) {
+            focusNoScroll( control );
+        }
+    }
+
+    function setTriggerExpanded( el, expanded ) {
+        if ( ! isPreviewChip( el ) ) {
+            return;
+        }
+
+        el.setAttribute( 'aria-haspopup', 'dialog' );
+        el.setAttribute( 'aria-controls', TOOLTIP_ID );
+        el.setAttribute( 'aria-expanded', expanded ? 'true' : 'false' );
+
+        if ( expanded ) {
+            el.setAttribute( 'aria-describedby', DESC_ID );
+        } else {
+            el.removeAttribute( 'aria-describedby' );
+        }
     }
 
     /* =========================================
@@ -244,16 +431,26 @@
        TARGET-RESOLUTION (Link ODER Glossar-Chip)
        ========================================= */
 
+    function isPreviewChip( chip ) {
+        return !! (
+            chip &&
+            chip.classList &&
+            chip.classList.contains( 'hp-glossar-term' ) &&
+            ( chip.dataset.term || chip.dataset.def || chip.dataset.url )
+        );
+    }
+
     /**
      * Liefert das hover-fähige Element (a[href] ODER .hp-glossar-term)
      * oder null, wenn nichts Passendes vorliegt.
      */
     function resolveTarget( eventTarget ) {
-        var chip = eventTarget.closest( '.hp-glossar-term' );
-        if ( chip ) {
+        var chip = closestFrom( eventTarget, '.hp-glossar-term' );
+        if ( isPreviewChip( chip ) ) {
             return chip;
         }
-        var a = eventTarget.closest( 'a[href]' );
+
+        var a = closestFrom( eventTarget, 'a[href]' );
         if ( ! a ) return null;
         if ( ! isInternal( a ) ) return null;
         if ( shouldSkip( a ) ) return null;
@@ -271,8 +468,8 @@
             type:       'glossar',
             type_label: 'Glossar',
             title:      chip.dataset.term || chip.textContent.trim(),
-            excerpt:    chip.dataset.def  || '',
-            url:        chip.dataset.url  || '#',
+            excerpt:    chip.dataset.def || '',
+            url:        chip.dataset.url || chip.href || '#',
             meta:       '',
         };
     }
@@ -282,6 +479,8 @@
        ========================================= */
 
     function onMouseOver( e ) {
+        if ( useSheetLayout() ) return;
+
         var target = resolveTarget( e.target );
         if ( ! target ) return;
 
@@ -289,11 +488,11 @@
         clearTimeout( hideTimer );
 
         // Glossar-Chip: sofort verfügbare Inline-Daten
-        if ( target.classList.contains( 'hp-glossar-term' ) ) {
+        if ( isPreviewChip( target ) ) {
             var chipData = payloadFromChip( target );
             showTimer = setTimeout( function () {
                 if ( target.matches( ':hover' ) || document.activeElement === target ) {
-                    showFor( target, chipData );
+                    showFor( target, chipData, { focusPreview: false, activation: false } );
                 }
             }, SHOW_DELAY );
             return;
@@ -305,15 +504,18 @@
             fetchPreview( href ).then( function ( data ) {
                 if ( ! data ) return;
                 if ( target.matches( ':hover' ) || document.activeElement === target ) {
-                    showFor( target, data );
+                    showFor( target, data, { focusPreview: false, activation: false } );
                 }
             } );
         }, SHOW_DELAY );
     }
 
     function onMouseOut( e ) {
-        var target = e.target.closest( 'a[href], .hp-glossar-term' );
+        var target = closestFrom( e.target, 'a[href], .hp-glossar-term' );
         if ( ! target ) return;
+        if ( e.relatedTarget && ( target.contains( e.relatedTarget ) || isInsideTooltip( e.relatedTarget ) ) ) {
+            return;
+        }
 
         clearTimeout( showTimer );
         if ( activeEl === target ) {
@@ -322,12 +524,17 @@
     }
 
     function onFocusIn( e ) {
+        if ( isInsideTooltip( e.target ) ) {
+            clearTimeout( hideTimer );
+            return;
+        }
+
         var target = resolveTarget( e.target );
         if ( ! target ) return;
 
-        if ( target.classList.contains( 'hp-glossar-term' ) ) {
-            if ( document.activeElement === target ) {
-                showFor( target, payloadFromChip( target ) );
+        if ( isPreviewChip( target ) ) {
+            if ( document.activeElement === target && ! useSheetLayout() ) {
+                showFor( target, payloadFromChip( target ), { focusPreview: false, activation: false } );
             }
             return;
         }
@@ -335,13 +542,130 @@
         fetchPreview( target.href ).then( function ( data ) {
             if ( ! data ) return;
             if ( document.activeElement === target ) {
-                showFor( target, data );
+                showFor( target, data, { focusPreview: false, activation: false } );
             }
         } );
     }
 
-    function onFocusOut() {
+    function onFocusOut( e ) {
+        if ( e.relatedTarget === activeEl || isInsideTooltip( e.relatedTarget ) ) {
+            return;
+        }
         scheduleHide();
+    }
+
+    function onClick( e ) {
+        if ( isInsideTooltip( e.target ) ) {
+            return;
+        }
+
+        var target = resolveTarget( e.target );
+        if ( ! target ) {
+            if ( isOpen() ) {
+                hide();
+            }
+            return;
+        }
+
+        if ( ! isPreviewChip( target ) ) {
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if ( activeEl === target && isOpen() && openedByActivation ) {
+            hide( { restoreFocus: false } );
+            return;
+        }
+
+        showFor( target, payloadFromChip( target ), { focusPreview: true, activation: true } );
+    }
+
+    function onKeyDown( e ) {
+        if ( e.key === 'Escape' ) {
+            hide( { restoreFocus: true } );
+            return;
+        }
+
+        if (
+            e.key === 'Tab' &&
+            activeEl &&
+            isPreviewChip( activeEl ) &&
+            isOpen() &&
+            document.activeElement === activeEl &&
+            ! e.shiftKey
+        ) {
+            e.preventDefault();
+            focusFirstControl();
+            return;
+        }
+
+        var target = resolveTarget( e.target );
+        if ( ! isPreviewChip( target ) ) {
+            return;
+        }
+
+        if ( e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar' ) {
+            e.preventDefault();
+            showFor( target, payloadFromChip( target ), { focusPreview: true, activation: true } );
+        }
+    }
+
+    function onTooltipKeyDown( e ) {
+        if ( e.key === 'Escape' ) {
+            hide( { restoreFocus: true } );
+            return;
+        }
+
+        if ( ! managedFocus || e.key !== 'Tab' ) {
+            return;
+        }
+
+        var controls = tooltip.querySelectorAll( 'button, a[href]' );
+        if ( ! controls.length ) {
+            e.preventDefault();
+            return;
+        }
+
+        var first = controls[ 0 ];
+        var last = controls[ controls.length - 1 ];
+
+        if ( e.shiftKey && document.activeElement === first ) {
+            e.preventDefault();
+            focusLastControl();
+        } else if ( ! e.shiftKey && document.activeElement === last ) {
+            e.preventDefault();
+            focusFirstControl();
+        }
+    }
+
+    function prepareGlossaryTriggers() {
+        var terms = document.querySelectorAll( '.hp-glossar-term' );
+
+        terms.forEach( function ( el ) {
+            if ( ! isPreviewChip( el ) ) {
+                return;
+            }
+
+            if ( ! el.matches( 'a[href]' ) ) {
+                el.setAttribute( 'role', 'button' );
+                if ( ! el.hasAttribute( 'tabindex' ) ) {
+                    el.setAttribute( 'tabindex', '0' );
+                }
+            }
+
+            el.setAttribute( 'aria-haspopup', 'dialog' );
+            el.setAttribute( 'aria-expanded', 'false' );
+            el.setAttribute( 'aria-controls', TOOLTIP_ID );
+            el.removeAttribute( 'aria-describedby' );
+        } );
+    }
+
+    function repositionActive() {
+        if ( activeEl && tooltip && isOpen() ) {
+            position( activeEl );
+        }
     }
 
     /* =========================================
@@ -349,24 +673,23 @@
        ========================================= */
 
     function init() {
+        createTooltip();
+        prepareGlossaryTriggers();
+
         document.addEventListener( 'mouseover', onMouseOver );
         document.addEventListener( 'mouseout',  onMouseOut );
         document.addEventListener( 'focusin',   onFocusIn );
         document.addEventListener( 'focusout',  onFocusOut );
+        document.addEventListener( 'click',     onClick );
+        document.addEventListener( 'keydown',   onKeyDown );
 
-        window.addEventListener( 'scroll', function () {
-            if ( ! activeEl || ! tooltip ) return;
-            try {
-                if ( tooltip.matches( ':popover-open' ) ) position( activeEl );
-            } catch ( e ) {
-                if ( tooltip.classList.contains( 'hp-gtt--visible' ) ) position( activeEl );
-            }
-        }, { passive: true } );
+        window.addEventListener( 'scroll', repositionActive, { passive: true } );
+        window.addEventListener( 'resize', repositionActive, { passive: true } );
 
-        // ESC schließt
-        document.addEventListener( 'keydown', function ( e ) {
-            if ( e.key === 'Escape' ) hide();
-        } );
+        if ( window.visualViewport ) {
+            window.visualViewport.addEventListener( 'resize', repositionActive, { passive: true } );
+            window.visualViewport.addEventListener( 'scroll', repositionActive, { passive: true } );
+        }
     }
 
     if ( document.readyState === 'loading' ) {

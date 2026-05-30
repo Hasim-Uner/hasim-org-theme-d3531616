@@ -3920,6 +3920,11 @@ a.footnote-backref:hover {
     outline: none;
 }
 
+.hp-glossar-term:focus-visible {
+    outline: 3px solid rgba(177, 42, 42, 0.38);
+    outline-offset: 3px;
+}
+
 /* --- Begriff-Chip (Wissensplattform-Vokabel) ---
    Wird vom Auto-Link zusätzlich zur .hp-glossar-term gesetzt.
    Visuell: rote Hairline-Pille, Hover invertiert (siehe BegriffChip
@@ -3953,6 +3958,10 @@ a.footnote-backref:hover {
     outline: none;
 }
 
+.hp-glossar-term.hp-begriff-chip:focus-visible {
+    box-shadow: 0 0 0 3px rgba(177, 42, 42, 0.24);
+}
+
 /* Tweak-Variante: ohne Pille — fällt auf den Underline-Look zurück.
    Aktivierung über <html data-wp-chip="underline"> oder body-Attribut. */
 [data-wp-chip="underline"] .hp-glossar-term.hp-begriff-chip {
@@ -3980,13 +3989,19 @@ a.footnote-backref:hover {
 
 /* --- Glossar-Tooltip --- */
 .hp-gtt {
-    position: absolute;
+    position: fixed;
+    inset: auto;
     z-index: 9999;
-    width: 280px;
+    box-sizing: border-box;
+    width: min(320px, calc(100vw - 24px));
+    max-height: min(70vh, 480px);
+    overflow: auto;
     background-color: var(--hj-rule);
     color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 6px;
     padding: var(--hj-space-md) var(--hj-space-md);
+    margin: 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12);
     pointer-events: none;
     opacity: 0;
@@ -4001,22 +4016,26 @@ a.footnote-backref:hover {
     transform: translateY(0);
 }
 
-/* Pfeil oben (Standard: Tooltip ist unterhalb) */
 .hp-gtt::before {
     content: '';
+    display: none;
     position: absolute;
-    bottom: 100%;
-    left: 50%;
+    left: var(--hp-gtt-arrow-left, 50%);
     transform: translateX(-50%);
     border: 7px solid transparent;
+}
+
+/* Tooltip steht unterhalb des Begriffs: Pfeil oben. */
+.hp-gtt--below::before {
+    display: block;
+    bottom: 100%;
     border-bottom-color: var(--hj-rule);
 }
 
-/* Pfeil wenn Tooltip oberhalb ist */
-.hp-gtt--below::before {
-    bottom: auto;
+/* Tooltip steht oberhalb des Begriffs: Pfeil unten. */
+.hp-gtt--above::before {
+    display: block;
     top: 100%;
-    border-bottom-color: transparent;
     border-top-color: var(--hj-rule);
 }
 
@@ -4029,6 +4048,7 @@ a.footnote-backref:hover {
     letter-spacing: 0.06em;
     color: rgba(255, 255, 255, 0.6);
     margin-bottom: 0.4em;
+    padding-right: 3.1rem;
 }
 
 .hp-gtt__def {
@@ -4050,9 +4070,48 @@ a.footnote-backref:hover {
     transition: color 0.15s ease;
 }
 
-.hp-gtt__link:hover {
+.hp-gtt__link:hover,
+.hp-gtt__link:focus-visible {
     color: #e87070;
     text-decoration: underline;
+}
+
+.hp-gtt:focus {
+    outline: none;
+}
+
+.hp-gtt:focus-visible,
+.hp-gtt__close:focus-visible,
+.hp-gtt__link:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.88);
+    outline-offset: 3px;
+}
+
+.hp-gtt__close {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.78);
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--hj-sans);
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.hp-gtt__close:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 /* -----------------------------------------
@@ -4060,7 +4119,7 @@ a.footnote-backref:hover {
    ----------------------------------------- */
 
 .hp-gtt--link-preview {
-    width: 320px;
+    width: min(320px, calc(100vw - 24px));
     pointer-events: none;
 }
 
@@ -4094,6 +4153,64 @@ a.footnote-backref:hover {
     letter-spacing: 0.04em;
     color: rgba(255, 255, 255, 0.55);
     margin: 0.4em 0 var(--hj-space-sm);
+}
+
+.hp-gtt--sheet {
+    top: auto;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    left: 12px;
+    width: auto;
+    max-height: 72vh;
+    transform: translateY(12px);
+    overscroll-behavior: contain;
+}
+
+.hp-gtt--sheet::before {
+    display: none;
+}
+
+.hp-gtt--sheet.hp-gtt--visible,
+.hp-gtt--sheet:popover-open {
+    transform: translateY(0);
+}
+
+@media (max-width: 640px), (hover: none), (pointer: coarse) {
+    .hp-gtt {
+        border-radius: 8px;
+        padding: var(--hj-space-md);
+    }
+
+    .hp-gtt__term {
+        padding-right: 3.25rem;
+    }
+
+    .hp-gtt__def {
+        font-size: var(--hj-fs-base);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hp-glossar-term,
+    .hp-gtt,
+    .hp-gtt__link {
+        transition: none;
+    }
+}
+
+@media (forced-colors: active) {
+    .hp-glossar-term:focus-visible,
+    .hp-glossar-term.hp-begriff-chip:focus-visible,
+    .hp-gtt:focus-visible,
+    .hp-gtt__close:focus-visible,
+    .hp-gtt__link:focus-visible {
+        outline: 2px solid Highlight;
+        box-shadow: none;
+    }
+
+    .hp-gtt {
+        border: 1px solid CanvasText;
+    }
 }
 
 /* =========================================
