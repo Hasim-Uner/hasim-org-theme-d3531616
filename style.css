@@ -1594,11 +1594,12 @@ a.footnote-backref:hover {
    ========================================= */
 
 .hp-mission {
+    --hp-mission-measure: 70ch;
     padding-bottom: var(--hj-space-2xl);
 }
 
 .hp-mission__hero {
-    max-width: var(--hj-content-width);
+    max-width: var(--hp-mission-measure);
     margin: 0 auto;
     padding: var(--hj-space-2xl) var(--hj-gutter) var(--hj-space-lg);
 }
@@ -1625,6 +1626,7 @@ a.footnote-backref:hover {
 }
 
 .hp-mission__frame {
+    max-width: var(--hp-mission-measure);
     padding-top: var(--hj-space-lg);
     border-top: 1px solid var(--hj-rule);
 }
@@ -1639,6 +1641,7 @@ a.footnote-backref:hover {
 
 .hp-mission__content {
     max-width: 70ch;
+    margin-inline: auto;
 }
 
 .hp-mission__section + .hp-mission__section,
