@@ -335,6 +335,12 @@ body {
     line-height: 1.7;
 }
 
+.site-content > #main-content {
+    flex: 1 1 100%;
+    min-width: 0;
+    width: 100%;
+}
+
 /* Fließtext-Elemente explizit Sans-Serif */
 p, li, blockquote, table, input, textarea {
     font-family: var(--hj-sans);
