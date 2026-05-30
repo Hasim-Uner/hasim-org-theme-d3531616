@@ -72,6 +72,119 @@ function hp_dossier_maybe_flush_rewrites(): void {
 }
 add_action( 'init', 'hp_dossier_maybe_flush_rewrites', 99 );
 
+/**
+ * Temporär öffentlich deaktivierte Dossiers.
+ *
+ * Die Beiträge bleiben im Admin bearbeitbar, werden aber frontendseitig aus
+ * Dossier-Listen entfernt und sind per Direkt-URL nicht abrufbar.
+ *
+ * @return string[]
+ */
+function hp_dossier_disabled_slugs(): array {
+	return [
+		'rojava-von-aussen-von-innen',
+	];
+}
+
+/**
+ * Liefert Post-IDs der öffentlich deaktivierten Dossiers.
+ *
+ * @return int[]
+ */
+function hp_dossier_get_disabled_ids(): array {
+	static $ids = null;
+
+	if ( null !== $ids ) {
+		return $ids;
+	}
+
+	$slugs = array_filter( array_map( 'sanitize_title', hp_dossier_disabled_slugs() ) );
+	if ( ! $slugs ) {
+		$ids = [];
+		return $ids;
+	}
+
+	global $wpdb;
+	$placeholders = implode( ', ', array_fill( 0, count( $slugs ), '%s' ) );
+	$sql          = $wpdb->prepare(
+		"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'dossier' AND post_name IN ({$placeholders})",
+		...$slugs
+	);
+
+	$ids = array_map( 'intval', (array) $wpdb->get_col( $sql ) );
+
+	return $ids;
+}
+
+/**
+ * Prüft, ob ein Dossier frontendseitig deaktiviert ist.
+ *
+ * @param mixed $post Post-Objekt.
+ */
+function hp_dossier_is_frontend_disabled( $post ): bool {
+	if ( ! $post instanceof WP_Post || 'dossier' !== $post->post_type ) {
+		return false;
+	}
+
+	return in_array( $post->post_name, hp_dossier_disabled_slugs(), true );
+}
+
+/**
+ * Blendet deaktivierte Dossiers aus öffentlichen Dossier-Queries aus.
+ */
+function hp_dossier_exclude_disabled_from_public_queries( WP_Query $query ): void {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$post_type = $query->get( 'post_type' );
+	$includes_dossier = 'dossier' === $post_type || ( is_array( $post_type ) && in_array( 'dossier', $post_type, true ) );
+
+	if ( ! $includes_dossier ) {
+		return;
+	}
+
+	$disabled_ids = hp_dossier_get_disabled_ids();
+	if ( ! $disabled_ids ) {
+		return;
+	}
+
+	$post__not_in = array_map( 'intval', (array) $query->get( 'post__not_in' ) );
+	$query->set( 'post__not_in', array_values( array_unique( array_merge( $post__not_in, $disabled_ids ) ) ) );
+
+	$post__in = array_map( 'intval', (array) $query->get( 'post__in' ) );
+	if ( $post__in ) {
+		$query->set( 'post__in', array_values( array_diff( $post__in, $disabled_ids ) ) );
+	}
+}
+add_action( 'pre_get_posts', 'hp_dossier_exclude_disabled_from_public_queries', 9 );
+
+/**
+ * Stellt sicher, dass deaktivierte Dossier-Direkt-URLs nicht abrufbar sind.
+ */
+function hp_dossier_404_disabled_single(): void {
+	if ( ! is_singular( 'dossier' ) ) {
+		return;
+	}
+
+	$post = get_queried_object();
+	if ( ! hp_dossier_is_frontend_disabled( $post ) ) {
+		return;
+	}
+
+	global $wp_query;
+	$wp_query->set_404();
+	status_header( 404 );
+	nocache_headers();
+
+	$template = get_404_template();
+	if ( $template ) {
+		include $template;
+	}
+	exit;
+}
+add_action( 'template_redirect', 'hp_dossier_404_disabled_single', 1 );
+
 /* -----------------------------------------
    Taxonomie "topic" auch für Dossier
    ----------------------------------------- */
