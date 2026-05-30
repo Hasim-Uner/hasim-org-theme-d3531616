@@ -14,7 +14,7 @@ Frontend assets are owned by PHP modules and should be loaded only where needed.
 | `hp-journal-single` | `assets/js/journal-single.js` | `inc/enqueue.php` | singular `essay`, `note`, `post` | none | none |
 | `hp-link-preview` | `assets/js/link-preview.js` | `inc/enqueue.php`, `inc/link-preview.php` | singular `essay`, `note`, `post`, `glossar`, `dossier`, `page` | none | `hpLinkPreview.restUrl` |
 | `hp-d3` | `assets/js/d3-custom.min.js` | `inc/graph-api.php` | page slug `wissensgraph` | none | none |
-| `hp-graph-js` | `assets/js/graph.js` | `inc/graph-api.php` | page slug `wissensgraph` | `hp-d3` | `hpGraph.data`, `hpGraph.restUrl` |
+| `hp-graph-js` | `assets/js/graph.js` | `inc/graph-api.php` | page slug `wissensgraph` | `hp-d3` | `hpGraph.restUrl` |
 | `hasim-org-votes` | `assets/js/votes.js` | `inc/votes-api.php` | singular/archive `essay`, `note` | `jquery` | `hasimOrgVotes.ajax_url`, `hasimOrgVotes.nonce` |
 | `hasim-org-votes` | `assets/css/votes.css` | `inc/votes-api.php` | singular/archive `essay`, `note` | none | none |
 | `comment-reply` | WordPress core | `inc/comments.php` | singular comment targets when threaded comments need it | core | none |

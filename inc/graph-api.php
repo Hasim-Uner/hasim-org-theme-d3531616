@@ -4,7 +4,8 @@
  *
  * Stellt den Endpoint /wp-json/hp/v1/graph bereit, der alle
  * Beziehungsdaten (Nodes + Edges) für die D3.js-Visualisierung
- * als JSON liefert. Ergebnisse werden versioniert gecacht.
+ * als JSON liefert. Ergebnisse werden kompiliert in der DB gehalten.
+ * Teure Rebuilds laufen über Content-/Topic-Hooks und WP-Cron.
  *
  * Assets (D3.js + graph.js) werden nur auf der Graph-Seite geladen.
  *
@@ -36,32 +37,17 @@ add_action( 'rest_api_init', 'hp_graph_register_rest_route' );
  * @return WP_REST_Response
  */
 function hp_graph_rest_callback(): WP_REST_Response {
-	$glossar_ver = (int) get_option( 'hp_glossar_version', 0 );
-	$cache_key   = 'hp_graph_data_v' . $glossar_ver;
-	$cached      = get_transient( $cache_key );
+	$data = hp_graph_get_compiled_data();
 
-	if ( false !== $cached && is_array( $cached ) && isset( $cached['nodes'] ) ) {
-		$cached['meta']['cached'] = true;
-		return new WP_REST_Response( $cached, 200 );
+	if ( null === $data ) {
+		hp_graph_schedule_rebuild();
+
+		return new WP_REST_Response( hp_graph_empty_payload( hp_graph_get_status() ), 200 );
 	}
 
-	try {
-		$data = hp_graph_build_data();
-	} catch ( \Throwable $e ) {
-		return new WP_REST_Response( [
-			'nodes' => [],
-			'edges' => [],
-			'meta'  => [
-				'error'      => $e->getMessage(),
-				'node_count' => 0,
-				'edge_count' => 0,
-			],
-		], 200 );
-	}
+	$data['meta']['cached'] = true;
+	$data['meta']['status'] = hp_graph_get_status();
 
-	set_transient( $cache_key, $data, DAY_IN_SECONDS );
-
-	$data['meta']['cached'] = false;
 	return new WP_REST_Response( $data, 200 );
 }
 
@@ -287,15 +273,145 @@ function hp_graph_get_excerpt( WP_Post $post ): string {
 }
 
 /* =========================================
-   3. CACHE INVALIDIERUNG
+   3. CACHE-KOMPILIERUNG
    ========================================= */
 
 /**
- * Invalidiert den Graph-Cache bei Änderungen an
- * Essays, Notizen oder Glossar-Einträgen.
+ * Liefert den aktuellen Graph-Cache-Status.
  *
- * Nutzt die bestehende hp_glossar_version — ein Bump
- * erzeugt einen neuen Cache-Key, alte Transients werden stale.
+ * @return string
+ */
+function hp_graph_get_status(): string {
+	$status = (string) get_option( 'hp_graph_status', 'pending' );
+	return in_array( $status, [ 'ready', 'stale', 'pending', 'error' ], true ) ? $status : 'pending';
+}
+
+/**
+ * Leeres, aber valides Graph-Payload.
+ *
+ * @param string $status Cache-Status.
+ * @return array{nodes: array, edges: array, meta: array}
+ */
+function hp_graph_empty_payload( string $status = 'pending' ): array {
+	$payload = [
+		'nodes' => [],
+		'edges' => [],
+		'meta'  => [
+			'node_count' => 0,
+			'edge_count' => 0,
+			'generated'  => '',
+			'cached'     => true,
+			'status'     => $status,
+			'version'    => (int) get_option( 'hp_graph_version', 0 ),
+		],
+	];
+
+	$error = (string) get_option( 'hp_graph_last_error', '' );
+	if ( 'error' === $status && '' !== $error ) {
+		$payload['meta']['error'] = $error;
+	}
+
+	return $payload;
+}
+
+/**
+ * Validiert ein kompiliertes Graph-Payload.
+ *
+ * @param mixed $data Potenzielles Payload.
+ * @return bool
+ */
+function hp_graph_is_valid_payload( $data ): bool {
+	return is_array( $data )
+		&& isset( $data['nodes'], $data['edges'], $data['meta'] )
+		&& is_array( $data['nodes'] )
+		&& is_array( $data['edges'] )
+		&& is_array( $data['meta'] );
+}
+
+/**
+ * Liefert fertig kompiliertes Graph-Payload aus der Datenbank.
+ *
+ * Fällt nur auf alte Transient-Daten zurück, um bestehende Installationen
+ * ohne synchronen Rebuild zu migrieren.
+ *
+ * @return array|null
+ */
+function hp_graph_get_compiled_data(): ?array {
+	$data = get_option( 'hp_graph_payload', null );
+
+	if ( hp_graph_is_valid_payload( $data ) ) {
+		return $data;
+	}
+
+	$legacy_key = 'hp_graph_data_v' . (int) get_option( 'hp_glossar_version', 0 );
+	$legacy    = get_transient( $legacy_key );
+
+	if ( hp_graph_is_valid_payload( $legacy ) ) {
+		hp_graph_store_compiled_data( $legacy );
+		return $legacy;
+	}
+
+	return null;
+}
+
+/**
+ * Speichert kompiliertes Graph-Payload persistent, aber nicht autoloaded.
+ *
+ * @param array $data Graph-Payload.
+ */
+function hp_graph_store_compiled_data( array $data ): void {
+	$data['meta']['cached']  = false;
+	$data['meta']['status']  = 'ready';
+	$data['meta']['version'] = (int) get_option( 'hp_graph_version', 0 );
+
+	update_option( 'hp_graph_payload', $data, false );
+	update_option( 'hp_graph_status', 'ready', false );
+	delete_option( 'hp_graph_last_error' );
+}
+
+/**
+ * Plant einen Graph-Rebuild, falls nicht schon einer ansteht.
+ */
+function hp_graph_schedule_rebuild(): void {
+	if ( ! wp_next_scheduled( 'hp_graph_rebuild_event' ) ) {
+		wp_schedule_single_event( time() + 15, 'hp_graph_rebuild_event' );
+	}
+}
+
+/**
+ * Kompiliert den Graph im Hintergrund neu.
+ */
+function hp_graph_rebuild_compiled_data(): void {
+	try {
+		$data = hp_graph_build_data();
+		hp_graph_store_compiled_data( $data );
+	} catch ( \Throwable $e ) {
+		update_option( 'hp_graph_status', 'error', false );
+		update_option( 'hp_graph_last_error', $e->getMessage(), false );
+	}
+}
+add_action( 'hp_graph_rebuild_event', 'hp_graph_rebuild_compiled_data' );
+
+/**
+ * Markiert den Graph als stale und plant den asynchronen Rebuild.
+ */
+function hp_graph_mark_stale_and_schedule(): void {
+	$new_version = (int) get_option( 'hp_graph_version', 0 ) + 1;
+	update_option( 'hp_graph_version', $new_version, false );
+
+	$status = hp_graph_get_compiled_data() ? 'stale' : 'pending';
+	update_option( 'hp_graph_status', $status, false );
+
+	hp_graph_schedule_rebuild();
+}
+
+/* =========================================
+   4. CACHE INVALIDIERUNG
+   ========================================= */
+
+/**
+ * Plant einen Graph-Rebuild bei Änderungen an
+ * Essays, Notizen oder Glossar-Einträgen.
  *
  * @param int $post_id
  */
@@ -309,22 +425,12 @@ function hp_graph_flush_cache( int $post_id ): void {
 		return;
 	}
 
-	// Glossar-Einträge invalidieren bereits via hp_glossar_flush_cache().
-	// Für essay/note müssen wir die Version ebenfalls bumpen.
-	if ( 'glossar' !== $type ) {
-		$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
-		update_option( 'hp_glossar_version', $new_version, false );
-	}
-
-	// Graph-spezifische Transients löschen
-	global $wpdb;
-	$wpdb->query(
-		"DELETE FROM {$wpdb->options}
-		 WHERE option_name LIKE '_transient_hp_graph_%'
-		    OR option_name LIKE '_transient_timeout_hp_graph_%'"
-	);
+	hp_graph_mark_stale_and_schedule();
 }
-add_action( 'save_post', 'hp_graph_flush_cache' );
+add_action( 'save_post_essay', 'hp_graph_flush_cache' );
+add_action( 'save_post_note', 'hp_graph_flush_cache' );
+add_action( 'save_post_glossar', 'hp_graph_flush_cache' );
+add_action( 'delete_post', 'hp_graph_flush_cache' );
 
 /**
  * Invalidiert Graph-Cache bei Topic-Änderungen.
@@ -332,21 +438,14 @@ add_action( 'save_post', 'hp_graph_flush_cache' );
  * @param int $term_id
  */
 function hp_graph_flush_cache_on_topic( int $term_id ): void {
-	$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
-	update_option( 'hp_glossar_version', $new_version, false );
-
-	global $wpdb;
-	$wpdb->query(
-		"DELETE FROM {$wpdb->options}
-		 WHERE option_name LIKE '_transient_hp_graph_%'
-		    OR option_name LIKE '_transient_timeout_hp_graph_%'"
-	);
+	hp_graph_mark_stale_and_schedule();
 }
 add_action( 'edited_topic', 'hp_graph_flush_cache_on_topic' );
 add_action( 'created_topic', 'hp_graph_flush_cache_on_topic' );
+add_action( 'delete_topic', 'hp_graph_flush_cache_on_topic' );
 
 /* =========================================
-   4. CONDITIONAL ASSET LOADING
+   5. CONDITIONAL ASSET LOADING
    ========================================= */
 
 /**
@@ -387,22 +486,7 @@ function hp_graph_enqueue_assets(): void {
 		true
 	);
 
-	// Graph-Daten direkt inline einbetten (kein REST nötig)
-	$glossar_ver = (int) get_option( 'hp_glossar_version', 0 );
-	$cache_key   = 'hp_graph_data_v' . $glossar_ver;
-	$data        = get_transient( $cache_key );
-
-	if ( false === $data || ! is_array( $data ) || ! isset( $data['nodes'] ) ) {
-		try {
-			$data = hp_graph_build_data();
-			set_transient( $cache_key, $data, DAY_IN_SECONDS );
-		} catch ( \Throwable $e ) {
-			$data = [ 'nodes' => [], 'edges' => [], 'meta' => [ 'error' => $e->getMessage() ] ];
-		}
-	}
-
 	wp_localize_script( 'hp-graph-js', 'hpGraph', [
-		'data'    => $data,
 		'restUrl' => esc_url_raw( rest_url( 'hp/v1/graph' ) ),
 	] );
 }

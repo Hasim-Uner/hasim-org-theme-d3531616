@@ -140,8 +140,17 @@
 
 		if ( state.nodes.length === 0 ) {
 			var empty = document.createElement( 'div' );
+			var status = data.meta && data.meta.status ? data.meta.status : 'ready';
+			var message = 'Noch keine Inhalte für den Wissensgraph vorhanden.';
+
+			if ( status === 'pending' || status === 'stale' ) {
+				message = 'Der Wissensgraph wird gerade vorbereitet. Bitte in Kürze erneut laden.';
+			} else if ( status === 'error' ) {
+				message = 'Der Wissensgraph konnte noch nicht vorbereitet werden.';
+			}
+
 			empty.className = 'hp-graph__loading hp-graph__loading--empty';
-			empty.innerHTML = '<p>Noch keine Inhalte für den Wissensgraph vorhanden.</p>';
+			empty.innerHTML = '<p>' + escHtml( message ) + '</p>';
 			canvas.classList.add( 'is-empty' );
 			canvas.appendChild( empty );
 			updateSRSummary();

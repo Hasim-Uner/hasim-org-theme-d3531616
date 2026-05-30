@@ -72,12 +72,12 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | contact submissions table | `inc/contacts-admin.php` | local contact submission archive |
 | votes table | `inc/votes.php` | like/dislike counts and user vote tracking |
 | `nexus_seo_cockpit_*` options/transients | `inc/seo-cockpit/` | Search Console settings, OAuth tokens, runtime state and report caches |
-| transients | graph/link/glossary modules | graph data, link previews, glossary caches |
+| `hp_graph_payload`, `hp_graph_version`, `hp_graph_status` options | `inc/graph-api.php` | compiled knowledge graph JSON, rebuilt by `hp_graph_rebuild_event` |
+| transients | link/glossary modules | link previews and glossary auto-link caches |
 
 ## Known Architecture Debt
 
 - `style.css` should be split into base, components, pages, and feature CSS.
-- Graph cache versions should be separated from glossary cache versions.
 - Editor inline JS should move to small editor assets when those panels are next touched.
 
 ## Migration Principle

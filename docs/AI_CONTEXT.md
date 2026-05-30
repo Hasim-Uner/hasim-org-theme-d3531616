@@ -43,7 +43,7 @@ Do not open these unless the task directly needs them:
 ## Current Hotspots
 
 - `style.css`: 7k+ lines, should be split later.
-- `inc/graph-api.php`: graph build combines topic edges and glossary regex scanning; optimize before major content growth.
+- `inc/graph-api.php`: graph build still combines topic edges and glossary regex scanning, but runs through the scheduled `hp_graph_rebuild_event`; REST and render paths should only read compiled payload.
 
 ## Context Budget Rules
 

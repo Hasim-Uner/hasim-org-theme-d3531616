@@ -41,22 +41,17 @@ function hp_minigraph_get_neighbors( int $post_id, int $limit = 8 ): array {
 
 	$focal_id = $type . '_' . $post_id;
 
-	// Cached Graph-Daten verwenden — füllen wenn leer
-	if ( ! function_exists( 'hp_graph_build_data' ) ) {
+	// Kompiliertes Graph-Payload verwenden; kein synchroner Rebuild im Render.
+	if ( ! function_exists( 'hp_graph_get_compiled_data' ) ) {
 		return [];
 	}
 
-	$glossar_ver = (int) get_option( 'hp_glossar_version', 0 );
-	$cache_key   = 'hp_graph_data_v' . $glossar_ver;
-	$data        = get_transient( $cache_key );
-
-	if ( false === $data || ! is_array( $data ) || ! isset( $data['nodes'] ) ) {
-		try {
-			$data = hp_graph_build_data();
-			set_transient( $cache_key, $data, DAY_IN_SECONDS );
-		} catch ( \Throwable $e ) {
-			return [];
+	$data = hp_graph_get_compiled_data();
+	if ( null === $data ) {
+		if ( function_exists( 'hp_graph_schedule_rebuild' ) ) {
+			hp_graph_schedule_rebuild();
 		}
+		return [];
 	}
 
 	if ( empty( $data['edges'] ) ) {
