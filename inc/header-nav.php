@@ -118,22 +118,15 @@ function hp_render_journal_header(): void {
 				</span>
 			</div>
 
-			<?php
-			// Wortmarke ist <h1> NUR auf der Startseite — sonst ergäbe
-			// es zwei H1s pro Seite (Masthead + Artikeltitel) und zer-
-			// schießt die Outline-Hierarchie für Screen-Reader und SEO.
-			// Auf Unterseiten visuell identisch als <p> gerendert.
-			$hp_mh_tag = is_front_page() ? 'h1' : 'p';
-			?>
 			<a class="hp-masthead__home" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="Zur Startseite">
-				<<?php echo $hp_mh_tag; ?> class="hp-masthead__wordmark">
+				<p class="hp-masthead__wordmark">
 					<span class="hp-masthead__wordmark-upper">Macht. Medien.</span>
 					<span class="hp-masthead__wordmark-frame">
 						<span class="hp-masthead__wordmark-lower">
 							<span class="hp-masthead__wordmark-lower-wrap">Perspektive.</span>
 						</span>
 					</span>
-				</<?php echo $hp_mh_tag; ?>>
+				</p>
 			</a>
 		</div>
 	</header>

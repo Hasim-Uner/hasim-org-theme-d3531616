@@ -3,17 +3,18 @@
  * Template: Front Page — Hasimuener Journal
  *
  * Editoriales Layout:
- *   1. Hero (Latest Essay) — bleibt
- *   2. Drei Einstiege (Neu / Thema / Begriff) — Wissensplattform Phase 4
+ *   1. Entity-Hero mit Featured Essay
+ *   2. Drei Einstiege (Neu / Thema / Begriff)
  *   3. Newsletter
- *   4. Themenfelder
+ *   4. Autor-/Entity-Sektion
+ *   5. Themenfelder
  *
  * Strategische Verschiebung: aus der reinen Chronologie wird eine
  * dreigeteilte Orientierung — Leserin entscheidet ob sie nach Datum
  * (Neu), nach Thema (Dossiers) oder nach Begriff (Glossar) einsteigt.
  *
  * @package Hasimuener_Journal
- * @version 5.5.0 — Wissensplattform Phase 4
+ * @version 6.0.0
  */
 
 get_header(); ?>
@@ -21,31 +22,33 @@ get_header(); ?>
 <main id="main-content" class="journal-front" role="main">
 
     <!-- ==========================================
-         1. EDITORIAL HERO — Neuester Essay
+         1. ENTITY-HERO — Claim + Featured Essay
          ========================================== -->
     <?php
-    $hp_hero = new WP_Query( [
-        'post_type'      => 'essay',
-        'posts_per_page' => 1,
-        'post_status'    => 'publish',
+    $hp_hero_posts = get_posts( [
+        'post_type'           => 'essay',
+        'posts_per_page'      => 1,
+        'post_status'         => 'publish',
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+        'ignore_sticky_posts' => true,
     ] );
+    $hp_hero_post      = ! empty( $hp_hero_posts[0] ) && $hp_hero_posts[0] instanceof WP_Post ? $hp_hero_posts[0] : null;
+    $hp_hero_id        = $hp_hero_post ? (int) $hp_hero_post->ID : 0;
+    $hp_hero_has_image = $hp_hero_id && has_post_thumbnail( $hp_hero_id );
+    $hp_hero_classes   = 'editorial-hero editorial-hero--atmospheric';
 
-    if ( $hp_hero->have_posts() ) :
-        while ( $hp_hero->have_posts() ) : $hp_hero->the_post();
-            $hp_hero_has_image = has_post_thumbnail();
-            $hp_hero_classes   = 'editorial-hero editorial-hero--atmospheric';
+    if ( $hp_hero_has_image ) {
+        $hp_hero_classes .= ' editorial-hero--has-image';
+    }
+    ?>
 
-            if ( $hp_hero_has_image ) {
-                $hp_hero_classes .= ' editorial-hero--has-image';
-            }
-            ?>
-
-    <section class="<?php echo esc_attr( $hp_hero_classes ); ?>" aria-label="Aktueller Essay">
+    <section class="<?php echo esc_attr( $hp_hero_classes ); ?>" aria-labelledby="front-hero-title">
         <?php if ( $hp_hero_has_image ) : ?>
             <div class="editorial-hero__media" aria-hidden="true">
                 <?php
                 echo wp_get_attachment_image(
-                    get_post_thumbnail_id(),
+                    get_post_thumbnail_id( $hp_hero_id ),
                     'large',
                     false,
                     [
@@ -62,42 +65,49 @@ get_header(); ?>
         <?php endif; ?>
         <div class="editorial-hero__grid">
 
-            <div class="editorial-hero__meta hp-overline">
-                <span>Essay</span>
-                <span class="hp-overline__sep" aria-hidden="true"></span>
-                <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
-                    <?php echo esc_html( get_the_date( 'j. F Y' ) ); ?>
-                </time>
-                <span class="hp-overline__sep" aria-hidden="true"></span>
-                <span><?php echo esc_html( hp_reading_time() ); ?></span>
+            <div class="editorial-hero__claim">
+                <p class="editorial-hero__eyebrow">Ein Journal von Haşim Üner</p>
+                <h1 id="front-hero-title" class="editorial-hero__title">Macht. Medien. Perspektive.</h1>
+                <p class="editorial-hero__subline">Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft. Von Haşim Üner.</p>
+
+                <div class="editorial-hero__actions" aria-label="Startpunkte">
+                    <?php if ( $hp_hero_post ) : ?>
+                        <a href="<?php echo esc_url( get_permalink( $hp_hero_post ) ); ?>" class="editorial-hero__button editorial-hero__button--primary">Aktuellen Essay lesen</a>
+                    <?php endif; ?>
+                    <a href="#newsletter-signup" class="editorial-hero__button editorial-hero__button--secondary">Journal abonnieren</a>
+                </div>
             </div>
 
-            <h1 class="editorial-hero__title">
-                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-            </h1>
+            <?php if ( $hp_hero_post ) : ?>
+                <article class="editorial-hero__feature" aria-labelledby="front-feature-title">
+                    <div class="editorial-hero__meta hp-overline">
+                        <span>Aktueller Essay</span>
+                        <span class="hp-overline__sep" aria-hidden="true"></span>
+                        <time datetime="<?php echo esc_attr( get_the_date( 'c', $hp_hero_post ) ); ?>">
+                            <?php echo esc_html( get_the_date( 'j. F Y', $hp_hero_post ) ); ?>
+                        </time>
+                        <span class="hp-overline__sep" aria-hidden="true"></span>
+                        <span><?php echo esc_html( hp_reading_time( $hp_hero_id ) ); ?></span>
+                    </div>
 
-            <?php if ( has_excerpt() ) : ?>
-                <p class="editorial-hero__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
+                    <h2 id="front-feature-title" class="editorial-hero__feature-title">
+                        <a href="<?php echo esc_url( get_permalink( $hp_hero_post ) ); ?>"><?php echo esc_html( get_the_title( $hp_hero_post ) ); ?></a>
+                    </h2>
+
+                    <?php if ( has_excerpt( $hp_hero_id ) ) : ?>
+                        <p class="editorial-hero__excerpt"><?php echo esc_html( get_the_excerpt( $hp_hero_post ) ); ?></p>
+                    <?php endif; ?>
+
+                    <a href="<?php echo esc_url( get_permalink( $hp_hero_post ) ); ?>" class="editorial-hero__cta" aria-label="<?php echo esc_attr( get_the_title( $hp_hero_post ) ); ?> — Ganzen Essay lesen">Ganzen Essay lesen &rarr;</a>
+                </article>
+            <?php else : ?>
+                <article class="editorial-hero__feature editorial-hero__feature--empty" aria-label="Journal-Status">
+                    <p class="editorial-hero__excerpt">Die ersten Essays entstehen gerade. Bis dahin führen Mission, Begriffe und Themenfelder in die Struktur des Journals.</p>
+                    <a href="<?php echo esc_url( home_url( '/mission/' ) ); ?>" class="editorial-hero__cta">Mission lesen &rarr;</a>
+                </article>
             <?php endif; ?>
-
-            <a href="<?php the_permalink(); ?>" class="editorial-hero__cta" aria-label="<?php the_title_attribute(); ?> — Ganzen Essay lesen">Ganzen Essay lesen &rarr;</a>
         </div>
     </section>
-
-        <?php endwhile;
-    else : ?>
-
-    <!-- Fallback: Kein Essay vorhanden -->
-    <section class="editorial-hero editorial-hero--atmospheric editorial-hero--empty" aria-label="Aktueller Essay">
-        <div class="editorial-hero__grid">
-            <div class="editorial-hero__meta hp-overline"><span>Hasim Üner</span></div>
-            <h1 class="editorial-hero__title">Macht. Medien. Perspektive.</h1>
-            <p class="editorial-hero__excerpt">Essays und Analysen zu Macht, Medien und Perspektive. Von Hasim Üner.</p>
-        </div>
-    </section>
-
-    <?php endif;
-    wp_reset_postdata(); ?>
 
     <hr class="journal-rule" aria-hidden="true">
 
@@ -235,12 +245,47 @@ get_header(); ?>
     <hr class="journal-rule" aria-hidden="true">
 
     <!-- ==========================================
-         3. NEWSLETTER (entfernt — globale Header-Glocke übernimmt)
-         siehe inc/header-nav.php → hp-nav-bell-modal
+         3. NEWSLETTER
          ========================================== -->
+    <?php
+    if ( function_exists( 'hp_render_newsletter_form' ) ) {
+        hp_render_newsletter_form( [
+            'id'           => 'newsletter-signup',
+            'context'      => 'front_page',
+            'variant'      => 'home',
+            'eyebrow'      => 'Brief aus dem Journal',
+            'title'        => 'Seltene Texte. Keine Dauerbeschallung.',
+            'lede'         => 'Eine kurze Mail, wenn ein neuer Essay erscheint oder ein Gedanke wirklich trägt.',
+            'promises'     => [
+                'Essays, Notizen und Begriffe aus dem Journal',
+                'Keine künstliche Frequenz',
+                'Jederzeit abbestellbar',
+            ],
+            'submit_label' => 'Anmelden',
+        ] );
+    }
+    ?>
+
+    <hr class="journal-rule" aria-hidden="true">
 
     <!-- ==========================================
-         4. THEMENFELDER (Taxonomie)
+         4. AUTOR / ENTITY
+         ========================================== -->
+    <section class="hp-front-entity" aria-labelledby="front-entity-title">
+        <div class="hp-front-entity__inner">
+            <div class="hp-front-entity__copy">
+                <p class="hp-kicker">Autor &amp; Journal</p>
+                <h2 id="front-entity-title" class="hp-front-entity__title">Haşim Üner schreibt über die Stellen, an denen Macht unsichtbar wird.</h2>
+                <p class="hp-front-entity__text">Dieses Journal verbindet Essays, Notizen, Begriffe und Dossiers zu einer ruhigen Wissensplattform: gegen einfache Gewissheiten, für präzisere Sprache und für Perspektiven, die nicht sofort in Lager zerfallen.</p>
+            </div>
+            <a class="hp-front-entity__link" href="<?php echo esc_url( home_url( '/mission/' ) ); ?>">Warum dieses Journal existiert <span aria-hidden="true">&rarr;</span></a>
+        </div>
+    </section>
+
+    <hr class="journal-rule" aria-hidden="true">
+
+    <!-- ==========================================
+         5. THEMENFELDER (Taxonomie)
          ========================================== -->
     <?php
     $hp_topics = hp_get_curated_topics();

@@ -50,6 +50,9 @@ function hp_journal_enqueue_assets(): void {
 	$linkprev_ver = file_exists( $dir . '/assets/js/link-preview.js' )
 		? (string) filemtime( $dir . '/assets/js/link-preview.js' )
 		: $theme_version;
+	$front_ver = file_exists( $dir . '/assets/css/pages/front-page.css' )
+		? (string) filemtime( $dir . '/assets/css/pages/front-page.css' )
+		: $theme_version;
 	$legal_ver = file_exists( $dir . '/assets/css/pages/legal.css' )
 		? (string) filemtime( $dir . '/assets/css/pages/legal.css' )
 		: $theme_version;
@@ -69,6 +72,16 @@ function hp_journal_enqueue_assets(): void {
 		[ 'generatepress-style', 'generate-style' ],
 		$style_ver
 	);
+
+	// Front page: Entity-Hero, Einstiegsmodule, Autor-Sektion.
+	if ( is_front_page() ) {
+		wp_enqueue_style(
+			'hp-front-page',
+			$uri . '/assets/css/pages/front-page.css',
+			[ 'hp-journal-style' ],
+			$front_ver
+		);
+	}
 
 	// Legal pages: Impressum + Datenschutz.
 	if ( is_page_template( [ 'page-impressum.php', 'page-datenschutz.php' ] ) || is_page( [ 'impressum', 'datenschutz' ] ) ) {

@@ -8,6 +8,7 @@ Frontend assets are owned by PHP modules and should be loaded only where needed.
 |---|---|---|---|---|---|
 | `generatepress-style` | parent `style.css` | `inc/enqueue.php` | all frontend pages | none | none |
 | `hp-journal-style` | `style.css` | `inc/enqueue.php` | all frontend pages | `generatepress-style`, `generate-style` | none |
+| `hp-front-page` | `assets/css/pages/front-page.css` | `inc/enqueue.php` | front page | `hp-journal-style` | none |
 | `hp-legal-pages` | `assets/css/pages/legal.css` | `inc/enqueue.php` | Impressum/Datenschutz page template or slug | `hp-journal-style` | none |
 | `hp-nav-js` | `assets/js/nav.js` | `inc/enqueue.php` | all frontend pages | none | none |
 | `hp-journal-single` | `assets/js/journal-single.js` | `inc/enqueue.php` | singular `essay`, `note`, `post` | none | none |

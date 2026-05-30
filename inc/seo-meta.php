@@ -173,6 +173,21 @@ function hp_filter_mission_document_title( string $title ): string {
 add_filter( 'pre_get_document_title', 'hp_filter_mission_document_title' );
 
 /**
+ * Stabiler Dokumenttitel für die Startseite.
+ *
+ * @param string $title Vorheriger Titel.
+ * @return string
+ */
+function hp_filter_front_page_document_title( string $title ): string {
+	if ( is_admin() || ( ! is_front_page() && ! is_home() ) ) {
+		return $title;
+	}
+
+	return 'Macht. Medien. Perspektive. – Haşim Üner';
+}
+add_filter( 'pre_get_document_title', 'hp_filter_front_page_document_title' );
+
+/**
  * Vereinheitlicht die Title-Tags für Archive, Suche und 404.
  *
  * Standard-WP-Titel wirken auf Archiven oft generisch
@@ -224,11 +239,7 @@ function hp_get_meta_description(): string {
 	}
 
 	if ( is_front_page() || is_home() ) {
-		$desc = get_bloginfo( 'description' );
-
-		if ( ! $desc ) {
-			$desc = 'Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft.';
-		}
+		$desc = 'Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft. Von Haşim Üner.';
 	} elseif ( is_singular() ) {
 		$post = get_queried_object();
 		if ( ! ( $post instanceof WP_Post ) ) {
