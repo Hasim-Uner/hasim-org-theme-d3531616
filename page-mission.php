@@ -57,7 +57,7 @@ $hp_contact_url = hp_get_contact_page_url();
 
 			<p>Und es ist mehr als das, was übrig bleibt — es ist der Weg hinaus. Wer wieder spürt, was trägt, löst sich nach und nach aus dem, was ihn überformt: nicht im Kampf dagegen, sondern indem das Lebendige zurückkehrt. So wächst Resonanz. So kommt das Werden wieder in Bewegung.</p>
 
-			<p>Ich schreibe seit Jahren — Begriffe auseinandernehmen, um zu verstehen. Das täte ich auch, wenn niemand mitläse. Veröffentlichen tue ich aus einem zweiten Grund: weil das, was beim Verstehen sichtbar wird, gegen die Resignation steht. Ich will nicht entlarven, was falsch ist, sondern freilegen, was bleibt. Wer die Überlagerung durchschaut, sieht auch das, was sie überlagert.</p>
+			<p>Ich habe jahrelang nur für mich geschrieben — Begriffe aufgebrochen, um sie zu begreifen. Veröffentlichen tue ich aus einem zweiten Grund: weil das, was dabei sichtbar wird, gegen die Resignation steht. Ich will nicht entlarven, was falsch ist, sondern freilegen, was bleibt. Wer die Überlagerung durchschaut, sieht auch das, was sie überlagert.</p>
 
 			<p>Freiheit ist darum nicht die Abwesenheit von Form. Wer sich von jeder Form lösen will, landet nicht in Freiheit, sondern in Beliebigkeit — und Beliebigkeit ist nur Rauschen unter anderem Namen. Es geht darum, die geerbten, unbewussten Formen durch selbst gewählte zu ersetzen: feste Formen, offene Gründe. An der Praxis festhalten, ohne ihre Begründung für unantastbar zu erklären.</p>
 
