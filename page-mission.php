@@ -28,26 +28,18 @@ $hp_contact_url = hp_get_contact_page_url();
 		<div class="single-body__main hp-mission__content">
 
 			<?php /* ── Raum 1: Freiheit ── */ ?>
-			<p class="hp-mission__lede">Die Frage, wie frei wir wirklich sind, kam für mich vor jedem Buch. Als Kurde wächst man mit ihr auf — bevor man weiß, dass es eine philosophische Frage ist. Welche Sprache du sprechen darfst. Welche Geschichte als wahr gilt. Wer du sein darfst. Erst später, mit Anfang zwanzig bei Nietzsche, hat sie eine Sprache bekommen, die zu ihr passte.</p>
+			<p class="hp-mission__lede">Die Frage nach der Freiheit kam für mich vor jedem Buch. Als Kurde wächst man mit ihr auf, bevor man weiß, dass sie eine philosophische Frage ist: welche Sprache du sprechen darfst, welche Geschichte als wahr gilt, wer du sein darfst. Erst mit Anfang zwanzig, bei Nietzsche, bekam sie eine Sprache.</p>
 
-			<p>Kurde zu sein ist für mich mehr als Identität — es ist eine Beziehung zur Frage der Freiheit selbst. Und die geht tiefer, als sie zunächst scheint: nicht nur, was wir tun dürfen, sondern was wir überhaupt denken können. Gerade deshalb weiß ich, wie schwer Befreiung ist. Sie ist kein Zustand, den man erreicht, sondern ein Prozess, der nie aufhört.</p>
+			<p>Lange war das eine Frage nach äußerer Freiheit — nach dem, was man tun, sagen, sein darf. Diese Unfreiheit ist sichtbar; sie hat einen Namen und einen Gegner. Inzwischen interessiert mich die Frage darunter: nicht, was wir tun dürfen, sondern was wir überhaupt denken können. Sie ist schwerer zu fassen, weil das Werkzeug, mit dem man sie untersucht — das eigene Denken — selbst das ist, was geprägt wurde. Von der Sprache, in der man aufwuchs. Von der Position, in die man gestellt wurde. Von dem, woran man sich selbst gewöhnt hat.</p>
 
 			<hr class="hp-mission__separator">
 
 			<?php /* ── Raum 2: Resonanz ── */ ?>
-			<p>Wir sind mehr, als von uns erwartet wird. Mehr, als Konsum, Lagerdenken und vorgefertigte Rollen es zulassen. Das ist keine Klage. Das Dasein ist nicht arm — es ist überwältigend in seiner Tiefe und Form. Die Welt ist nicht öde — sie ist voller Bewegung, Möglichkeit, Bedeutung. Aber etwas in unserem Verhältnis zu ihr ist verstellt worden.</p>
+			<p>Es geht mir nicht darum, das zu durchschauen und dann resigniert dazustehen. Durchschauen ist nur die eine Hälfte — die Befreiung von etwas. Die andere ist, selbst etwas zu bauen: schön zu denken, mit allem, was Menschsein ausmacht — Kreativität, Empathie, der Sinn für Stimmigkeit.</p>
 
-			<p>Eine davon ist Resonanz.</p>
+			<p>Für diese Stimmigkeit habe ich einen Namen: Resonanz. Das Gefühl, dass etwas zu dir passt, durch dich hindurchgeht, antwortet. Das Knistern eines Feuers, die Wärme einer Hand, der Geruch von Regen auf warmer Erde. Ihr Gegenteil ist nicht die Stille, sondern die Überflutung — das Rauschen, das uns nicht mehr unterscheiden lässt, was wirklich trifft und was nur reizt. Darin unterscheide ich mich von Hartmut Rosa, der Resonanz zum „unverfügbaren Ereignis" erhebt. Die Diagnose teile ich. Den metaphysischen Überbau brauche ich nicht.</p>
 
-			<p>Resonanz ist Stimmigkeit. Das Gefühl, dass etwas zu dir passt, durch dich hindurchgeht, antwortet. Das Knistern eines Lagerfeuers. Die Wärme einer Hand in deiner. Der Geruch von Regen auf warmer Erde. Eine Melodie, die dich seit Jahren begleitet. Die Stille kurz vor einem Gewitter. Sie ist körperlich spürbar — manchmal als Kribbeln, manchmal nur als Ruhe.</p>
-
-			<p>Das Gegenteil von Resonanz ist nicht ihre Abwesenheit. Es ist Überflutung. Das ständige Rauschen aus Ängsten, Wünschen, Informationen, das uns nicht mehr unterscheiden lässt, was wirklich trifft und was nur reizt.</p>
-
-			<p>Resonanz ist nicht rar. Sie ist immer da — wie ein Strom, der durch uns geht. Sie braucht nur Stille und bewusstes Wahrnehmen. Bewusstsein, Kreativität, Entdeckungskraft — ich glaube, dass all das davon lebt, dass wir im Kern resonanzfähige Wesen sind.</p>
-
-			<p>Damit unterscheide ich mich von Hartmut Rosa, der Resonanz mit theologischem Vokabular zum „konstitutiv unverfügbaren Ereignis" erhebt. Seine Diagnose, dass die Spätmoderne sie verstellt, teile ich. Den metaphysischen Überbau brauche ich nicht.</p>
-
-			<p>Je näher man der Natur ist, desto mehr wird man sich selbst. Kennst du das? Was uns mit allem verbindet, ist in meiner Lesart keine Tugend, sondern eine Grundresonanz zum Dasein — die Stoiker nannten sie <a href="<?php echo esc_url( home_url( '/glossar/sympatheia/' ) ); ?>">Sympatheia</a>.</p>
+			<p>Freiheit ist für mich darum nicht die Abwesenheit von Form. Wer sich von jedem System lösen will, landet nicht in Freiheit, sondern in Beliebigkeit — und Beliebigkeit ist nur Rauschen unter anderem Namen. Es geht darum, die geerbten, unbewussten Formen durch selbst gewählte zu ersetzen: feste Formen, offene Gründe. An der Praxis festhalten, ohne ihre Begründung für unantastbar zu erklären.</p>
 
 			<figure class="hp-mission__portrait" role="group" aria-label="Porträt Haşim Üner">
 				<img
@@ -66,14 +58,12 @@ $hp_contact_url = hp_get_contact_page_url();
 			<hr class="hp-mission__separator">
 
 			<?php /* ── Raum 3: Mehrsprachigkeit & Perspektive ── */ ?>
-			<p>Geboren in der Türkei (<a href="<?php echo esc_url( home_url( '/glossar/nordkurdistan/' ) ); ?>">Nordkurdistan</a> / Bakur), aufgewachsen in Deutschland. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Wer so aufwächst, verliert irgendwann die Geduld mit einfachen Antworten. Und gewinnt dafür etwas anderes: den Blick für das, was Narrative verdecken. Für das, was Hierarchien unsichtbar halten. Für die Risse im Selbstverständlichen.</p>
-
-			<p>Mein Blick auf Gesellschaft ist unweigerlich politisiert — nicht durch Parteihaltung, sondern durch Herkunft, Sprache, Geschichte und Reibung.</p>
+			<p>Geboren in der Türkei (<a href="<?php echo esc_url( home_url( '/glossar/nordkurdistan/' ) ); ?>">Nordkurdistan</a> / Bakur), aufgewachsen in Deutschland. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Wer so aufwächst, verliert die Geduld mit einfachen Antworten und gewinnt den Blick für das, was Narrative verdecken und Hierarchien unsichtbar halten. Mein Blick ist politisiert — nicht durch Parteihaltung, sondern durch Herkunft, Sprache und Reibung.</p>
 
 			<hr class="hp-mission__separator">
 
 			<?php /* ── Raum 4: Journal ── */ ?>
-			<p>Dieses Journal ist der Versuch, genau zu fragen — nicht um Recht zu haben, sondern um klarer zu sehen. Kein Tracking. Keine Klick-Köder. Nur Texte, Begriffe, Verbindungen — und ein Plädoyer für Vernunft als menschliches Vermögen, nicht als Kälte.</p>
+			<p>Dieses Journal ist der Versuch, mit Vernunft zu fragen — nicht um recht zu haben, sondern um klarer zu sehen. Kein Tracking, keine Klick-Köder. Nur Texte, Begriffe, Verbindungen — und ein Plädoyer für Vernunft als menschliches Vermögen, nicht als Kälte.</p>
 
 			<section class="hp-mission__closing" aria-label="Abschluss und nächste Schritte">
 				<div class="hp-mission__cta" aria-label="Nächste Schritte">
