@@ -35,7 +35,7 @@ $hp_contact_url = hp_get_contact_page_url();
 			<hr class="hp-mission__separator">
 
 			<?php /* ── Raum 2: Resonanz ── */ ?>
-			<p>Es geht mir nicht darum, das zu durchschauen und dann resigniert dazustehen. Durchschauen ist nur die eine Hälfte — die Befreiung von etwas. Die andere ist, selbst etwas zu bauen: schön zu denken, mit allem, was Menschsein ausmacht — Kreativität, Empathie, der Sinn für Stimmigkeit.</p>
+			<p>Es geht mir nicht darum, das zu durchschauen und dann resigniert dazustehen. Durchschauen ist nur die eine Hälfte — die Befreiung von etwas. Die andere ist, selbst etwas zu bauen: schön zu denken — ein Denken, das nicht nur durchschaut, sondern hervorbringt.</p>
 
 			<p>Für diese Stimmigkeit habe ich einen Namen: Resonanz. Das Gefühl, dass etwas zu dir passt, durch dich hindurchgeht, antwortet. Das Knistern eines Feuers, die Wärme einer Hand, der Geruch von Regen auf warmer Erde. Ihr Gegenteil ist nicht die Stille, sondern die Überflutung — das Rauschen, das uns nicht mehr unterscheiden lässt, was wirklich trifft und was nur reizt. Darin unterscheide ich mich von Hartmut Rosa, der Resonanz zum „unverfügbaren Ereignis" erhebt. Die Diagnose teile ich. Den metaphysischen Überbau brauche ich nicht.</p>
 
