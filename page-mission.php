@@ -27,19 +27,17 @@ $hp_contact_url = hp_get_contact_page_url();
 
 		<div class="single-body__main hp-mission__content">
 
-			<?php /* ── Raum 1: Freiheit ── */ ?>
 			<p class="hp-mission__lede">Die Frage nach der Freiheit kam für mich vor jedem Buch. Als Kurde wächst man mit ihr auf, bevor man weiß, dass sie eine philosophische Frage ist: welche Sprache du sprechen darfst, welche Geschichte als wahr gilt, wer du sein darfst. Erst mit Anfang zwanzig, bei Nietzsche, bekam sie eine Sprache.</p>
 
-			<p>Lange war das eine Frage nach äußerer Freiheit — nach dem, was man tun, sagen, sein darf. Diese Unfreiheit ist sichtbar; sie hat einen Namen und einen Gegner. Inzwischen interessiert mich die Frage darunter: nicht, was wir tun dürfen, sondern was wir überhaupt denken können. Sie ist schwerer zu fassen, weil das Werkzeug, mit dem man sie untersucht — das eigene Denken — selbst das ist, was geprägt wurde. Von der Sprache, in der man aufwuchs. Von der Position, in die man gestellt wurde. Von dem, woran man sich selbst gewöhnt hat.</p>
+			<p>Lange war das eine Frage nach äußerer Freiheit — nach dem, was man tun, sagen, sein darf. Diese Unfreiheit ist sichtbar; sie hat einen Namen und einen Gegner. Inzwischen interessiert mich die Frage darunter: nicht, was wir tun dürfen, sondern was wir überhaupt denken können. Sie ist schwerer zu fassen, weil das Werkzeug, mit dem man sie untersucht — das eigene Denken — selbst geprägt wurde: von der Sprache, in der man aufwuchs, von der Position, in die man gestellt wurde, von dem, woran man sich gewöhnt hat.</p>
 
-			<hr class="hp-mission__separator">
+			<p>Geboren in der Türkei (<a href="<?php echo esc_url( home_url( '/glossar/nordkurdistan/' ) ); ?>">Nordkurdistan</a> / Bakur), aufgewachsen in Deutschland. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Wer so aufwächst, verliert die Geduld mit einfachen Antworten und gewinnt den Blick für das, was Narrative verdecken und Hierarchien unsichtbar halten. Ich kann nicht so tun, als stünde ich außerhalb: Über meine Sprache, meinen Namen, meine Geschichte wurde entschieden, bevor ich mitreden konnte. Das ist kein Standpunkt, den ich gewählt habe — es ist die Lage, aus der ich sehe.</p>
 
-			<?php /* ── Raum 2: Resonanz ── */ ?>
-			<p>Es geht mir nicht darum, das zu durchschauen und dann resigniert dazustehen. Durchschauen ist nur die eine Hälfte — die Befreiung von etwas. Die andere ist, selbst etwas zu bauen: schön zu denken — ein Denken, das nicht nur durchschaut, sondern hervorbringt.</p>
+			<p>Was uns einschränkt, ist nicht nur das, was verboten wird. Es ist das, was sich als selbstverständlich tarnt. Hierarchische Strukturen greifen tiefer als in unsere Rechte — sie formen, was wir denken, welche Räume wir betreten, wie wir mit dem eigenen Körper umgehen. Vieles davon wird uns als Moral verkauft, die keine ist — oder als Glück: das fertige Skript aus Besitz, Status und Konkurrenz, das niemanden satt macht. Beides ist nur Ordnung, die sich Sinn gibt. Aber keine Ordnung fasst alles. Sie hat Lücken, an denen sie nicht greift. Was sie überlagert, kann sie nicht zerstören. Und sie überlagert ohne Pause: Das Rauschen aus Reizen und Feeds muss ständig erneuert werden — gerade dieser Daueraufwand zeigt, wie nah das Übertönte liegt. Nichts davon muss sein.</p>
 
-			<p>Für diese Stimmigkeit habe ich einen Namen: Resonanz. Das Gefühl, dass etwas zu dir passt, durch dich hindurchgeht, antwortet. Das Knistern eines Feuers, die Wärme einer Hand, der Geruch von Regen auf warmer Erde. Ihr Gegenteil ist nicht die Stille, sondern die Überflutung — das Rauschen, das uns nicht mehr unterscheiden lässt, was wirklich trifft und was nur reizt. Darin unterscheide ich mich von Hartmut Rosa, der Resonanz zum „unverfügbaren Ereignis" erhebt. Die Diagnose teile ich. Den metaphysischen Überbau brauche ich nicht.</p>
+			<p>Denn darunter bleibt etwas, das sich nicht stilllegen lässt: Resonanz und Werden. Resonanz ist die Fähigkeit zu antworten — mitzuschwingen mit dem, was einen trifft. Auch Dissonanz gehört dazu: Dass ein Mensch dir nicht geheuer ist, dass du Gefahr spürst, ist genauso ein Antworten wie das Gefühl, dass etwas trägt. Der Mensch ist ein Resonanzkörper, physisch wie geistig. Werden ist die Bewegung, sich nicht festzustellen, sondern weiterzugehen. Beides wird gestört, überlagert, übertönt — aber es ist da, bei einzelnen Menschen, in einzelnen Gemeinschaften. Das Gegenteil von Resonanz ist darum nicht die Dissonanz, sondern die Betäubung: die Überflutung, in der alles gleich rauscht und nichts mehr antwortet.</p>
 
-			<p>Freiheit ist für mich darum nicht die Abwesenheit von Form. Wer sich von jedem System lösen will, landet nicht in Freiheit, sondern in Beliebigkeit — und Beliebigkeit ist nur Rauschen unter anderem Namen. Es geht darum, die geerbten, unbewussten Formen durch selbst gewählte zu ersetzen: feste Formen, offene Gründe. An der Praxis festhalten, ohne ihre Begründung für unantastbar zu erklären.</p>
+			<p>Hier trenne ich mich von Hartmut Rosa. Für ihn ist Resonanz ein unverfügbares Ereignis — etwas, das einem widerfährt oder ausbleibt und das sich nicht herstellen lässt. Für mich ist sie keine Ausnahme, sondern der Normalfall: immer schon da, nur überlagert. Erzwingen kann man sie nicht — aber man kann das Rauschen wegräumen, das sie übertönt. Nicht ein Ereignis, auf das man wartet, sondern ein Grund, den man freilegt. Rosas Diagnose der Spätmoderne teile ich. Seinen metaphysischen Überbau brauche ich nicht.</p>
 
 			<figure class="hp-mission__portrait" role="group" aria-label="Porträt Haşim Üner">
 				<img
@@ -55,15 +53,15 @@ $hp_contact_url = hp_get_contact_page_url();
 				</figcaption>
 			</figure>
 
-			<hr class="hp-mission__separator">
+			<p>Ich bin nicht der Typ, der sagt: Weil das System manipuliert, ist alles verloren. Es manipuliert — und scheitert trotzdem daran, den Menschen ganz zu fassen. Was uns ausmacht, sitzt tiefer als jede Ordnung: Empathie, Zuneigung, Kreativität, die Liebe zum Dasein selbst. Diese Vermögen sind in jeder Kultur dieselben — älter als jede Grenze, jede Sprache, jeder Staat. Das ist keine fromme Hoffnung, sondern das, was Jahrhunderttausende in uns abgelegt haben. Überlagern lässt es sich. Kaputtmachen nicht.</p>
 
-			<?php /* ── Raum 3: Mehrsprachigkeit & Perspektive ── */ ?>
-			<p>Geboren in der Türkei (<a href="<?php echo esc_url( home_url( '/glossar/nordkurdistan/' ) ); ?>">Nordkurdistan</a> / Bakur), aufgewachsen in Deutschland. Kurdisch, Türkisch, Deutsch — drei Sprachen, drei Geschichten, die sich oft widersprechen. Wer so aufwächst, verliert die Geduld mit einfachen Antworten und gewinnt den Blick für das, was Narrative verdecken und Hierarchien unsichtbar halten. Mein Blick ist politisiert — nicht durch Parteihaltung, sondern durch Herkunft, Sprache und Reibung.</p>
+			<p>Und es ist mehr als das, was übrig bleibt — es ist der Weg hinaus. Wer wieder spürt, was trägt, löst sich nach und nach aus dem, was ihn überformt: nicht im Kampf dagegen, sondern indem das Lebendige zurückkehrt. So wächst Resonanz. So kommt das Werden wieder in Bewegung.</p>
 
-			<hr class="hp-mission__separator">
+			<p>Ich schreibe seit Jahren, zuerst nur für mich. Ich nehme Begriffe auseinander, um zu verstehen — darin bin ich radikal. Das täte ich auch, wenn niemand mitläse. Veröffentlichen tue ich aus einem zweiten Grund: weil das, was beim Verstehen sichtbar wird, gegen die Resignation steht. Ich will nicht entlarven, was falsch ist, sondern freilegen, was bleibt. Wer die Überlagerung durchschaut, sieht auch das, was sie überlagert.</p>
 
-			<?php /* ── Raum 4: Journal ── */ ?>
-			<p>Dieses Journal ist der Versuch, mit Vernunft zu fragen — nicht um recht zu haben, sondern um klarer zu sehen. Kein Tracking, keine Klick-Köder. Nur Texte, Begriffe, Verbindungen — und ein Plädoyer für Vernunft als menschliches Vermögen, nicht als Kälte.</p>
+			<p>Freiheit ist darum nicht die Abwesenheit von Form. Wer sich von jeder Form lösen will, landet nicht in Freiheit, sondern in Beliebigkeit — und Beliebigkeit ist nur Rauschen unter anderem Namen. Es geht darum, die geerbten, unbewussten Formen durch selbst gewählte zu ersetzen: feste Formen, offene Gründe. An der Praxis festhalten, ohne ihre Begründung für unantastbar zu erklären.</p>
+
+			<p>Dieses Journal ist der Versuch, genau zu fragen — nicht um recht zu haben, sondern um klarer zu sehen. Mit einem Denken, das aus Resonanz kommt statt aus Betäubung: das sich von seinem Gegenstand noch berühren lässt, statt ihn nur zu vermessen. Kein Tracking, keine Klick-Köder. Nur Texte, Begriffe, Verbindungen.</p>
 
 			<section class="hp-mission__closing" aria-label="Abschluss und nächste Schritte">
 				<div class="hp-mission__cta" aria-label="Nächste Schritte">
