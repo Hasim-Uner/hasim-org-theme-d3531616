@@ -1,0 +1,23 @@
+parameters:
+	level: 5
+	phpVersion: 80100
+	paths:
+		- functions.php
+		- inc
+		- scripts
+	# Templates referenzieren globale WP-Template-Tags ohne lokalen
+	# Kontext — sie werden separat per php -l geprüft, nicht von PHPStan.
+	excludePaths:
+		- inc/forms/contact/config.php.example
+		- inc/*-seed.php
+	# GeneratePress (Parent-Theme) liefert eigene Funktionen, die nicht in
+	# den WordPress-Stubs stehen. Als unbekannt tolerieren statt zu failen.
+	universalObjectCratesClasses: []
+	ignoreErrors:
+		# Parent-Theme-Funktionen (GeneratePress) ohne Stubs.
+		- '#Function generate_[a-z_]+ not found#'
+		- '#Function gp_[a-z_]+ not found#'
+	bootstrapFiles:
+		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+	treatPhpDocTypesAsCertain: false
+	reportUnmatchedIgnoredErrors: false

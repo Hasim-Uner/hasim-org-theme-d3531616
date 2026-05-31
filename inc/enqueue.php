@@ -35,27 +35,12 @@ defined( 'ABSPATH' ) || exit;
 function hp_journal_enqueue_assets(): void {
 	$theme_version = wp_get_theme()->get( 'Version' );
 	$uri           = get_stylesheet_directory_uri();
-	$dir           = get_stylesheet_directory();
 
-	// filemtime() pro Asset → automatischer Cache-Bust bei jeder Änderung.
-	$style_ver = file_exists( $dir . '/style.css' )
-		? (string) filemtime( $dir . '/style.css' )
-		: $theme_version;
-	$nav_ver   = file_exists( $dir . '/assets/js/nav.js' )
-		? (string) filemtime( $dir . '/assets/js/nav.js' )
-		: $theme_version;
-	$single_ver = file_exists( $dir . '/assets/js/journal-single.js' )
-		? (string) filemtime( $dir . '/assets/js/journal-single.js' )
-		: $theme_version;
-	$linkprev_ver = file_exists( $dir . '/assets/js/link-preview.js' )
-		? (string) filemtime( $dir . '/assets/js/link-preview.js' )
-		: $theme_version;
-	$front_ver = file_exists( $dir . '/assets/css/pages/front-page.css' )
-		? (string) filemtime( $dir . '/assets/css/pages/front-page.css' )
-		: $theme_version;
-	$legal_ver = file_exists( $dir . '/assets/css/pages/legal.css' )
-		? (string) filemtime( $dir . '/assets/css/pages/legal.css' )
-		: $theme_version;
+	// Cache-Bust-Versionen zentral über hp_asset_version() (filemtime
+	// mit Theme-Version-Fallback) — siehe inc/runtime-assets.php.
+	$style_ver = hp_asset_version( 'style.css' );
+	$front_ver = hp_asset_version( 'assets/css/pages/front-page.css' );
+	$legal_ver = hp_asset_version( 'assets/css/pages/legal.css' );
 
 	// Parent-Theme — nötig für korrekte CSS-Kaskade
 	wp_enqueue_style(
@@ -93,37 +78,21 @@ function hp_journal_enqueue_assets(): void {
 		);
 	}
 
-	// 1. Global: Navigation JS (Hamburger, Suche, Header-Scroll)
-	wp_enqueue_script(
-		'hp-nav-js',
-		$uri . '/assets/js/nav.js',
-		[],
-		$nav_ver,
-		true
-	);
+	// 1. Global: Navigation JS (Hamburger, Suche, Header-Scroll).
+	// Defer: paralleler Download, Ausführung erst nach HTML-Parsing —
+	// die Interaktionen werden ohnehin erst nach dem Rendern gebraucht.
+	hp_enqueue_deferred_script( 'hp-nav-js', 'assets/js/nav.js' );
 
 	// 2. Singles: TOC, Reading-Progress, Footnotes, Share
 	if ( is_singular( [ 'essay', 'note', 'post' ] ) ) {
-		wp_enqueue_script(
-			'hp-journal-single',
-			$uri . '/assets/js/journal-single.js',
-			[],
-			$single_ver,
-			true
-		);
+		hp_enqueue_deferred_script( 'hp-journal-single', 'assets/js/journal-single.js' );
 	}
 
 	// 3. Link-Preview-Tooltips: alle Singles + redaktionellen Seiten.
 	// Übernimmt seit 5.2.0 auch die Glossar-Chip-Tooltips —
 	// glossar-tooltip.js wird daher nicht mehr geladen.
 	if ( is_singular( [ 'essay', 'note', 'post', 'glossar', 'dossier', 'page' ] ) ) {
-		wp_enqueue_script(
-			'hp-link-preview',
-			$uri . '/assets/js/link-preview.js',
-			[],
-			$linkprev_ver,
-			true
-		);
+		hp_enqueue_deferred_script( 'hp-link-preview', 'assets/js/link-preview.js' );
 		wp_localize_script(
 			'hp-link-preview',
 			'hpLinkPreview',
