@@ -49,7 +49,7 @@ $hp_contact_url = hp_get_contact_page_url();
 					height="320">
 				<figcaption>
 					<span class="hp-mission__portrait-name">Haşim Üner</span>
-					<span class="hp-mission__portrait-meta">Hannover · Autor dieses Journals</span>
+					<span class="hp-mission__portrait-meta">Autor dieses Journals</span>
 				</figcaption>
 			</figure>
 
