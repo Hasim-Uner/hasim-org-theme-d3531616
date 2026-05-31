@@ -49,10 +49,6 @@ jobs:
   static-analysis:
     name: PHPStan
     runs-on: ubuntu-latest
-    # Advisory gate: läuft mit WordPress-Stubs, blockiert aber zunächst
-    # nicht den Merge. Sobald die Baseline sauber ist, kann
-    # continue-on-error entfernt werden, um PHPStan zum harten Gate zu machen.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP

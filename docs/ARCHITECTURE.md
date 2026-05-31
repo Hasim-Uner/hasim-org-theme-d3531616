@@ -93,8 +93,10 @@ redirect home via `inc/seo-hygiene.php`).
 |---|---|
 | `.github/workflows/ci.yml` | PHP lint (matrix 8.1 / 8.3), architecture check, and PHPStan |
 | `scripts/check-manifest.php` | WordPress-independent validator: every `inc/manifest.php` entry exists, no duplicates. Mirrors the runtime guards in `inc/bootstrap.php` |
-| `composer.json` | dev tooling (PHPStan + WordPress stubs) and `composer run` scripts (`lint`, `check:manifest`, `analyse`, `ci`) |
-| `phpstan.neon` | static analysis config (level 5, WP stubs). PHPStan runs as an advisory gate until the baseline is clean |
+| `composer.json` | dev tooling (PHPStan + WordPress stubs) and `composer run` scripts (`lint`, `check:manifest`, `analyse`, `ci`). `composer.lock` is committed to pin the analyser version |
+| `phpstan.neon` | static analysis config (level 5, WP stubs). Blocking CI gate: green against `phpstan-baseline.neon`, which freezes pre-existing legacy findings so new regressions fail the build |
+| `phpstan-bootstrap.php` | declares WordPress runtime constants missing from the stubs (`DAY_IN_SECONDS`, `ARRAY_A`, …) to avoid false positives |
+| `phpstan-baseline.neon` | 34 pre-existing findings (seo-cockpit, votes, …) to be paid down incrementally |
 
 ## Known Architecture Debt
 

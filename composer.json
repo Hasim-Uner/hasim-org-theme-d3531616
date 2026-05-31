@@ -17,7 +17,7 @@
     "scripts": {
         "lint": "find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
         "check:manifest": "php scripts/check-manifest.php",
-        "analyse": "phpstan analyse --memory-limit=512M",
+        "analyse": "phpstan analyse --memory-limit=-1",
         "ci": [
             "@check:manifest",
             "@analyse"
