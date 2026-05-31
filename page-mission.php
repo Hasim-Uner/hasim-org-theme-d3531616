@@ -57,13 +57,13 @@ $hp_contact_url = hp_get_contact_page_url();
 
 			<p>Und es ist mehr als das, was übrig bleibt — es ist der Weg hinaus. Wer wieder spürt, was trägt, löst sich nach und nach aus dem, was ihn überformt: nicht im Kampf dagegen, sondern indem das Lebendige zurückkehrt. So wächst Resonanz. So kommt das Werden wieder in Bewegung.</p>
 
-			<p>Ich schreibe seit Jahren, zuerst nur für mich. Ich nehme Begriffe auseinander, um zu verstehen — darin bin ich radikal. Das täte ich auch, wenn niemand mitläse. Veröffentlichen tue ich aus einem zweiten Grund: weil das, was beim Verstehen sichtbar wird, gegen die Resignation steht. Ich will nicht entlarven, was falsch ist, sondern freilegen, was bleibt. Wer die Überlagerung durchschaut, sieht auch das, was sie überlagert.</p>
+			<p>Ich schreibe seit Jahren — Begriffe auseinandernehmen, um zu verstehen. Das täte ich auch, wenn niemand mitläse. Veröffentlichen tue ich aus einem zweiten Grund: weil das, was beim Verstehen sichtbar wird, gegen die Resignation steht. Ich will nicht entlarven, was falsch ist, sondern freilegen, was bleibt. Wer die Überlagerung durchschaut, sieht auch das, was sie überlagert.</p>
 
 			<p>Freiheit ist darum nicht die Abwesenheit von Form. Wer sich von jeder Form lösen will, landet nicht in Freiheit, sondern in Beliebigkeit — und Beliebigkeit ist nur Rauschen unter anderem Namen. Es geht darum, die geerbten, unbewussten Formen durch selbst gewählte zu ersetzen: feste Formen, offene Gründe. An der Praxis festhalten, ohne ihre Begründung für unantastbar zu erklären.</p>
 
 			<p>Dieses Journal ist der Versuch, genau zu fragen — nicht um recht zu haben, sondern um klarer zu sehen. Mit einem Denken, das aus Resonanz kommt statt aus Betäubung: das sich von seinem Gegenstand noch berühren lässt, statt ihn nur zu vermessen. Kein Tracking, keine Klick-Köder. Nur Texte, Begriffe, Verbindungen.</p>
 
-			<p>Noch ist das ein Monolog. Aber ich schreibe nicht, um recht zu behalten, sondern um Gegenüber zu finden — denn Wissen wächst nicht im Konsens, sondern im Widerspruch, und Widerspruch ist auch ein Antworten. Wenn dich hier etwas trifft, schreib mir. Wohin das führt, will ich nicht allein entscheiden.</p>
+			<p>Noch ist das ein Monolog. Aber ich schreibe nicht, um recht zu behalten, sondern um Gegenüber zu finden — denn Wissen wächst nicht im Konsens, sondern im Widerspruch, und Widerspruch ist auch ein Antworten. Wenn dich hier etwas trifft oder stört, schreib mir. Was daraus wächst, will ich nicht allein entscheiden.</p>
 
 			<section class="hp-mission__closing" aria-label="Abschluss und nächste Schritte">
 				<div class="hp-mission__cta" aria-label="Nächste Schritte">
