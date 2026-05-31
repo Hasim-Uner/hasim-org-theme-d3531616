@@ -1,0 +1,106 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$args of function wp_nav_menu expects array\\{menu\\?\\: int\\|string\\|WP_Term, menu_class\\?\\: string, menu_id\\?\\: string, container\\?\\: string, container_class\\?\\: string, container_id\\?\\: string, container_aria_label\\?\\: string, fallback_cb\\?\\: \\(callable\\(\\)\\: mixed\\)\\|false, \\.\\.\\.\\}, array\\{theme_location\\: 'hp\\-primary', container\\: false, menu_class\\: 'hp\\-nav\\-mobile__list', depth\\: 1, fallback_cb\\: false\\} given\\.$#"
+			count: 1
+			path: inc/header-nav.php
+
+		-
+			message: "#^Parameter \\#1 \\$args of function wp_nav_menu expects array\\{menu\\?\\: int\\|string\\|WP_Term, menu_class\\?\\: string, menu_id\\?\\: string, container\\?\\: string, container_class\\?\\: string, container_id\\?\\: string, container_aria_label\\?\\: string, fallback_cb\\?\\: \\(callable\\(\\)\\: mixed\\)\\|false, \\.\\.\\.\\}, array\\{theme_location\\: 'hp\\-primary', container\\: false, menu_class\\: 'hp\\-nav__list', depth\\: 1, fallback_cb\\: false\\} given\\.$#"
+			count: 1
+			path: inc/header-nav.php
+
+		-
+			message: "#^Parameter \\#2 \\$src of function wp_enqueue_script expects string, false given\\.$#"
+			count: 1
+			path: inc/meta-fields.php
+
+		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 2
+			path: inc/seo-cockpit/seo-cockpit-diagnostics.php
+
+		-
+			message: "#^Offset 'delta' on array\\{query\\: string, current_clicks\\: float, previous_clicks\\: float, delta\\: float, impressions\\: float, position\\: float\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 4
+			path: inc/seo-cockpit/seo-cockpit-insights.php
+
+		-
+			message: "#^Offset 'score' on array\\{page\\: string, query\\: string, impressions\\: float, clicks\\: float, ctr\\: float, position\\: float, score\\: float, prev_clicks\\: float, \\.\\.\\.\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 2
+			path: inc/seo-cockpit/seo-cockpit-insights.php
+
+		-
+			message: "#^Offset 1 on array\\{string, non\\-empty\\-string\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-insights.php
+
+		-
+			message: "#^Parameter \\#1 \\$term of function term_description expects int, WP_Term given\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-insights.php
+
+		-
+			message: "#^Parameter \\#2 \\$deprecated of function term_description expects null, string given\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-insights.php
+
+		-
+			message: "#^Ternary operator condition is always false\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-insights.php
+
+		-
+			message: "#^Offset 'count' on array\\{label\\: string, count\\: int\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-links.php
+
+		-
+			message: "#^Offset 'label' on array\\{label\\: string, count\\: int\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-links.php
+
+		-
+			message: "#^Offset 'links' on array\\{key\\: 'editorial_archives', label\\: 'Editoriale Archive', links\\: array\\{mixed, mixed, mixed, mixed, mixed\\}\\}\\|array\\{key\\: 'site_footer', label\\: 'Kolophon', links\\: array\\}\\|array\\{key\\: 'site_header', label\\: 'Masthead &…', links\\: array\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-links.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_attr expects string, int given\\.$#"
+			count: 2
+			path: inc/seo-cockpit/seo-cockpit-ui.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_html expects string, int given\\.$#"
+			count: 2
+			path: inc/seo-cockpit/seo-cockpit-ui.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: inc/seo-cockpit/seo-cockpit-ui.php
+
+		-
+			message: "#^Parameter \\#2 \\$src of function wp_enqueue_script expects string, false given\\.$#"
+			count: 1
+			path: inc/seo-meta.php
+
+		-
+			message: "#^Call to function is_wp_error\\(\\) with array will always evaluate to false\\.$#"
+			count: 1
+			path: inc/votes-api.php
+
+		-
+			message: "#^Function hp_process_vote\\(\\) should return array but returns WP_Error\\.$#"
+			count: 3
+			path: inc/votes.php
+
+		-
+			message: "#^PHPDoc tag @return with type array\\|WP_Error is not subtype of native type array\\.$#"
+			count: 1
+			path: inc/votes.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_attr expects string, int given\\.$#"
+			count: 5
+			path: inc/votes.php

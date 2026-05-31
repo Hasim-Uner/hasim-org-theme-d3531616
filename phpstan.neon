@@ -17,7 +17,14 @@ parameters:
 		# Parent-Theme-Funktionen (GeneratePress) ohne Stubs.
 		- '#Function generate_[a-z_]+ not found#'
 		- '#Function gp_[a-z_]+ not found#'
-	bootstrapFiles:
+	# WordPress-Stubs als Symbol-Quelle (scanFiles statt bootstrapFiles —
+	# wird einmal indexiert statt pro Worker komplett geparst).
+	scanFiles:
 		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+	# WP-Laufzeitkonstanten, die in den Stubs fehlen.
+	bootstrapFiles:
+		- phpstan-bootstrap.php
 	treatPhpDocTypesAsCertain: false
 	reportUnmatchedIgnoredErrors: false
+includes:
+	- phpstan-baseline.neon

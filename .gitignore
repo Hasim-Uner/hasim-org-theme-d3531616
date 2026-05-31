@@ -1,8 +1,9 @@
 inc/contact-local.php
 
-# Composer (Dev-Tooling: PHPStan, WP-Stubs) — nicht versionieren
+# Composer (Dev-Tooling: PHPStan, WP-Stubs) — nicht versionieren.
+# composer.lock wird bewusst committet: pinnt die PHPStan-Version,
+# damit die phpstan-baseline.neon reproduzierbar gültig bleibt.
 /vendor/
-composer.lock
 
 # D3 Custom-Bundle Build (einmaliger Build-Schritt)
 _build-d3/node_modules/
