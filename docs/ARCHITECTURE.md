@@ -75,6 +75,27 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | `hp_graph_payload`, `hp_graph_version`, `hp_graph_status` options | `inc/graph-api.php` | compiled knowledge graph JSON, rebuilt by `hp_graph_rebuild_event` |
 | transients | link/glossary modules | link previews and glossary auto-link caches |
 
+## Runtime & Operations Modules (since 5.8.0)
+
+| Module | Responsibility |
+|---|---|
+| `inc/feature-flags.php` | `hp_feature_enabled()` / `hp_feature_flags()` — controlled rollouts via defaults, the `HP_FEATURE_FLAGS` constant, and `hp_feature_flag_{flag}` filters |
+| `inc/runtime-assets.php` | `hp_asset_version()` (filemtime cache-bust with theme-version fallback) and `hp_enqueue_deferred_script()` (native WP `defer` strategy). Loaded before `enqueue.php` |
+| `inc/llms-txt.php` | dynamic `/llms.txt` (llmstxt.org) from curated editorial core URLs; gated by the `llms_txt` flag |
+
+`inc/sitemap.php` additionally drops the `users` sitemap provider when the
+`sitemap_drop_users` flag is on (single-author setup; author archives already
+redirect home via `inc/seo-hygiene.php`).
+
+## Delivery & CI
+
+| Artifact | Responsibility |
+|---|---|
+| `.github/workflows/ci.yml` | PHP lint (matrix 8.1 / 8.3), architecture check, and PHPStan |
+| `scripts/check-manifest.php` | WordPress-independent validator: every `inc/manifest.php` entry exists, no duplicates. Mirrors the runtime guards in `inc/bootstrap.php` |
+| `composer.json` | dev tooling (PHPStan + WordPress stubs) and `composer run` scripts (`lint`, `check:manifest`, `analyse`, `ci`) |
+| `phpstan.neon` | static analysis config (level 5, WP stubs). PHPStan runs as an advisory gate until the baseline is clean |
+
 ## Known Architecture Debt
 
 - `style.css` should be split into base, components, pages, and feature CSS.

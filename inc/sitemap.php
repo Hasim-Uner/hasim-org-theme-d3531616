@@ -99,3 +99,30 @@ function hp_sitemap_posts_query_args( array $args, string $post_type ): array {
 	return $args;
 }
 add_filter( 'wp_sitemaps_posts_query_args', 'hp_sitemap_posts_query_args', 10, 2 );
+
+/* =========================================
+   4. USER-SITEMAP ENTFERNEN
+   ========================================= */
+
+/**
+ * Entfernt den `users`-Provider aus dem Sitemap-Index.
+ *
+ * Single-Author-Setup: Autoren-Archive werden ohnehin per
+ * `inc/seo-hygiene.php` auf die Startseite umgeleitet. Eine
+ * User-Sitemap (`/wp-sitemap-users-1.xml`) listet damit nur URLs,
+ * die weiterleiten und keinen Ranking-Wert haben — sie kostet
+ * Crawl-Budget und kann Soft-404/Redirect-Rauschen in der Search
+ * Console erzeugen. Über das Feature-Flag `sitemap_drop_users`
+ * abschaltbar.
+ *
+ * @param WP_Sitemaps_Provider|mixed $provider Provider-Instanz.
+ * @param string                     $name     Provider-Name.
+ * @return WP_Sitemaps_Provider|mixed|false `false` blendet den Provider aus.
+ */
+function hp_sitemap_drop_users_provider( $provider, string $name ) {
+	if ( 'users' === $name && hp_feature_enabled( 'sitemap_drop_users' ) ) {
+		return false;
+	}
+	return $provider;
+}
+add_filter( 'wp_sitemaps_add_provider', 'hp_sitemap_drop_users_provider', 10, 2 );

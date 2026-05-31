@@ -1,5 +1,9 @@
 inc/contact-local.php
 
+# Composer (Dev-Tooling: PHPStan, WP-Stubs) — nicht versionieren
+/vendor/
+composer.lock
+
 # D3 Custom-Bundle Build (einmaliger Build-Schritt)
 _build-d3/node_modules/
 _build-d3/package-lock.json

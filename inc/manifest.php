@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
 
 return [
 	'helpers.php',
+	'feature-flags.php',
+	'runtime-assets.php',
 	'post-types.php',
 	'taxonomies.php',
 	'enqueue.php',
@@ -23,6 +25,7 @@ return [
 	'seo-hygiene.php',
 	'seo-cockpit/seo-cockpit.php',
 	'sitemap.php',
+	'llms-txt.php',
 	'glossary.php',
 	'link-preview.php',
 	'dossier.php',

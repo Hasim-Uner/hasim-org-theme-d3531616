@@ -1,0 +1,26 @@
+{
+    "name": "hasim-uner/hasimuener-journal",
+    "description": "Hasimuener Journal — editorial GeneratePress child theme. Dev tooling for static analysis and CI.",
+    "type": "wordpress-theme",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.12",
+        "php-stubs/wordpress-stubs": "^6.5"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "lint": "find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
+        "check:manifest": "php scripts/check-manifest.php",
+        "analyse": "phpstan analyse --memory-limit=512M",
+        "ci": [
+            "@check:manifest",
+            "@analyse"
+        ]
+    }
+}
