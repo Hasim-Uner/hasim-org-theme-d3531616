@@ -18,13 +18,10 @@ $hp_contact_status  = isset( $hp_contact_flash['status'] ) ? (string) $hp_contac
 $hp_contact_message = isset( $hp_contact_flash['message'] ) ? (string) $hp_contact_flash['message'] : '';
 $hp_contact_fields  = isset( $hp_contact_flash['fields'] ) && is_array( $hp_contact_flash['fields'] ) ? $hp_contact_flash['fields'] : [];
 
-$hp_name_value         = isset( $hp_contact_fields['name'] ) ? (string) $hp_contact_fields['name'] : '';
-$hp_email_value        = isset( $hp_contact_fields['email'] ) ? (string) $hp_contact_fields['email'] : '';
-$hp_organization_value = isset( $hp_contact_fields['organization'] ) ? (string) $hp_contact_fields['organization'] : '';
-$hp_website_value      = isset( $hp_contact_fields['website_url'] ) ? (string) $hp_contact_fields['website_url'] : '';
-$hp_inquiry_value      = isset( $hp_contact_fields['inquiry_type'] ) ? (string) $hp_contact_fields['inquiry_type'] : '';
-$hp_timeframe_value    = isset( $hp_contact_fields['timeframe'] ) ? (string) $hp_contact_fields['timeframe'] : '';
-$hp_message_value      = isset( $hp_contact_fields['message'] ) ? (string) $hp_contact_fields['message'] : '';
+$hp_name_value    = isset( $hp_contact_fields['name'] ) ? (string) $hp_contact_fields['name'] : '';
+$hp_email_value   = isset( $hp_contact_fields['email'] ) ? (string) $hp_contact_fields['email'] : '';
+$hp_inquiry_value = isset( $hp_contact_fields['inquiry_type'] ) ? (string) $hp_contact_fields['inquiry_type'] : '';
+$hp_message_value = isset( $hp_contact_fields['message'] ) ? (string) $hp_contact_fields['message'] : '';
 
 $hp_page_title         = hp_get_contact_page_title();
 $hp_contact_email      = hp_get_contact_email();
@@ -43,7 +40,7 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 		<header class="hp-contact__header">
 			<span class="hp-kicker">Anfragen</span>
 			<h1 id="kontakt-title" class="hp-contact__title"><?php echo esc_html( $hp_page_title ); ?></h1>
-			<p id="kontakt-intro" class="hp-contact__subline">Für redaktionelle Anfragen, Gespräche, Kooperationen und ausgewählte Schreib- oder Strategievorhaben mit erkennbarem inhaltlichem Fokus.</p>
+			<p id="kontakt-intro" class="hp-contact__subline">Für redaktionelle Anfragen, Gespräche, Kooperationen sowie Schreib- und Strategievorhaben mit inhaltlichem Fokus.</p>
 			<nav class="hp-contact__quicklinks" aria-label="Kontaktoptionen">
 				<a class="hp-contact__primary-link" href="#kontakt-formular">Zum Formular</a>
 				<a class="hp-contact__secondary-link" href="<?php echo esc_url( $hp_contact_mailto ); ?>">Direkt per E-Mail</a>
@@ -70,8 +67,7 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 			<?php endif; ?>
 				<div class="hp-contact__form-header">
 					<h2 id="kontakt-formular-title" class="hp-contact__form-title">Anfrage senden</h2>
-					<p id="kontakt-formular-hinweis" class="hp-contact__form-lede">Kurz reicht. Beschreiben Sie Anliegen, Rahmen und gegebenenfalls Terminbezug so konkret wie möglich.</p>
-					<p id="kontakt-pflicht-hinweis" class="hp-contact__required-note">Pflichtfelder sind mit „erforderlich“ gekennzeichnet.</p>
+					<p id="kontakt-formular-hinweis" class="hp-contact__form-lede">Kurz reicht. Beschreiben Sie Anliegen und Rahmen so konkret wie möglich. Pflichtfelder sind gekennzeichnet.</p>
 				</div>
 
 				<?php if ( '' !== $hp_contact_message ) : ?>
@@ -80,7 +76,7 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 					</div>
 				<?php endif; ?>
 
-				<form id="kontakt-formular" class="hp-contact__form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" aria-describedby="kontakt-formular-hinweis kontakt-pflicht-hinweis">
+				<form id="kontakt-formular" class="hp-contact__form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" aria-describedby="kontakt-formular-hinweis">
 					<input type="hidden" name="action" value="hp_send_contact">
 					<input type="hidden" name="hp_contact_rendered_at" value="<?php echo esc_attr( (string) $hp_rendered_at ); ?>">
 					<input type="hidden" name="hp_contact_render_token" value="<?php echo esc_attr( $hp_render_token ); ?>">
@@ -104,18 +100,6 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 					</p>
 
 					<p class="hp-contact__field">
-						<label for="hp-contact-organization">Organisation / Medium / Projekt <span class="hp-contact__field-optional">optional</span></label>
-						<input id="hp-contact-organization" name="hp_contact_organization" type="text" maxlength="190" value="<?php echo esc_attr( $hp_organization_value ); ?>" aria-describedby="hp-contact-organization-help">
-						<span id="hp-contact-organization-help" class="hp-contact__field-help">Hilft, den Kontext der Anfrage einzuordnen.</span>
-					</p>
-
-					<p class="hp-contact__field">
-						<label for="hp-contact-website-url">Website oder Link <span class="hp-contact__field-optional">optional</span></label>
-						<input id="hp-contact-website-url" name="hp_contact_website_url" type="text" maxlength="255" inputmode="url" placeholder="https://..." value="<?php echo esc_attr( $hp_website_value ); ?>" aria-describedby="hp-contact-link-help">
-						<span id="hp-contact-link-help" class="hp-contact__field-help">Zum Beispiel Projektseite, Ausschreibung oder Redaktionsprofil.</span>
-					</p>
-
-					<p class="hp-contact__field">
 						<label for="hp-contact-inquiry-type">Art der Anfrage <span class="hp-contact__field-required">erforderlich</span></label>
 						<select id="hp-contact-inquiry-type" name="hp_contact_inquiry_type" required aria-describedby="hp-contact-type-help">
 							<option value="">Bitte wählen</option>
@@ -126,16 +110,10 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 						<span id="hp-contact-type-help" class="hp-contact__field-help">Wählen Sie die passendste Kategorie. „Sonstiges“ ist möglich.</span>
 					</p>
 
-					<p class="hp-contact__field">
-						<label for="hp-contact-timeframe">Zeitraum / Terminbezug <span class="hp-contact__field-optional">optional</span></label>
-						<input id="hp-contact-timeframe" name="hp_contact_timeframe" type="text" maxlength="190" value="<?php echo esc_attr( $hp_timeframe_value ); ?>" aria-describedby="hp-contact-timeframe-help">
-						<span id="hp-contact-timeframe-help" class="hp-contact__field-help">Nur relevant, wenn es Fristen, Termine oder Veröffentlichungspläne gibt.</span>
-					</p>
-
 					<p class="hp-contact__field hp-contact__field--full">
 						<label for="hp-contact-message">Kurze Beschreibung des Anliegens <span class="hp-contact__field-required">erforderlich</span></label>
 						<textarea id="hp-contact-message" name="hp_contact_message" rows="8" maxlength="8000" required aria-describedby="hp-contact-message-help"><?php echo esc_textarea( $hp_message_value ); ?></textarea>
-						<span id="hp-contact-message-help" class="hp-contact__field-help">Ein bis drei Absätze genügen meistens.</span>
+						<span id="hp-contact-message-help" class="hp-contact__field-help">Ein bis drei Absätze genügen. Falls relevant: Medium, Format, Zeitraum und Links direkt hier nennen.</span>
 					</p>
 
 					<p class="hp-contact__privacy">
@@ -147,19 +125,12 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 
 					<div class="hp-contact__actions">
 						<button class="hp-contact__submit" type="submit">Nachricht senden</button>
-						<a class="hp-contact__mail-link" href="<?php echo esc_url( $hp_contact_mailto ); ?>">Direkt per E-Mail schreiben</a>
 					</div>
 				</form>
 			</section>
 
 			<aside class="hp-contact__aside" aria-label="Hinweise zur Anfrage">
-				<h2 class="hp-contact__aside-title">Passt besonders für</h2>
-				<ul class="hp-contact__aside-list">
-					<li>Redaktionelle Anfragen, Essays und Gastbeiträge.</li>
-					<li>Interviews, Gespräche, Vorträge und Kooperationen.</li>
-					<li>Schreib- oder Strategieprojekte mit klarer inhaltlicher Frage.</li>
-				</ul>
-				<h2 class="hp-contact__aside-title hp-contact__aside-title--spaced">Hilfreich sind</h2>
+				<h2 class="hp-contact__aside-title">Hilfreich sind</h2>
 				<ul class="hp-contact__aside-list">
 					<li>Medium, Format oder Projektkontext.</li>
 					<li>Anlass, Zeitraum und relevante Links.</li>

@@ -60,33 +60,12 @@ function hp_get_contact_inquiry_type_label( string $inquiry_type ): string {
 }
 
 /**
- * Normalisiert eingegebene Websites oder Links.
- */
-function hp_normalize_contact_website_url( string $url ): string {
-	$url = trim( $url );
-
-	if ( '' === $url ) {
-		return '';
-	}
-
-	if ( ! preg_match( '#^[a-z][a-z0-9+\-.]*://#i', $url ) ) {
-		$url = 'https://' . ltrim( $url, '/' );
-	}
-
-	return esc_url_raw( $url, [ 'http', 'https' ] );
-}
-
-/**
  * Baut eine knappe interne Betreffzeile für neue Anfragen.
  *
  * @param array<string, string> $fields Validierte Formularfelder.
  */
 function hp_get_contact_submission_subject( array $fields ): string {
 	$subject = hp_get_contact_inquiry_type_label( (string) ( $fields['inquiry_type'] ?? '' ) );
-
-	if ( ! empty( $fields['organization'] ) ) {
-		$subject .= ' - ' . trim( (string) $fields['organization'] );
-	}
 
 	if ( function_exists( 'mb_substr' ) ) {
 		return (string) mb_substr( $subject, 0, 190 );

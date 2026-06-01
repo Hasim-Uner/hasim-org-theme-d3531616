@@ -36,14 +36,6 @@ function hp_get_contact_autoreply_html( array $fields ): string {
 	$privacy_url    = home_url( '/datenschutz/' );
 	$name_line      = '' !== $fields['name'] ? esc_html( $fields['name'] ) : 'Guten Tag';
 	$inquiry_line   = esc_html( hp_get_contact_inquiry_type_label( (string) ( $fields['inquiry_type'] ?? '' ) ) );
-	$organization   = '' !== (string) ( $fields['organization'] ?? '' ) ? esc_html( (string) $fields['organization'] ) : 'Nicht angegeben';
-	$timeframe      = '' !== (string) ( $fields['timeframe'] ?? '' ) ? esc_html( (string) $fields['timeframe'] ) : 'Nicht angegeben';
-	$website_line   = 'Nicht angegeben';
-
-	if ( ! empty( $fields['website_url'] ) ) {
-		$website_url  = (string) $fields['website_url'];
-		$website_line = '<a href="' . esc_url( $website_url ) . '" style="color:#b12a2a;text-decoration:none;">' . esc_html( $website_url ) . '</a>';
-	}
 
 	return '<!doctype html>
 <html lang="de">
@@ -76,9 +68,6 @@ function hp_get_contact_autoreply_html( array $fields ): string {
 									<td style="padding:16px 18px;">
 										<p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.4;letter-spacing:1.5px;text-transform:uppercase;color:#696969;">Zusammenfassung</p>
 										<p style="margin:0 0 6px;font-family:Georgia,Times New Roman,serif;font-size:15px;line-height:1.6;color:#222222;"><strong>Art der Anfrage:</strong> ' . $inquiry_line . '</p>
-										<p style="margin:0 0 6px;font-family:Georgia,Times New Roman,serif;font-size:15px;line-height:1.6;color:#222222;"><strong>Organisation / Medium / Projekt:</strong> ' . $organization . '</p>
-										<p style="margin:0 0 6px;font-family:Georgia,Times New Roman,serif;font-size:15px;line-height:1.6;color:#222222;"><strong>Website oder Link:</strong> ' . $website_line . '</p>
-										<p style="margin:0 0 6px;font-family:Georgia,Times New Roman,serif;font-size:15px;line-height:1.6;color:#222222;"><strong>Zeitraum / Terminbezug:</strong> ' . $timeframe . '</p>
 										<p style="margin:0;font-family:Georgia,Times New Roman,serif;font-size:15px;line-height:1.6;color:#222222;"><strong>Antwortadresse:</strong> <a href="' . esc_url( $contact_mailto ) . '" style="color:#b12a2a;text-decoration:none;">' . esc_html( $contact_email ) . '</a></p>
 									</td>
 								</tr>
@@ -121,9 +110,6 @@ function hp_get_contact_autoreply_text( array $fields ): string {
 	$privacy_url   = home_url( '/datenschutz/' );
 	$name_line     = '' !== $fields['name'] ? $fields['name'] : 'Guten Tag';
 	$inquiry_line  = hp_get_contact_inquiry_type_label( (string) ( $fields['inquiry_type'] ?? '' ) );
-	$organization  = '' !== (string) ( $fields['organization'] ?? '' ) ? (string) $fields['organization'] : 'Nicht angegeben';
-	$website_url   = '' !== (string) ( $fields['website_url'] ?? '' ) ? (string) $fields['website_url'] : 'Nicht angegeben';
-	$timeframe     = '' !== (string) ( $fields['timeframe'] ?? '' ) ? (string) $fields['timeframe'] : 'Nicht angegeben';
 
 	return implode(
 		"\n\n",
@@ -132,7 +118,7 @@ function hp_get_contact_autoreply_text( array $fields ): string {
 			$name_line . ', vielen Dank für Ihre Nachricht über hasimuener.org. Sie wurde direkt weitergeleitet.',
 			'Ich melde mich, sobald ich inhaltlich antworten kann. Wenn Sie in der Zwischenzeit etwas ergänzen möchten, können Sie direkt auf diese E-Mail antworten.',
 			'Zusammenfassung',
-			'Art der Anfrage: ' . $inquiry_line . "\n" . 'Organisation / Medium / Projekt: ' . $organization . "\n" . 'Website oder Link: ' . $website_url . "\n" . 'Zeitraum / Terminbezug: ' . $timeframe . "\n" . 'Antwortadresse: ' . $contact_email,
+			'Art der Anfrage: ' . $inquiry_line . "\n" . 'Antwortadresse: ' . $contact_email,
 			'Mit freundlichen Grüßen' . "\n" . 'Haşim Üner',
 			'Kontakt: ' . $contact_email . "\n" . 'Website: ' . $site_url . "\n" . 'Impressum: ' . $imprint_url . "\n" . 'Datenschutz: ' . $privacy_url,
 			'Diese E-Mail wurde automatisch nach dem Absenden des Kontaktformulars erzeugt.',
@@ -218,9 +204,6 @@ function hp_send_contact_autoreply( array $fields ): bool {
  * @param array<string, string> $fields Validierte Formularfelder.
  */
 function hp_get_contact_notification_text( array $fields ): string {
-	$organization = '' !== (string) ( $fields['organization'] ?? '' ) ? (string) $fields['organization'] : 'Nicht angegeben';
-	$website_url  = '' !== (string) ( $fields['website_url'] ?? '' ) ? (string) $fields['website_url'] : 'Nicht angegeben';
-	$timeframe    = '' !== (string) ( $fields['timeframe'] ?? '' ) ? (string) $fields['timeframe'] : 'Nicht angegeben';
 	$inquiry_type = hp_get_contact_inquiry_type_label( (string) ( $fields['inquiry_type'] ?? '' ) );
 
 	return implode(
@@ -230,9 +213,6 @@ function hp_get_contact_notification_text( array $fields ): string {
 			'Name: ' . $fields['name'],
 			'E-Mail: ' . $fields['email'],
 			'Art der Anfrage: ' . $inquiry_type,
-			'Organisation / Medium / Projekt: ' . $organization,
-			'Website oder Link: ' . $website_url,
-			'Zeitraum / Terminbezug: ' . $timeframe,
 			'Interner Betreff: ' . ( '' !== $fields['subject'] ? $fields['subject'] : 'Nicht angegeben' ),
 			'Beschreibung des Anliegens:',
 			$fields['message'],

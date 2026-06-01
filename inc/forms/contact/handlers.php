@@ -17,15 +17,10 @@ function hp_handle_contact_form_submission(): void {
 		exit;
 	}
 
-	$website_input = isset( $_POST['hp_contact_website_url'] ) ? sanitize_text_field( (string) wp_unslash( $_POST['hp_contact_website_url'] ) ) : '';
-
 	$fields = [
 		'name'         => isset( $_POST['hp_contact_name'] ) ? sanitize_text_field( (string) wp_unslash( $_POST['hp_contact_name'] ) ) : '',
 		'email'        => isset( $_POST['hp_contact_email'] ) ? sanitize_email( (string) wp_unslash( $_POST['hp_contact_email'] ) ) : '',
-		'organization' => isset( $_POST['hp_contact_organization'] ) ? sanitize_text_field( (string) wp_unslash( $_POST['hp_contact_organization'] ) ) : '',
-		'website_url'  => $website_input,
 		'inquiry_type' => isset( $_POST['hp_contact_inquiry_type'] ) ? sanitize_key( (string) wp_unslash( $_POST['hp_contact_inquiry_type'] ) ) : '',
-		'timeframe'    => isset( $_POST['hp_contact_timeframe'] ) ? sanitize_text_field( (string) wp_unslash( $_POST['hp_contact_timeframe'] ) ) : '',
 		'subject'      => '',
 		'message'      => isset( $_POST['hp_contact_message'] ) ? trim( sanitize_textarea_field( (string) wp_unslash( $_POST['hp_contact_message'] ) ) ) : '',
 	];
@@ -93,15 +88,6 @@ function hp_handle_contact_form_submission(): void {
 	if ( '' === $fields['email'] || ! is_email( $fields['email'] ) ) {
 		$flash['message'] = 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
 		hp_redirect_contact_form( $flash );
-	}
-
-	if ( '' !== $website_input ) {
-		$fields['website_url'] = hp_normalize_contact_website_url( $website_input );
-
-		if ( '' === $fields['website_url'] ) {
-			$flash['message'] = 'Bitte geben Sie eine gültige Website oder einen gültigen Link an.';
-			hp_redirect_contact_form( $flash );
-		}
 	}
 
 	if ( ! array_key_exists( $fields['inquiry_type'], hp_get_contact_inquiry_type_options() ) ) {
