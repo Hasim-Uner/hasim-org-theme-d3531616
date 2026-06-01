@@ -168,6 +168,10 @@
     pointer-events: auto;
 }
 
+.hp-graph__toolbar-group--label {
+    flex: 0 0 auto;
+}
+
 .hp-graph__toolbar-title {
     margin: 0;
     padding: 0.5rem 0.8rem;
@@ -181,6 +185,79 @@
     text-transform: uppercase;
     color: rgba(255,255,255,0.56);
     backdrop-filter: blur(14px);
+}
+
+.hp-graph__search {
+    position: relative;
+    flex: 1 1 280px;
+    max-width: 420px;
+    align-items: center;
+}
+
+.hp-graph__search-input {
+    width: 100%;
+    min-height: 40px;
+    padding: 0.52rem 5.9rem 0.52rem 0.9rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    background: rgba(7,16,25,0.76);
+    color: #fff;
+    font-family: var(--hj-sans);
+    font-size: 0.9rem;
+    line-height: 1.2;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    backdrop-filter: blur(14px);
+}
+
+.hp-graph__search-input::placeholder {
+    color: rgba(255,255,255,0.42);
+}
+
+.hp-graph__search-input:focus {
+    outline: none;
+    border-color: rgba(255,255,255,0.28);
+    box-shadow: 0 0 0 4px rgba(77,166,232,0.12);
+}
+
+.hp-graph__search-clear {
+    position: absolute;
+    right: 0.45rem;
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    line-height: 1;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.hp-graph__search-clear:hover,
+.hp-graph__search-clear:focus-visible {
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+}
+
+.hp-graph__search-count {
+    position: absolute;
+    right: 2.85rem;
+    top: 50%;
+    max-width: 3.1rem;
+    overflow: hidden;
+    color: rgba(255,255,255,0.48);
+    font-family: var(--hj-sans);
+    font-size: 0.7rem;
+    line-height: 1;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transform: translateY(-50%);
 }
 
 .hp-graph__controls {
@@ -368,6 +445,15 @@
 
 .hp-graph__node {
     cursor: pointer;
+}
+
+.hp-graph__node--match .hp-graph__circle {
+    stroke: #fff;
+    stroke-width: 2.4;
+}
+
+.hp-graph__node--match .hp-graph__label {
+    opacity: 1;
 }
 
 .hp-graph__node:focus {
@@ -573,6 +659,14 @@
 .hp-graph__detail-link-dot--glossar { background: var(--hj-graph-glossar); }
 .hp-graph__detail-link-dot--topic   { background: var(--hj-graph-topic); }
 
+.hp-graph__detail-more {
+    margin: 0.65rem 0 0;
+    color: rgba(255,255,255,0.46);
+    font-family: var(--hj-sans);
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
 .hp-graph__detail-cta {
     display: inline-flex;
     align-items: center;
@@ -713,6 +807,11 @@
         justify-content: flex-start;
     }
 
+    .hp-graph__search {
+        max-width: none;
+        width: 100%;
+    }
+
     .hp-graph__controls {
         justify-content: flex-start;
     }
@@ -736,6 +835,10 @@
 
     .hp-graph__footer {
         align-items: flex-start;
+    }
+
+    .hp-graph__footer-cta {
+        width: 100%;
     }
 }
 

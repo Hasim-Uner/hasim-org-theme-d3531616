@@ -41,6 +41,12 @@ get_header(); ?>
 					<div class="hp-graph__toolbar-group hp-graph__toolbar-group--label">
 						<h2 class="hp-graph__toolbar-title">Netzwerk</h2>
 					</div>
+					<div class="hp-graph__toolbar-group hp-graph__search" role="search">
+						<label class="screen-reader-text" for="hp-graph-search">Knoten suchen</label>
+						<input id="hp-graph-search" class="hp-graph__search-input" type="search" inputmode="search" autocomplete="off" placeholder="Knoten suchen">
+						<button id="hp-graph-search-clear" class="hp-graph__search-clear" type="button" aria-label="Suche leeren" hidden>&times;</button>
+						<span id="hp-graph-search-count" class="hp-graph__search-count" aria-live="polite"></span>
+					</div>
 					<div class="hp-graph__toolbar-group hp-graph__controls" aria-label="Graph-Filter">
 						<button class="hp-graph__filter hp-graph__filter--active" data-type="essay" type="button" aria-pressed="true">
 							<span class="hp-graph__filter-dot hp-graph__filter-dot--essay" aria-hidden="true"></span>
@@ -106,7 +112,7 @@ get_header(); ?>
 					<span>Themenfeld</span>
 				</div>
 			</div>
-			<p class="hp-graph__footer-note">Knoten ziehen, filtern und den Fokus im Panel rechts vertiefen.</p>
+			<p class="hp-graph__footer-note" id="hp-graph-visible-summary">Alle Knotentypen aktiv.</p>
 			<a class="hp-graph__footer-cta" href="<?php echo esc_url( home_url( '/kontakt/' ) ); ?>">Zum Thema anfragen</a>
 			<p class="hp-graph__sr-summary screen-reader-text" id="hp-graph-sr-summary" aria-live="polite"></p>
 		</div>

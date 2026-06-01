@@ -63,6 +63,7 @@
 		nodes:        [],
 		edges:        [],
 		activeTypes:  { essay: true, note: true, glossar: true, topic: true },
+		searchTerm:   '',
 		selectedNode: null,
 		simulation:   null,
 		svg:          null,
@@ -547,10 +548,11 @@
 		}
 
 		var connected = getConnectedNodes( d.id );
+		var visibleConnected = connected.slice( 0, 8 );
 		if ( connected.length > 0 ) {
-			html += '<h3 class="hp-graph__detail-subtitle">Verbindungen</h3>';
+			html += '<h3 class="hp-graph__detail-subtitle">Verbindungen · ' + connected.length + '</h3>';
 			html += '<ul class="hp-graph__detail-links">';
-			connected.forEach( function( n ) {
+			visibleConnected.forEach( function( n ) {
 				html += '<li>';
 				html += '<a href="' + escAttr( n.url ) + '" class="hp-graph__detail-link">';
 				html += '<span class="hp-graph__detail-link-dot hp-graph__detail-link-dot--' + escHtml( n.type ) + '" aria-hidden="true"></span>';
@@ -558,10 +560,13 @@
 				html += '</a></li>';
 			} );
 			html += '</ul>';
+			if ( connected.length > visibleConnected.length ) {
+				html += '<p class="hp-graph__detail-more">+' + ( connected.length - visibleConnected.length ) + ' weitere Verbindungen im Netz</p>';
+			}
 		}
 
 		if ( d.url ) {
-			html += '<a href="' + escAttr( d.url ) + '" class="hp-graph__detail-cta">Zum Beitrag →</a>';
+			html += '<a href="' + escAttr( d.url ) + '" class="hp-graph__detail-cta">' + ( d.type === 'topic' ? 'Thema öffnen' : 'Beitrag öffnen' ) + ' →</a>';
 		}
 
 		content.innerHTML = html;
@@ -586,21 +591,24 @@
 		if ( ! state.nodeSel || ! state.linkSel ) { return; }
 
 		state.nodeSel.each( function( d ) {
-			var visible = state.activeTypes[ d.type ];
-			d3.select( this ).attr( 'visibility', visible ? 'visible' : 'hidden' );
+			var visible = isNodeVisible( d );
+			d3.select( this )
+				.attr( 'visibility', visible ? 'visible' : 'hidden' )
+				.classed( 'hp-graph__node--match', Boolean( state.searchTerm && visible ) );
 		} );
 
 		state.linkSel.each( function( e ) {
 			var src = typeof e.source === 'object' ? e.source : findNode( e.source );
 			var tgt = typeof e.target === 'object' ? e.target : findNode( e.target );
-			var visible = src && tgt && state.activeTypes[ src.type ] && state.activeTypes[ tgt.type ];
+			var visible = src && tgt && isNodeVisible( src ) && isNodeVisible( tgt );
 			d3.select( this ).attr( 'visibility', visible ? 'visible' : 'hidden' );
-			} );
+		} );
 
-		if ( state.selectedNode && ! state.activeTypes[ state.selectedNode.type ] ) {
+		if ( state.selectedNode && ! isNodeVisible( state.selectedNode ) ) {
 			hideDetail();
 		}
 
+		updateSearchControls();
 		updateSRSummary();
 	}
 
@@ -667,6 +675,41 @@
 				applyFilter();
 			} );
 		} );
+
+		var searchInput = document.getElementById( 'hp-graph-search' );
+		var searchClear = document.getElementById( 'hp-graph-search-clear' );
+
+		if ( searchInput ) {
+			searchInput.addEventListener( 'input', debounce( function() {
+				state.searchTerm = normalizeSearch( searchInput.value );
+				applyFilter();
+			}, 80 ) );
+
+			searchInput.addEventListener( 'keydown', function( e ) {
+				if ( e.key !== 'Enter' ) {
+					return;
+				}
+
+				var first = getVisibleNodes()[0];
+				if ( first ) {
+					e.preventDefault();
+					state.selectedNode = first;
+					showDetail( first );
+					focusNode( first.id );
+				}
+			} );
+		}
+
+		if ( searchClear ) {
+			searchClear.addEventListener( 'click', function() {
+				state.searchTerm = '';
+				if ( searchInput ) {
+					searchInput.value = '';
+					searchInput.focus();
+				}
+				applyFilter();
+			} );
+		}
 
 		var closeBtn = document.getElementById( 'hp-graph-detail-close' );
 		if ( closeBtn ) {
@@ -753,13 +796,14 @@
 	function updateSRSummary() {
 		var el        = document.getElementById( 'hp-graph-sr-summary' );
 		var summaryEl = document.getElementById( 'hp-graph-summary' );
+		var visibleSummaryEl = document.getElementById( 'hp-graph-visible-summary' );
 		var nodesEl   = document.getElementById( 'hp-graph-stat-nodes' );
 		var edgesEl   = document.getElementById( 'hp-graph-stat-edges' );
 		var typesEl   = document.getElementById( 'hp-graph-stat-types' );
 
 		var counts = { essay: 0, note: 0, glossar: 0, topic: 0 };
 		state.nodes.forEach( function( n ) {
-			if ( state.activeTypes[ n.type ] ) {
+			if ( isNodeVisible( n ) ) {
 				counts[ n.type ] = ( counts[ n.type ] || 0 ) + 1;
 			}
 		} );
@@ -768,7 +812,7 @@
 		state.edges.forEach( function( e ) {
 			var src = typeof e.source === 'object' ? e.source : findNode( e.source );
 			var tgt = typeof e.target === 'object' ? e.target : findNode( e.target );
-			if ( src && tgt && state.activeTypes[ src.type ] && state.activeTypes[ tgt.type ] ) {
+			if ( src && tgt && isNodeVisible( src ) && isNodeVisible( tgt ) ) {
 				visibleEdges++;
 			}
 		} );
@@ -793,6 +837,11 @@
 
 		if ( summaryEl ) {
 			summaryEl.textContent = total + ' sichtbare Knoten und ' + visibleEdges + ' aktive Verbindungen.';
+		}
+		if ( visibleSummaryEl ) {
+			visibleSummaryEl.textContent = state.searchTerm
+				? total + ' Treffer im aktiven Graph.'
+				: activeTypeCount === 4 ? 'Alle Knotentypen aktiv.' : activeTypeCount + ' Knotentypen aktiv.';
 		}
 		if ( nodesEl ) {
 			nodesEl.textContent = String( total );
@@ -824,6 +873,62 @@
 	/* =========================================
 	   HILFSFUNKTIONEN
 	   ========================================= */
+
+	function normalizeSearch( value ) {
+		return String( value || '' )
+			.toLowerCase()
+			.normalize( 'NFD' )
+			.replace( /[\u0300-\u036f]/g, '' )
+			.trim();
+	}
+
+	function nodeSearchText( node ) {
+		var parts = [ node.label, node.type ];
+
+		if ( node.meta ) {
+			parts.push( node.meta.excerpt, node.meta.kurz, node.meta.description, node.meta.date, node.meta.reading_time );
+		}
+
+		return normalizeSearch( parts.filter( Boolean ).join( ' ' ) );
+	}
+
+	function isNodeVisible( node ) {
+		if ( ! node || ! state.activeTypes[ node.type ] ) {
+			return false;
+		}
+
+		return ! state.searchTerm || nodeSearchText( node ).indexOf( state.searchTerm ) !== -1;
+	}
+
+	function getVisibleNodes() {
+		return state.nodes.filter( isNodeVisible );
+	}
+
+	function updateSearchControls() {
+		var count = document.getElementById( 'hp-graph-search-count' );
+		var clear = document.getElementById( 'hp-graph-search-clear' );
+		var total = getVisibleNodes().length;
+
+		if ( count ) {
+			count.textContent = state.searchTerm ? String( total ) : '';
+		}
+
+		if ( clear ) {
+			clear.hidden = ! state.searchTerm;
+		}
+	}
+
+	function focusNode( nodeId ) {
+		if ( ! state.nodeSel ) { return; }
+
+		var match = state.nodeSel.filter( function( n ) {
+			return n.id === nodeId;
+		} ).node();
+
+		if ( match && typeof match.focus === 'function' ) {
+			match.focus();
+		}
+	}
 
 	function getConnectedIds( nodeId ) {
 		var ids = {};
