@@ -37,11 +37,9 @@ function hp_get_contact_page_title(): string {
  */
 function hp_get_contact_inquiry_type_options(): array {
 	return [
-		'editorial'   => 'Redaktionelle Anfrage',
-		'essay'       => 'Gastbeitrag / Essay',
+		'essay'       => 'Beitrag / Essay',
 		'interview'   => 'Interview / Gespräch / Vortrag',
 		'cooperation' => 'Kooperation',
-		'writing'     => 'Schreibprojekt / Textanfrage',
 		'other'       => 'Sonstiges',
 	];
 }
