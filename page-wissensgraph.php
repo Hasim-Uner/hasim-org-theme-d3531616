@@ -69,6 +69,7 @@ get_header(); ?>
 						<button class="hp-graph__zoom-btn" id="hp-graph-zoom-in" type="button" aria-label="Hineinzoomen">+</button>
 						<button class="hp-graph__zoom-btn" id="hp-graph-zoom-out" type="button" aria-label="Herauszoomen">−</button>
 						<button class="hp-graph__zoom-btn" id="hp-graph-zoom-reset" type="button" aria-label="Zoom zurücksetzen">⟳</button>
+						<button class="hp-graph__reset-btn" id="hp-graph-reset" type="button">Zurücksetzen</button>
 					</div>
 				</div>
 
@@ -78,6 +79,10 @@ get_header(); ?>
 					</div>
 					<div class="hp-graph__error" id="hp-graph-error" hidden>
 						<p>Der Graph konnte nicht geladen werden. Bitte später erneut versuchen.</p>
+					</div>
+					<div class="hp-graph__empty" id="hp-graph-empty" hidden>
+						<p>Keine Knoten im aktuellen Fokus.</p>
+						<button class="hp-graph__empty-action" id="hp-graph-empty-reset" type="button">Zurücksetzen</button>
 					</div>
 					<div class="hp-graph__tooltip" id="hp-graph-tooltip" aria-hidden="true" hidden></div>
 				</div>

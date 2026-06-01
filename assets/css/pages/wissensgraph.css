@@ -345,6 +345,34 @@
     color: #fff;
 }
 
+.hp-graph__reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0.48rem 0.8rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    background: rgba(7,16,25,0.72);
+    color: rgba(255,255,255,0.72);
+    font-family: var(--hj-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-transform: uppercase;
+    backdrop-filter: blur(14px);
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.hp-graph__reset-btn:hover,
+.hp-graph__reset-btn:focus-visible {
+    background: rgba(255,255,255,0.10);
+    border-color: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
 .hp-graph__canvas {
     position: relative;
     min-height: min(84vh, 980px);
@@ -388,8 +416,13 @@
     min-height: inherit;
 }
 
+.hp-graph__canvas.has-no-visible-nodes svg {
+    opacity: 0.18;
+}
+
 .hp-graph__loading,
-.hp-graph__error {
+.hp-graph__error,
+.hp-graph__empty {
     position: absolute;
     inset: 1rem;
     z-index: 3;
@@ -404,19 +437,55 @@
 
 .hp-graph__loading[hidden],
 .hp-graph__error[hidden],
+.hp-graph__empty[hidden],
 .hp-graph__detail[hidden],
 .hp-graph__tooltip[hidden] {
     display: none !important;
 }
 
 .hp-graph__loading p,
-.hp-graph__error p {
+.hp-graph__error p,
+.hp-graph__empty p {
     max-width: 34ch;
     margin: 0;
     font-family: var(--hj-serif);
     font-size: clamp(0.96rem, 1.4vw, 1.08rem);
     line-height: 1.55;
     color: rgba(255,255,255,0.7);
+}
+
+.hp-graph__empty {
+    align-content: center;
+    gap: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+        rgba(4,10,18,0.68);
+}
+
+.hp-graph__empty-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    min-height: 2.7rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-family: var(--hj-sans);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.hp-graph__empty-action:hover,
+.hp-graph__empty-action:focus-visible {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.28);
 }
 
 .hp-graph__error {
@@ -853,6 +922,7 @@
 
     .hp-graph__filter,
     .hp-graph__zoom-btn,
+    .hp-graph__reset-btn,
     .hp-graph__detail-link,
     .hp-graph__detail-cta,
     .hp-graph__detail-close {

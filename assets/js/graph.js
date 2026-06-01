@@ -590,8 +590,13 @@
 	function applyFilter() {
 		if ( ! state.nodeSel || ! state.linkSel ) { return; }
 
+		var visibleCount = 0;
+
 		state.nodeSel.each( function( d ) {
 			var visible = isNodeVisible( d );
+			if ( visible ) {
+				visibleCount++;
+			}
 			d3.select( this )
 				.attr( 'visibility', visible ? 'visible' : 'hidden' )
 				.classed( 'hp-graph__node--match', Boolean( state.searchTerm && visible ) );
@@ -609,6 +614,7 @@
 		}
 
 		updateSearchControls();
+		updateEmptyState( visibleCount );
 		updateSRSummary();
 	}
 
@@ -659,6 +665,27 @@
 		}
 	}
 
+	function resetGraphView() {
+		var searchInput = document.getElementById( 'hp-graph-search' );
+		var filters = document.querySelectorAll( '.hp-graph__filter' );
+
+		state.searchTerm = '';
+		state.activeTypes = { essay: true, note: true, glossar: true, topic: true };
+
+		if ( searchInput ) {
+			searchInput.value = '';
+		}
+
+		filters.forEach( function( btn ) {
+			btn.setAttribute( 'aria-pressed', 'true' );
+			btn.classList.add( 'hp-graph__filter--active' );
+		} );
+
+		hideDetail();
+		applyFilter();
+		zoomToFit();
+	}
+
 	/* =========================================
 	   CONTROLS BINDEN
 	   ========================================= */
@@ -678,6 +705,8 @@
 
 		var searchInput = document.getElementById( 'hp-graph-search' );
 		var searchClear = document.getElementById( 'hp-graph-search-clear' );
+		var resetBtn = document.getElementById( 'hp-graph-reset' );
+		var emptyReset = document.getElementById( 'hp-graph-empty-reset' );
 
 		if ( searchInput ) {
 			searchInput.addEventListener( 'input', debounce( function() {
@@ -709,6 +738,14 @@
 				}
 				applyFilter();
 			} );
+		}
+
+		if ( resetBtn ) {
+			resetBtn.addEventListener( 'click', resetGraphView );
+		}
+
+		if ( emptyReset ) {
+			emptyReset.addEventListener( 'click', resetGraphView );
 		}
 
 		var closeBtn = document.getElementById( 'hp-graph-detail-close' );
@@ -915,6 +952,20 @@
 
 		if ( clear ) {
 			clear.hidden = ! state.searchTerm;
+		}
+	}
+
+	function updateEmptyState( visibleCount ) {
+		var empty = document.getElementById( 'hp-graph-empty' );
+		var canvas = document.getElementById( 'hp-graph-canvas' );
+		var show = state.nodes.length > 0 && visibleCount === 0;
+
+		if ( empty ) {
+			empty.hidden = ! show;
+		}
+
+		if ( canvas ) {
+			canvas.classList.toggle( 'has-no-visible-nodes', show );
 		}
 	}
 
