@@ -127,12 +127,6 @@ get_header(); ?>
     }
     ?>
 
-    <aside class="hp-dossier-cta" aria-label="Anfrage zum Dossier">
-        <h2 class="hp-dossier-cta__title">Zu diesem Thema arbeiten?</h2>
-        <p class="hp-dossier-cta__text">Für Gespräche, redaktionelle Zusammenarbeit oder strategische Einordnung direkt mit Kontext anfragen.</p>
-        <a class="hp-dossier-cta__link" href="<?php echo esc_url( add_query_arg( [ 'context' => 'dossier', 'topic' => get_post_field( 'post_name', $hp_d_id ) ], home_url( '/kontakt/' ) ) ); ?>">Zum Thema anfragen</a>
-    </aside>
-
     <?php if ( $hp_d_version || $hp_d_stand ) : ?>
         <footer class="hp-begriff-stand" aria-label="Versionsinformation">
             <?php if ( $hp_d_version ) : ?>

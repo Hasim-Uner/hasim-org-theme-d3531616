@@ -3980,57 +3980,6 @@ a.footnote-backref:hover {
     }
 }
 
-.hp-dossier-cta {
-    max-width: var(--hj-measure);
-    margin: var(--hj-space-xl) auto 0;
-    padding: 1.25rem;
-    border: 1px solid rgba(17, 17, 17, 0.1);
-    border-radius: 18px;
-    background: rgba(250, 248, 245, 0.92);
-}
-
-.hp-dossier-cta__title {
-    margin: 0;
-    font-family: var(--hj-serif);
-    font-size: 1.35rem;
-    line-height: 1.3;
-    color: var(--hj-rule);
-}
-
-.hp-dossier-cta__text {
-    margin: 0.55rem 0 1rem;
-    font-family: var(--hj-serif);
-    font-size: 1rem;
-    line-height: 1.65;
-    color: var(--hj-text-secondary);
-}
-
-.hp-dossier-cta__link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.8rem;
-    padding: 0.65rem 1.15rem;
-    border: 1px solid var(--hj-rule);
-    border-radius: 999px;
-    background: var(--hj-rule);
-    color: #fff;
-    font-family: var(--hj-sans);
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    text-decoration: none;
-}
-
-.hp-dossier-cta__link:hover,
-.hp-dossier-cta__link:focus-visible {
-    background: var(--hj-accent);
-    border-color: var(--hj-accent);
-    color: #fff;
-    text-decoration: none;
-}
-
 /* --- Sektionen (Leseplan / Begriffe / Quellen) --- */
 .hp-dossier-section {
     max-width: var(--hj-measure);
