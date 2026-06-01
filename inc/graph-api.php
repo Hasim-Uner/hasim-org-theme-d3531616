@@ -247,10 +247,30 @@ function hp_graph_build_data(): array {
 	$nodes = array_values( $nodes );
 	$edges = array_values( $edges );
 
+	$neighbor_map = [];
+	foreach ( $edges as $edge ) {
+		$source = (string) ( $edge['source'] ?? '' );
+		$target = (string) ( $edge['target'] ?? '' );
+		$weight = isset( $edge['weight'] ) ? (int) $edge['weight'] : 1;
+
+		if ( '' === $source || '' === $target ) {
+			continue;
+		}
+
+		$neighbor_map[ $source ][ $target ] = ( $neighbor_map[ $source ][ $target ] ?? 0 ) + $weight;
+		$neighbor_map[ $target ][ $source ] = ( $neighbor_map[ $target ][ $source ] ?? 0 ) + $weight;
+	}
+
+	foreach ( $neighbor_map as $node_id => $neighbors ) {
+		arsort( $neighbors );
+		$neighbor_map[ $node_id ] = array_keys( $neighbors );
+	}
+
 	return [
-		'nodes' => $nodes,
-		'edges' => $edges,
-		'meta'  => [
+		'nodes'     => $nodes,
+		'edges'     => $edges,
+		'neighbors' => $neighbor_map,
+		'meta'      => [
 			'node_count' => count( $nodes ),
 			'edge_count' => count( $edges ),
 			'generated'  => wp_date( 'c' ),
@@ -465,8 +485,17 @@ function hp_graph_enqueue_assets(): void {
 	$theme_version = wp_get_theme()->get( 'Version' );
 	$d3_path       = get_stylesheet_directory() . '/assets/js/d3-custom.min.js';
 	$graph_path    = get_stylesheet_directory() . '/assets/js/graph.js';
+	$graph_css_path = get_stylesheet_directory() . '/assets/css/pages/wissensgraph.css';
 	$d3_version    = file_exists( $d3_path ) ? (string) filemtime( $d3_path ) : $theme_version;
 	$graph_version = file_exists( $graph_path ) ? (string) filemtime( $graph_path ) : $theme_version;
+	$graph_css_version = file_exists( $graph_css_path ) ? (string) filemtime( $graph_css_path ) : $theme_version;
+
+	wp_enqueue_style(
+		'hp-graph',
+		get_stylesheet_directory_uri() . '/assets/css/pages/wissensgraph.css',
+		[ 'hp-journal-style' ],
+		$graph_css_version
+	);
 
 	// D3.js Custom-Bundle (nur genutzte Module) lokal aus dem Theme laden
 	wp_enqueue_script(
@@ -474,7 +503,10 @@ function hp_graph_enqueue_assets(): void {
 		get_stylesheet_directory_uri() . '/assets/js/d3-custom.min.js',
 		[],
 		$d3_version,
-		true
+		[
+			'strategy'  => 'defer',
+			'in_footer' => true,
+		]
 	);
 
 	// Graph JS
@@ -483,7 +515,10 @@ function hp_graph_enqueue_assets(): void {
 		get_stylesheet_directory_uri() . '/assets/js/graph.js',
 		[ 'hp-d3' ],
 		$graph_version,
-		true
+		[
+			'strategy'  => 'defer',
+			'in_footer' => true,
+		]
 	);
 
 	wp_localize_script( 'hp-graph-js', 'hpGraph', [

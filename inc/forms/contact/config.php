@@ -37,6 +37,7 @@ function hp_get_contact_page_title(): string {
  */
 function hp_get_contact_inquiry_type_options(): array {
 	return [
+		'general'     => 'Allgemeine Anfrage',
 		'essay'       => 'Beitrag / Essay',
 		'interview'   => 'Interview / Gespräch / Vortrag',
 		'cooperation' => 'Kooperation',
@@ -54,7 +55,7 @@ function hp_get_contact_inquiry_type_label( string $inquiry_type ): string {
 		return $options[ $inquiry_type ];
 	}
 
-	return $options['other'];
+	return $options['general'];
 }
 
 /**

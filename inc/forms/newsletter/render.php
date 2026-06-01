@@ -100,11 +100,13 @@ function hp_render_newsletter_form( array $args = [] ): void {
 					<div class="hp-newsletter__primary">
 						<p class="hp-newsletter__field">
 							<label for="<?php echo esc_attr( $form_id . '-email' ); ?>">E-Mail-Adresse</label>
-							<input id="<?php echo esc_attr( $form_id . '-email' ); ?>" name="hp_newsletter_email" type="email" maxlength="190" autocomplete="email" value="<?php echo esc_attr( $email_value ); ?>" placeholder="name@beispiel.de" required>
+							<input id="<?php echo esc_attr( $form_id . '-email' ); ?>" name="hp_newsletter_email" type="email" maxlength="190" autocomplete="email" value="<?php echo esc_attr( $email_value ); ?>" placeholder="name@beispiel.de" required aria-describedby="<?php echo esc_attr( $form_id . '-trust' ); ?>">
 						</p>
 
 						<button class="hp-newsletter__submit" type="submit"><?php echo esc_html( (string) $args['submit_label'] ); ?></button>
 					</div>
+
+					<p id="<?php echo esc_attr( $form_id . '-trust' ); ?>" class="hp-newsletter__trust">Double-Opt-in. Kein Tracking im Newsletter. Jederzeit abbestellbar.</p>
 
 					<label class="hp-newsletter__consent" for="<?php echo esc_attr( $form_id . '-consent' ); ?>">
 						<input id="<?php echo esc_attr( $form_id . '-consent' ); ?>" name="hp_newsletter_consent" type="checkbox" value="1" required>

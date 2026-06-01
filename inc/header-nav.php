@@ -224,7 +224,7 @@ function hp_render_journal_header(): void {
 							'eyebrow'      => 'Benachrichtigung',
 							'title'        => 'Neue Texte per E-Mail.',
 							'lede'         => 'Eine kurze Nachricht, wenn ein neuer Essay oder eine relevante Notiz erscheint.',
-							'submit_label' => 'Anmelden',
+							'submit_label' => 'Bestätigungslink erhalten',
 						] );
 					}
 					?>

@@ -1,0 +1,634 @@
+/* =========================================
+   NEWSLETTER
+   ========================================= */
+
+.hp-newsletter {
+    scroll-margin-top: 7rem;
+    position: relative;
+    --hp-newsletter-ink: #223246;
+    --hp-newsletter-ink-soft: #5a6878;
+    --hp-newsletter-line: rgba(34, 50, 70, 0.15);
+    --hp-newsletter-surface: #f3f6f9;
+    --hp-newsletter-panel: rgba(255, 255, 255, 0.86);
+}
+
+.hp-newsletter--home {
+    margin: 0 auto;
+    max-width: 1080px;
+}
+
+.hp-newsletter--essay {
+    margin-top: var(--hj-space-xl);
+}
+
+.hp-newsletter__shell {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    padding: clamp(1.35rem, 2vw, 1.95rem);
+    border: 1px solid var(--hp-newsletter-line);
+    border-radius: 30px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top right, rgba(34, 50, 70, 0.1), transparent 26%),
+        linear-gradient(135deg, #f8fafc 0%, var(--hp-newsletter-surface) 52%, #f2efeb 100%);
+    box-shadow: 0 24px 52px rgba(34, 50, 70, 0.12);
+}
+
+.hp-newsletter__shell::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: min(11rem, 38%);
+    height: 3px;
+    background: linear-gradient(90deg, rgba(177, 42, 42, 0.9), rgba(177, 42, 42, 0.35), transparent 88%);
+}
+
+.hp-newsletter__shell::after {
+    content: "";
+    position: absolute;
+    right: -5rem;
+    bottom: -5.5rem;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(34, 50, 70, 0.11), rgba(34, 50, 70, 0) 70%);
+    pointer-events: none;
+}
+
+.hp-newsletter__intro,
+.hp-newsletter__form-wrap {
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 920px) {
+    .hp-newsletter__shell {
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        align-items: stretch;
+    }
+}
+
+.hp-newsletter__intro {
+    display: grid;
+    align-content: start;
+    gap: 0.95rem;
+    max-width: 60ch;
+}
+
+.hp-newsletter__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    align-self: start;
+    margin: 0;
+    padding: 0.42rem 0.78rem;
+    border: 1px solid rgba(34, 50, 70, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.54);
+    font-family: var(--hj-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--hp-newsletter-ink);
+}
+
+.hp-newsletter__eyebrow::before {
+    content: "";
+    width: 0.48rem;
+    height: 0.48rem;
+    border-radius: 999px;
+    background: var(--hj-accent);
+    box-shadow: 0 0 0 5px rgba(177, 42, 42, 0.1);
+}
+
+.hp-newsletter__title {
+    margin: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+    font-family: var(--hj-serif);
+    font-size: clamp(1.7rem, 3.4vw, 2.65rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--hp-newsletter-ink);
+}
+
+.hp-newsletter__lede {
+    margin: 0;
+    font-family: var(--hj-serif);
+    font-size: 1.05rem;
+    line-height: 1.78;
+    color: rgba(34, 50, 70, 0.82);
+}
+
+.hp-newsletter__promises {
+    margin: 0.2rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+}
+
+.hp-newsletter__promises li {
+    position: relative;
+    min-height: 100%;
+    padding: 1rem 1rem 1rem 2.45rem;
+    border: 1px solid rgba(34, 50, 70, 0.1);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.66);
+    font-family: var(--hj-sans);
+    font-size: 0.94rem;
+    font-weight: 400;
+    line-height: 1.58;
+    color: var(--hp-newsletter-ink);
+}
+
+.hp-newsletter__promises li::before {
+    content: "";
+    position: absolute;
+    left: 1rem;
+    top: 1.08rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border: 2px solid var(--hj-accent);
+    border-radius: 999px;
+    background: transparent;
+    box-shadow: 0 0 0 4px rgba(177, 42, 42, 0.16);
+}
+
+.hp-newsletter__form-wrap {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding: clamp(1.15rem, 1.8vw, 1.5rem);
+    border: 1px solid rgba(34, 50, 70, 0.09);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), var(--hp-newsletter-panel));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.74),
+        0 14px 34px rgba(34, 50, 70, 0.08);
+}
+
+.hp-newsletter__notice {
+    margin-bottom: 0;
+    padding: 0.95rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 18px;
+}
+
+.hp-newsletter__notice p {
+    margin: 0;
+    font-family: var(--hj-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.hp-newsletter__notice--success {
+    border-color: rgba(44, 110, 73, 0.24);
+    background: rgba(230, 243, 234, 0.9);
+    color: #23492f;
+}
+
+.hp-newsletter__notice--error {
+    border-color: rgba(177, 42, 42, 0.2);
+    background: rgba(251, 239, 239, 0.92);
+    color: #6f1c1f;
+}
+
+.hp-newsletter__form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.hp-newsletter__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.hp-newsletter__field {
+    margin: 0;
+}
+
+.hp-newsletter__primary {
+    display: grid;
+    gap: 0.8rem;
+    align-items: end;
+}
+
+@media (min-width: 640px) {
+    .hp-newsletter__primary {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+}
+
+.hp-newsletter__field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--hj-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--hp-newsletter-ink);
+}
+
+.hp-newsletter__field input {
+    width: 100%;
+    min-height: 3.45rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(34, 50, 70, 0.14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--hp-newsletter-ink);
+    font-family: var(--hj-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.hp-newsletter__field input::placeholder {
+    color: #81909e;
+}
+
+.hp-newsletter__field input:hover {
+    border-color: rgba(34, 50, 70, 0.24);
+    background: #fff;
+}
+
+.hp-newsletter__field input:focus {
+    outline: none;
+    border-color: rgba(177, 42, 42, 0.5);
+    box-shadow: 0 0 0 4px rgba(177, 42, 42, 0.1);
+}
+
+.hp-newsletter__trust {
+    margin: -0.25rem 0 0;
+    font-family: var(--hj-sans);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--hp-newsletter-ink-soft);
+}
+
+.hp-newsletter__consent {
+    display: grid;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    min-height: 44px;
+    margin: 0;
+    font-family: var(--hj-sans);
+    font-size: 0.92rem;
+    line-height: 1.62;
+    color: #445261;
+}
+
+.hp-newsletter__consent input {
+    margin: 0.28rem 0 0;
+    accent-color: var(--hj-accent);
+}
+
+.hp-newsletter__consent a {
+    color: var(--hp-newsletter-ink);
+    text-decoration-color: rgba(177, 42, 42, 0.42);
+    text-underline-offset: 0.12em;
+}
+
+.hp-newsletter__consent a:hover,
+.hp-newsletter__consent a:focus-visible {
+    color: var(--hj-accent-strong);
+}
+
+.hp-newsletter__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.85rem;
+}
+
+.hp-newsletter__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 3.45rem;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid #8f1e22;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #c63634 0%, var(--hj-accent-strong) 100%);
+    color: #fff;
+    font-family: var(--hj-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 16px 30px rgba(177, 42, 42, 0.2);
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (min-width: 640px) {
+    .hp-newsletter__submit {
+        width: auto;
+        min-width: 13rem;
+    }
+}
+
+.hp-newsletter__submit:hover,
+.hp-newsletter__submit:focus-visible {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, var(--hj-accent) 0%, #86171b 100%);
+    border-color: #86171b;
+    box-shadow: 0 18px 34px rgba(177, 42, 42, 0.26);
+}
+
+.hp-newsletter__secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--hj-sans);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hp-newsletter-ink);
+    text-decoration: none;
+}
+
+.hp-newsletter__secondary::after {
+    content: "\2192";
+    font-size: 0.9rem;
+    line-height: 1;
+    color: var(--hj-accent);
+}
+
+.hp-newsletter__secondary:hover,
+.hp-newsletter__secondary:focus-visible {
+    color: var(--hj-accent-strong);
+    text-decoration: none;
+}
+
+.hp-newsletter__footnote {
+    margin: 0;
+    font-family: var(--hj-sans);
+    font-size: 0.89rem;
+    line-height: 1.6;
+    color: var(--hp-newsletter-ink-soft);
+}
+
+@media (max-width: 639px) {
+    .hp-newsletter__shell {
+        border-radius: 24px;
+    }
+
+    .hp-newsletter__form-wrap {
+        border-radius: 20px;
+    }
+
+    .hp-newsletter__promises {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   ABO-PILLE — Newsletter-CTA im Header
+   ---------------------------------------------
+   Ersetzt die frühere Glocke (.hp-nav__bell-toggle)
+   durch eine textbasierte „Abonnieren"-Pille.
+   Die alte Klasse bleibt als JS-Hook bestehen
+   (nav.js → Modal-Trigger), trägt aber keine
+   eigenen Styles mehr.
+   ========================================= */
+
+.hp-nav__abo-btn {
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0 1rem 0 0.85rem;
+    margin-left: 0.3rem;
+    border: 0;
+    border-radius: var(--hj-radius-pill);
+    background: var(--hj-accent);
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: var(--hj-sans);
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    box-shadow: 0 6px 14px rgba(177, 42, 42, 0.25);
+    transition:
+        background var(--hj-dur-fast) var(--hj-ease),
+        transform   var(--hj-dur-fast) var(--hj-ease),
+        box-shadow  var(--hj-dur-fast) var(--hj-ease);
+}
+
+.hp-nav__abo-btn:hover,
+.hp-nav__abo-btn:focus-visible {
+    background: var(--hj-accent-strong);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(177, 42, 42, 0.3);
+    outline: none;
+    text-decoration: none;
+}
+
+.hp-nav__abo-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(177, 42, 42, 0.22);
+}
+
+.hp-nav__abo-btn[aria-expanded="true"] {
+    background: var(--hj-accent-strong);
+    box-shadow:
+        0 4px 10px rgba(177, 42, 42, 0.22),
+        0 0 0 3px rgba(177, 42, 42, 0.18);
+}
+
+.hp-nav__abo-btn svg {
+    opacity: 0.95;
+    flex-shrink: 0;
+}
+
+.hp-nav__abo-label {
+    /* Wird auf sehr engen Mobilen ausgeblendet */
+}
+
+@media (max-width: 480px) {
+    .hp-nav__abo-btn {
+        padding: 0 0.75rem;
+        gap: 0;
+    }
+    .hp-nav__abo-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+    .hp-nav__abo-btn svg {
+        margin: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hp-nav__abo-btn,
+    .hp-nav__abo-btn:hover,
+    .hp-nav__abo-btn:focus-visible,
+    .hp-nav__abo-btn:active {
+        transform: none;
+        transition: background var(--hj-dur-fast) var(--hj-ease);
+    }
+}
+
+/* =========================================
+   NOTIFICATION BELL — Modal Overlay
+   ========================================= */
+
+.hp-nav-bell-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.75rem, 4vw, 2rem);
+}
+
+.hp-nav-bell-modal[hidden] {
+    display: none;
+}
+
+.hp-nav-bell-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(27, 27, 27, 0.42);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+.hp-nav-bell-modal--open .hp-nav-bell-modal__backdrop {
+    opacity: 1;
+}
+
+.hp-nav-bell-modal__card {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    background: #faf8f5;
+    border: 1px solid rgba(20, 24, 29, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 28px 80px rgba(15, 18, 22, 0.28), 0 4px 16px rgba(15, 18, 22, 0.12);
+    transform: translateY(12px) scale(0.985);
+    opacity: 0;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.hp-nav-bell-modal--open .hp-nav-bell-modal__card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.hp-nav-bell-modal__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(20, 24, 29, 0.04);
+    border: 1px solid rgba(20, 24, 29, 0.08);
+    border-radius: 999px;
+    color: var(--hj-text, #1b1f23);
+    cursor: pointer;
+    padding: 0;
+    z-index: 2;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.hp-nav-bell-modal__close:hover,
+.hp-nav-bell-modal__close:focus-visible {
+    color: var(--hj-accent, #bd4e2f);
+    background: rgba(189, 78, 47, 0.08);
+    border-color: rgba(189, 78, 47, 0.16);
+    outline: none;
+}
+
+/* Newsletter-Formular im Modal-Kontext entzackern */
+.hp-nav-bell-modal .hp-newsletter--modal {
+    padding: 1.6rem clamp(1rem, 4vw, 1.8rem) 1.4rem;
+}
+
+.hp-nav-bell-modal .hp-newsletter__shell {
+    grid-template-columns: 1fr;
+    border: none;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+}
+
+.hp-nav-bell-modal .hp-newsletter__shell::before,
+.hp-nav-bell-modal .hp-newsletter__shell::after {
+    display: none;
+}
+
+.hp-nav-bell-modal .hp-newsletter__intro,
+.hp-nav-bell-modal .hp-newsletter__form-wrap {
+    padding: 0;
+}
+
+.hp-nav-bell-modal .hp-newsletter__form-wrap {
+    background: transparent;
+    box-shadow: none;
+    margin-top: 0.6rem;
+}
+
+.hp-nav-bell-modal .hp-newsletter__title {
+    font-size: clamp(1.4rem, 2.4vw, 1.7rem);
+    line-height: 1.18;
+    margin-top: 0.2rem;
+    padding-right: 2.4rem; /* Platz für Close-Button */
+}
+
+.hp-nav-bell-modal .hp-newsletter__lede {
+    margin-top: 0.5rem;
+    font-size: 0.98rem;
+}
+
+/* Body-Scroll-Lock, wenn Modal offen */
+body.hp-no-scroll {
+    overflow: hidden;
+}
+
+@media (max-width: 640px) {
+    .hp-nav-bell-modal__card {
+        border-radius: 14px;
+    }
+    .hp-nav-bell-modal .hp-newsletter--modal {
+        padding: 1.2rem 1rem 1.1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hp-nav-bell-modal__backdrop,
+    .hp-nav-bell-modal__card {
+        transition: none !important;
+    }
+}

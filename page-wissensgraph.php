@@ -107,6 +107,7 @@ get_header(); ?>
 				</div>
 			</div>
 			<p class="hp-graph__footer-note">Knoten ziehen, filtern und den Fokus im Panel rechts vertiefen.</p>
+			<a class="hp-graph__footer-cta" href="<?php echo esc_url( home_url( '/kontakt/' ) ); ?>">Zum Thema anfragen</a>
 			<p class="hp-graph__sr-summary screen-reader-text" id="hp-graph-sr-summary" aria-live="polite"></p>
 		</div>
 	</section>

@@ -17,6 +17,7 @@ $hp_contact_flash   = hp_consume_contact_flash();
 $hp_contact_status  = isset( $hp_contact_flash['status'] ) ? (string) $hp_contact_flash['status'] : '';
 $hp_contact_message = isset( $hp_contact_flash['message'] ) ? (string) $hp_contact_flash['message'] : '';
 $hp_contact_fields  = isset( $hp_contact_flash['fields'] ) && is_array( $hp_contact_flash['fields'] ) ? $hp_contact_flash['fields'] : [];
+$hp_contact_errors  = isset( $hp_contact_flash['errors'] ) && is_array( $hp_contact_flash['errors'] ) ? $hp_contact_flash['errors'] : [];
 
 $hp_name_value    = isset( $hp_contact_fields['name'] ) ? (string) $hp_contact_fields['name'] : '';
 $hp_email_value   = isset( $hp_contact_fields['email'] ) ? (string) $hp_contact_fields['email'] : '';
@@ -89,31 +90,40 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 
 					<p class="hp-contact__field">
 						<label for="hp-contact-name">Name <span class="hp-contact__field-required">erforderlich</span></label>
-						<input id="hp-contact-name" name="hp_contact_name" type="text" maxlength="120" autocomplete="name" value="<?php echo esc_attr( $hp_name_value ); ?>" required aria-describedby="hp-contact-name-help">
+						<input id="hp-contact-name" name="hp_contact_name" type="text" maxlength="120" autocomplete="name" value="<?php echo esc_attr( $hp_name_value ); ?>" required aria-describedby="hp-contact-name-help<?php echo isset( $hp_contact_errors['name'] ) ? ' hp-contact-name-error' : ''; ?>"<?php echo isset( $hp_contact_errors['name'] ) ? ' aria-invalid="true" autofocus' : ''; ?>>
 						<span id="hp-contact-name-help" class="hp-contact__field-help">Vor- und Nachname oder der Name, unter dem ich antworten soll.</span>
+						<?php if ( isset( $hp_contact_errors['name'] ) ) : ?>
+							<span id="hp-contact-name-error" class="hp-contact__field-error"><?php echo esc_html( (string) $hp_contact_errors['name'] ); ?></span>
+						<?php endif; ?>
 					</p>
 
 					<p class="hp-contact__field">
 						<label for="hp-contact-email">E-Mail <span class="hp-contact__field-required">erforderlich</span></label>
-						<input id="hp-contact-email" name="hp_contact_email" type="email" maxlength="190" autocomplete="email" value="<?php echo esc_attr( $hp_email_value ); ?>" required aria-describedby="hp-contact-email-help">
+						<input id="hp-contact-email" name="hp_contact_email" type="email" maxlength="190" autocomplete="email" value="<?php echo esc_attr( $hp_email_value ); ?>" required aria-describedby="hp-contact-email-help<?php echo isset( $hp_contact_errors['email'] ) ? ' hp-contact-email-error' : ''; ?>"<?php echo isset( $hp_contact_errors['email'] ) ? ' aria-invalid="true" autofocus' : ''; ?>>
 						<span id="hp-contact-email-help" class="hp-contact__field-help">Wird ausschließlich zur Bearbeitung dieser Anfrage genutzt.</span>
+						<?php if ( isset( $hp_contact_errors['email'] ) ) : ?>
+							<span id="hp-contact-email-error" class="hp-contact__field-error"><?php echo esc_html( (string) $hp_contact_errors['email'] ); ?></span>
+						<?php endif; ?>
 					</p>
 
 					<p class="hp-contact__field">
-						<label for="hp-contact-inquiry-type">Art der Anfrage <span class="hp-contact__field-required">erforderlich</span></label>
-						<select id="hp-contact-inquiry-type" name="hp_contact_inquiry_type" required aria-describedby="hp-contact-type-help">
-							<option value="">Bitte wählen</option>
+						<label for="hp-contact-inquiry-type">Art der Anfrage <span class="hp-contact__field-optional">optional</span></label>
+						<select id="hp-contact-inquiry-type" name="hp_contact_inquiry_type" aria-describedby="hp-contact-type-help">
+							<option value="">Optional auswählen</option>
 							<?php foreach ( $hp_inquiry_options as $hp_option_value => $hp_option_label ) : ?>
 								<option value="<?php echo esc_attr( $hp_option_value ); ?>"<?php selected( $hp_inquiry_value, $hp_option_value ); ?>><?php echo esc_html( $hp_option_label ); ?></option>
 							<?php endforeach; ?>
 						</select>
-						<span id="hp-contact-type-help" class="hp-contact__field-help">Wählen Sie die passendste Kategorie. „Sonstiges“ ist möglich.</span>
+						<span id="hp-contact-type-help" class="hp-contact__field-help">Kann leer bleiben. Eine kurze Beschreibung reicht.</span>
 					</p>
 
 					<p class="hp-contact__field hp-contact__field--full">
 						<label for="hp-contact-message">Kurze Beschreibung des Anliegens <span class="hp-contact__field-required">erforderlich</span></label>
-						<textarea id="hp-contact-message" name="hp_contact_message" rows="8" maxlength="8000" required aria-describedby="hp-contact-message-help"><?php echo esc_textarea( $hp_message_value ); ?></textarea>
+						<textarea id="hp-contact-message" name="hp_contact_message" rows="8" maxlength="8000" required aria-describedby="hp-contact-message-help<?php echo isset( $hp_contact_errors['message'] ) ? ' hp-contact-message-error' : ''; ?>"<?php echo isset( $hp_contact_errors['message'] ) ? ' aria-invalid="true" autofocus' : ''; ?>><?php echo esc_textarea( $hp_message_value ); ?></textarea>
 						<span id="hp-contact-message-help" class="hp-contact__field-help">Ein bis drei Absätze genügen. Falls relevant: Medium, Format, Zeitraum und Links direkt hier nennen.</span>
+						<?php if ( isset( $hp_contact_errors['message'] ) ) : ?>
+							<span id="hp-contact-message-error" class="hp-contact__field-error"><?php echo esc_html( (string) $hp_contact_errors['message'] ); ?></span>
+						<?php endif; ?>
 					</p>
 
 					<p class="hp-contact__privacy">
@@ -125,6 +135,7 @@ $hp_notice_role        = 'success' === $hp_contact_status ? 'status' : 'alert';
 
 					<div class="hp-contact__actions">
 						<button class="hp-contact__submit" type="submit">Nachricht senden</button>
+						<p class="hp-contact__submit-trust">Keine Weitergabe. Nutzung nur zur Bearbeitung. Antwort alternativ direkt per <a href="<?php echo esc_url( $hp_contact_mailto ); ?>">E-Mail</a>.</p>
 					</div>
 				</form>
 			</section>

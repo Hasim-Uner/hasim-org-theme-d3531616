@@ -58,28 +58,36 @@ function hp_minigraph_get_neighbors( int $post_id, int $limit = 8 ): array {
 		return [];
 	}
 
-	// Edges, die den focal-Knoten berühren — Nachbarn nach Gewicht akkumulieren
-	$neighbor_weights = [];
-	foreach ( $data['edges'] as $edge ) {
-		$weight = isset( $edge['weight'] ) ? (int) $edge['weight'] : 1;
+	if ( ! empty( $data['neighbors'][ $focal_id ] ) && is_array( $data['neighbors'][ $focal_id ] ) ) {
+		$top_ids = array_slice( array_map( 'strval', $data['neighbors'][ $focal_id ] ), 0, $limit );
+	} else {
+		// Fallback für alte Graph-Payloads ohne Neighbor-Map.
+		$neighbor_weights = [];
+		foreach ( $data['edges'] as $edge ) {
+			$weight = isset( $edge['weight'] ) ? (int) $edge['weight'] : 1;
 
-		if ( $edge['source'] === $focal_id ) {
-			$other = $edge['target'];
-		} elseif ( $edge['target'] === $focal_id ) {
-			$other = $edge['source'];
-		} else {
-			continue;
+			if ( $edge['source'] === $focal_id ) {
+				$other = $edge['target'];
+			} elseif ( $edge['target'] === $focal_id ) {
+				$other = $edge['source'];
+			} else {
+				continue;
+			}
+
+			$neighbor_weights[ $other ] = ( $neighbor_weights[ $other ] ?? 0 ) + $weight;
 		}
 
-		$neighbor_weights[ $other ] = ( $neighbor_weights[ $other ] ?? 0 ) + $weight;
+		if ( empty( $neighbor_weights ) ) {
+			return [];
+		}
+
+		arsort( $neighbor_weights );
+		$top_ids = array_slice( array_keys( $neighbor_weights ), 0, $limit );
 	}
 
-	if ( empty( $neighbor_weights ) ) {
+	if ( empty( $top_ids ) ) {
 		return [];
 	}
-
-	arsort( $neighbor_weights );
-	$top_ids = array_slice( array_keys( $neighbor_weights ), 0, $limit );
 
 	// Index Knoten by ID
 	$by_id = [];

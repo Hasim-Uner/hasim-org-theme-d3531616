@@ -419,6 +419,7 @@ function hp_dossier_get_leseplan( int $dossier_id ): array {
 		'orderby'        => 'post__in',
 		'posts_per_page' => count( $ids ),
 		'post_status'    => 'publish',
+		'no_found_rows'  => true,
 	] );
 
 	return $posts;
@@ -443,6 +444,7 @@ function hp_dossier_get_begriffe( int $dossier_id ): array {
 		'orderby'        => 'post__in',
 		'posts_per_page' => count( $ids ),
 		'post_status'    => 'publish',
+		'no_found_rows'  => true,
 	] );
 
 	return $posts;
@@ -470,6 +472,7 @@ function hp_post_get_dossiers( int $post_id ): array {
 		'post_type'      => 'dossier',
 		'posts_per_page' => -1,
 		'post_status'    => 'publish',
+		'no_found_rows'  => true,
 		'meta_query'     => [
 			[
 				'key'     => '_hp_dossier_leseplan',
@@ -490,6 +493,7 @@ function hp_glossar_get_dossiers( int $glossar_id ): array {
 		'post_type'      => 'dossier',
 		'posts_per_page' => -1,
 		'post_status'    => 'publish',
+		'no_found_rows'  => true,
 		'meta_query'     => [
 			[
 				'key'     => '_hp_dossier_begriffe',

@@ -32,6 +32,9 @@ get_header(); ?>
         'orderby'             => 'date',
         'order'               => 'DESC',
         'ignore_sticky_posts' => true,
+        'no_found_rows'       => true,
+        'update_post_meta_cache' => false,
+        'update_post_term_cache' => false,
     ] );
     $hp_hero_post      = ! empty( $hp_hero_posts[0] ) && $hp_hero_posts[0] instanceof WP_Post ? $hp_hero_posts[0] : null;
     $hp_hero_id        = $hp_hero_post ? (int) $hp_hero_post->ID : 0;
@@ -74,7 +77,7 @@ get_header(); ?>
                     <?php if ( $hp_hero_post ) : ?>
                         <a href="<?php echo esc_url( get_permalink( $hp_hero_post ) ); ?>" class="editorial-hero__button editorial-hero__button--primary">Aktuellen Essay lesen</a>
                     <?php endif; ?>
-                    <a href="#newsletter-signup" class="editorial-hero__button editorial-hero__button--secondary">Journal abonnieren</a>
+                    <a href="#newsletter-signup" class="editorial-hero__button editorial-hero__button--secondary">Kostenlos abonnieren</a>
                 </div>
             </div>
 
@@ -130,6 +133,9 @@ get_header(); ?>
                 'posts_per_page' => 5,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
+                'no_found_rows'  => true,
+                'update_post_meta_cache' => false,
+                'update_post_term_cache' => false,
             ] );
 
             if ( $hp_neu->have_posts() ) : ?>
@@ -169,6 +175,8 @@ get_header(); ?>
                 'posts_per_page' => 3,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
+                'no_found_rows'  => true,
+                'update_post_term_cache' => false,
             ] );
 
             if ( $hp_dossiers->have_posts() ) : ?>
@@ -222,6 +230,9 @@ get_header(); ?>
                 'posts_per_page' => 12,
                 'orderby'        => 'title',
                 'order'          => 'ASC',
+                'no_found_rows'  => true,
+                'update_post_meta_cache' => false,
+                'update_post_term_cache' => false,
             ] );
 
             if ( $hp_begriffe->have_posts() ) : ?>
@@ -261,7 +272,7 @@ get_header(); ?>
                 'Keine künstliche Frequenz',
                 'Jederzeit abbestellbar',
             ],
-            'submit_label' => 'Anmelden',
+            'submit_label' => 'Bestätigungslink erhalten',
         ] );
     }
     ?>

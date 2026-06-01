@@ -125,13 +125,16 @@ function hp_votes_rest_callback( WP_REST_Request $request ): WP_REST_Response {
  * Enqueue Voting-Assets
  */
 function hp_votes_enqueue_assets(): void {
-	if ( is_singular( [ 'essay', 'note' ] ) || is_post_type_archive( [ 'essay', 'note' ] ) ) {
+	if ( is_singular( [ 'essay', 'note' ] ) ) {
 		wp_enqueue_script(
 			'hasim-org-votes',
 			get_stylesheet_directory_uri() . '/assets/js/votes.js',
-			[ 'jquery' ],
-			'1.0.0',
-			true
+			[],
+			hp_asset_version( 'assets/js/votes.js' ),
+			[
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			]
 		);
 
 		wp_localize_script(
@@ -147,7 +150,7 @@ function hp_votes_enqueue_assets(): void {
 			'hasim-org-votes',
 			get_stylesheet_directory_uri() . '/assets/css/votes.css',
 			[],
-			'1.0.0'
+			hp_asset_version( 'assets/css/votes.css' )
 		);
 	}
 }

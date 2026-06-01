@@ -21,11 +21,12 @@ get_header(); ?>
         <!-- HERO: Full-bleed Beitragsbild mit Overlay-Text -->
         <header class="essay-hero">
             <div class="essay-hero__image-wrap">
-                <?php the_post_thumbnail( 'full', array(
+                <?php the_post_thumbnail( 'large', array(
                     'class'         => 'essay-hero__img',
                     'loading'       => 'eager',
                     'fetchpriority' => 'high',
                     'decoding'      => 'async',
+                    'sizes'         => '100vw',
                 ) ); ?>
                 <div class="essay-hero__overlay" aria-hidden="true"></div>
             </div>
@@ -134,7 +135,7 @@ get_header(); ?>
                 'eyebrow'      => 'Neue Texte nicht verpassen',
                 'title'        => 'Nächste Texte per E-Mail.',
                 'lede'         => 'Eine kurze Mail, wenn hier ein neuer Essay oder eine relevante Notiz erscheint.',
-                'submit_label' => 'Anmelden',
+                'submit_label' => 'Bestätigungslink erhalten',
             ] );
             ?>
 
@@ -238,6 +239,7 @@ get_header(); ?>
         'posts_per_page' => 3,
         'post__not_in'   => [ $hp_current_id ],
         'post_status'    => 'publish',
+        'no_found_rows'  => true,
     ];
 
     // Bevorzugt: gleiche Topics
@@ -252,12 +254,13 @@ get_header(); ?>
     $hp_related = new WP_Query( $hp_related_args );
 
     // Fallback: neueste Essays, wenn zu wenig verwandte
-    if ( $hp_related->found_posts < 2 ) {
+    if ( $hp_related->post_count < 2 ) {
         $hp_related = new WP_Query( [
             'post_type'      => 'essay',
             'posts_per_page' => 3,
             'post__not_in'   => [ $hp_current_id ],
             'post_status'    => 'publish',
+            'no_found_rows'  => true,
         ] );
     }
 

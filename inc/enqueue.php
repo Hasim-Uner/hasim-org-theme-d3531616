@@ -41,6 +41,8 @@ function hp_journal_enqueue_assets(): void {
 	$style_ver = hp_asset_version( 'style.css' );
 	$front_ver = hp_asset_version( 'assets/css/pages/front-page.css' );
 	$legal_ver = hp_asset_version( 'assets/css/pages/legal.css' );
+	$contact_ver = hp_asset_version( 'assets/css/pages/contact.css' );
+	$newsletter_ver = hp_asset_version( 'assets/css/components/newsletter.css' );
 
 	// Parent-Theme — nötig für korrekte CSS-Kaskade
 	wp_enqueue_style(
@@ -68,6 +70,26 @@ function hp_journal_enqueue_assets(): void {
 		);
 	}
 
+	// Contact page: Anfrage-/Lead-Formular.
+	if ( is_page_template( 'page-kontakt.php' ) || is_page( 'kontakt' ) ) {
+		wp_enqueue_style(
+			'hp-contact-page',
+			$uri . '/assets/css/pages/contact.css',
+			[ 'hp-journal-style' ],
+			$contact_ver
+		);
+	}
+
+	// Header-Newsletter-Modal + Newsletter-Formulare.
+	if ( ! is_page( 'kontakt' ) ) {
+		wp_enqueue_style(
+			'hp-newsletter',
+			$uri . '/assets/css/components/newsletter.css',
+			[ 'hp-journal-style' ],
+			$newsletter_ver
+		);
+	}
+
 	// Legal pages: Impressum + Datenschutz.
 	if ( is_page_template( [ 'page-impressum.php', 'page-datenschutz.php' ] ) || is_page( [ 'impressum', 'datenschutz' ] ) ) {
 		wp_enqueue_style(
@@ -91,7 +113,7 @@ function hp_journal_enqueue_assets(): void {
 	// 3. Link-Preview-Tooltips: alle Singles + redaktionellen Seiten.
 	// Übernimmt seit 5.2.0 auch die Glossar-Chip-Tooltips —
 	// glossar-tooltip.js wird daher nicht mehr geladen.
-	if ( is_singular( [ 'essay', 'note', 'post', 'glossar', 'dossier', 'page' ] ) ) {
+	if ( is_singular( [ 'essay', 'note', 'post', 'glossar', 'dossier' ] ) ) {
 		hp_enqueue_deferred_script( 'hp-link-preview', 'assets/js/link-preview.js' );
 		wp_localize_script(
 			'hp-link-preview',
@@ -132,11 +154,15 @@ add_action( 'wp_enqueue_scripts', 'hp_dequeue_duplicate_styles', 20 );
  */
 function hp_preload_critical_fonts(): void {
 	$font_dir = get_stylesheet_directory_uri() . '/fonts';
-	$fonts    = [
-		'merriweather-v33-latin-300.woff2',
-		'merriweather-v33-latin-700.woff2',
-		'merriweather-v33-latin-900.woff2',
-	];
+	$fonts    = [ 'merriweather-v33-latin-300.woff2' ];
+
+	if ( ! is_page( 'wissensgraph' ) ) {
+		$fonts[] = 'merriweather-v33-latin-700.woff2';
+	}
+
+	if ( is_front_page() || is_singular( [ 'essay', 'note', 'post' ] ) ) {
+		$fonts[] = 'merriweather-v33-latin-900.woff2';
+	}
 
 	foreach ( $fonts as $file ) {
 		printf(

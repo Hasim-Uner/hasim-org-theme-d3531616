@@ -9,14 +9,17 @@ Frontend assets are owned by PHP modules and should be loaded only where needed.
 | `generatepress-style` | parent `style.css` | `inc/enqueue.php` | all frontend pages | none | none |
 | `hp-journal-style` | `style.css` | `inc/enqueue.php` | all frontend pages | `generatepress-style`, `generate-style` | none |
 | `hp-front-page` | `assets/css/pages/front-page.css` | `inc/enqueue.php` | front page | `hp-journal-style` | none |
+| `hp-contact-page` | `assets/css/pages/contact.css` | `inc/enqueue.php` | Kontakt page template or slug `kontakt` | `hp-journal-style` | none |
+| `hp-newsletter` | `assets/css/components/newsletter.css` | `inc/enqueue.php` | all frontend pages except Kontakt | `hp-journal-style` | none |
 | `hp-legal-pages` | `assets/css/pages/legal.css` | `inc/enqueue.php` | Impressum/Datenschutz page template or slug | `hp-journal-style` | none |
 | `hp-nav-js` | `assets/js/nav.js` | `inc/enqueue.php` | all frontend pages | none | none |
 | `hp-journal-single` | `assets/js/journal-single.js` | `inc/enqueue.php` | singular `essay`, `note`, `post` | none | none |
 | `hp-link-preview` | `assets/js/link-preview.js` | `inc/enqueue.php`, `inc/link-preview.php` | singular `essay`, `note`, `post`, `glossar`, `dossier`, `page` | none | `hpLinkPreview.restUrl` |
 | `hp-d3` | `assets/js/d3-custom.min.js` | `inc/graph-api.php` | page slug `wissensgraph` | none | none |
 | `hp-graph-js` | `assets/js/graph.js` | `inc/graph-api.php` | page slug `wissensgraph` | `hp-d3` | `hpGraph.restUrl` |
-| `hasim-org-votes` | `assets/js/votes.js` | `inc/votes-api.php` | singular/archive `essay`, `note` | `jquery` | `hasimOrgVotes.ajax_url`, `hasimOrgVotes.nonce` |
-| `hasim-org-votes` | `assets/css/votes.css` | `inc/votes-api.php` | singular/archive `essay`, `note` | none | none |
+| `hp-graph` | `assets/css/pages/wissensgraph.css` | `inc/graph-api.php` | page slug `wissensgraph` | `hp-journal-style` | none |
+| `hasim-org-votes` | `assets/js/votes.js` | `inc/votes-api.php` | singular `essay`, `note` | none | `hasimOrgVotes.ajax_url`, `hasimOrgVotes.nonce` |
+| `hasim-org-votes` | `assets/css/votes.css` | `inc/votes-api.php` | singular `essay`, `note` | none | none |
 | `comment-reply` | WordPress core | `inc/comments.php` | singular comment targets when threaded comments need it | core | none |
 
 ## Editor/Admin Assets

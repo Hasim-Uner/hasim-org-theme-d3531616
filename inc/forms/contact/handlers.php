@@ -28,20 +28,27 @@ function hp_handle_contact_form_submission(): void {
 	$flash = [
 		'status' => 'error',
 		'fields' => $fields,
+		'errors' => [],
 	];
+
+	$fail = static function ( string $message, string $field = '' ) use ( &$flash ): void {
+		$flash['message'] = $message;
+		if ( '' !== $field ) {
+			$flash['errors'][ $field ] = $message;
+		}
+		hp_redirect_contact_form( $flash );
+	};
 
 	$nonce = isset( $_POST['hp_contact_nonce'] ) ? (string) wp_unslash( $_POST['hp_contact_nonce'] ) : '';
 
 	if ( ! wp_verify_nonce( $nonce, 'hp_contact_submit' ) ) {
-		$flash['message'] = 'Das Formular ist nicht mehr gültig. Bitte laden Sie die Seite neu und versuchen Sie es erneut.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Das Formular ist nicht mehr gültig. Bitte laden Sie die Seite neu und versuchen Sie es erneut.' );
 	}
 
 	$honeypot = isset( $_POST['hp_contact_website'] ) ? trim( (string) wp_unslash( $_POST['hp_contact_website'] ) ) : '';
 
 	if ( '' !== $honeypot ) {
-		$flash['message'] = 'Die Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Die Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.' );
 	}
 
 	$settings    = hp_get_contact_form_settings();
@@ -49,55 +56,48 @@ function hp_handle_contact_form_submission(): void {
 	$token       = isset( $_POST['hp_contact_render_token'] ) ? (string) wp_unslash( $_POST['hp_contact_render_token'] ) : '';
 
 	if ( $rendered_at <= 0 || '' === $token || ! hash_equals( hp_get_contact_form_render_token( $rendered_at ), $token ) ) {
-		$flash['message'] = 'Das Formular ist abgelaufen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Das Formular ist abgelaufen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.' );
 	}
 
 	$elapsed = time() - $rendered_at;
 
 	if ( $elapsed < $settings['min_seconds'] ) {
-		$flash['message'] = 'Bitte nehmen Sie sich einen kurzen Moment Zeit und senden Sie die Nachricht dann erneut.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Bitte nehmen Sie sich einen kurzen Moment Zeit und senden Sie die Nachricht dann erneut.' );
 	}
 
 	if ( $elapsed > $settings['max_age'] ) {
-		$flash['message'] = 'Das Formular ist abgelaufen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Das Formular ist abgelaufen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.' );
 	}
 
 	$link_count = preg_match_all( '/(?:https?:\/\/|www\.|<a\s)/iu', $fields['message'] );
 
 	if ( false !== $link_count && $link_count > $settings['max_links'] ) {
-		$flash['message'] = 'Bitte reduzieren Sie die Zahl der Links in Ihrer Nachricht.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Bitte reduzieren Sie die Zahl der Links in Ihrer Nachricht.', 'message' );
 	}
 
 	$rate_key     = 'hp_contact_rate_' . hp_get_contact_form_rate_key();
 	$last_sent_at = (int) get_transient( $rate_key );
 
 	if ( $last_sent_at > 0 && ( time() - $last_sent_at ) < $settings['rate_window'] ) {
-		$flash['message'] = 'Bitte warten Sie einen kurzen Moment, bevor Sie eine weitere Nachricht senden.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Bitte warten Sie einen kurzen Moment, bevor Sie eine weitere Nachricht senden.' );
 	}
 
 	if ( '' === $fields['name'] ) {
-		$flash['message'] = 'Bitte geben Sie Ihren Namen an.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Bitte geben Sie Ihren Namen an.', 'name' );
 	}
 
 	if ( '' === $fields['email'] || ! is_email( $fields['email'] ) ) {
-		$flash['message'] = 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Bitte geben Sie eine gültige E-Mail-Adresse an.', 'email' );
 	}
 
-	if ( ! array_key_exists( $fields['inquiry_type'], hp_get_contact_inquiry_type_options() ) ) {
-		$flash['message'] = 'Bitte wählen Sie die Art Ihrer Anfrage aus.';
-		hp_redirect_contact_form( $flash );
+	if ( '' === $fields['inquiry_type'] ) {
+		$fields['inquiry_type'] = 'general';
+	} elseif ( ! array_key_exists( $fields['inquiry_type'], hp_get_contact_inquiry_type_options() ) ) {
+		$fields['inquiry_type'] = 'other';
 	}
 
 	if ( '' === $fields['message'] ) {
-		$flash['message'] = 'Bitte beschreiben Sie Ihr Anliegen kurz.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Bitte beschreiben Sie Ihr Anliegen kurz.', 'message' );
 	}
 
 	$fields['subject'] = hp_get_contact_submission_subject( $fields );
@@ -115,8 +115,7 @@ function hp_handle_contact_form_submission(): void {
 	}
 
 	if ( ! $mail_sent ) {
-		$flash['message'] = 'Die Nachricht konnte technisch nicht versendet werden. Sie können alternativ direkt an ' . hp_get_contact_email() . ' schreiben.';
-		hp_redirect_contact_form( $flash );
+		$fail( 'Die Nachricht konnte technisch nicht versendet werden. Sie können alternativ direkt an ' . hp_get_contact_email() . ' schreiben.' );
 	}
 
 	set_transient( $rate_key, time(), $settings['rate_window'] );

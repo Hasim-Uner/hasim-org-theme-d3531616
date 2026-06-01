@@ -6,8 +6,11 @@ Purpose: make `style.css` navigable before splitting it. Line ranges are approxi
 
 | File | Lines | Status |
 |---|---:|---|
-| `style.css` | 6,879 | active global theme stylesheet |
+| `style.css` | 5,125 | active global theme stylesheet |
 | `assets/css/pages/front-page.css` | 508 | active conditional front page stylesheet |
+| `assets/css/pages/contact.css` | 698 | active conditional contact page stylesheet |
+| `assets/css/components/newsletter.css` | 634 | active conditional newsletter/header-modal stylesheet |
+| `assets/css/pages/wissensgraph.css` | 758 | active conditional Wissensgraph stylesheet |
 | `assets/css/pages/legal.css` | 76 | active conditional legal pages stylesheet |
 | `assets/css/votes.css` | 183 | active conditional votes stylesheet |
 | `assets/css/diaspora-scroll.css` | 2,998 | deactivated/archived Diaspora page stylesheet |
@@ -24,9 +27,9 @@ Purpose: make `style.css` navigable before splitting it. Line ranges are approxi
 | 381-1185 | site header, masthead, nav, prose utilities, TOC, topics, meta | split into `layout/header.css`, `components/prose.css`, `components/toc.css`, `components/meta.css` |
 | 1186-1203 | layout lines/container helpers | `layout/containers.css` |
 | 1204-1477 | mission page and portrait | `pages/mission.css` |
-| 1478-1924 | contact page and form | `pages/contact.css` |
-| 1925-2311 | newsletter forms and variants | `components/newsletter.css` |
-| 2312-2532 | colophon/footer and empty states | `layout/footer.css` |
+| extracted | contact page and form | `assets/css/pages/contact.css` |
+| extracted | newsletter forms, header CTA and modal | `assets/css/components/newsletter.css` |
+| 2148-2367 | colophon/footer and empty states | `layout/footer.css` |
 | 2533-3396 | essay/note single hero, body, footer, comments/share | split into `pages/single-editorial.css` + `features/editorial-engagement.css` |
 | 3397-3520 | essay/note archives and responsive fallback | `pages/archives.css` |
 | 3521-4240 | glossary terms, tooltips, glossary single, Begriff sections | `features/glossary.css` |
@@ -38,20 +41,22 @@ Purpose: make `style.css` navigable before splitting it. Line ranges are approxi
 | 5638-5718 | related essays | `components/related.css` |
 | 5719-5788 | previous/next navigation | `components/post-nav.css` |
 | 5789-5911 | small modifiers, reduced motion, focus-visible, nav search toggle | merge into owners/base/layout |
-| 5912-6646 | Wissensgraph page | `features/graph.css` |
-| 6647-6879 | newsletter CTA pill and notification modal | `components/newsletter-modal.css` |
+| extracted | Wissensgraph page | `assets/css/pages/wissensgraph.css` |
 
 ## Extracted CSS
 
 | File | Handle | Owner/load condition |
 |---|---|---|
 | `assets/css/pages/front-page.css` | `hp-front-page` | `inc/enqueue.php`; `is_front_page()` |
+| `assets/css/pages/contact.css` | `hp-contact-page` | `inc/enqueue.php`; Kontakt page template or slug `kontakt` |
+| `assets/css/components/newsletter.css` | `hp-newsletter` | `inc/enqueue.php`; all frontend pages except Kontakt |
+| `assets/css/pages/wissensgraph.css` | `hp-graph` | `inc/graph-api.php`; page slug `wissensgraph` |
 | `assets/css/pages/legal.css` | `hp-legal-pages` | `inc/enqueue.php`; page templates/slugs `impressum`, `datenschutz` |
 
 ## Split Order
 
-1. Extract page-only CSS first: contact, mission, 404, search, topic archive. Legal pages are already extracted.
-2. Extract feature CSS with clear PHP owners: graph, glossary, dossier, mini-graph, newsletter.
+1. Extract remaining page-only CSS first: mission, 404, search, topic archive. Legal, contact and Wissensgraph pages are already extracted.
+2. Extract remaining feature CSS with clear PHP owners: glossary, dossier, mini-graph.
 3. Extract layout/components: header/nav, footer, TOC, prose, post nav, related.
 4. Keep base tokens, fonts, base typography, and shared utilities in global CSS.
 
