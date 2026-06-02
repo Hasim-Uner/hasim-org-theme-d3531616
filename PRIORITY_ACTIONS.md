@@ -33,6 +33,8 @@ Erwarteter Wartbarkeitsgewinn: Hoch.
 
 ## 2. Stabile Entity-ID-Policy in JSON-LD durchsetzen
 
+Status: umgesetzt am 2026-06-03 fuer zentrale Schema-Helper, Article-/Dossier-/DefinedTerm-IDs, Topic-Referenzen, Dossier-Relationen und Archive-ItemLists.
+
 Problem: Person, Organization, WebSite und Glossar nutzen bereits IDs, aber Article-, Dossier- und Topic-IDs sind nicht konsequent als zentrale Architekturregel umgesetzt.
 
 Nutzen: Suchmaschinen und AI-Systeme koennen Entitaeten stabil zusammenfuehren. Schema, Graph und interne Links sprechen dieselbe Entity-Sprache.

@@ -110,8 +110,10 @@ files:
       - structured data
       - rich snippets
       - entity graph
+      - stable entity IDs
       - Person/Organization/WebSite
       - Article/DefinedTerm/Dossier schema
+      - Topic entity references
       - archive schema
     owners:
       - SEO Agent

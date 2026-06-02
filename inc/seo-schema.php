@@ -27,6 +27,154 @@ const HP_ORCID_ID  = '0009-0008-7500-2015';
 const HP_ORCID_URL = 'https://orcid.org/' . HP_ORCID_ID;
 
 /**
+ * Liefert die kanonische Entity-ID fuer globale Site-Entitaeten.
+ *
+ * @param string $entity Entity-Schluessel: person, organization, website.
+ * @return string
+ */
+function hp_schema_site_entity_id( string $entity ): string {
+	return home_url( '/' ) . '#' . ltrim( $entity, '#' );
+}
+
+/**
+ * Liefert die kanonische Entity-ID fuer einen Content-Knoten.
+ *
+ * @param WP_Post|int $post Post oder Post-ID.
+ * @return string
+ */
+function hp_schema_post_entity_id( $post ): string {
+	if ( $post instanceof WP_Post ) {
+		$post_obj = $post;
+	} elseif ( is_numeric( $post ) ) {
+		$post_obj = get_post( (int) $post );
+	} else {
+		return '';
+	}
+
+	if ( ! ( $post_obj instanceof WP_Post ) ) {
+		return '';
+	}
+
+	$permalink = get_permalink( $post_obj );
+	if ( ! is_string( $permalink ) || '' === $permalink ) {
+		return '';
+	}
+
+	$type = get_post_type( $post_obj );
+	if ( 'glossar' === $type ) {
+		return $permalink . '#term';
+	}
+	if ( 'dossier' === $type ) {
+		return $permalink . '#dossier';
+	}
+
+	return $permalink . '#article';
+}
+
+/**
+ * Liefert die kanonische Entity-ID fuer einen Topic-Knoten.
+ *
+ * @param WP_Term|int $term Term oder Term-ID.
+ * @return string
+ */
+function hp_schema_topic_entity_id( $term ): string {
+	if ( $term instanceof WP_Term ) {
+		$term_obj = $term;
+	} elseif ( is_numeric( $term ) ) {
+		$term_obj = get_term( (int) $term, 'topic' );
+	} else {
+		return '';
+	}
+
+	if ( ! ( $term_obj instanceof WP_Term ) ) {
+		return '';
+	}
+
+	$link = get_term_link( $term_obj );
+	if ( ! is_string( $link ) || '' === $link ) {
+		return '';
+	}
+
+	return $link . '#topic';
+}
+
+/**
+ * Liefert eine kompakte Topic-Referenz fuer about/mentions-Felder.
+ *
+ * @param WP_Term|int $term Term oder Term-ID.
+ * @return array<string,mixed>|null
+ */
+function hp_schema_topic_reference( $term ): ?array {
+	if ( $term instanceof WP_Term ) {
+		$term_obj = $term;
+	} elseif ( is_numeric( $term ) ) {
+		$term_obj = get_term( (int) $term, 'topic' );
+	} else {
+		return null;
+	}
+
+	if ( ! ( $term_obj instanceof WP_Term ) ) {
+		return null;
+	}
+
+	$link = get_term_link( $term_obj );
+	if ( ! is_string( $link ) || '' === $link ) {
+		return null;
+	}
+
+	return [
+		'@type' => 'Thing',
+		'@id'   => $link . '#topic',
+		'name'  => $term_obj->name,
+		'url'   => $link,
+	];
+}
+
+/**
+ * Liefert den passenden Schema.org-Typ fuer einen Content-Knoten.
+ *
+ * @param WP_Post|int $post Post oder Post-ID.
+ * @return string
+ */
+function hp_schema_post_type_name( $post ): string {
+	if ( $post instanceof WP_Post ) {
+		$post_obj = $post;
+	} elseif ( is_numeric( $post ) ) {
+		$post_obj = get_post( (int) $post );
+	} else {
+		return 'CreativeWork';
+	}
+
+	$type     = $post_obj instanceof WP_Post ? get_post_type( $post_obj ) : '';
+
+	if ( 'essay' === $type ) {
+		return 'ScholarlyArticle';
+	}
+	if ( 'note' === $type ) {
+		return 'BlogPosting';
+	}
+	if ( 'glossar' === $type ) {
+		return 'DefinedTerm';
+	}
+	if ( 'dossier' === $type ) {
+		return 'Article';
+	}
+
+	return 'CreativeWork';
+}
+
+/**
+ * Liefert das aktuelle Query-Objekt als Post, falls vorhanden.
+ *
+ * @return WP_Post|null
+ */
+function hp_schema_get_queried_post(): ?WP_Post {
+	$post = get_queried_object();
+
+	return $post instanceof WP_Post ? $post : null;
+}
+
+/**
  * Liefert ein Image-Objekt für JSON-LD aus den vorhandenen
  * Social-Image-Daten. Fallback-Kette identisch zu OG-Image,
  * damit Article-Rich-Results auch ohne Beitragsbild greifen.
@@ -63,10 +211,10 @@ function hp_get_schema_image(): ?array {
 
 /**
  * Liefert Topic-Begriffe eines Posts als Schema-Felder
- * (`keywords` String + `articleSection` String).
+ * (`keywords`, `articleSection`, `about`).
  *
  * @param int $post_id
- * @return array{keywords?:string,articleSection?:string}
+ * @return array{keywords?:string,articleSection?:string,about?:array<int,array<string,mixed>>}
  */
 function hp_get_schema_topic_fields( int $post_id ): array {
 	$out    = [];
@@ -84,6 +232,20 @@ function hp_get_schema_topic_fields( int $post_id ): array {
 	$out['keywords']       = implode( ', ', $names );
 	$out['articleSection'] = $names[0];
 
+	$about = [];
+	foreach ( $topics as $topic ) {
+		$topic_ref = hp_schema_topic_reference( $topic );
+		if ( null === $topic_ref ) {
+			continue;
+		}
+
+		$about[] = $topic_ref;
+	}
+
+	if ( $about ) {
+		$out['about'] = $about;
+	}
+
 	return $out;
 }
 
@@ -99,7 +261,20 @@ function hp_essay_jsonld_schema(): void {
 		return;
 	}
 
-	$post    = get_queried_object();
+	$post = hp_schema_get_queried_post();
+	if ( null === $post ) {
+		return;
+	}
+
+	$permalink = get_permalink( $post );
+	if ( ! is_string( $permalink ) || '' === $permalink ) {
+		return;
+	}
+
+	$site_id   = hp_schema_site_entity_id( 'website' );
+	$person_id = hp_schema_site_entity_id( 'person' );
+	$org_id    = hp_schema_site_entity_id( 'organization' );
+	$entity_id = hp_schema_post_entity_id( $post );
 	$excerpt = has_excerpt( $post->ID )
 		? wp_strip_all_tags( get_the_excerpt( $post ) )
 		: wp_trim_words( wp_strip_all_tags( $post->post_content ), 40, ' …' );
@@ -107,21 +282,23 @@ function hp_essay_jsonld_schema(): void {
 	$schema = [
 		'@context'      => 'https://schema.org',
 		'@type'         => 'ScholarlyArticle',
+		'@id'           => $entity_id,
 		'headline'      => get_the_title( $post ),
 		'datePublished' => get_the_date( 'c', $post ),
 		'dateModified'  => get_the_modified_date( 'c', $post ),
 		'abstract'      => $excerpt,
 		'author'        => [
-			'@id' => home_url( '/' ) . '#person',
+			'@id' => $person_id,
 		],
 		'publisher'     => [
-			'@id' => home_url( '/' ) . '#organization',
+			'@id' => $org_id,
 		],
+		'isPartOf'      => [ '@id' => $site_id ],
 		'mainEntityOfPage' => [
 			'@type' => 'WebPage',
-			'@id'   => get_permalink( $post ),
+			'@id'   => $permalink,
 		],
-		'url'           => get_permalink( $post ),
+		'url'           => $permalink,
 		'inLanguage'    => get_locale(),
 	];
 
@@ -166,6 +343,9 @@ function hp_org_website_jsonld_schema(): void {
 	$site_url  = home_url( '/' );
 	$site_desc = get_bloginfo( 'description' );
 	$locale    = get_locale();
+	$person_id = hp_schema_site_entity_id( 'person' );
+	$org_id    = hp_schema_site_entity_id( 'organization' );
+	$site_id   = hp_schema_site_entity_id( 'website' );
 
 	$graph = [
 		'@context' => 'https://schema.org',
@@ -175,7 +355,7 @@ function hp_org_website_jsonld_schema(): void {
 	// --- Person (Herausgeber) ---
 	$person = [
 		'@type'    => 'Person',
-		'@id'      => $site_url . '#person',
+		'@id'      => $person_id,
 		'name'     => 'Haşim Üner',
 		'url'      => $site_url,
 		'jobTitle' => 'Medienwissenschaftler & Publizist',
@@ -195,12 +375,12 @@ function hp_org_website_jsonld_schema(): void {
 	// --- Organization ---
 	$org = [
 		'@type'       => 'Organization',
-		'@id'         => $site_url . '#organization',
+		'@id'         => $org_id,
 		'name'        => $site_name,
 		'url'         => $site_url,
 		'description' => $site_desc ?: 'Essays und Analysen zu Macht, Medien und Perspektive. Von Haşim Üner.',
 		'founder'     => [
-			'@id' => $site_url . '#person',
+			'@id' => $person_id,
 		],
 		'foundingDate'         => '2024',
 		'publishingPrinciples' => $site_url . 'mission/',
@@ -229,13 +409,13 @@ function hp_org_website_jsonld_schema(): void {
 	// --- WebSite ---
 	$website = [
 		'@type'       => 'WebSite',
-		'@id'         => $site_url . '#website',
+		'@id'         => $site_id,
 		'name'        => $site_name,
 		'url'         => $site_url,
 		'description' => $site_desc ?: '',
 		'inLanguage'  => $locale,
 		'publisher'   => [
-			'@id' => $site_url . '#organization',
+			'@id' => $org_id,
 		],
 	];
 
@@ -273,30 +453,44 @@ function hp_glossar_jsonld_schema(): void {
 		return;
 	}
 
-	$post  = get_queried_object();
+	$post = hp_schema_get_queried_post();
+	if ( null === $post ) {
+		return;
+	}
+
+	$permalink = get_permalink( $post );
+	if ( ! is_string( $permalink ) || '' === $permalink ) {
+		return;
+	}
+
+	$site_id = hp_schema_site_entity_id( 'website' );
+	$org_id  = hp_schema_site_entity_id( 'organization' );
 	$kurz  = get_post_meta( $post->ID, '_hp_glossar_kurz', true );
 	$desc  = $kurz
 		? wp_strip_all_tags( $kurz )
 		: wp_trim_words( wp_strip_all_tags( $post->post_content ), 40, ' …' );
 
-	$permalink = get_permalink( $post );
+	$archive_url = get_post_type_archive_link( 'glossar' );
 
 	$schema = [
 		'@context'         => 'https://schema.org',
 		'@type'            => 'DefinedTerm',
-		'@id'              => $permalink . '#term',
+		'@id'              => hp_schema_post_entity_id( $post ),
 		'name'             => get_the_title( $post ),
 		'description'      => $desc,
 		'url'              => $permalink,
 		'inLanguage'       => get_locale(),
+		'isPartOf'         => [ '@id' => $site_id ],
+		'publisher'        => [ '@id' => $org_id ],
 		'mainEntityOfPage' => [
 			'@type' => 'WebPage',
 			'@id'   => $permalink,
 		],
 		'inDefinedTermSet' => [
 			'@type' => 'DefinedTermSet',
+			'@id'   => $archive_url ? $archive_url . '#termset' : home_url( '/glossar/' ) . '#termset',
 			'name'  => 'Glossar — ' . get_bloginfo( 'name' ),
-			'url'   => get_post_type_archive_link( 'glossar' ),
+			'url'   => $archive_url ?: home_url( '/glossar/' ),
 		],
 	];
 
@@ -322,7 +516,20 @@ function hp_note_jsonld_schema(): void {
 		return;
 	}
 
-	$post    = get_queried_object();
+	$post = hp_schema_get_queried_post();
+	if ( null === $post ) {
+		return;
+	}
+
+	$permalink = get_permalink( $post );
+	if ( ! is_string( $permalink ) || '' === $permalink ) {
+		return;
+	}
+
+	$site_id   = hp_schema_site_entity_id( 'website' );
+	$person_id = hp_schema_site_entity_id( 'person' );
+	$org_id    = hp_schema_site_entity_id( 'organization' );
+	$entity_id = hp_schema_post_entity_id( $post );
 	$excerpt = has_excerpt( $post->ID )
 		? wp_strip_all_tags( get_the_excerpt( $post ) )
 		: wp_trim_words( wp_strip_all_tags( $post->post_content ), 40, ' …' );
@@ -330,21 +537,23 @@ function hp_note_jsonld_schema(): void {
 	$schema = [
 		'@context'      => 'https://schema.org',
 		'@type'         => 'BlogPosting',
+		'@id'           => $entity_id,
 		'headline'      => get_the_title( $post ),
 		'datePublished' => get_the_date( 'c', $post ),
 		'dateModified'  => get_the_modified_date( 'c', $post ),
 		'description'   => $excerpt,
 		'author'        => [
-			'@id' => home_url( '/' ) . '#person',
+			'@id' => $person_id,
 		],
 		'publisher'     => [
-			'@id' => home_url( '/' ) . '#organization',
+			'@id' => $org_id,
 		],
+		'isPartOf'      => [ '@id' => $site_id ],
 		'mainEntityOfPage' => [
 			'@type' => 'WebPage',
-			'@id'   => get_permalink( $post ),
+			'@id'   => $permalink,
 		],
-		'url'           => get_permalink( $post ),
+		'url'           => $permalink,
 		'inLanguage'    => get_locale(),
 	];
 
@@ -387,8 +596,21 @@ function hp_dossier_jsonld_schema(): void {
 		return;
 	}
 
-	$post     = get_queried_object();
+	$post     = hp_schema_get_queried_post();
+	if ( null === $post ) {
+		return;
+	}
+
+	$permalink = get_permalink( $post );
+	if ( ! is_string( $permalink ) || '' === $permalink ) {
+		return;
+	}
+
 	$post_id  = (int) $post->ID;
+	$site_id  = hp_schema_site_entity_id( 'website' );
+	$person_id = hp_schema_site_entity_id( 'person' );
+	$org_id    = hp_schema_site_entity_id( 'organization' );
+	$entity_id = hp_schema_post_entity_id( $post );
 	$intro    = (string) get_post_meta( $post_id, '_hp_dossier_intro', true );
 	$version  = (string) get_post_meta( $post_id, '_hp_dossier_version', true );
 	$stand    = (string) get_post_meta( $post_id, '_hp_dossier_stand', true );
@@ -399,18 +621,20 @@ function hp_dossier_jsonld_schema(): void {
 	$schema = [
 		'@context'         => 'https://schema.org',
 		'@type'            => 'Article',
+		'@id'              => $entity_id,
 		'headline'         => get_the_title( $post ),
 		'datePublished'    => get_the_date( 'c', $post ),
 		'dateModified'     => $stand ? date( 'c', strtotime( $stand ) ) : get_the_modified_date( 'c', $post ),
 		'description'      => $desc,
 		'abstract'         => $desc,
-		'author'           => [ '@id' => home_url( '/' ) . '#person' ],
-		'publisher'        => [ '@id' => home_url( '/' ) . '#organization' ],
+		'author'           => [ '@id' => $person_id ],
+		'publisher'        => [ '@id' => $org_id ],
+		'isPartOf'         => [ '@id' => $site_id ],
 		'mainEntityOfPage' => [
 			'@type' => 'WebPage',
-			'@id'   => get_permalink( $post ),
+			'@id'   => $permalink,
 		],
-		'url'              => get_permalink( $post ),
+		'url'              => $permalink,
 		'inLanguage'       => get_locale(),
 	];
 
@@ -431,7 +655,8 @@ function hp_dossier_jsonld_schema(): void {
 		if ( $leseplan ) {
 			$schema['hasPart'] = array_map( function ( $p ) {
 				return [
-					'@type'    => 'essay' === get_post_type( $p ) ? 'ScholarlyArticle' : 'BlogPosting',
+					'@type'    => hp_schema_post_type_name( $p ),
+					'@id'      => hp_schema_post_entity_id( $p ),
 					'headline' => get_the_title( $p ),
 					'url'      => get_permalink( $p ),
 				];
@@ -446,6 +671,7 @@ function hp_dossier_jsonld_schema(): void {
 			$schema['mentions'] = array_map( function ( $b ) {
 				return [
 					'@type' => 'DefinedTerm',
+					'@id'   => hp_schema_post_entity_id( $b ),
 					'name'  => get_the_title( $b ),
 					'url'   => get_permalink( $b ),
 				];
@@ -488,8 +714,7 @@ function hp_archive_jsonld_schema(): void {
 		return;
 	}
 
-	$site_url = home_url( '/' );
-	$obj      = get_queried_object();
+	$obj = get_queried_object();
 
 	if ( $is_cpt_archive ) {
 		$name = post_type_archive_title( '', false );
@@ -501,22 +726,34 @@ function hp_archive_jsonld_schema(): void {
 		$desc = wp_strip_all_tags( term_description() );
 	}
 
-	if ( ! $url || is_wp_error( $url ) ) {
+	if ( ! is_string( $url ) || '' === $url ) {
 		return;
 	}
 
 	$schema = [
 		'@context'   => 'https://schema.org',
 		'@type'      => 'CollectionPage',
+		'@id'        => $url . '#collection',
 		'name'       => $name,
 		'url'        => $url,
 		'inLanguage' => get_locale(),
-		'isPartOf'   => [ '@id' => $site_url . '#website' ],
-		'publisher'  => [ '@id' => $site_url . '#organization' ],
+		'isPartOf'   => [ '@id' => hp_schema_site_entity_id( 'website' ) ],
+		'publisher'  => [ '@id' => hp_schema_site_entity_id( 'organization' ) ],
 	];
 
 	if ( $desc ) {
 		$schema['description'] = $desc;
+	}
+
+	if ( $is_topic_tax && $obj instanceof WP_Term ) {
+		$topic = hp_schema_topic_reference( $obj );
+		if ( null !== $topic ) {
+			if ( $desc ) {
+				$topic['description'] = $desc;
+			}
+
+			$schema['about'] = $topic;
+		}
 	}
 
 	// ItemList mit den aktuell ausgegebenen Beiträgen (max. 20)
@@ -535,8 +772,13 @@ function hp_archive_jsonld_schema(): void {
 			$items[] = [
 				'@type'    => 'ListItem',
 				'position' => $pos++,
-				'url'      => get_permalink( $p ),
 				'name'     => get_the_title( $p ),
+				'item'     => [
+					'@type' => hp_schema_post_type_name( $p ),
+					'@id'   => hp_schema_post_entity_id( $p ),
+					'url'   => get_permalink( $p ),
+					'name'  => get_the_title( $p ),
+				],
 			];
 		}
 
@@ -573,13 +815,19 @@ function hp_mission_jsonld_schema(): void {
 		return;
 	}
 
-	$post = get_queried_object();
-	if ( ! ( $post instanceof WP_Post ) ) {
+	$post = hp_schema_get_queried_post();
+	if ( null === $post ) {
 		return;
 	}
 
 	$permalink = get_permalink( $post );
-	$site_url  = home_url( '/' );
+	if ( ! is_string( $permalink ) || '' === $permalink ) {
+		return;
+	}
+
+	$person_id = hp_schema_site_entity_id( 'person' );
+	$org_id    = hp_schema_site_entity_id( 'organization' );
+	$site_id   = hp_schema_site_entity_id( 'website' );
 
 	$schema = [
 		'@context'         => 'https://schema.org',
@@ -591,10 +839,10 @@ function hp_mission_jsonld_schema(): void {
 			: '',
 		'url'              => $permalink,
 		'inLanguage'       => get_locale(),
-		'isPartOf'         => [ '@id' => $site_url . '#website' ],
-		'about'            => [ '@id' => $site_url . '#person' ],
-		'mainEntity'       => [ '@id' => $site_url . '#person' ],
-		'publisher'        => [ '@id' => $site_url . '#organization' ],
+		'isPartOf'         => [ '@id' => $site_id ],
+		'about'            => [ '@id' => $person_id ],
+		'mainEntity'       => [ '@id' => $person_id ],
+		'publisher'        => [ '@id' => $org_id ],
 		'mainEntityOfPage' => [
 			'@type' => 'WebPage',
 			'@id'   => $permalink,
