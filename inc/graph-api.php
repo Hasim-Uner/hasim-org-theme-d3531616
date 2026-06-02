@@ -15,6 +15,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+const HP_GRAPH_SCHEMA_VERSION = 2;
+
 /* =========================================
    1. REST-API ENDPOINT
    ========================================= */
@@ -158,6 +160,17 @@ function hp_graph_build_data(): array {
 		}
 	}
 
+	// --- URL-Index für Content-Link-Fallbacks ---
+	$url_to_node_id = [];
+	foreach ( $post_map as $node_id => $post ) {
+		$permalink = get_permalink( $post );
+		if ( ! $permalink ) {
+			continue;
+		}
+
+		$url_to_node_id[ hp_graph_normalize_url_path( $permalink ) ] = $node_id;
+	}
+
 	// --- Edges: topic_membership ---
 	foreach ( $post_topic_map as $node_id => $term_ids ) {
 		foreach ( $term_ids as $term_id ) {
@@ -276,6 +289,22 @@ function hp_graph_build_data(): array {
 			$node_edges[ $node_id ]++;
 			$node_edges[ $target_node_id ]++;
 		}
+
+		$link_targets = hp_graph_get_linked_node_ids_from_content( $post->post_content, $url_to_node_id );
+		foreach ( $link_targets as $target_node_id ) {
+			if ( $target_node_id === $node_id || ! isset( $nodes[ $target_node_id ] ) ) {
+				continue;
+			}
+
+			$edges[] = [
+				'source' => $node_id,
+				'target' => $target_node_id,
+				'type'   => 'dossier_links_to',
+				'weight' => 3,
+			];
+			$node_edges[ $node_id ]++;
+			$node_edges[ $target_node_id ]++;
+		}
 	}
 
 	foreach ( $post_map as $node_id => $post ) {
@@ -347,6 +376,7 @@ function hp_graph_build_data(): array {
 			'edge_count' => count( $edges ),
 			'generated'  => wp_date( 'c' ),
 			'cached'     => false,
+			'schema_version' => HP_GRAPH_SCHEMA_VERSION,
 		],
 	];
 }
@@ -382,6 +412,62 @@ function hp_graph_parse_id_list( string $raw ): array {
 	return array_values( array_filter( array_map( 'intval', array_map( 'trim', explode( ',', $raw ) ) ) ) );
 }
 
+/**
+ * Normalisiert interne URLs auf Pfad-Ebene.
+ *
+ * @param string $url URL oder relativer Pfad.
+ * @return string Normalisierter Pfad mit trailing slash.
+ */
+function hp_graph_normalize_url_path( string $url ): string {
+	$url = trim( html_entity_decode( $url, ENT_QUOTES, 'UTF-8' ) );
+	if ( '' === $url || '#' === $url || 0 === strpos( $url, '#' ) ) {
+		return '';
+	}
+
+	$home_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
+	$parts     = wp_parse_url( $url );
+
+	if ( ! is_array( $parts ) ) {
+		return '';
+	}
+
+	$host = $parts['host'] ?? '';
+	if ( $host && $home_host && strtolower( (string) $host ) !== strtolower( (string) $home_host ) ) {
+		return '';
+	}
+
+	$path = isset( $parts['path'] ) ? '/' . ltrim( (string) $parts['path'], '/' ) : '/';
+
+	return trailingslashit( $path );
+}
+
+/**
+ * Extrahiert interne Linkziele aus Dossier-Content und mappt sie auf Graph-Nodes.
+ *
+ * @param string               $content        Post-Content.
+ * @param array<string,string> $url_to_node_id Map normalisierter Pfad => Node-ID.
+ * @return string[]
+ */
+function hp_graph_get_linked_node_ids_from_content( string $content, array $url_to_node_id ): array {
+	if ( '' === trim( $content ) || ! $url_to_node_id ) {
+		return [];
+	}
+
+	if ( ! preg_match_all( '/<a\s[^>]*href=(["\'])(.*?)\1/i', $content, $matches ) ) {
+		return [];
+	}
+
+	$node_ids = [];
+	foreach ( (array) ( $matches[2] ?? [] ) as $href ) {
+		$path = hp_graph_normalize_url_path( (string) $href );
+		if ( '' !== $path && isset( $url_to_node_id[ $path ] ) ) {
+			$node_ids[] = $url_to_node_id[ $path ];
+		}
+	}
+
+	return array_values( array_unique( $node_ids ) );
+}
+
 /* =========================================
    3. CACHE-KOMPILIERUNG
    ========================================= */
@@ -413,6 +499,7 @@ function hp_graph_empty_payload( string $status = 'pending' ): array {
 			'cached'     => true,
 			'status'     => $status,
 			'version'    => (int) get_option( 'hp_graph_version', 0 ),
+			'schema_version' => HP_GRAPH_SCHEMA_VERSION,
 		],
 	];
 
@@ -439,10 +526,20 @@ function hp_graph_is_valid_payload( $data ): bool {
 }
 
 /**
+ * Prüft, ob ein gespeichertes Graph-Payload zum aktuellen Schema passt.
+ *
+ * @param array $data Graph-Payload.
+ * @return bool
+ */
+function hp_graph_payload_has_current_schema( array $data ): bool {
+	return (int) ( $data['meta']['schema_version'] ?? 0 ) >= HP_GRAPH_SCHEMA_VERSION;
+}
+
+/**
  * Liefert fertig kompiliertes Graph-Payload aus der Datenbank.
  *
- * Fällt nur auf alte Transient-Daten zurück, um bestehende Installationen
- * ohne synchronen Rebuild zu migrieren.
+ * Fällt nur auf alte Transient-Daten zurück und migriert Schema-Änderungen
+ * mit einem einmaligen synchronen Rebuild.
  *
  * @return array|null
  */
@@ -450,6 +547,16 @@ function hp_graph_get_compiled_data(): ?array {
 	$data = get_option( 'hp_graph_payload', null );
 
 	if ( hp_graph_is_valid_payload( $data ) ) {
+		if ( ! hp_graph_payload_has_current_schema( $data ) ) {
+			update_option( 'hp_graph_status', 'stale', false );
+			hp_graph_schedule_rebuild();
+
+			$fresh_data = hp_graph_rebuild_now();
+			if ( null !== $fresh_data ) {
+				return $fresh_data;
+			}
+		}
+
 		return $data;
 	}
 
@@ -457,7 +564,15 @@ function hp_graph_get_compiled_data(): ?array {
 	$legacy    = get_transient( $legacy_key );
 
 	if ( hp_graph_is_valid_payload( $legacy ) ) {
-		hp_graph_store_compiled_data( $legacy );
+		update_option( 'hp_graph_payload', $legacy, false );
+		update_option( 'hp_graph_status', 'stale', false );
+		hp_graph_schedule_rebuild();
+
+		$fresh_data = hp_graph_rebuild_now();
+		if ( null !== $fresh_data ) {
+			return $fresh_data;
+		}
+
 		return $legacy;
 	}
 
@@ -473,11 +588,27 @@ function hp_graph_store_compiled_data( array $data ): void {
 	$data['meta']['cached']  = false;
 	$data['meta']['status']  = 'ready';
 	$data['meta']['version'] = (int) get_option( 'hp_graph_version', 0 );
+	$data['meta']['schema_version'] = HP_GRAPH_SCHEMA_VERSION;
 
 	update_option( 'hp_graph_payload', $data, false );
 	update_option( 'hp_graph_status', 'ready', false );
+	update_option( 'hp_graph_schema_version', HP_GRAPH_SCHEMA_VERSION, false );
 	delete_option( 'hp_graph_last_error' );
 }
+
+/**
+ * Stellt sicher, dass neue Graph-Schemata nach Deploy neu kompiliert werden.
+ */
+function hp_graph_maybe_schedule_schema_rebuild(): void {
+	if ( (int) get_option( 'hp_graph_schema_version', 0 ) >= HP_GRAPH_SCHEMA_VERSION ) {
+		return;
+	}
+
+	$status = hp_graph_is_valid_payload( get_option( 'hp_graph_payload', null ) ) ? 'stale' : 'pending';
+	update_option( 'hp_graph_status', $status, false );
+	hp_graph_schedule_rebuild();
+}
+add_action( 'init', 'hp_graph_maybe_schedule_schema_rebuild', 45 );
 
 /**
  * Plant einen Graph-Rebuild, falls nicht schon einer ansteht.
@@ -489,16 +620,28 @@ function hp_graph_schedule_rebuild(): void {
 }
 
 /**
- * Kompiliert den Graph im Hintergrund neu.
+ * Kompiliert den Graph sofort neu.
+ *
+ * @return array|null Frisches Graph-Payload oder null bei Fehler.
  */
-function hp_graph_rebuild_compiled_data(): void {
+function hp_graph_rebuild_now(): ?array {
 	try {
 		$data = hp_graph_build_data();
 		hp_graph_store_compiled_data( $data );
+		return $data;
 	} catch ( \Throwable $e ) {
 		update_option( 'hp_graph_status', 'error', false );
 		update_option( 'hp_graph_last_error', $e->getMessage(), false );
 	}
+
+	return null;
+}
+
+/**
+ * Kompiliert den Graph im Hintergrund neu.
+ */
+function hp_graph_rebuild_compiled_data(): void {
+	hp_graph_rebuild_now();
 }
 add_action( 'hp_graph_rebuild_event', 'hp_graph_rebuild_compiled_data' );
 

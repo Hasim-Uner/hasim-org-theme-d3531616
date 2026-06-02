@@ -543,6 +543,7 @@ modules:
     hooks:
       - rest_api_init: hp_graph_register_rest_route
       - hp_graph_rebuild_event: hp_graph_rebuild_compiled_data
+      - init: hp_graph_maybe_schedule_schema_rebuild
       - save_post_essay: hp_graph_flush_cache
       - save_post_note: hp_graph_flush_cache
       - save_post_glossar: hp_graph_flush_cache
@@ -568,7 +569,9 @@ modules:
       - graph edges
       - dossier_has_part edges
       - dossier_mentions_term edges
+      - dossier_links_to fallback edges
       - graph cache status
+      - graph schema migration
       - graph rebuild scheduling
 
   mini_graph:

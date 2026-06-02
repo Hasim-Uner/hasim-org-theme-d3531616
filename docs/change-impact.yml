@@ -260,9 +260,11 @@ files:
       - graph REST API
       - graph cache
       - graph rebuild cron
+      - graph schema migration
       - dossier graph nodes
       - dossier reading-plan edges
       - dossier term-apparatus edges
+      - dossier content-link fallback edges
       - entity relations
       - Wissensgraph assets
       - mini graph data source

@@ -40,6 +40,7 @@ Ja, aus dem Repository kann ein expliziter Knowledge Graph erzeugt werden. Die G
 | `glossar_related` | `_hp_glossar_verwandt` | Begriff ist mit Begriff verwandt |
 | `dossier_has_part` | `_hp_dossier_leseplan` | Dossier enthaelt Essay/Note in Reihenfolge |
 | `dossier_mentions_term` | `_hp_dossier_begriffe` | Dossier behandelt Begriff |
+| `dossier_links_to` | interne Links im Dossier-Content | Dossier verweist redaktionell auf bestehenden Graph-Knoten |
 | `dossier_in_topic` | Term-Zuordnung | Dossier gehoert zu Topic |
 | `post_in_dossier` | Reverse aus Leseplan | Essay/Note ist Teil eines Dossiers |
 | `term_in_dossier` | Reverse aus Begriffsapparat | Begriff ist Teil eines Dossiers |
@@ -81,7 +82,7 @@ Ja, aus dem Repository kann ein expliziter Knowledge Graph erzeugt werden. Die G
 ### Phase 2: Graph-Datenmodell erweitern
 
 - Dossier-Nodes in `hp_graph_build_data()` aufnehmen. Umgesetzt fuer sichtbare Dossiers.
-- Edges `dossier_has_part`, `dossier_mentions_term`, `dossier_in_topic` erzeugen. `dossier_has_part` und `dossier_mentions_term` sind umgesetzt; `dossier_in_topic` laeuft ueber `topic_membership`.
+- Edges `dossier_has_part`, `dossier_mentions_term`, `dossier_links_to`, `dossier_in_topic` erzeugen. `dossier_has_part`, `dossier_mentions_term` und `dossier_links_to` sind umgesetzt; `dossier_in_topic` laeuft ueber `topic_membership`.
 - Glossar-Verwandtschaft als `glossar_related` aufnehmen.
 - Edge-Metadaten um `source`, `confidence`, `order` erweitern.
 

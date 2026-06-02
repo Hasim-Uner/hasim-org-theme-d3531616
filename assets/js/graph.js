@@ -39,6 +39,7 @@
 			glossar_in_content:    '4,3',   // dotted: glossar in content
 			dossier_has_part:      '10,3',  // curated reading path
 			dossier_mentions_term: '2,4',   // dossier term apparatus
+			dossier_links_to:      '6,3',   // dossier content links
 		},
 		typeLabels: {
 			essay:   'Essay',
@@ -53,6 +54,7 @@
 			glossar_in_content:    'Begriff im Text',
 			dossier_has_part:      'Teil des Leseplans',
 			dossier_mentions_term: 'Begriff im Dossier',
+			dossier_links_to:      'im Dossier verlinkt',
 		},
 		typeOrder: [ 'essay', 'note', 'dossier', 'glossar', 'topic' ],
 		edgeColor:      'rgba(255,255,255,0.12)',
