@@ -458,7 +458,7 @@ function hp_graph_get_linked_node_ids_from_content( string $content, array $url_
 	}
 
 	$node_ids = [];
-	foreach ( (array) ( $matches[2] ?? [] ) as $href ) {
+	foreach ( $matches[2] as $href ) {
 		$path = hp_graph_normalize_url_path( (string) $href );
 		if ( '' !== $path && isset( $url_to_node_id[ $path ] ) ) {
 			$node_ids[] = $url_to_node_id[ $path ];
