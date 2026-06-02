@@ -1,0 +1,633 @@
+version: 1
+updated: "2026-06-02"
+
+rules:
+  before_changing:
+    - read docs/AGENTS.md
+    - read docs/architecture.yml
+    - check affected systems below
+  never_touch:
+    - inc/contact-local.php
+
+files:
+  functions.php:
+    affects:
+      - theme bootstrap
+      - all modules
+    owners:
+      - Performance Agent
+
+  inc/bootstrap.php:
+    affects:
+      - module loading
+      - runtime availability
+      - fatal error behavior
+    owners:
+      - Performance Agent
+
+  inc/manifest.php:
+    affects:
+      - module load order
+      - hook registration order
+      - dependency availability
+    owners:
+      - Performance Agent
+
+  inc/helpers.php:
+    affects:
+      - reading time
+      - body classes
+      - search inclusion
+      - rewrite flush
+    owners:
+      - Content Agent
+      - Performance Agent
+
+  inc/post-types.php:
+    affects:
+      - essay URLs
+      - note URLs
+      - archives
+      - REST editor support
+      - schema contexts
+    owners:
+      - Content Agent
+      - SEO Agent
+
+  inc/taxonomies.php:
+    affects:
+      - topic taxonomy
+      - topic pillar pages
+      - graph topic edges
+      - sitemap topic entries
+      - legacy redirects
+    owners:
+      - Content Agent
+      - Knowledge Graph Agent
+      - SEO Agent
+
+  inc/enqueue.php:
+    affects:
+      - frontend CSS and JS loading
+      - render blocking behavior
+      - font preload
+      - link preview runtime data
+    owners:
+      - Frontend Agent
+      - Performance Agent
+
+  inc/runtime-assets.php:
+    affects:
+      - cache busting
+      - script defer strategy
+      - asset loading consistency
+    owners:
+      - Performance Agent
+      - Frontend Agent
+
+  inc/feature-flags.php:
+    affects:
+      - controlled rollouts
+      - llms.txt
+      - sitemap users provider
+    owners:
+      - Performance Agent
+
+  inc/seo-meta.php:
+    affects:
+      - title tags
+      - canonical URLs
+      - meta descriptions
+      - Open Graph
+      - Twitter cards
+      - social image fallback
+      - schema image helper
+    owners:
+      - SEO Agent
+
+  inc/seo-schema.php:
+    affects:
+      - structured data
+      - rich snippets
+      - entity graph
+      - Person/Organization/WebSite
+      - Article/DefinedTerm/Dossier schema
+      - archive schema
+    owners:
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  inc/seo-hygiene.php:
+    affects:
+      - indexability
+      - robots directives
+      - redirects
+      - author archive behavior
+      - attachment handling
+      - hreflang
+      - Last-Modified and ETag
+      - XML-RPC and pingbacks
+    owners:
+      - SEO Agent
+      - Performance Agent
+
+  inc/sitemap.php:
+    affects:
+      - XML sitemap inclusion
+      - crawl budget
+      - legal page exclusion
+      - topic term inclusion
+      - user sitemap provider
+    owners:
+      - SEO Agent
+
+  inc/breadcrumbs.php:
+    affects:
+      - BreadcrumbList schema
+      - SERP breadcrumb context
+    owners:
+      - SEO Agent
+
+  inc/llms-txt.php:
+    affects:
+      - AI crawler context
+      - llms.txt route
+      - canonical editorial URL list
+    owners:
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  inc/seo-cockpit/seo-cockpit.php:
+    affects:
+      - SEO cockpit module loading
+      - admin-only runtime gating
+    owners:
+      - Analytics Agent
+
+  inc/seo-cockpit/seo-cockpit-core.php:
+    affects:
+      - SEO cockpit capabilities
+      - admin menu
+      - settings
+      - cache versioning
+      - admin assets
+    owners:
+      - Analytics Agent
+
+  inc/seo-cockpit/seo-cockpit-api.php:
+    affects:
+      - Search Console OAuth
+      - URL inspection
+      - remote Google API calls
+      - token storage
+    owners:
+      - Analytics Agent
+      - SEO Agent
+
+  inc/seo-cockpit/seo-cockpit-sync.php:
+    affects:
+      - SEO cockpit cron
+      - snapshot cache
+      - Search Console reporting windows
+      - sync locks
+    owners:
+      - Analytics Agent
+      - Performance Agent
+
+  inc/seo-cockpit/seo-cockpit-links.php:
+    affects:
+      - internal link graph
+      - link context scoring
+      - sitewide shell links
+      - SEO quick wins
+    owners:
+      - Analytics Agent
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  inc/seo-cockpit/seo-cockpit-insights.php:
+    affects:
+      - SEO insight scoring
+      - page role detection
+      - quick wins
+      - query movers
+      - problem pages
+    owners:
+      - Analytics Agent
+      - SEO Agent
+
+  inc/glossary.php:
+    affects:
+      - glossar CPT
+      - glossary meta
+      - auto-linking
+      - central terms
+      - graph glossary edges
+      - DefinedTerm schema inputs
+      - link preview tooltips
+      - cache invalidation
+    owners:
+      - Knowledge Graph Agent
+      - Content Agent
+      - SEO Agent
+
+  inc/link-preview.php:
+    affects:
+      - hp/v1/link-preview
+      - internal link previews
+      - glossary chip previews
+      - preview cache
+    owners:
+      - Knowledge Graph Agent
+      - Frontend Agent
+
+  inc/dossier.php:
+    affects:
+      - dossier CPT
+      - dossier archive and single visibility
+      - reading plans
+      - term apparatus
+      - citations
+      - Dossier schema inputs
+      - reverse relationships
+    owners:
+      - Content Agent
+      - Knowledge Graph Agent
+      - SEO Agent
+
+  inc/graph-api.php:
+    affects:
+      - graph REST API
+      - graph cache
+      - graph rebuild cron
+      - dossiers when added to graph
+      - entity relations
+      - Wissensgraph assets
+      - mini graph data source
+    owners:
+      - Knowledge Graph Agent
+      - Performance Agent
+
+  inc/mini-graph.php:
+    affects:
+      - local graph navigation
+      - essay/glossar sidebar context
+      - graph payload consumption
+    owners:
+      - Knowledge Graph Agent
+      - Frontend Agent
+
+  inc/header-nav.php:
+    affects:
+      - custom header
+      - nav menus
+      - search toggle markup
+      - header newsletter CTA
+      - GeneratePress header removal
+    owners:
+      - Frontend Agent
+
+  inc/comments.php:
+    affects:
+      - editorial comments
+      - comment anti-spam
+      - moderation
+      - comment reply asset
+      - comment form UX
+    owners:
+      - Content Agent
+
+  inc/votes.php:
+    affects:
+      - hp_votes table
+      - vote business logic
+      - IP/user duplicate detection
+      - vote counts
+      - vote button markup
+    owners:
+      - Performance Agent
+      - Content Agent
+
+  inc/votes-api.php:
+    affects:
+      - vote REST route
+      - vote nonce validation
+      - vote frontend assets
+    owners:
+      - Performance Agent
+      - Frontend Agent
+
+  inc/contact.php:
+    affects:
+      - contact module loading
+      - local credential include
+    owners:
+      - Analytics Agent
+
+  inc/forms/contact/config.php:
+    affects:
+      - contact recipient
+      - Brevo API/SMTP configuration
+      - contact sender identity
+    owners:
+      - Analytics Agent
+
+  inc/forms/contact/handlers.php:
+    affects:
+      - contact form submission
+      - rate limiting
+      - contact flash state
+      - mail send path
+    owners:
+      - Analytics Agent
+
+  inc/contacts-admin.php:
+    affects:
+      - contact submissions table
+      - admin contact overview
+      - CSV export
+      - retention cleanup
+    owners:
+      - Analytics Agent
+
+  inc/newsletter.php:
+    affects:
+      - newsletter module loading
+    owners:
+      - Analytics Agent
+
+  inc/forms/newsletter/install.php:
+    affects:
+      - newsletter subscriber table
+      - suppression table
+      - DB migrations
+    owners:
+      - Analytics Agent
+      - Performance Agent
+
+  inc/forms/newsletter/handlers.php:
+    affects:
+      - subscribe flow
+      - confirmation flow
+      - unsubscribe flow
+      - rate limiting
+      - flash state
+    owners:
+      - Analytics Agent
+
+  inc/newsletter-broadcast.php:
+    affects:
+      - publish broadcast
+      - broadcast meta box
+      - subscriber email sends
+    owners:
+      - Analytics Agent
+      - Content Agent
+
+  inc/privacy-maintenance.php:
+    affects:
+      - contact retention
+      - newsletter pending cleanup
+      - suppression cleanup
+      - privacy cron
+    owners:
+      - Analytics Agent
+      - Performance Agent
+
+  single-essay.php:
+    affects:
+      - essay UX
+      - mini graph display
+      - newsletter embed
+      - votes
+      - central terms
+      - dossier reverse links
+      - related essays
+      - comments
+      - structured content semantics
+    owners:
+      - Content Agent
+      - Frontend Agent
+      - SEO Agent
+
+  single-note.php:
+    affects:
+      - note UX
+      - votes
+      - comments
+      - related notes
+      - structured content semantics
+    owners:
+      - Content Agent
+      - Frontend Agent
+
+  single-glossar.php:
+    affects:
+      - glossary entity page
+      - language variants
+      - related terms
+      - dossier reverse links
+      - term sources
+      - DefinedTerm schema inputs
+    owners:
+      - Content Agent
+      - Knowledge Graph Agent
+      - SEO Agent
+
+  single-dossier.php:
+    affects:
+      - dossier entity page
+      - reading plan links
+      - glossary apparatus
+      - sources
+      - citation box
+      - Dossier schema inputs
+    owners:
+      - Content Agent
+      - Knowledge Graph Agent
+      - SEO Agent
+
+  taxonomy-topic.php:
+    affects:
+      - topic pillar pages
+      - topic internal links
+      - topic archive SEO
+      - topic graph nodes
+    owners:
+      - Content Agent
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  page-wissensgraph.php:
+    affects:
+      - Wissensgraph UI
+      - graph filters
+      - graph accessibility
+      - graph conversion CTA
+    owners:
+      - Knowledge Graph Agent
+      - Frontend Agent
+
+  style.css:
+    affects:
+      - global design tokens
+      - header
+      - prose
+      - single templates
+      - archives
+      - glossary
+      - dossier
+      - mini graph
+      - search
+      - topic archive
+    owners:
+      - Frontend Agent
+
+  assets/js/graph.js:
+    affects:
+      - Wissensgraph rendering
+      - graph search/filter/zoom/detail
+      - graph REST consumption
+    owners:
+      - Knowledge Graph Agent
+      - Frontend Agent
+
+  assets/js/link-preview.js:
+    affects:
+      - internal link preview UX
+      - glossary chip tooltip UX
+      - REST request behavior
+    owners:
+      - Frontend Agent
+      - Knowledge Graph Agent
+
+  assets/js/votes.js:
+    affects:
+      - voting UI
+      - vote REST calls
+      - vote state update
+    owners:
+      - Frontend Agent
+
+  assets/js/nav.js:
+    affects:
+      - mobile nav
+      - search toggle
+      - header scroll state
+    owners:
+      - Frontend Agent
+
+  assets/js/journal-single.js:
+    affects:
+      - TOC
+      - reading progress
+      - footnotes
+      - share copy
+      - citation tabs/copy behavior if present
+    owners:
+      - Frontend Agent
+
+  assets/css/pages/wissensgraph.css:
+    affects:
+      - Wissensgraph layout
+      - graph controls
+      - graph responsive behavior
+    owners:
+      - Frontend Agent
+      - Knowledge Graph Agent
+
+  assets/css/components/newsletter.css:
+    affects:
+      - newsletter forms
+      - header newsletter modal
+    owners:
+      - Frontend Agent
+      - Analytics Agent
+
+  assets/css/votes.css:
+    affects:
+      - vote button layout
+      - vote interaction states
+    owners:
+      - Frontend Agent
+
+  .github/workflows/ci.yml:
+    affects:
+      - PHP lint gate
+      - manifest check
+      - PHPStan gate
+      - architecture checks when added
+    owners:
+      - Performance Agent
+
+  composer.json:
+    affects:
+      - PHP version requirement
+      - PHPStan tooling
+      - CI commands
+    owners:
+      - Performance Agent
+
+  _build-d3/package.json:
+    affects:
+      - D3 custom bundle build
+      - graph library payload
+    owners:
+      - Frontend Agent
+      - Performance Agent
+
+systems:
+  structured_data:
+    primary_files:
+      - inc/seo-schema.php
+      - inc/breadcrumbs.php
+      - inc/seo-meta.php
+    check_after_change:
+      - validate JSON-LD output
+      - verify canonical and @id consistency
+
+  knowledge_graph:
+    primary_files:
+      - inc/graph-api.php
+      - inc/mini-graph.php
+      - inc/glossary.php
+      - inc/dossier.php
+      - inc/taxonomies.php
+    check_after_change:
+      - graph payload shape
+      - cache status behavior
+      - no synchronous rebuild in render path
+
+  crawl_indexing:
+    primary_files:
+      - inc/seo-hygiene.php
+      - inc/sitemap.php
+      - robots.txt
+    check_after_change:
+      - noindex rules
+      - sitemap inclusion
+      - redirect behavior
+
+  frontend_assets:
+    primary_files:
+      - inc/enqueue.php
+      - inc/runtime-assets.php
+      - docs/ASSET_MATRIX.md
+      - assets/css
+      - assets/js
+    check_after_change:
+      - load condition
+      - asset existence
+      - versioning
+
+  personal_data:
+    primary_files:
+      - inc/contact.php
+      - inc/forms/contact
+      - inc/contacts-admin.php
+      - inc/forms/newsletter
+      - inc/privacy-maintenance.php
+    check_after_change:
+      - nonce and rate limits
+      - retention behavior
+      - no secret exposure

@@ -1,0 +1,693 @@
+version: 1
+generated_context: manual architecture model
+updated: "2026-06-02"
+
+repository:
+  type: wordpress_child_theme
+  parent_theme: GeneratePress
+  php_namespace_style: global_functions
+  function_prefixes:
+    - hp_
+    - nexus_
+  entrypoints:
+    - functions.php
+    - inc/bootstrap.php
+    - inc/manifest.php
+
+bootstrap:
+  flow:
+    - wordpress_loads: functions.php
+    - functions_php_requires: inc/bootstrap.php
+    - bootstrap_reads_manifest: inc/manifest.php
+    - bootstrap_validates_each_module: true
+    - bootstrap_requires_each_module_in_order: true
+  manifest: inc/manifest.php
+
+entity_ids:
+  person: "/#person"
+  organization: "/#organization"
+  website: "/#website"
+  essay: "{permalink}#article"
+  note: "{permalink}#article"
+  glossar: "{permalink}#term"
+  dossier: "{permalink}#dossier"
+  topic: "{term_link}#topic"
+
+modules:
+  bootstrap:
+    purpose: Theme entry and module loading.
+    files:
+      - functions.php
+      - inc/bootstrap.php
+      - inc/manifest.php
+    hooks: []
+    routes: []
+    assets: []
+    dependencies:
+      - WordPress theme loader
+    owns:
+      - module load order
+      - include validation
+
+  core_helpers:
+    purpose: Shared helpers for reading time, body classes, search query extension and rewrite flush.
+    files:
+      - inc/helpers.php
+    hooks:
+      - body_class: hp_custom_body_classes
+      - pre_get_posts: hp_extend_search_to_cpts
+      - after_switch_theme: hp_flush_rewrite_rules
+    routes: []
+    assets: []
+    dependencies:
+      - post_types
+    owns:
+      - reading time output
+      - search post type inclusion
+      - common body classes
+
+  feature_flags:
+    purpose: Runtime feature flags via defaults, constants and filters.
+    files:
+      - inc/feature-flags.php
+    hooks:
+      - filter: hp_feature_flags
+      - filter: hp_feature_flag_{flag}
+    routes: []
+    assets: []
+    dependencies: []
+    owns:
+      - feature rollout decisions
+      - llms.txt flag
+      - sitemap user-provider flag
+
+  runtime_assets:
+    purpose: Asset cache-busting and deferred script helper.
+    files:
+      - inc/runtime-assets.php
+    hooks: []
+    routes: []
+    assets: []
+    dependencies:
+      - WordPress asset APIs
+    owns:
+      - hp_asset_version
+      - hp_enqueue_deferred_script
+
+  post_types:
+    purpose: Essay and note custom post types.
+    files:
+      - inc/post-types.php
+    hooks:
+      - init: hp_register_post_types
+    routes: []
+    assets: []
+    dependencies:
+      - WordPress CPT API
+    owns:
+      - essay CPT
+      - note CPT
+      - essay and note archive slugs
+
+  taxonomies:
+    purpose: Topic taxonomy, curated topics and topic migrations.
+    files:
+      - inc/taxonomies.php
+      - taxonomy-topic.php
+    hooks:
+      - init: hp_register_taxonomies
+      - init: hp_maybe_create_default_topics
+      - init: hp_migrate_topics_v2
+      - init: hp_migrate_topics_v3
+      - init: hp_migrate_topics_v4
+    routes: []
+    assets:
+      - style.css
+    dependencies:
+      - post_types
+      - seo_hygiene
+    owns:
+      - topic taxonomy
+      - topic pillar pages
+      - legacy topic redirects source map
+
+  enqueue:
+    purpose: Global and conditional frontend asset loading.
+    files:
+      - inc/enqueue.php
+      - docs/ASSET_MATRIX.md
+    hooks:
+      - wp_enqueue_scripts: hp_journal_enqueue_assets
+      - wp_enqueue_scripts: hp_dequeue_duplicate_styles
+      - wp_head: hp_preload_critical_fonts
+      - wp_head: hp_rss_feed_links
+      - script_loader_tag: hp_defer_gp_menu_script
+    routes: []
+    assets:
+      - style.css
+      - assets/css/pages/front-page.css
+      - assets/css/pages/contact.css
+      - assets/css/pages/legal.css
+      - assets/css/components/newsletter.css
+      - assets/js/nav.js
+      - assets/js/journal-single.js
+      - assets/js/link-preview.js
+    dependencies:
+      - runtime_assets
+      - link_preview
+    owns:
+      - global asset loading
+      - conditional page assets
+      - font preload
+
+  generatepress_compat:
+    purpose: GeneratePress compatibility and theme shell suppression.
+    files:
+      - inc/generatepress-compat.php
+    hooks:
+      - wp: hp_disable_gp_post_meta
+      - generate_post_date_output: hp_suppress_gp_meta_on_cpt
+      - generate_header_entry_meta_items: hp_strip_gp_meta_items
+      - generate_footer_entry_meta_items: hp_strip_gp_meta_items
+      - generate_copyright: hp_remove_gp_credits
+      - generate_sidebar_layout: closure
+    routes: []
+    assets: []
+    dependencies:
+      - GeneratePress
+    owns:
+      - parent theme compatibility
+      - no-sidebar layout for editorial templates
+
+  editor_meta:
+    purpose: Social teaser and SEO/editor panels.
+    files:
+      - inc/meta-fields.php
+      - inc/seo-meta.php
+      - inc/glossary.php
+      - inc/dossier.php
+    hooks:
+      - init: hp_register_social_meta
+      - enqueue_block_editor_assets: hp_social_teaser_editor_assets
+      - enqueue_block_editor_assets: hp_seo_meta_editor_assets
+      - enqueue_block_editor_assets: hp_glossar_editor_panel
+      - enqueue_block_editor_assets: hp_dossier_editor_panel
+    routes: []
+    assets:
+      - inline editor scripts
+    dependencies:
+      - WordPress block editor
+    owns:
+      - Gutenberg sidebar fields
+      - REST-exposed post meta editing
+
+  seo_meta:
+    purpose: Native SEO meta, canonical, Open Graph and Twitter cards.
+    files:
+      - inc/seo-meta.php
+    hooks:
+      - after_setup_theme: hp_register_og_image_size
+      - init: hp_register_seo_meta
+      - pre_get_document_title: hp_filter_mission_document_title
+      - pre_get_document_title: hp_filter_front_page_document_title
+      - document_title_parts: hp_filter_document_title_parts
+      - wp_head: hp_output_seo_meta_tags
+    routes: []
+    assets:
+      - hp-og image size
+    dependencies:
+      - seo_schema
+    owns:
+      - meta descriptions
+      - canonical URLs
+      - social images
+      - document title rules
+
+  seo_schema:
+    purpose: Schema.org JSON-LD for site, person, content, archives, glossary and dossiers.
+    files:
+      - inc/seo-schema.php
+      - inc/breadcrumbs.php
+    hooks:
+      - wp_head: hp_org_website_jsonld_schema
+      - wp_head: hp_essay_jsonld_schema
+      - wp_head: hp_note_jsonld_schema
+      - wp_head: hp_glossar_jsonld_schema
+      - wp_head: hp_dossier_jsonld_schema
+      - wp_head: hp_archive_jsonld_schema
+      - wp_head: hp_mission_jsonld_schema
+      - wp_head: hp_breadcrumbs_schema_output
+    routes: []
+    assets: []
+    dependencies:
+      - seo_meta
+      - glossary
+      - dossier
+      - taxonomies
+    owns:
+      - structured data
+      - entity IDs
+      - breadcrumb schema
+
+  seo_hygiene:
+    purpose: Crawl, index, redirect and head hygiene.
+    files:
+      - inc/seo-hygiene.php
+      - inc/sitemap.php
+      - robots.txt
+    hooks:
+      - wp_robots: hp_seo_robots
+      - template_redirect: hp_redirect_attachment_pages
+      - template_redirect: hp_redirect_legacy_topic_urls
+      - template_redirect: hp_disable_author_archives
+      - template_redirect: hp_block_author_query
+      - template_redirect: hp_send_last_modified_header
+      - wp_head: hp_output_hreflang
+      - wp_head: hp_output_rel_me
+      - init: hp_clean_wp_head
+      - init: hp_disable_wp_emojis
+      - wp_sitemaps_taxonomies: hp_sitemap_filter_taxonomies
+      - wp_sitemaps_posts_query_args: hp_sitemap_posts_query_args
+      - wp_sitemaps_add_provider: hp_sitemap_drop_users_provider
+    routes: []
+    assets: []
+    dependencies:
+      - feature_flags
+      - taxonomies
+    owns:
+      - indexability
+      - redirects
+      - sitemap inclusion
+      - crawl efficiency headers
+
+  seo_cockpit:
+    purpose: Admin SEO intelligence layer from Search Console, Koko Analytics, internal links, leads and diagnostics.
+    files:
+      - inc/seo-cockpit/seo-cockpit.php
+      - inc/seo-cockpit/seo-cockpit-core.php
+      - inc/seo-cockpit/seo-cockpit-api.php
+      - inc/seo-cockpit/seo-cockpit-koko.php
+      - inc/seo-cockpit/seo-cockpit-links.php
+      - inc/seo-cockpit/seo-cockpit-leads.php
+      - inc/seo-cockpit/seo-cockpit-sync.php
+      - inc/seo-cockpit/seo-cockpit-insights.php
+      - inc/seo-cockpit/seo-cockpit-diagnostics.php
+      - inc/seo-cockpit/seo-cockpit-ui.php
+    hooks:
+      - admin_menu: nexus_register_seo_cockpit_menu
+      - admin_init: nexus_register_seo_cockpit_capabilities
+      - admin_init: nexus_register_seo_cockpit_settings
+      - admin_enqueue_scripts: nexus_enqueue_seo_cockpit_admin_assets
+      - cron_schedules: nexus_register_seo_cockpit_cron_schedule
+      - init: nexus_maybe_reschedule_seo_cockpit_refresh_event
+      - nexus_seo_cockpit_refresh_snapshot: nexus_handle_seo_cockpit_cron_refresh
+      - wp_dashboard_setup: nexus_register_seo_cockpit_dashboard_widget
+    routes: []
+    assets:
+      - assets/css/seo-cockpit-admin.css
+    dependencies:
+      - Google Search Console API
+      - Koko Analytics REST API
+      - WordPress admin
+    owns:
+      - SEO monitoring
+      - URL inspection
+      - internal link analytics
+      - SEO quick wins
+
+  llms_txt:
+    purpose: Dynamic llms.txt endpoint for AI crawler context.
+    files:
+      - inc/llms-txt.php
+    hooks:
+      - init: hp_llms_txt_maybe_serve
+    routes:
+      - /llms.txt
+    assets: []
+    dependencies:
+      - feature_flags
+    owns:
+      - AI-facing site summary
+      - curated core URL list
+
+  glossary:
+    purpose: Glossary CPT, meta, editor UI, auto-linking, central terms and cache invalidation.
+    files:
+      - inc/glossary.php
+      - single-glossar.php
+      - archive-glossar.php
+      - template-parts/content-glossar.php
+    hooks:
+      - init: hp_register_glossar_cpt
+      - init: hp_register_glossar_meta
+      - enqueue_block_editor_assets: hp_glossar_editor_panel
+      - the_content: hp_glossar_auto_link
+      - save_post_glossar: hp_glossar_flush_cache
+      - delete_post: hp_glossar_flush_cache
+      - transition_post_status: hp_glossar_flush_on_status_change
+    routes: []
+    assets:
+      - assets/js/link-preview.js
+      - style.css
+    dependencies:
+      - taxonomies
+      - link_preview
+    owns:
+      - glossar CPT
+      - DefinedTerm content
+      - glossary auto-linking
+      - glossary term cache
+
+  link_preview:
+    purpose: REST preview data for internal links and glossary chips.
+    files:
+      - inc/link-preview.php
+      - assets/js/link-preview.js
+    hooks:
+      - rest_api_init: hp_link_preview_register_route
+      - save_post: hp_link_preview_flush
+      - delete_post: hp_link_preview_flush
+    routes:
+      - GET hp/v1/link-preview
+    assets:
+      - assets/js/link-preview.js
+    dependencies:
+      - glossary
+      - seo_meta
+    owns:
+      - internal link preview payload
+      - hover/focus preview runtime data
+
+  dossier:
+    purpose: Curated dossier CPT with reading plan, term apparatus, sources and citations.
+    files:
+      - inc/dossier.php
+      - single-dossier.php
+      - archive-dossier.php
+    hooks:
+      - init: hp_register_dossier_cpt
+      - init: hp_dossier_maybe_flush_rewrites
+      - init: hp_attach_dossier_to_topic
+      - init: hp_register_dossier_meta
+      - pre_get_posts: hp_dossier_exclude_disabled_from_public_queries
+      - template_redirect: hp_dossier_404_disabled_single
+      - enqueue_block_editor_assets: hp_dossier_editor_panel
+    routes: []
+    assets:
+      - style.css
+    dependencies:
+      - taxonomies
+      - glossary
+      - seo_schema
+    owns:
+      - dossier CPT
+      - curated reading plans
+      - glossary apparatus
+      - citation box
+
+  header_navigation:
+    purpose: Custom header, menus, active navigation state.
+    files:
+      - inc/header-nav.php
+      - assets/js/nav.js
+    hooks:
+      - after_setup_theme: hp_register_nav_menus
+      - after_setup_theme: hp_remove_gp_header
+      - generate_before_header: hp_render_journal_header
+      - nav_menu_item_title: hp_force_mission_nav_label
+    routes: []
+    assets:
+      - assets/js/nav.js
+      - style.css
+    dependencies:
+      - GeneratePress
+      - enqueue
+    owns:
+      - primary navigation
+      - header search toggle
+      - header newsletter trigger
+
+  comments:
+    purpose: Editorial comments, anti-spam, moderation and comment form UX.
+    files:
+      - inc/comments.php
+      - comments.php
+    hooks:
+      - wp_after_insert_post: hp_open_comments_for_new_editorial_posts
+      - init: hp_migrate_editorial_comments_open
+      - wp_enqueue_scripts: hp_enqueue_editorial_comment_reply
+      - preprocess_comment: hp_validate_editorial_comment_antispam
+      - comment_post: hp_mark_editorial_comment_rate_limit
+      - pre_comment_approved: hp_moderate_editorial_comments
+    routes: []
+    assets:
+      - comment-reply
+      - style.css
+    dependencies:
+      - post_types
+    owns:
+      - editorial comment policy
+      - comment anti-spam
+
+  contact:
+    purpose: Contact form, transactional mail, local submission storage and admin export.
+    files:
+      - inc/contact.php
+      - inc/contact-local.php.example
+      - inc/forms/contact/config.php
+      - inc/forms/contact/page.php
+      - inc/forms/contact/request.php
+      - inc/forms/contact/mail.php
+      - inc/forms/contact/handlers.php
+      - inc/contacts-admin.php
+      - page-kontakt.php
+    hooks:
+      - init: hp_bootstrap_contact_page
+      - init: hp_maybe_install_contact_submissions_table
+      - admin_menu: hp_register_contacts_admin_menu
+      - admin_post_hp_send_contact: hp_handle_contact_form_submission
+      - admin_post_nopriv_hp_send_contact: hp_handle_contact_form_submission
+      - admin_post_hp_export_contact_submissions: hp_export_contact_submissions
+    routes: []
+    assets:
+      - assets/css/pages/contact.css
+    dependencies:
+      - WordPress admin-post
+      - Brevo SMTP/API configuration
+    owns:
+      - contact submissions table
+      - contact form flow
+      - contact mail delivery
+
+  newsletter:
+    purpose: Newsletter subscription, confirmation, unsubscribe, admin export and broadcast.
+    files:
+      - inc/newsletter.php
+      - inc/forms/newsletter/config.php
+      - inc/forms/newsletter/install.php
+      - inc/forms/newsletter/request.php
+      - inc/forms/newsletter/subscribers.php
+      - inc/forms/newsletter/urls.php
+      - inc/forms/newsletter/mail-templates.php
+      - inc/forms/newsletter/mailer.php
+      - inc/forms/newsletter/handlers.php
+      - inc/forms/newsletter/queries-cleanup.php
+      - inc/forms/newsletter/render.php
+      - inc/forms/newsletter/admin.php
+      - inc/newsletter-broadcast.php
+    hooks:
+      - init: hp_maybe_install_newsletter_table
+      - admin_menu: hp_register_newsletter_management_page
+      - admin_post_hp_subscribe_newsletter: hp_handle_newsletter_form_submission
+      - admin_post_nopriv_hp_subscribe_newsletter: hp_handle_newsletter_form_submission
+      - admin_post_hp_confirm_newsletter: hp_handle_newsletter_confirmation
+      - admin_post_hp_unsubscribe_newsletter: hp_handle_newsletter_unsubscribe
+      - transition_post_status: hp_maybe_broadcast_on_publish
+      - add_meta_boxes: hp_register_broadcast_meta_box
+      - save_post: hp_save_broadcast_meta_box
+    routes: []
+    assets:
+      - assets/css/components/newsletter.css
+    dependencies:
+      - WordPress admin-post
+      - contact mail configuration
+    owns:
+      - subscriber table
+      - suppression table
+      - double opt-in flow
+      - publish broadcast
+
+  privacy_maintenance:
+    purpose: Scheduled cleanup for contact and newsletter retention.
+    files:
+      - inc/privacy-maintenance.php
+    hooks:
+      - init: hp_schedule_privacy_cleanup
+      - hp_run_privacy_cleanup: hp_run_privacy_cleanup
+    routes: []
+    assets: []
+    dependencies:
+      - contact
+      - newsletter
+    owns:
+      - data retention cleanup
+
+  graph_api:
+    purpose: Full knowledge graph REST payload, compiled cache and graph page assets.
+    files:
+      - inc/graph-api.php
+      - page-wissensgraph.php
+      - assets/js/graph.js
+      - assets/js/d3-custom.min.js
+      - assets/css/pages/wissensgraph.css
+    hooks:
+      - rest_api_init: hp_graph_register_rest_route
+      - hp_graph_rebuild_event: hp_graph_rebuild_compiled_data
+      - save_post_essay: hp_graph_flush_cache
+      - save_post_note: hp_graph_flush_cache
+      - save_post_glossar: hp_graph_flush_cache
+      - delete_post: hp_graph_flush_cache
+      - edited_topic: hp_graph_flush_cache_on_topic
+      - created_topic: hp_graph_flush_cache_on_topic
+      - delete_topic: hp_graph_flush_cache_on_topic
+      - wp_enqueue_scripts: hp_graph_enqueue_assets
+    routes:
+      - GET hp/v1/graph
+    assets:
+      - assets/css/pages/wissensgraph.css
+      - assets/js/d3-custom.min.js
+      - assets/js/graph.js
+    dependencies:
+      - post_types
+      - taxonomies
+      - glossary
+      - runtime_assets
+    owns:
+      - graph nodes
+      - graph edges
+      - graph cache status
+      - graph rebuild scheduling
+
+  mini_graph:
+    purpose: Static SVG neighbor graph on editorial content.
+    files:
+      - inc/mini-graph.php
+    hooks: []
+    routes: []
+    assets:
+      - style.css
+    dependencies:
+      - graph_api
+    owns:
+      - local graph neighborhood rendering
+
+  votes:
+    purpose: Like/dislike table, vote processing, REST route and frontend assets.
+    files:
+      - inc/votes.php
+      - inc/votes-api.php
+      - assets/js/votes.js
+      - assets/css/votes.css
+    hooks:
+      - after_switch_theme: hp_votes_create_table
+      - init: closure_table_check
+      - rest_api_init: hp_votes_register_rest_route
+      - wp_enqueue_scripts: hp_votes_enqueue_assets
+    routes:
+      - POST hasim-org/v1/vote
+    assets:
+      - assets/js/votes.js
+      - assets/css/votes.css
+    dependencies:
+      - post_types
+      - runtime_assets
+      - WordPress REST API
+    owns:
+      - hp_votes table
+      - vote counts
+      - vote REST handling
+
+  seeders:
+    purpose: One-time editorial content seeding and migration helpers.
+    files:
+      - inc/glossar-seed.php
+      - inc/dossier-transhumanismus-seed.php
+    hooks:
+      - admin_init: hp_run_glossar_seed_once
+      - admin_init: hp_run_dossier_transhumanismus_seed_once
+    routes: []
+    assets: []
+    dependencies:
+      - glossary
+      - dossier
+      - taxonomies
+    owns:
+      - seeded glossary content
+      - seeded dossier content
+
+  build_d3:
+    purpose: Source build for custom D3 bundle.
+    files:
+      - _build-d3/package.json
+      - _build-d3/rollup.config.mjs
+      - _build-d3/src/d3-custom.js
+      - assets/js/d3-custom.min.js
+    hooks: []
+    routes: []
+    assets:
+      - assets/js/d3-custom.min.js
+    dependencies:
+      - rollup
+      - d3-selection
+      - d3-scale
+      - d3-zoom
+      - d3-drag
+      - d3-force
+    owns:
+      - graph visualization library bundle
+
+data_stores:
+  wp_posts:
+    owns:
+      - essay
+      - note
+      - glossar
+      - dossier
+      - page
+  wp_terms:
+    owns:
+      - topic
+  postmeta:
+    keys:
+      - _hp_meta_description
+      - _hp_social_teaser
+      - _hp_glossar_kurz
+      - _hp_glossar_synonyme
+      - _hp_glossar_lang_ku
+      - _hp_glossar_lang_tr
+      - _hp_glossar_verwandt
+      - _hp_glossar_quellen
+      - _hp_glossar_version
+      - _hp_glossar_stand
+      - _hp_dossier_intro
+      - _hp_dossier_leseplan
+      - _hp_dossier_begriffe
+      - _hp_dossier_quellen
+      - _hp_dossier_kuratiert_von
+      - _hp_dossier_version
+      - _hp_dossier_stand
+  custom_tables:
+    - hp_votes
+    - hp_contact_submissions
+    - hp_newsletter_subscribers
+    - hp_newsletter_suppressions
+  options:
+    - hp_graph_payload
+    - hp_graph_version
+    - hp_graph_status
+    - hp_graph_last_error
+    - hp_glossar_version
+    - nexus_seo_cockpit_settings
+    - nexus_seo_cockpit_tokens
+    - nexus_seo_cockpit_runtime
+    - nexus_seo_cockpit_cache_version
