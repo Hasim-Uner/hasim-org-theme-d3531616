@@ -80,8 +80,8 @@ Ja, aus dem Repository kann ein expliziter Knowledge Graph erzeugt werden. Die G
 
 ### Phase 2: Graph-Datenmodell erweitern
 
-- Dossier-Nodes in `hp_graph_build_data()` aufnehmen.
-- Edges `dossier_has_part`, `dossier_mentions_term`, `dossier_in_topic` erzeugen.
+- Dossier-Nodes in `hp_graph_build_data()` aufnehmen. Umgesetzt fuer sichtbare Dossiers.
+- Edges `dossier_has_part`, `dossier_mentions_term`, `dossier_in_topic` erzeugen. `dossier_has_part` und `dossier_mentions_term` sind umgesetzt; `dossier_in_topic` laeuft ueber `topic_membership`.
 - Glossar-Verwandtschaft als `glossar_related` aufnehmen.
 - Edge-Metadaten um `source`, `confidence`, `order` erweitern.
 

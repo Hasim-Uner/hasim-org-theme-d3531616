@@ -260,7 +260,9 @@ files:
       - graph REST API
       - graph cache
       - graph rebuild cron
-      - dossiers when added to graph
+      - dossier graph nodes
+      - dossier reading-plan edges
+      - dossier term-apparatus edges
       - entity relations
       - Wissensgraph assets
       - mini graph data source
@@ -462,6 +464,7 @@ files:
     affects:
       - Wissensgraph UI
       - graph filters
+      - dossier graph filter
       - graph accessibility
       - graph conversion CTA
     owners:

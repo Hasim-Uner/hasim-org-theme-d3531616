@@ -2,7 +2,7 @@
  * Wissensgraph — D3.js Force-Directed Graph
  *
  * Immersive, ganzseitige Visualisierung der Beziehungen zwischen
- * Essays, Notizen, Glossar-Einträgen und Themenfeldern.
+ * Essays, Notizen, Dossiers, Glossar-Einträgen und Themenfeldern.
  *
  * Abhängigkeit: D3.js v7 (lokal im Theme eingebunden).
  * Daten: REST-Endpoint /wp-json/hp/v1/graph
@@ -22,20 +22,39 @@
 		colors: {
 			essay:   '#e8574b',
 			note:    '#8b95a5',
+			dossier: '#44c28d',
 			glossar: '#4da6e8',
 			topic:   '#e8c94b',
 		},
 		glowColors: {
 			essay:   'rgba(232,87,75,0.6)',
 			note:    'rgba(139,149,165,0.5)',
+			dossier: 'rgba(68,194,141,0.58)',
 			glossar: 'rgba(77,166,232,0.6)',
 			topic:   'rgba(232,201,75,0.6)',
 		},
 		edgeStyles: {
-			topic_membership:  '8,4',   // dashed: post↔topic
-			shared_topic:      '',       // solid: posts sharing topic
-			glossar_in_content:'4,3',   // dotted: glossar in content
+			topic_membership:      '8,4',   // dashed: content↔topic
+			shared_topic:          '',       // solid: nodes sharing topic
+			glossar_in_content:    '4,3',   // dotted: glossar in content
+			dossier_has_part:      '10,3',  // curated reading path
+			dossier_mentions_term: '2,4',   // dossier term apparatus
 		},
+		typeLabels: {
+			essay:   'Essay',
+			note:    'Notiz',
+			dossier: 'Dossier',
+			glossar: 'Glossar',
+			topic:   'Themenfeld',
+		},
+		edgeLabels: {
+			topic_membership:      'Themenfeld',
+			shared_topic:          'gemeinsames Thema',
+			glossar_in_content:    'Begriff im Text',
+			dossier_has_part:      'Teil des Leseplans',
+			dossier_mentions_term: 'Begriff im Dossier',
+		},
+		typeOrder: [ 'essay', 'note', 'dossier', 'glossar', 'topic' ],
 		edgeColor:      'rgba(255,255,255,0.12)',
 		edgeHighlight:  'rgba(255,255,255,0.55)',
 		dimOpacity:     0.15,
@@ -62,7 +81,7 @@
 	var state = {
 		nodes:        [],
 		edges:        [],
-		activeTypes:  { essay: true, note: true, glossar: true, topic: true },
+		activeTypes:  {},
 		searchTerm:   '',
 		selectedNode: null,
 		simulation:   null,
@@ -76,6 +95,8 @@
 		width:        0,
 		height:       0,
 	};
+
+	resetActiveTypes();
 
 	/* =========================================
 	   INITIALISIERUNG
@@ -291,8 +312,7 @@
 			.attr( 'tabindex', '0' )
 			.attr( 'role', 'button' )
 			.attr( 'aria-label', function( d ) {
-				var typeLabel = { essay: 'Essay', note: 'Notiz', glossar: 'Glossar', topic: 'Themenfeld' };
-				return ( typeLabel[ d.type ] || d.type ) + ': ' + d.label +
+				return getTypeLabel( d.type ) + ': ' + d.label +
 					' (' + d._linkCount + ' Verbindung' + ( d._linkCount !== 1 ? 'en' : '' ) + ')';
 			} );
 
@@ -357,6 +377,9 @@
 					var tgt = typeof d.target === 'object' ? d.target : findNode( d.target );
 					if ( ( src && src.type === 'topic' ) || ( tgt && tgt.type === 'topic' ) ) {
 						return CONFIG.linkDistTopic;
+					}
+					if ( ( src && src.type === 'dossier' ) || ( tgt && tgt.type === 'dossier' ) ) {
+						return CONFIG.linkDistBase + 24;
 					}
 					return CONFIG.linkDistBase;
 				} )
@@ -521,10 +544,9 @@
 		var shell   = document.querySelector( '.hp-graph__canvas-shell' );
 		if ( ! panel || ! content ) { return; }
 
-		var typeLabel = { essay: 'Essay', note: 'Notiz', glossar: 'Glossar-Eintrag', topic: 'Themenfeld' };
 		var html = '';
 
-		html += '<span class="hp-graph__detail-type hp-graph__detail-type--' + escHtml( d.type ) + '">' + escHtml( typeLabel[ d.type ] || d.type ) + '</span>';
+		html += '<span class="hp-graph__detail-type hp-graph__detail-type--' + escHtml( d.type ) + '">' + escHtml( getTypeLabel( d.type ) ) + '</span>';
 		html += '<h2 class="hp-graph__detail-title">' + escHtml( d.label ) + '</h2>';
 
 		if ( d.meta ) {
@@ -539,24 +561,40 @@
 			if ( d.meta.kurz ) {
 				html += '<p class="hp-graph__detail-excerpt">' + escHtml( d.meta.kurz ) + '</p>';
 			}
+			if ( d.meta.intro ) {
+				html += '<p class="hp-graph__detail-excerpt">' + escHtml( d.meta.intro ) + '</p>';
+			}
 			if ( d.meta.description ) {
 				html += '<p class="hp-graph__detail-excerpt">' + escHtml( d.meta.description ) + '</p>';
 			}
 			if ( d.meta.count !== undefined ) {
 				html += '<p class="hp-graph__detail-meta">' + escHtml( d.meta.count ) + ' Beiträge</p>';
 			}
+			if ( d.type === 'dossier' ) {
+				html += '<div class="hp-graph__detail-facts">';
+				html += '<span><strong>' + escHtml( d.meta.entries_count || 0 ) + '</strong> Beiträge</span>';
+				html += '<span><strong>' + escHtml( d.meta.terms_count || 0 ) + '</strong> Begriffe</span>';
+				if ( d.meta.version ) {
+					html += '<span><strong>v' + escHtml( d.meta.version ) + '</strong> Version</span>';
+				}
+				html += '</div>';
+			}
 		}
 
-		var connected = getConnectedNodes( d.id );
-		var visibleConnected = connected.slice( 0, 8 );
+		var connected = getConnectedEntries( d.id );
+		var visibleConnected = connected.slice( 0, 10 );
 		if ( connected.length > 0 ) {
 			html += '<h3 class="hp-graph__detail-subtitle">Verbindungen · ' + connected.length + '</h3>';
 			html += '<ul class="hp-graph__detail-links">';
-			visibleConnected.forEach( function( n ) {
+			visibleConnected.forEach( function( entry ) {
+				var n = entry.node;
 				html += '<li>';
 				html += '<a href="' + escAttr( n.url ) + '" class="hp-graph__detail-link">';
 				html += '<span class="hp-graph__detail-link-dot hp-graph__detail-link-dot--' + escHtml( n.type ) + '" aria-hidden="true"></span>';
-				html += escHtml( n.label );
+				html += '<span class="hp-graph__detail-link-copy">';
+				html += '<span class="hp-graph__detail-link-label">' + escHtml( n.label ) + '</span>';
+				html += '<span class="hp-graph__detail-link-relation">' + escHtml( entry.relationship ) + '</span>';
+				html += '</span>';
 				html += '</a></li>';
 			} );
 			html += '</ul>';
@@ -566,7 +604,7 @@
 		}
 
 		if ( d.url ) {
-			html += '<a href="' + escAttr( d.url ) + '" class="hp-graph__detail-cta">' + ( d.type === 'topic' ? 'Thema öffnen' : 'Beitrag öffnen' ) + ' →</a>';
+			html += '<a href="' + escAttr( d.url ) + '" class="hp-graph__detail-cta">' + escHtml( getOpenLabel( d.type ) ) + ' →</a>';
 		}
 
 		content.innerHTML = html;
@@ -670,7 +708,7 @@
 		var filters = document.querySelectorAll( '.hp-graph__filter' );
 
 		state.searchTerm = '';
-		state.activeTypes = { essay: true, note: true, glossar: true, topic: true };
+		resetActiveTypes();
 
 		if ( searchInput ) {
 			searchInput.value = '';
@@ -793,12 +831,10 @@
 	   TOOLTIP
 	   ========================================= */
 
-	var typeLabels = { essay: 'Essay', note: 'Notiz', glossar: 'Glossar', topic: 'Themenfeld' };
-
 	function showTooltip( event, d ) {
 		var tt = document.getElementById( 'hp-graph-tooltip' );
 		if ( ! tt ) { return; }
-		var label = typeLabels[ d.type ] || d.type;
+		var label = getTypeLabel( d.type );
 		tt.innerHTML =
 			'<span class="hp-graph__tooltip-badge hp-graph__tooltip-badge--' + escHtml( d.type ) + '">' +
 			escHtml( label ) + '</span>' +
@@ -838,7 +874,10 @@
 		var edgesEl   = document.getElementById( 'hp-graph-stat-edges' );
 		var typesEl   = document.getElementById( 'hp-graph-stat-types' );
 
-		var counts = { essay: 0, note: 0, glossar: 0, topic: 0 };
+		var counts = {};
+		CONFIG.typeOrder.forEach( function( type ) {
+			counts[ type ] = 0;
+		} );
 		state.nodes.forEach( function( n ) {
 			if ( isNodeVisible( n ) ) {
 				counts[ n.type ] = ( counts[ n.type ] || 0 ) + 1;
@@ -861,12 +900,16 @@
 			}
 		} );
 
-		var total = counts.essay + counts.note + counts.glossar + counts.topic;
+		var total = 0;
+		CONFIG.typeOrder.forEach( function( type ) {
+			total += counts[ type ] || 0;
+		} );
 
 		if ( el ) {
 			el.textContent = 'Wissensgraph: ' + total + ' Knoten sichtbar — ' +
 				counts.essay + ' Essays, ' +
 				counts.note + ' Notizen, ' +
+				counts.dossier + ' Dossiers, ' +
 				counts.glossar + ' Glossar-Einträge, ' +
 				counts.topic + ' Themenfelder. ' +
 				visibleEdges + ' Verbindungen sichtbar.';
@@ -878,7 +921,7 @@
 		if ( visibleSummaryEl ) {
 			visibleSummaryEl.textContent = state.searchTerm
 				? total + ' Treffer im aktiven Graph.'
-				: activeTypeCount === 4 ? 'Alle Knotentypen aktiv.' : activeTypeCount + ' Knotentypen aktiv.';
+				: activeTypeCount === CONFIG.typeOrder.length ? 'Alle Knotentypen aktiv.' : activeTypeCount + ' Knotentypen aktiv.';
 		}
 		if ( nodesEl ) {
 			nodesEl.textContent = String( total );
@@ -917,6 +960,34 @@
 			.normalize( 'NFD' )
 			.replace( /[\u0300-\u036f]/g, '' )
 			.trim();
+	}
+
+	function resetActiveTypes() {
+		state.activeTypes = {};
+		CONFIG.typeOrder.forEach( function( type ) {
+			state.activeTypes[ type ] = true;
+		} );
+	}
+
+	function getTypeLabel( type ) {
+		return CONFIG.typeLabels[ type ] || type;
+	}
+
+	function getEdgeLabel( type ) {
+		return CONFIG.edgeLabels[ type ] || 'verbunden';
+	}
+
+	function getOpenLabel( type ) {
+		if ( type === 'topic' ) {
+			return 'Thema öffnen';
+		}
+		if ( type === 'glossar' ) {
+			return 'Begriff öffnen';
+		}
+		if ( type === 'dossier' ) {
+			return 'Dossier öffnen';
+		}
+		return 'Beitrag öffnen';
 	}
 
 	function nodeSearchText( node ) {
@@ -995,6 +1066,55 @@
 	function getConnectedNodes( nodeId ) {
 		var ids = getConnectedIds( nodeId );
 		return state.nodes.filter( function( n ) { return ids[ n.id ]; } );
+	}
+
+	function getConnectedEntries( nodeId ) {
+		var entries = {};
+
+		state.edges.forEach( function( e ) {
+			var src = typeof e.source === 'object' ? e.source.id : e.source;
+			var tgt = typeof e.target === 'object' ? e.target.id : e.target;
+			var otherId = '';
+
+			if ( src === nodeId ) {
+				otherId = tgt;
+			} else if ( tgt === nodeId ) {
+				otherId = src;
+			} else {
+				return;
+			}
+
+			var otherNode = findNode( otherId );
+			if ( ! otherNode ) {
+				return;
+			}
+
+			var key = otherNode.id;
+			var weight = e.weight || 1;
+			var relationship = getEdgeLabel( e.type );
+
+			if ( e.type === 'dossier_has_part' && e.meta && e.meta.order ) {
+				relationship += ' #' + e.meta.order;
+			}
+
+			if ( ! entries[ key ] || weight > entries[ key ].weight ) {
+				entries[ key ] = {
+					node: otherNode,
+					relationship: relationship,
+					weight: weight,
+					type: e.type,
+				};
+			}
+		} );
+
+		return Object.keys( entries ).map( function( key ) {
+			return entries[ key ];
+		} ).sort( function( a, b ) {
+			if ( b.weight !== a.weight ) {
+				return b.weight - a.weight;
+			}
+			return String( a.node.label ).localeCompare( String( b.node.label ) );
+		} );
 	}
 
 	function findNode( id ) {

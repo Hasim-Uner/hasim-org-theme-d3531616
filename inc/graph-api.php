@@ -64,9 +64,9 @@ function hp_graph_build_data(): array {
 	$nodes = [];
 	$edges = [];
 
-	// --- Posts laden (essay, note, glossar) ---
+	// --- Posts laden (essay, note, glossar, dossier) ---
 	$posts = get_posts( [
-		'post_type'      => [ 'essay', 'note', 'glossar' ],
+		'post_type'      => [ 'essay', 'note', 'glossar', 'dossier' ],
 		'post_status'    => 'publish',
 		'posts_per_page' => -1,
 	] );
@@ -76,6 +76,10 @@ function hp_graph_build_data(): array {
 	$node_edges = []; // node_id => edge_count (für Begrenzung)
 
 	foreach ( $posts as $post ) {
+		if ( function_exists( 'hp_dossier_is_frontend_disabled' ) && hp_dossier_is_frontend_disabled( $post ) ) {
+			continue;
+		}
+
 		$type    = $post->post_type;
 		$node_id = $type . '_' . $post->ID;
 
@@ -90,6 +94,22 @@ function hp_graph_build_data(): array {
 			$meta['excerpt']      = hp_graph_get_excerpt( $post );
 		} elseif ( 'glossar' === $type ) {
 			$meta['kurz'] = get_post_meta( $post->ID, '_hp_glossar_kurz', true );
+		} elseif ( 'dossier' === $type ) {
+			$leseplan_ids = hp_graph_parse_id_list( (string) get_post_meta( $post->ID, '_hp_dossier_leseplan', true ) );
+			$begriff_ids  = hp_graph_parse_id_list( (string) get_post_meta( $post->ID, '_hp_dossier_begriffe', true ) );
+			$intro        = (string) get_post_meta( $post->ID, '_hp_dossier_intro', true );
+			$version      = (string) get_post_meta( $post->ID, '_hp_dossier_version', true );
+			$stand        = (string) get_post_meta( $post->ID, '_hp_dossier_stand', true );
+
+			$meta['intro']        = $intro !== '' ? $intro : hp_graph_get_excerpt( $post );
+			$meta['entries_count'] = count( $leseplan_ids );
+			$meta['terms_count']   = count( $begriff_ids );
+			if ( '' !== $version ) {
+				$meta['version'] = $version;
+			}
+			if ( '' !== $stand ) {
+				$meta['updated'] = $stand;
+			}
 		}
 
 		$nodes[ $node_id ] = [
@@ -206,6 +226,58 @@ function hp_graph_build_data(): array {
 		}
 	}
 
+	// --- Edges: dossier_has_part + dossier_mentions_term ---
+	foreach ( $post_map as $node_id => $post ) {
+		if ( 'dossier' !== $post->post_type ) {
+			continue;
+		}
+
+		$leseplan_ids = hp_graph_parse_id_list( (string) get_post_meta( $post->ID, '_hp_dossier_leseplan', true ) );
+		foreach ( $leseplan_ids as $position => $target_id ) {
+			$target_type = get_post_type( $target_id );
+			if ( ! in_array( $target_type, [ 'essay', 'note' ], true ) ) {
+				continue;
+			}
+
+			$target_node_id = $target_type . '_' . $target_id;
+			if ( ! isset( $nodes[ $target_node_id ] ) ) {
+				continue;
+			}
+
+			$edges[] = [
+				'source' => $node_id,
+				'target' => $target_node_id,
+				'type'   => 'dossier_has_part',
+				'weight' => 5,
+				'meta'   => [
+					'order' => $position + 1,
+				],
+			];
+			$node_edges[ $node_id ]++;
+			$node_edges[ $target_node_id ]++;
+		}
+
+		$begriff_ids = hp_graph_parse_id_list( (string) get_post_meta( $post->ID, '_hp_dossier_begriffe', true ) );
+		foreach ( $begriff_ids as $position => $target_id ) {
+			$target_node_id = 'glossar_' . $target_id;
+			if ( ! isset( $nodes[ $target_node_id ] ) ) {
+				continue;
+			}
+
+			$edges[] = [
+				'source' => $node_id,
+				'target' => $target_node_id,
+				'type'   => 'dossier_mentions_term',
+				'weight' => 4,
+				'meta'   => [
+					'order' => $position + 1,
+				],
+			];
+			$node_edges[ $node_id ]++;
+			$node_edges[ $target_node_id ]++;
+		}
+	}
+
 	foreach ( $post_map as $node_id => $post ) {
 		if ( 'glossar' === $post->post_type ) {
 			continue;
@@ -290,6 +362,24 @@ function hp_graph_get_excerpt( WP_Post $post ): string {
 		return wp_strip_all_tags( get_the_excerpt( $post ) );
 	}
 	return wp_trim_words( wp_strip_all_tags( $post->post_content ), 25, ' …' );
+}
+
+/**
+ * Parst komma-separierte Post-ID-Listen für Graph-Relationen.
+ *
+ * @param string $raw Rohwert aus Postmeta.
+ * @return int[]
+ */
+function hp_graph_parse_id_list( string $raw ): array {
+	if ( function_exists( 'hp_dossier_parse_ids' ) ) {
+		return hp_dossier_parse_ids( $raw );
+	}
+
+	if ( '' === trim( $raw ) ) {
+		return [];
+	}
+
+	return array_values( array_filter( array_map( 'intval', array_map( 'trim', explode( ',', $raw ) ) ) ) );
 }
 
 /* =========================================
@@ -431,7 +521,7 @@ function hp_graph_mark_stale_and_schedule(): void {
 
 /**
  * Plant einen Graph-Rebuild bei Änderungen an
- * Essays, Notizen oder Glossar-Einträgen.
+ * Essays, Notizen, Glossar-Einträgen oder Dossiers.
  *
  * @param int $post_id
  */
@@ -441,7 +531,7 @@ function hp_graph_flush_cache( int $post_id ): void {
 	}
 
 	$type = get_post_type( $post_id );
-	if ( ! in_array( $type, [ 'essay', 'note', 'glossar' ], true ) ) {
+	if ( ! in_array( $type, [ 'essay', 'note', 'glossar', 'dossier' ], true ) ) {
 		return;
 	}
 
@@ -450,6 +540,7 @@ function hp_graph_flush_cache( int $post_id ): void {
 add_action( 'save_post_essay', 'hp_graph_flush_cache' );
 add_action( 'save_post_note', 'hp_graph_flush_cache' );
 add_action( 'save_post_glossar', 'hp_graph_flush_cache' );
+add_action( 'save_post_dossier', 'hp_graph_flush_cache' );
 add_action( 'delete_post', 'hp_graph_flush_cache' );
 
 /**

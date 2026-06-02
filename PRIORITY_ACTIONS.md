@@ -6,7 +6,9 @@ Nur die 10 Massnahmen mit dem hoechsten ROI. Streng sortiert nach erwarteter Wir
 
 ## 1. Dossiers in den Knowledge-Graph aufnehmen
 
-Problem: `graph-api.php` modelliert Essays, Notizen, Glossar und Topics, aber nicht Dossiers. Damit fehlen die staerksten kuratierten Wissensknoten im visuellen und maschinenlesbaren Graph.
+Status: umgesetzt am 2026-06-03 fuer sichtbare Dossier-Nodes, Leseplan-Edges, Begriffsapparat-Edges, UI-Filter, Legende und Detail-Beziehungskontext.
+
+Problem: `graph-api.php` modellierte Essays, Notizen, Glossar und Topics, aber nicht Dossiers. Damit fehlten die staerksten kuratierten Wissensknoten im visuellen und maschinenlesbaren Graph.
 
 Nutzen: Dossiers werden zentrale Hub-Knoten mit Leseplan-, Begriffsapparat- und Topic-Beziehungen. Das verbindet Content-Strategie, interne Verlinkung und Entity SEO.
 

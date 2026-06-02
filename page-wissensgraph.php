@@ -3,7 +3,7 @@
  * Template: Wissensgraph
  *
  * Immersive, ganzseitige D3.js-Visualisierung aller Verbindungen
- * zwischen Essays, Notizen, Glossar-Einträgen und Themenfeldern.
+ * zwischen Essays, Notizen, Dossiers, Glossar-Einträgen und Themenfeldern.
  *
  * Setup: Im WP-Admin eine Seite „Wissensgraph" (Slug: wissensgraph)
  * anlegen. Das Template wird automatisch via Dateiname zugewiesen.
@@ -21,7 +21,7 @@ get_header(); ?>
 			<p class="hp-graph__eyebrow">Wissensgraph</p>
 			<h1 class="hp-graph__headline">Verbindungen statt Kästen.</h1>
 			<p class="hp-graph__lede">
-				Essays, Notizen, Glossar und Themenfelder als ruhiges, direkt navigierbares Netz.
+				Essays, Notizen, Dossiers, Begriffe und Themenfelder als direkt navigierbares Wissensnetz.
 			</p>
 		</div>
 		<div class="hp-graph__meta" aria-label="Aktueller Graph-Status">
@@ -29,7 +29,7 @@ get_header(); ?>
 			<div class="hp-graph__stats">
 				<span class="hp-graph__stat-pill"><span class="hp-graph__stat-pill-label">Knoten</span><strong id="hp-graph-stat-nodes">0</strong></span>
 				<span class="hp-graph__stat-pill"><span class="hp-graph__stat-pill-label">Verbindungen</span><strong id="hp-graph-stat-edges">0</strong></span>
-				<span class="hp-graph__stat-pill"><span class="hp-graph__stat-pill-label">Typen</span><strong id="hp-graph-stat-types">4</strong></span>
+				<span class="hp-graph__stat-pill"><span class="hp-graph__stat-pill-label">Typen</span><strong id="hp-graph-stat-types">5</strong></span>
 			</div>
 		</div>
 	</header>
@@ -56,6 +56,10 @@ get_header(); ?>
 							<span class="hp-graph__filter-dot hp-graph__filter-dot--note" aria-hidden="true"></span>
 							Notizen
 						</button>
+						<button class="hp-graph__filter hp-graph__filter--active" data-type="dossier" type="button" aria-pressed="true">
+							<span class="hp-graph__filter-dot hp-graph__filter-dot--dossier" aria-hidden="true"></span>
+							Dossiers
+						</button>
 						<button class="hp-graph__filter hp-graph__filter--active" data-type="glossar" type="button" aria-pressed="true">
 							<span class="hp-graph__filter-dot hp-graph__filter-dot--glossar" aria-hidden="true"></span>
 							Glossar
@@ -73,7 +77,7 @@ get_header(); ?>
 					</div>
 				</div>
 
-				<div class="hp-graph__canvas" id="hp-graph-canvas" role="img" aria-label="Interaktiver Wissensgraph: Visualisiert Verbindungen zwischen Inhalten">
+				<div class="hp-graph__canvas" id="hp-graph-canvas" role="img" aria-label="Interaktiver Wissensgraph: Visualisiert Verbindungen zwischen Essays, Notizen, Dossiers, Begriffen und Themenfeldern">
 					<div class="hp-graph__loading" id="hp-graph-loading">
 						<p>Graph wird geladen …</p>
 					</div>
@@ -107,6 +111,10 @@ get_header(); ?>
 				<div class="hp-graph__legend-item">
 					<span class="hp-graph__legend-circle hp-graph__legend-circle--note" aria-hidden="true"></span>
 					<span>Notiz</span>
+				</div>
+				<div class="hp-graph__legend-item">
+					<span class="hp-graph__legend-circle hp-graph__legend-circle--dossier" aria-hidden="true"></span>
+					<span>Dossier</span>
 				</div>
 				<div class="hp-graph__legend-item">
 					<span class="hp-graph__legend-circle hp-graph__legend-circle--glossar" aria-hidden="true"></span>
