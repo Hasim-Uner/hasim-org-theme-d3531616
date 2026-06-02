@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-06-02-glossar-r11-sterblichkeit-korrekturen';
+const HP_GLOSSAR_SEED_VERSION = '2026-06-03-glossar-r12-sterblichkeit-reseed';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -542,7 +542,7 @@ function hp_glossar_seed_bump_cache_version(): void {
  */
 function hp_seed_sterblichkeit_essay(): void {
 	$slug            = 'sterblichkeit-kein-softwarefehler';
-	$content_version = 'r7-sterblichkeit-korrekturen';
+	$content_version = 'r8-sterblichkeit-reseed';
 	$title           = 'Sterblichkeit ist kein Softwarefehler';
 	$excerpt         = 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.';
 
