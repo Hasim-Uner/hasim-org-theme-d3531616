@@ -15,6 +15,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Deploy-Trigger: 2026-06-03 (erzwingt frische Bereitstellung des korrigierten Essays).
+
 const HP_GLOSSAR_SEED_VERSION = '2026-06-03-glossar-r12-sterblichkeit-reseed';
 
 function hp_run_glossar_seed_once(): void {
