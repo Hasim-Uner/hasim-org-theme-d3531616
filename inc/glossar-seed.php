@@ -51,8 +51,8 @@ function hp_reseed_sterblichkeit_essay_once(): void {
 
 		if (
 			$current_version === $content_version
-			&& ! str_contains( $current_content, 'Fünf-Milliarden-Bewertung' )
-			&& ! str_contains( $current_content, 'wohlfeile Fortschrittsfeindschaft' )
+			&& false === strpos( $current_content, 'Fünf-Milliarden-Bewertung' )
+			&& false === strpos( $current_content, 'wohlfeile Fortschrittsfeindschaft' )
 		) {
 			update_option( 'hp_sterblichkeit_essay_reseed_version', $content_version, false );
 			return;
@@ -63,6 +63,67 @@ function hp_reseed_sterblichkeit_essay_once(): void {
 	update_option( 'hp_sterblichkeit_essay_reseed_version', $content_version, false );
 }
 add_action( 'init', 'hp_reseed_sterblichkeit_essay_once', 30 );
+
+/**
+ * Direkter Fallback für die Live-URL: aktualisiert den konkret gerenderten Essay.
+ */
+function hp_force_sterblichkeit_essay_on_request(): void {
+	if ( ! is_singular( 'essay' ) ) {
+		return;
+	}
+
+	$post = get_queried_object();
+	if ( ! $post instanceof WP_Post || 'sterblichkeit-kein-softwarefehler' !== $post->post_name ) {
+		return;
+	}
+
+	$content_version = 'r8-sterblichkeit-reseed';
+	$current_content = (string) get_post_field( 'post_content', $post->ID );
+	$current_version = (string) get_post_meta( $post->ID, '_hp_essay_content_version', true );
+
+	if (
+		$current_version === $content_version
+		&& false === strpos( $current_content, 'Fünf-Milliarden-Bewertung' )
+		&& false === strpos( $current_content, 'wohlfeile Fortschrittsfeindschaft' )
+	) {
+		return;
+	}
+
+	$content = hp_get_sterblichkeit_essay_content();
+
+	wp_update_post( [
+		'ID'           => $post->ID,
+		'post_title'   => 'Sterblichkeit ist kein Softwarefehler',
+		'post_excerpt' => 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.',
+		'post_content' => $content,
+	] );
+
+	update_post_meta( $post->ID, '_hp_meta_description', 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.' );
+	update_post_meta( $post->ID, '_hp_reading_time', 22 );
+	update_post_meta( $post->ID, '_hp_reading_minutes', 22 );
+	update_post_meta( $post->ID, '_hp_essay_content_version', $content_version );
+	clean_post_cache( $post->ID );
+
+	$GLOBALS['post'] = get_post( $post->ID );
+}
+add_action( 'template_redirect', 'hp_force_sterblichkeit_essay_on_request', 0 );
+
+/**
+ * Rendert für den betroffenen Essay immer die korrigierte Fassung.
+ */
+function hp_render_sterblichkeit_essay_content( string $content ): string {
+	if ( ! is_singular( 'essay' ) || ! in_the_loop() || ! is_main_query() ) {
+		return $content;
+	}
+
+	$post = get_post();
+	if ( ! $post instanceof WP_Post || 'sterblichkeit-kein-softwarefehler' !== $post->post_name ) {
+		return $content;
+	}
+
+	return hp_get_sterblichkeit_essay_content();
+}
+add_filter( 'the_content', 'hp_render_sterblichkeit_essay_content', 8 );
 
 /**
  * Einmaliger Cleanup: löscht den abgelösten Essay „Abrechnung mit dem
