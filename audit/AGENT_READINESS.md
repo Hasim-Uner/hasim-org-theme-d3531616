@@ -20,7 +20,7 @@ Das Repository ist fuer Cursor, Claude Code und OpenAI Agents bereits gut lesbar
 | SEO-Verstaendlichkeit | 86 | SEO-Dateien sind gut kommentiert und fachlich stark. Entity-ID-Policy und KG-Mapping fehlten als zentrale Quelle. |
 | Knowledge-Graph-Verstaendlichkeit | 78 | Graph, Glossar, Topics und Dossiers sind konzeptionell stark, aber Dossiers fehlen im REST-Graph und Beziehungen sind teils implizit. |
 | Frontend-Verstaendlichkeit | 80 | Asset-Matrix und CSS-Inventar helfen stark. `style.css` bleibt ein hoher Kontextblock. |
-| Automatisierbarkeit | 74 | CI existiert. Hook-/REST-Generierung und Architektur-Drift-Checks fehlten bisher. |
+| Automatisierbarkeit | 80 | CI existiert mit PHP-Lint, Manifest-Validierung, PHPStan und Drift-Check fuer generierte Hook-/REST-Dokumente. |
 | Security Hygiene fuer Agenten | 74 | `.gitignore` schuetzt `inc/contact-local.php`; trotzdem existiert die Datei lokal und muss als No-Read/No-Quote-Zone dokumentiert bleiben. |
 
 ## Cursor
@@ -82,5 +82,4 @@ Weiter offen:
 
 - Vollstaendige maschinenlesbare Postmeta-Registry.
 - Vollstaendige Datenbanktabellen-Registry.
-- CI-Drift-Check fuer generierte Dokumente.
 - Entity-ID-Konvention als testbare Regel.

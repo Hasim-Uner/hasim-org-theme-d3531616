@@ -30,7 +30,12 @@ jobs:
       - name: Lint all PHP files
         run: |
           set -e
-          find . -name '*.php' -not -path './vendor/*' -print0 \
+          find . -name '*.php' \
+            -not -path './vendor/*' \
+            -not -path './_stitch/*' \
+            -not -path './_build-d3/*' \
+            -not -path './inc/contact-local.php' \
+            -print0 \
             | xargs -0 -n1 -P4 php -l
 
   architecture:
@@ -45,6 +50,10 @@ jobs:
           coverage: none
       - name: Validate module manifest
         run: php scripts/check-manifest.php
+      - name: Generate architecture reference docs
+        run: php scripts/generate-wp-docs.php
+      - name: Verify generated docs are committed
+        run: git diff --exit-code -- docs/HOOKS.md docs/REST_ROUTES.md
 
   static-analysis:
     name: PHPStan

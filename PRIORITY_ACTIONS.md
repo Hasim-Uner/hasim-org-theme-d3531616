@@ -146,6 +146,8 @@ Erwarteter Wartbarkeitsgewinn: Hoch.
 
 ## 7. Hooks- und REST-Dokumentation generieren und in CI pruefen
 
+Status: umgesetzt am 2026-06-04 fuer Generator-Script, Composer-Scripts und CI-Drift-Check gegen `docs/HOOKS.md` und `docs/REST_ROUTES.md`.
+
 Problem: Hooks und REST-Routen sind im Code verteilt. Agenten muessen Side Effects per `rg` rekonstruieren und koennen Registrierungen uebersehen.
 
 Nutzen: Reproduzierbare `docs/HOOKS.md` und `docs/REST_ROUTES.md` machen Seiteneffekte sichtbar. Ein CI-Drift-Check verhindert veraltete Dokumentation.

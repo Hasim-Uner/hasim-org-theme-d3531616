@@ -22,7 +22,8 @@ $root = dirname(__DIR__);
 function hp_doc_php_files(string $root): array {
 	$skip_dirs = [
 		$root . '/vendor',
-		$root . '/_build-d3/node_modules',
+		$root . '/_stitch',
+		$root . '/_build-d3',
 		$root . '/.git',
 	];
 

@@ -15,11 +15,15 @@
         "sort-packages": true
     },
     "scripts": {
-        "lint": "find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
+        "lint": "find . -name '*.php' -not -path './vendor/*' -not -path './_stitch/*' -not -path './_build-d3/*' -not -path './inc/contact-local.php' -print0 | xargs -0 -n1 php -l",
         "check:manifest": "php scripts/check-manifest.php",
+        "docs:generate": "php scripts/generate-wp-docs.php",
+        "docs:check": "php scripts/generate-wp-docs.php && git diff --exit-code -- docs/HOOKS.md docs/REST_ROUTES.md",
         "analyse": "phpstan analyse --memory-limit=-1",
         "ci": [
+            "@lint",
             "@check:manifest",
+            "@docs:check",
             "@analyse"
         ]
     }

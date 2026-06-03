@@ -114,7 +114,10 @@ Adding JavaScript:
 Baseline check:
 
 ```sh
-find . -name '*.php' -not -path './_stitch/*' -not -path './_build-d3/*' -print0 | xargs -0 -n 1 php -l
+find . -name '*.php' -not -path './vendor/*' -not -path './_stitch/*' -not -path './_build-d3/*' -not -path './inc/contact-local.php' -print0 | xargs -0 -n 1 php -l
+php scripts/check-manifest.php
+php scripts/generate-wp-docs.php
+git diff --exit-code -- docs/HOOKS.md docs/REST_ROUTES.md
 ```
 
 For D3 bundle changes:
