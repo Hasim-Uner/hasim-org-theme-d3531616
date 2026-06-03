@@ -561,21 +561,6 @@ add_action( 'save_post_note',  'hp_glossar_flush_cache_on_content_change' );
 add_action( 'save_post_page',  'hp_glossar_flush_cache_on_content_change' );
 
 /**
- * Einmalige Reparatur für alte gerenderte Essay-Caches.
- */
-function hp_glossar_flush_sterblichkeit_cache_once(): void {
-	$flush_version = '2026-06-03-sterblichkeit-autolink-cache';
-
-	if ( get_option( 'hp_glossar_content_cache_flush_version' ) === $flush_version ) {
-		return;
-	}
-
-	hp_glossar_invalidate_autolink_cache();
-	update_option( 'hp_glossar_content_cache_flush_version', $flush_version, false );
-}
-add_action( 'init', 'hp_glossar_flush_sterblichkeit_cache_once', 40 );
-
-/**
  * Spezialfall: Glossar-Eintrag wechselt Status (draft → publish).
  * save_post feuert hier auch, aber transition_post_status
  * stellt sicher, dass der Cache IMMER invalidiert wird.
