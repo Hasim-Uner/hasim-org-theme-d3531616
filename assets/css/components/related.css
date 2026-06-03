@@ -1,0 +1,80 @@
+/* =========================================
+   RELATED ESSAYS
+   ========================================= */
+
+.hp-related {
+    max-width: var(--hj-content-width);
+    margin: var(--hj-space-2xl) auto var(--hj-space-xl);
+    padding: var(--hj-space-xl) var(--hj-gutter) 0;
+    border-top: 2px solid var(--hj-rule);
+}
+
+.hp-related__title {
+    font-family: var(--hj-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--hj-text-secondary);
+    margin-bottom: var(--hj-space-lg);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hp-related__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--hj-space-lg);
+}
+
+@media (min-width: 768px) {
+    .hp-related__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.hp-related__item {
+    padding-bottom: var(--hj-space-md);
+    border-bottom: 1px solid var(--hj-rule-light);
+}
+
+@media (min-width: 768px) {
+    .hp-related__item {
+        border-bottom: none;
+        border-right: 1px solid var(--hj-rule-light);
+        padding-right: var(--hj-space-md);
+        padding-bottom: 0;
+    }
+
+    .hp-related__item:last-child {
+        border-right: none;
+        padding-right: 0;
+    }
+}
+
+.hp-related__item-title {
+    font-family: var(--hj-serif);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    margin: 0.4rem 0 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hp-related__item-title a {
+    color: var(--hj-rule);
+    text-decoration: none;
+}
+
+.hp-related__item-title a:hover {
+    color: var(--hj-accent);
+}
+
+.hp-related__excerpt {
+    font-family: var(--hj-serif);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--hj-text-secondary);
+    margin-top: 0.4rem;
+}

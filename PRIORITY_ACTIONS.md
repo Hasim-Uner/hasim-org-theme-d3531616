@@ -192,7 +192,7 @@ Erwarteter Wartbarkeitsgewinn: Hoch.
 
 ## 9. Feature-CSS aus `style.css` nach Ownern extrahieren
 
-Problem: `style.css` ist weiterhin ein grosser globaler Besitzbereich. Glossar, Dossier, Mini-Graph, Search, Topic und Single-Layouts teilen denselben Kontext.
+Problem: `style.css` ist weiterhin ein grosser globaler Besitzbereich. Glossar, Dossier und Mini-Graph teilen denselben Kontext.
 
 Nutzen: Kleinere CSS-Dateien, bessere Agentenfaehigkeit, weniger Regressionsrisiko und klarere Conditional Loading-Pfade.
 
@@ -206,8 +206,7 @@ Betroffene Dateien:
 - `assets/css/features/glossary.css`
 - `assets/css/features/dossier.css`
 - `assets/css/features/mini-graph.css`
-- `assets/css/pages/search.css`
-- `assets/css/pages/topic-archive.css`
+- `assets/css/features/glossary.css`
 - `inc/enqueue.php`
 - `inc/glossary.php`
 - `inc/dossier.php`

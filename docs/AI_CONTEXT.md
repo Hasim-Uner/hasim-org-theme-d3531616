@@ -8,7 +8,7 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 - `functions.php` loads `inc/bootstrap.php`; `inc/bootstrap.php` loads modules from `inc/manifest.php`.
 - Active CSS is still concentrated in `style.css`.
 - Frontend JS is split by feature under `assets/js/`.
-- Generated/minified code and archived Diaspora assets should not be read for normal theme work.
+- Generated/minified code should not be read for normal theme work.
 
 ## Read By Task
 
@@ -17,8 +17,8 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 | Bootstrap/module order | `functions.php`, `inc/bootstrap.php`, `inc/manifest.php` | `docs/ARCHITECTURE.md` |
 | Asset loading | `inc/enqueue.php` | `inc/graph-api.php`, `inc/votes-api.php`, `docs/ASSET_MATRIX.md` |
 | Header/navigation | `inc/header-nav.php` | `assets/js/nav.js`, header sections in `style.css` |
-| Essay/note templates | `single-essay.php`, `single-note.php` | `assets/js/journal-single.js`, related CSS in `style.css` |
-| Topic archive | `taxonomy-topic.php` | `inc/taxonomies.php`, related CSS in `style.css` |
+| Essay/note templates | `single-essay.php`, `single-note.php` | `assets/js/journal-single.js`, `assets/css/pages/single-editorial.css`, `assets/css/components/related.css`, `assets/css/components/post-nav.css` |
+| Topic archive | `taxonomy-topic.php` | `inc/taxonomies.php`, `assets/css/pages/topic-archive.css` |
 | Glossary | `inc/glossary.php` | `single-glossar.php`, `archive-glossar.php`, `assets/js/link-preview.js` |
 | Dossier | `inc/dossier.php` | `single-dossier.php`, `archive-dossier.php` |
 | Wissensgraph | `inc/graph-api.php` | `assets/js/graph.js`, `page-wissensgraph.php`, `_build-d3/src/d3-custom.js` |
@@ -26,7 +26,7 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 | SEO/meta/schema/sitemap | `inc/seo-meta.php`, `inc/seo-schema.php`, `inc/seo-hygiene.php`, `inc/sitemap.php` | `inc/breadcrumbs.php`, `inc/seo-cockpit/` |
 | Contact form | `inc/contact.php`, `inc/forms/contact/` | `inc/contacts-admin.php`, `page-kontakt.php`, `inc/contact-local.php.example` |
 | Newsletter | `inc/newsletter.php`, `inc/forms/newsletter/` | `inc/newsletter-broadcast.php`, `front-page.php` |
-| Comments | `inc/comments.php` | `comments.php`, relevant CSS in `style.css` |
+| Comments | `inc/comments.php` | `comments.php`, `assets/css/pages/single-editorial.css` |
 | Votes | `inc/votes.php`, `inc/votes-api.php` | `assets/js/votes.js`, `assets/css/votes.css` |
 
 ## Avoid First
@@ -37,13 +37,12 @@ Do not open these unless the task directly needs them:
 - `fonts/*` - binary/static font assets.
 - `_build-d3/node_modules/*` - dependency tree.
 - `_stitch/*` - local tool artifacts.
-- `assets/css/diaspora-scroll.css`, `assets/js/diaspora-scroll.js`, `page-diaspora-architektur.php` - archived/deactivated Diaspora page.
 - `style.css` full file - use `rg` for selectors/sections first.
 
 ## Current Hotspots
 
-- `style.css`: 7k+ lines, should be split later.
-- `inc/graph-api.php`: graph build still combines topic edges and glossary regex scanning, but runs through the scheduled `hp_graph_rebuild_event`; REST and render paths should only read compiled payload.
+- `style.css`: 3,326 lines, still the largest active stylesheet and should be split further.
+- `inc/graph-api.php`: graph build still does full post loading, but shared-topic edges use a topic-to-node map, glossary matching uses chunked term regexes, and rebuilds stay on the scheduled `hp_graph_rebuild_event`.
 
 ## Context Budget Rules
 

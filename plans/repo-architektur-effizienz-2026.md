@@ -12,12 +12,12 @@ Das Theme ist bereits in sinnvolle PHP-Module unter `inc/` getrennt und laedt As
 
 | Bereich | Befund | Effekt |
 |---|---:|---|
-| CSS | `style.css` hat 7.139 Zeilen | teuer fuer Reviews, KI-Kontext und gezielte Aenderungen |
+| CSS | `style.css` hat 3.326 Zeilen | teuer fuer Reviews, KI-Kontext und gezielte Aenderungen |
 | Newsletter | `inc/newsletter.php` war 1.816 Zeilen; jetzt Loader + `inc/forms/newsletter/*` | Verantwortlichkeiten sind getrennt, Feinschliff/Doku bleibt |
 | Kontakt | `inc/contact.php` war 930 Zeilen; jetzt Loader + `inc/forms/contact/*` | Verantwortlichkeiten sind getrennt |
 | Wissensgraph | Graph-Build kombiniert Vollscan, O(n^2)-Topic-Vergleich und Regex-Suche | wird mit wachsendem Content teurer |
 | KI-Kontext | `.github/copilot-instructions.md` nennt entfernte/veraenderte Dateien und alte Annahmen | Agenten lesen falschen Kontext und verbrauchen mehr Tokens |
-| Artefakte | Fonts in vielen Formaten, deaktivierte Diaspora-Assets, lokale `_stitch/`-Artefakte | Repo ist groesser und unklarer als der aktive Ladepfad |
+| Artefakte | Fonts in vielen Formaten, lokale `_stitch/`-Artefakte | Repo ist groesser und unklarer als der aktive Ladepfad |
 
 Zielbild: klare Domaenen, kleine Einstiegspunkte, maschinenlesbare Architekturkarte, bedingte Assets, messbare Budgets und weniger Kontextballast fuer Mensch und KI.
 
@@ -172,7 +172,7 @@ inc/forms/contact/
 
 Prioritaet 3: CSS
 
-**Umsetzungsstand 2026-05-24:** Inventar angelegt in `docs/CSS_INVENTORY.md`. Legal-Page-CSS ist nach `assets/css/pages/legal.css` extrahiert und wird als `hp-legal-pages` bedingt geladen. Weitere Extraktionen sind offen.
+**Umsetzungsstand 2026-06-03:** Inventar angelegt in `docs/CSS_INVENTORY.md`. Front page, Mission, Legal, Kontakt, 404, Suchergebnisse, Topic-Archive, Shared Archives, Single Editorial, Related, Post Nav und Wissensgraph sind als bedingte CSS-Dateien extrahiert. Weitere Feature-Extraktionen bleiben offen.
 
 ```text
 assets/css/
@@ -210,8 +210,8 @@ Definition of Done:
 Aktionen:
 
 1. Graph-Build umbauen:
-   - Shared-Topic-Edges ueber `topic_id -> post_ids` erzeugen statt alle Post-Paare mit `array_intersect()` zu vergleichen.
-   - Glossar-Suche ueber einen zentralen Term-Index vorbereiten: normalisierte Begriffe, Synonyme, Ziel-ID.
+   - Shared-Topic-Edges ueber `topic_id -> post_ids` erzeugen statt alle Post-Paare mit `array_intersect()` zu vergleichen: **umgesetzt**.
+   - Glossar-Suche ueber einen zentralen Term-Index vorbereiten: normalisierte Begriffe, Synonyme, Ziel-ID: **teilweise umgesetzt** als chunked Regex-Index.
    - Knotenlimit und Edge-Limit getrennt konfigurieren.
 
 2. Cache-Versionen trennen:
@@ -232,7 +232,7 @@ Aktionen:
 
 Definition of Done:
 
-- Graph-Build skaliert naeher an O(posts + topic_edges + term_hits) statt O(posts^2 + posts*terms).
+- Graph-Build skaliert bei Shared-Topic-Edges nach Topic-Gruppen statt ueber alle Post-Paare; Glossar-Matching nutzt Regex-Chunks statt Begriff-mal-Post-Scan.
 - Cache-Invalidierung ist fachlich getrennt.
 - Save-Operationen machen keine unnoetigen breiten Datenbank-Deletes.
 
@@ -289,10 +289,9 @@ Aktionen:
    - `eot`, `svg`, `ttf` nur behalten, wenn es eine echte Browser-Anforderung gibt.
    - Danach `.github/copilot-instructions.md` und CSS-Kommentare angleichen.
 
-2. Diaspora-Archiv markieren:
-   - Wenn deaktiviert: `archive/diaspora/` oder `experiments/diaspora/`.
-   - Nicht im aktiven Asset-Pfad.
-   - In `docs/AI_CONTEXT.md` als "nicht fuer normale Theme-Aenderungen lesen" markieren.
+2. Entfernte Archivseite abgeschlossen:
+   - Inaktive Seiten-/Asset-Dateien sind geloescht.
+   - Wiederherstellung laeuft bei Bedarf ueber Git-History.
 
 3. `_stitch/` entscheiden:
    - Wenn lokales Tool: komplett ignorieren, inklusive `package-lock.json`.
@@ -328,7 +327,7 @@ Definition of Done:
 Empfohlener erster Sprint:
 
 1. Doku-/Kontext-Sprint: Copilot, `AI_CONTEXT.md`, `ARCHITECTURE.md`, `ASSET_MATRIX.md`.
-2. Hygiene-Sprint: `_stitch/`, Fonts, Diaspora-Kennzeichnung.
+2. Hygiene-Sprint: `_stitch/`, Fonts, geloeschte Archivseite nachhalten.
 3. Struktur-Sprint: `inc/bootstrap.php` + Manifest ohne fachliche Logik-Aenderung. **Umgesetzt 2026-05-24.**
 4. Split-Sprint: Newsletter und Kontakt **erledigt**.
 5. Performance-Sprint: Graph-Build und Cache-Versionen.

@@ -571,7 +571,7 @@ function hp_get_seo_image_data(): ?array {
 		}
 	}
 
-	// Site-Icon als letzter Fallback
+	// Site-Icon als neutraler letzter Fallback.
 	$site_icon_id = (int) get_option( 'site_icon' );
 	if ( $site_icon_id ) {
 		$image_data = hp_get_attachment_social_image_data( $site_icon_id );
@@ -585,19 +585,6 @@ function hp_get_seo_image_data(): ?array {
 		return [
 			'url' => $site_icon,
 			'alt' => get_bloginfo( 'name' ),
-		];
-	}
-
-	$fallback_path = get_stylesheet_directory() . '/assets/images/diaspora-rose-realistic.jpg';
-	if ( file_exists( $fallback_path ) ) {
-		$fallback_size = wp_getimagesize( $fallback_path );
-
-		return [
-			'url'    => get_stylesheet_directory_uri() . '/assets/images/diaspora-rose-realistic.jpg',
-			'width'  => ! empty( $fallback_size[0] ) ? (int) $fallback_size[0] : 0,
-			'height' => ! empty( $fallback_size[1] ) ? (int) $fallback_size[1] : 0,
-			'alt'    => get_bloginfo( 'name' ),
-			'type'   => 'image/jpeg',
 		];
 	}
 

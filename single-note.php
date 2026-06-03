@@ -67,6 +67,7 @@ get_header(); ?>
         'posts_per_page' => 3,
         'post__not_in'   => [ $hp_current_id ],
         'post_status'    => 'publish',
+        'no_found_rows'  => true,
     ];
 
     if ( $hp_current_topics && ! is_wp_error( $hp_current_topics ) ) {
@@ -79,12 +80,13 @@ get_header(); ?>
 
     $hp_related = new WP_Query( $hp_related_args );
 
-    if ( $hp_related->found_posts < 2 ) {
+    if ( $hp_related->post_count < 2 ) {
         $hp_related = new WP_Query( [
             'post_type'      => 'note',
             'posts_per_page' => 3,
             'post__not_in'   => [ $hp_current_id ],
             'post_status'    => 'publish',
+            'no_found_rows'  => true,
         ] );
     }
 

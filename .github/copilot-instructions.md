@@ -19,12 +19,9 @@ For orientation, read these small docs before opening large files:
 - `docs/CSS_INVENTORY.md` - map of `style.css` sections and future split owners
 - `plans/repo-architektur-effizienz-2026.md` - current architecture improvement plan
 
-Avoid reading generated/minified or archived files unless directly needed:
+Avoid reading generated/minified or bulky local files unless directly needed:
 
 - `assets/js/d3-custom.min.js`
-- `assets/css/diaspora-scroll.css`
-- `assets/js/diaspora-scroll.js`
-- `page-diaspora-architektur.php`
 - `fonts/*`
 - `_build-d3/node_modules/*`
 - `_stitch/*`
@@ -44,7 +41,7 @@ Current module groups:
 
 Large files that should be touched carefully:
 
-- `style.css` - all active global CSS, currently very large
+- `style.css` - global base, header/search-form CSS and remaining unsplit feature CSS
 - `inc/glossary.php` - glossary CPT, meta, editor UI, auto-linking
 
 ## Editorial Constraints
@@ -77,9 +74,16 @@ Current active global frontend assets:
 Current conditional assets:
 
 - `assets/js/journal-single.js` on singular essay/note/post
-- `assets/js/link-preview.js` on singular essay/note/post/glossar/dossier/page
+- `assets/js/link-preview.js` on singular essay/note/post/glossar/dossier
+- `assets/css/pages/mission.css` on the Mission page
+- `assets/css/pages/error.css` on 404 pages
+- `assets/css/pages/search.css` on search results
+- `assets/css/pages/topic-archive.css` on topic taxonomy archives
+- `assets/css/pages/archives.css` on essay/note/glossary archives and topic archive listings
+- `assets/css/pages/single-editorial.css` on essay/note singles
+- `assets/css/components/related.css` and `assets/css/components/post-nav.css` on essay/note singles
 - `assets/js/d3-custom.min.js` and `assets/js/graph.js` on `/wissensgraph/`
-- `assets/js/votes.js` and `assets/css/votes.css` on essay/note singles and archives
+- `assets/js/votes.js` and `assets/css/votes.css` on essay/note singles
 
 `assets/js/journal.js` and full `assets/js/d3.min.js` are no longer active.
 

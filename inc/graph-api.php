@@ -153,10 +153,18 @@ function hp_graph_build_data(): array {
 
 	// --- Topics pro Post laden (einmal für membership + shared) ---
 	$post_topic_map = []; // node_id => [term_ids]
+	$topic_post_map = []; // term_id => [node_ids]
 	foreach ( $post_map as $node_id => $post ) {
 		$term_ids = wp_get_object_terms( $post->ID, 'topic', [ 'fields' => 'ids' ] );
 		if ( ! is_wp_error( $term_ids ) && ! empty( $term_ids ) ) {
+			$term_ids = array_values( array_unique( array_map( 'intval', $term_ids ) ) );
 			$post_topic_map[ $node_id ] = $term_ids;
+
+			foreach ( $term_ids as $term_id ) {
+				if ( isset( $nodes[ 'topic_' . $term_id ] ) ) {
+					$topic_post_map[ $term_id ][] = $node_id;
+				}
+			}
 		}
 	}
 
@@ -189,29 +197,42 @@ function hp_graph_build_data(): array {
 	}
 
 	// --- Edges: shared_topic ---
+	$shared_topic_weights = [];
+	foreach ( $topic_post_map as $topic_node_ids ) {
+		$topic_node_ids = array_values( array_unique( $topic_node_ids ) );
+		sort( $topic_node_ids, SORT_STRING );
 
-	$post_node_ids = array_keys( $post_topic_map );
-	$shared_seen   = [];
-	for ( $i = 0, $len = count( $post_node_ids ); $i < $len; $i++ ) {
-		for ( $j = $i + 1; $j < $len; $j++ ) {
-			$a = $post_node_ids[ $i ];
-			$b = $post_node_ids[ $j ];
-			$shared = array_intersect( $post_topic_map[ $a ], $post_topic_map[ $b ] );
-			if ( ! empty( $shared ) ) {
-				$edge_key = $a . '-' . $b;
-				if ( ! isset( $shared_seen[ $edge_key ] ) ) {
-					$edges[] = [
+		for ( $i = 0, $len = count( $topic_node_ids ); $i < $len; $i++ ) {
+			for ( $j = $i + 1; $j < $len; $j++ ) {
+				$a        = $topic_node_ids[ $i ];
+				$b        = $topic_node_ids[ $j ];
+				$edge_key = $a . '|' . $b;
+
+				if ( ! isset( $shared_topic_weights[ $edge_key ] ) ) {
+					$shared_topic_weights[ $edge_key ] = [
 						'source' => $a,
 						'target' => $b,
-						'type'   => 'shared_topic',
-						'weight' => count( $shared ),
+						'weight' => 0,
 					];
-					$node_edges[ $a ]++;
-					$node_edges[ $b ]++;
-					$shared_seen[ $edge_key ] = true;
 				}
+
+				$shared_topic_weights[ $edge_key ]['weight']++;
 			}
 		}
+	}
+
+	foreach ( $shared_topic_weights as $shared_topic_edge ) {
+		$source = $shared_topic_edge['source'];
+		$target = $shared_topic_edge['target'];
+
+		$edges[] = [
+			'source' => $source,
+			'target' => $target,
+			'type'   => 'shared_topic',
+			'weight' => $shared_topic_edge['weight'],
+		];
+		$node_edges[ $source ]++;
+		$node_edges[ $target ]++;
 	}
 
 	// --- Edges: glossar_in_content ---
@@ -307,25 +328,21 @@ function hp_graph_build_data(): array {
 		}
 	}
 
+	$glossar_match_chunks = hp_graph_build_glossary_match_chunks( $glossar_entries );
 	foreach ( $post_map as $node_id => $post ) {
 		if ( 'glossar' === $post->post_type ) {
 			continue;
 		}
 		$content = wp_strip_all_tags( $post->post_content );
-		foreach ( $glossar_entries as $glossar_node_id => $patterns ) {
-			foreach ( $patterns as $pattern ) {
-				if ( preg_match( '/\b' . $pattern . '\b/ui', $content ) ) {
-					$edges[] = [
-						'source' => $glossar_node_id,
-						'target' => $node_id,
-						'type'   => 'glossar_in_content',
-						'weight' => 3,
-					];
-					$node_edges[ $glossar_node_id ]++;
-					$node_edges[ $node_id ]++;
-					break; // Nur einmal pro Glossar-Eintrag/Beitrag
-				}
-			}
+		foreach ( hp_graph_match_glossary_node_ids( $content, $glossar_match_chunks ) as $glossar_node_id ) {
+			$edges[] = [
+				'source' => $glossar_node_id,
+				'target' => $node_id,
+				'type'   => 'glossar_in_content',
+				'weight' => 3,
+			];
+			$node_edges[ $glossar_node_id ]++;
+			$node_edges[ $node_id ]++;
 		}
 	}
 
@@ -392,6 +409,97 @@ function hp_graph_get_excerpt( WP_Post $post ): string {
 		return wp_strip_all_tags( get_the_excerpt( $post ) );
 	}
 	return wp_trim_words( wp_strip_all_tags( $post->post_content ), 25, ' …' );
+}
+
+/**
+ * Baut chunked Regex-Matches fuer Glossar-Begriffe und Synonyme.
+ *
+ * @param array<string,string[]> $glossar_entries Map Glossar-Node-ID => preg_quote()-Patterns.
+ * @return array<int,array{regex:string,groups:array<string,string[]>}>
+ */
+function hp_graph_build_glossary_match_chunks( array $glossar_entries ): array {
+	$pattern_to_nodes = [];
+	foreach ( $glossar_entries as $glossar_node_id => $patterns ) {
+		foreach ( $patterns as $pattern ) {
+			if ( '' === $pattern ) {
+				continue;
+			}
+
+			$pattern_to_nodes[ $pattern ][ $glossar_node_id ] = true;
+		}
+	}
+
+	if ( empty( $pattern_to_nodes ) ) {
+		return [];
+	}
+
+	$chunks       = [];
+	$parts        = [];
+	$groups       = [];
+	$group_index  = 0;
+	$chunk_limit  = 40;
+
+	foreach ( $pattern_to_nodes as $pattern => $node_set ) {
+		$group = 'g' . $group_index++;
+		$parts[] = '(?P<' . $group . '>\b' . $pattern . '\b)';
+		$groups[ $group ] = array_keys( $node_set );
+
+		if ( count( $parts ) >= $chunk_limit ) {
+			$chunks[] = [
+				'regex'  => '/(?:' . implode( '|', $parts ) . ')/ui',
+				'groups' => $groups,
+			];
+			$parts  = [];
+			$groups = [];
+		}
+	}
+
+	if ( ! empty( $parts ) ) {
+		$chunks[] = [
+			'regex'  => '/(?:' . implode( '|', $parts ) . ')/ui',
+			'groups' => $groups,
+		];
+	}
+
+	return $chunks;
+}
+
+/**
+ * Findet Glossar-Nodes, die in einem Inhalt vorkommen.
+ *
+ * @param string $content      Bereits von HTML bereinigter Inhalt.
+ * @param array  $match_chunks Ausgabe von hp_graph_build_glossary_match_chunks().
+ * @return string[] Glossar-Node-IDs.
+ */
+function hp_graph_match_glossary_node_ids( string $content, array $match_chunks ): array {
+	if ( '' === $content || empty( $match_chunks ) ) {
+		return [];
+	}
+
+	$matched = [];
+	foreach ( $match_chunks as $chunk ) {
+		if ( empty( $chunk['regex'] ) || empty( $chunk['groups'] ) || ! is_array( $chunk['groups'] ) ) {
+			continue;
+		}
+
+		if ( ! preg_match_all( (string) $chunk['regex'], $content, $matches, PREG_SET_ORDER ) ) {
+			continue;
+		}
+
+		foreach ( $matches as $match ) {
+			foreach ( $chunk['groups'] as $group => $glossar_node_ids ) {
+				if ( empty( $match[ $group ] ) || ! is_array( $glossar_node_ids ) ) {
+					continue;
+				}
+
+				foreach ( $glossar_node_ids as $glossar_node_id ) {
+					$matched[ (string) $glossar_node_id ] = true;
+				}
+			}
+		}
+	}
+
+	return array_keys( $matched );
 }
 
 /**
@@ -538,8 +646,9 @@ function hp_graph_payload_has_current_schema( array $data ): bool {
 /**
  * Liefert fertig kompiliertes Graph-Payload aus der Datenbank.
  *
- * Fällt nur auf alte Transient-Daten zurück und migriert Schema-Änderungen
- * mit einem einmaligen synchronen Rebuild.
+ * Fällt nur auf alte Transient-Daten zurück. Schema-Änderungen markieren
+ * das Payload als stale und planen den Rebuild ohne synchronen Build im
+ * REST- oder Render-Pfad.
  *
  * @return array|null
  */
@@ -550,11 +659,6 @@ function hp_graph_get_compiled_data(): ?array {
 		if ( ! hp_graph_payload_has_current_schema( $data ) ) {
 			update_option( 'hp_graph_status', 'stale', false );
 			hp_graph_schedule_rebuild();
-
-			$fresh_data = hp_graph_rebuild_now();
-			if ( null !== $fresh_data ) {
-				return $fresh_data;
-			}
 		}
 
 		return $data;
@@ -567,11 +671,6 @@ function hp_graph_get_compiled_data(): ?array {
 		update_option( 'hp_graph_payload', $legacy, false );
 		update_option( 'hp_graph_status', 'stale', false );
 		hp_graph_schedule_rebuild();
-
-		$fresh_data = hp_graph_rebuild_now();
-		if ( null !== $fresh_data ) {
-			return $fresh_data;
-		}
 
 		return $legacy;
 	}

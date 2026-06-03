@@ -1,0 +1,273 @@
+/* =========================================
+   PAGE: MISSION
+   ========================================= */
+
+.hp-mission {
+    --hp-mission-measure: 70ch;
+    padding-bottom: var(--hj-space-2xl);
+}
+
+.hp-mission .hp-mission__hero,
+.hp-mission .hp-mission__frame {
+    box-sizing: border-box;
+    width: min(100%, calc(var(--hp-mission-measure) + (var(--hj-gutter) * 2)));
+    max-width: none;
+    margin-inline: auto;
+}
+
+.hp-mission__hero {
+    padding: var(--hj-space-2xl) var(--hj-gutter) var(--hj-space-lg);
+}
+
+.hp-mission__title {
+    margin: 0;
+    font-family: var(--hj-serif);
+    font-weight: 900;
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    color: var(--hj-rule);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hp-mission__lede {
+    max-width: 62ch;
+    margin: var(--hj-space-sm) 0 0;
+    font-family: var(--hj-serif);
+    font-size: clamp(1.08rem, 2.15vw, 1.3rem);
+    line-height: 1.65;
+    color: var(--hj-text-secondary);
+}
+
+.hp-mission__frame {
+    padding-top: var(--hj-space-lg);
+    border-top: 1px solid var(--hj-rule);
+}
+
+.hp-mission__frame.single-body--with-toc {
+    max-width: calc(var(--hj-content-width) + 260px);
+}
+
+.hp-mission__toc {
+    margin-top: 0;
+}
+
+.hp-mission__content {
+    max-width: var(--hp-mission-measure);
+    margin-inline: auto;
+}
+
+.hp-mission__section + .hp-mission__section,
+.hp-mission__closing {
+    margin-top: var(--hj-space-2xl);
+    padding-top: var(--hj-space-lg);
+    border-top: 1px solid var(--hj-rule-light);
+}
+
+.hp-mission__section h2,
+.hp-mission__closing h2 {
+    margin: 0 0 var(--hj-space-sm);
+    font-family: var(--hj-serif);
+    font-weight: 700;
+    font-size: clamp(1.45rem, 2.7vw, 1.95rem);
+    line-height: 1.28;
+    color: var(--hj-rule);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.hp-mission__section p,
+.hp-mission__closing p {
+    font-family: var(--hj-serif);
+    font-weight: 300;
+    font-size: var(--hj-fs-base);
+    line-height: 1.8;
+    color: var(--hj-text);
+    margin-bottom: 1.2em;
+    text-align: left;
+}
+
+.hp-mission__section p:last-child,
+.hp-mission__closing p:last-child {
+    margin-bottom: 0;
+}
+
+.hp-mission__section strong,
+.hp-mission__closing strong {
+    color: var(--hj-rule);
+}
+
+.hp-mission__section a,
+.hp-mission__closing a {
+    text-underline-offset: 0.16em;
+    text-decoration-thickness: 1px;
+}
+
+/* =========================================
+   MISSION — Portrait (Section 2)
+   ---------------------------------------------
+   Editorial Float: rechts neben dem Fließtext
+   auf Desktop, oben gestapelt auf Mobile.
+   ========================================= */
+
+.hp-mission__section--with-portrait {
+    /* Float-Container; clear:both via Pseudo-Element. */
+}
+
+.hp-mission__section--with-portrait::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.hp-mission__portrait {
+    float: right;
+    width: clamp(160px, 28%, 240px);
+    margin: 0.25rem 0 1rem 1.5rem;
+    padding: 0;
+    text-align: center;
+    shape-outside: circle(50%);
+}
+
+.hp-mission__portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 999px;
+    background: var(--hj-paper, #f6f1e8);
+    border: 1px solid var(--hj-rule-light);
+    box-shadow:
+        0 14px 28px rgba(17, 17, 17, 0.10),
+        0 2px 4px rgba(17, 17, 17, 0.04);
+    transition: transform var(--hj-dur-fast) var(--hj-ease),
+                box-shadow var(--hj-dur-fast) var(--hj-ease);
+}
+
+.hp-mission__portrait:hover img {
+    transform: translateY(-2px);
+    box-shadow:
+        0 18px 36px rgba(17, 17, 17, 0.14),
+        0 3px 6px rgba(17, 17, 17, 0.05);
+}
+
+.hp-mission__portrait figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: 0.75rem;
+    line-height: 1.3;
+}
+
+.hp-mission__portrait-name {
+    font-family: var(--hj-serif);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--hj-rule);
+    letter-spacing: 0.01em;
+}
+
+.hp-mission__portrait-meta {
+    font-family: var(--hj-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--hj-muted, #6b6b6b);
+}
+
+@media (max-width: 720px) {
+    .hp-mission__portrait {
+        float: none;
+        width: clamp(140px, 50%, 200px);
+        margin: 0 auto 1.25rem;
+        shape-outside: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hp-mission__portrait img,
+    .hp-mission__portrait:hover img {
+        transform: none;
+        transition: none;
+    }
+}
+
+.hp-mission__statement {
+    margin-top: var(--hj-space-lg);
+    padding: 1.2rem 1.3rem;
+    border-left: 4px solid var(--hj-accent);
+    background: var(--hj-callout-bg);
+    box-shadow: 0 10px 24px rgba(17, 17, 17, 0.04);
+}
+
+.hp-mission__statement p {
+    margin: 0;
+    font-size: clamp(1.08rem, 2vw, 1.3rem);
+    line-height: 1.65;
+    color: var(--hj-rule);
+}
+
+.hp-mission__cta {
+    margin-top: var(--hj-space-lg);
+}
+
+.hp-mission__cta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.95rem;
+    margin-top: var(--hj-space-md);
+}
+
+.hp-mission__cta-card {
+    display: block;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--hj-text);
+    text-decoration: none;
+    box-shadow: 0 10px 24px rgba(17, 17, 17, 0.04);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.hp-mission__cta-card:hover,
+.hp-mission__cta-card:focus-visible {
+    border-color: var(--hj-accent);
+    box-shadow: 0 18px 34px rgba(17, 17, 17, 0.08);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.hp-mission__cta-title {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-family: var(--hj-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--hj-rule);
+}
+
+.hp-mission__cta-copy {
+    display: block;
+    font-family: var(--hj-serif);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--hj-text-secondary);
+}
+
+@media (max-width: 767px) {
+    .hp-mission__hero {
+        padding: var(--hj-space-xl) var(--hj-gutter) var(--hj-space-md);
+    }
+
+    .hp-mission__section p,
+    .hp-mission__closing p {
+        font-size: 1.05rem;
+        line-height: 1.75;
+    }
+}

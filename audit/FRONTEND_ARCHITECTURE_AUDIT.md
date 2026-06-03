@@ -13,21 +13,20 @@ Das Frontend ist kein unkontrollierter Asset-Ball mehr. Globale Assets sind begr
 Staerken:
 
 - `docs/CSS_INVENTORY.md` kartiert `style.css` nach Bereichen.
-- Page-CSS fuer Front Page, Kontakt, Legal und Wissensgraph ist bereits ausgelagert.
+- Page-/Component-CSS fuer Front Page, Mission, Kontakt, Legal, 404, Search, Topic, Archives, Single Editorial, Related, Post Nav und Wissensgraph ist bereits ausgelagert.
 - Newsletter und Votes haben eigene CSS-Dateien.
 - Design Tokens sind im Theme vorhanden (`--hj-*`, `--wp-*`).
 
 Risiken:
 
-- `style.css` bleibt gross und besitzt viele Systeme zugleich: Header, Prose, Single, Archive, Glossar, Dossier, Mini-Graph, Search, Topic.
+- `style.css` bleibt gross und besitzt mehrere Systeme zugleich: Header, Prose, Glossar, Dossier und Mini-Graph.
 - Agenten muessen bei Frontend-Aenderungen oft in einem grossen globalen File operieren.
 - Feature-Regressionsrisiko ist hoch, wenn CSS bewegt und Verhalten geaendert wird.
 
 Hoher ROI:
 
-1. Restliche page-only CSS-Bereiche extrahieren: Mission, 404, Search, Topic.
-2. Feature-CSS extrahieren: Glossar, Dossier, Mini-Graph.
-3. Danach Layout/Component-CSS extrahieren: Header, Footer, Prose, TOC, Related, Post Nav.
+1. Feature-CSS extrahieren: Glossar, Dossier, Mini-Graph.
+2. Danach Layout/Component-CSS extrahieren: Header, Footer, Prose, TOC.
 
 ## Design Tokens
 
@@ -83,7 +82,7 @@ Hoher ROI:
 - Graph-Asset-Versionierung auf `hp_asset_version()` umstellen.
 - Asset-Matrix bei jeder Enqueue-Aenderung als CI-Drift-Check pruefen.
 
-## Dead CSS / Archived Assets
+## Dead CSS / Removed Legacy Assets
 
 Staerken:
 
@@ -92,7 +91,7 @@ Staerken:
 
 Risiken:
 
-- Archived Dateien bleiben gross und koennen Agenten-Kontext verbrauchen.
+- Entfernte Legacy-Dateien duerfen nicht wieder als aktive Orientierung in Agenten-Dokumente rutschen.
 - `assets/js/glossar-tooltip.js` ist nicht aktiv, bleibt aber im Repo.
 
 Hoher ROI:
@@ -117,4 +116,4 @@ Hoher ROI:
 | P1 | Graph-Asset-Versionierung vereinheitlichen | Mittel |
 | P2 | Inline-Editor-JS in Assets verschieben | Hoch |
 | P2 | Optional Design-Token-Inventar erzeugen | Mittel |
-| P3 | Archived Diaspora-Assets nur bei Reaktivierung anfassen | Niedrig |
+| P3 | Geloeschte Diaspora-Assets nur ueber Git-History wiederherstellen | Niedrig |

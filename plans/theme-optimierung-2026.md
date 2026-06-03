@@ -3,7 +3,7 @@
 > **Erstellt:** 2026-04-02  
 > **Basis:** Gemini-Analyse + Code-Audit  
 > **Scope:** Performance, Code-Splitting, native Web-APIs  
-> **Diaspora-Seite:** wird deaktiviert (Dateien bleiben im Repo)
+> **Archivseite:** entfernt; Wiederherstellung bei Bedarf ueber Git-History.
 
 ---
 
@@ -11,18 +11,17 @@
 
 | Phase | Status | Beleg |
 |-------|--------|-------|
-| 1. Diaspora-Assets entkoppeln | **umgesetzt** | `page-diaspora-architektur.php:33–60` Enqueue-Block auskommentiert |
+| 1. Archivseiten-Assets entkoppeln | **erledigt** | Inaktive Seite und Assets entfernt; OG-Fallback nutzt kein statisches Rosenbild mehr |
 | 2. journal.js splitten | **umgesetzt** | `nav.js`, `journal-single.js`, `glossar-tooltip.js` vorhanden |
 | 3. enqueue.php umschreiben | **umgesetzt** | Bedingtes Laden in `inc/enqueue.php:35–86` |
 | 4. Popover API Migration | **umgesetzt** | `glossar-tooltip.js` nutzt `showPopover()` / `:popover-open` |
 | 5. D3 Custom-Bundle | **umgesetzt** | `d3-custom.min.js` aktiv über `inc/graph-api.php:367–377` |
-| 6. Font-Kommentare | **offen** | TODO-Block in `diaspora-scroll.css:18–43` (niedrige Prio) |
+| 6. Font-Kommentare | **ueberholt** | Inaktive CSS-Datei wurde entfernt statt kosmetisch nachgezogen |
 
 **Offene Restaufgaben:**
-- Phase 6: Doku-Kommentar zu fehlenden Outfit/Figtree-Fonts (rein kosmetisch, Seite deaktiviert).
 - Smoke-Test-Checkliste (siehe Ende dieses Dokuments) — manuelle Browser-Verifikation.
 
-**Cleanup 2026-05-12:** `assets/js/journal.js` und `assets/js/d3.min.js` wurden aus dem Repo entfernt. Die Wiederherstellung ist bei Bedarf über die Git-History möglich. Der auskommentierte Enqueue-Block in `page-diaspora-architektur.php:33–60` verweist noch auf `d3.min.js`; bei einer Reaktivierung der Diaspora-Seite müsste dort auf das Custom-Bundle umgestellt werden.
+**Cleanup 2026-05-12:** `assets/js/journal.js` und `assets/js/d3.min.js` wurden aus dem Repo entfernt. Die Wiederherstellung ist bei Bedarf über die Git-History möglich.
 
 ---
 
@@ -32,10 +31,7 @@
 Datei                          Größe      Geladen auf
 ─────────────────────────────  ─────────  ─────────────────────
 assets/js/journal.js           567 Zeilen ALLE Seiten (global)
-assets/js/d3.min.js            ~279.7 KB  Wissensgraph + Diaspora
-assets/js/graph.js             872 Zeilen Wissensgraph
-assets/js/diaspora-scroll.js   841 Zeilen Diaspora (wird deaktiviert)
-assets/css/diaspora-scroll.css 2987 Zeil. Diaspora (wird deaktiviert)
+assets/js/graph.js             1.158 Zeilen Wissensgraph
 ```
 
 ### Probleme
@@ -45,7 +41,7 @@ assets/css/diaspora-scroll.css 2987 Zeil. Diaspora (wird deaktiviert)
 | 1 | `journal.js` lädt 567 Zeilen auf ALLEN Seiten — obwohl TOC, Footnotes, Share nur auf Singles gebraucht werden | Unnötiger JS-Overhead auf ~80% der Seitenaufrufe |
 | 2 | D3.js voll gebündelt mit 279.7 KB — nur 6 Module werden tatsächlich genutzt | Performance-Budget auf der Wissensgraph-Seite gesprengt |
 | 3 | Glossar-Tooltips sind ~120 Zeilen Custom-JS — native Popover API kann das ersetzen | Vermeidbare Komplexität, schlechtere A11y |
-| 4 | Diaspora-Assets werden bei aktiver Seite geladen — Seite wird deaktiviert | Tot-Code im Ladepfad |
+| 4 | Inaktive Archivseiten-Assets waren als Tot-Code im Repo | Repo-Gewicht und falscher Kontext |
 
 ---
 
@@ -67,30 +63,21 @@ graph TD
 
     subgraph Wissensgraph-Seite
         D[d3-custom.min.js ~80 KB]
-        E[graph.js 872 Zeilen]
+        E[graph.js 1.158 Zeilen]
         D --> E
     end
 
-    subgraph Deaktiviert - Dateien bleiben
-        F[diaspora-scroll.js]
-        G[diaspora-scroll.css]
-        H[d3.min.js - Alt, durch Custom-Bundle ersetzt]
-    end
 ```
 
 ---
 
-## Phase 1: Diaspora-Assets vom Laden entkoppeln
+## Phase 1: Archivseiten-Assets entfernen
 
-**Ziel:** Sicherstellen, dass keine Diaspora-Assets geladen werden, selbst wenn die Seite versehentlich aktiv ist.
+**Ziel:** Sicherstellen, dass inaktive Archivseiten-Assets weder geladen noch als tote Dateien im Repo verbleiben.
 
-**Dateien:**
-- [`page-diaspora-architektur.php`](../page-diaspora-architektur.php:31) — Enqueue-Block (Zeile 31–56)
+**Status:** Erledigt; inaktive PHP-, CSS-, JS- und Bilddateien wurden entfernt.
 
-**Aktion:**
-1. Den `add_action( 'wp_enqueue_scripts', ... )` Block in `page-diaspora-architektur.php` auskommentieren oder mit einem `return;` am Anfang der Closure versehen
-2. Einen Kommentar hinzufügen: `// DEAKTIVIERT 2026-04 — Assets werden nicht mehr geladen`
-3. Die Dateien `diaspora-scroll.css`, `diaspora-scroll.js` und `d3.min.js` verbleiben im Repo (kein Löschen)
+**Aktion:** Keine weitere Laufzeit-Aktion offen. Wiederherstellung bei Bedarf ueber Git-History.
 
 ---
 
@@ -264,25 +251,15 @@ function hide() {
    '/assets/js/d3-custom.min.js'
    ```
 
-5. `d3.min.js` (279.7 KB) bleibt als Backup im Repo, wird aber nicht mehr geladen.
+5. Ueberholt: `d3.min.js` wurde entfernt; Wiederherstellung bei Bedarf ueber Git-History.
 
 ---
 
 ## Phase 6: Tote Font-Deklarationen markieren
 
-**Ziel:** Kognitive Last beim Lesen der deaktivierten CSS-Datei reduzieren.
+**Status:** Ueberholt, weil die inaktive CSS-Datei entfernt wurde.
 
-**Datei:** [`assets/css/diaspora-scroll.css`](../assets/css/diaspora-scroll.css:18) — Zeilen 18–43
-
-**Aktion:** Einen Block-Kommentar am Anfang der `@font-face` Deklarationen ergänzen:
-
-```css
-/* ⚠️ HINWEIS: Die Schriften Outfit und Figtree sind nicht im /fonts/ Verzeichnis vorhanden.
-   Aktuell Fallback auf System-Fonts aktiv.
-   TODO: Entweder Font-Dateien beschaffen oder @font-face Blöcke entfernen. */
-```
-
-Da die Diaspora-Seite deaktiviert ist, hat dies keine Laufzeit-Auswirkung, verbessert aber die Lesbarkeit für zukünftige Entwickler und LLMs.
+**Aktion:** Keine.
 
 ---
 
@@ -293,7 +270,7 @@ Da die Diaspora-Seite deaktiviert ist, hat dies keine Laufzeit-Auswirkung, verbe
 | JS auf Startseite / Archiven | ~567 Zeilen journal.js | ~160 Zeilen nav.js | **~72%** |
 | JS auf Single-Views | ~567 Zeilen journal.js | ~420 Zeilen nav.js + journal-single.js | **~26%** |
 | D3.js auf Wissensgraph | ~279.7 KB | ~80–100 KB geschätzt | **~65%** |
-| Diaspora-Assets geladen | ~387 KB CSS+JS+D3 | 0 KB | **100%** |
+| Archivseiten-Assets im Repo | ~3,5 MB | 0 KB | **100%** |
 | Glossar-Tooltip JS | ~120 Zeilen | ~40–60 Zeilen | **~50%** |
 
 ---
@@ -302,7 +279,7 @@ Da die Diaspora-Seite deaktiviert ist, hat dies keine Laufzeit-Auswirkung, verbe
 
 ```mermaid
 graph LR
-    P1[Phase 1: Diaspora deaktivieren] --> P2[Phase 2: journal.js splitten]
+    P1[Phase 1: Archivseite entfernen] --> P2[Phase 2: journal.js splitten]
     P2 --> P3[Phase 3: enqueue.php umschreiben]
     P3 --> P4[Phase 4: Popover API Tooltip]
     P1 --> P5[Phase 5: D3 Custom-Bundle]
@@ -330,6 +307,6 @@ Nach Umsetzung müssen folgende Seitentypen geprüft werden:
 - [ ] **Archiv Glossar** (`archive-glossar.php`) — nur nav.js
 - [ ] **Wissensgraph** (`page-wissensgraph.php`) — D3-Custom-Bundle + graph.js
 - [ ] **Kontakt** (`page-kontakt.php`) — nur nav.js
-- [ ] **Suche** (`search.php`) — nur nav.js
+- [ ] **Suche** (`search.php`) — nav.js + `hp-search-page`
 - [ ] **Mobile Navigation** — Hamburger-Toggle funktioniert
 - [ ] **Keyboard-Navigation** — Tab-Reihenfolge, ESC-Shortcuts

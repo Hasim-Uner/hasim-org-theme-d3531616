@@ -38,11 +38,19 @@ function hp_journal_enqueue_assets(): void {
 
 	// Cache-Bust-Versionen zentral über hp_asset_version() (filemtime
 	// mit Theme-Version-Fallback) — siehe inc/runtime-assets.php.
-	$style_ver = hp_asset_version( 'style.css' );
-	$front_ver = hp_asset_version( 'assets/css/pages/front-page.css' );
-	$legal_ver = hp_asset_version( 'assets/css/pages/legal.css' );
-	$contact_ver = hp_asset_version( 'assets/css/pages/contact.css' );
+	$style_ver      = hp_asset_version( 'style.css' );
+	$front_ver      = hp_asset_version( 'assets/css/pages/front-page.css' );
+	$mission_ver    = hp_asset_version( 'assets/css/pages/mission.css' );
+	$error_ver      = hp_asset_version( 'assets/css/pages/error.css' );
+	$search_ver     = hp_asset_version( 'assets/css/pages/search.css' );
+	$topic_ver      = hp_asset_version( 'assets/css/pages/topic-archive.css' );
+	$archives_ver   = hp_asset_version( 'assets/css/pages/archives.css' );
+	$legal_ver      = hp_asset_version( 'assets/css/pages/legal.css' );
+	$contact_ver    = hp_asset_version( 'assets/css/pages/contact.css' );
 	$newsletter_ver = hp_asset_version( 'assets/css/components/newsletter.css' );
+	$related_ver    = hp_asset_version( 'assets/css/components/related.css' );
+	$post_nav_ver   = hp_asset_version( 'assets/css/components/post-nav.css' );
+	$single_ver     = hp_asset_version( 'assets/css/pages/single-editorial.css' );
 
 	// Parent-Theme — nötig für korrekte CSS-Kaskade
 	wp_enqueue_style(
@@ -67,6 +75,56 @@ function hp_journal_enqueue_assets(): void {
 			$uri . '/assets/css/pages/front-page.css',
 			[ 'hp-journal-style' ],
 			$front_ver
+		);
+	}
+
+	// Mission page: Editorial mission text and portrait layout.
+	if ( is_page_template( 'page-mission.php' ) || is_page( 'mission' ) ) {
+		wp_enqueue_style(
+			'hp-mission-page',
+			$uri . '/assets/css/pages/mission.css',
+			[ 'hp-journal-style' ],
+			$mission_ver
+		);
+	}
+
+	// 404 page: search fallback, area links and recent essays.
+	if ( is_404() ) {
+		wp_enqueue_style(
+			'hp-error-page',
+			$uri . '/assets/css/pages/error.css',
+			[ 'hp-journal-style' ],
+			$error_ver
+		);
+	}
+
+	// Search results page.
+	if ( is_search() ) {
+		wp_enqueue_style(
+			'hp-search-page',
+			$uri . '/assets/css/pages/search.css',
+			[ 'hp-journal-style' ],
+			$search_ver
+		);
+	}
+
+	// Topic taxonomy archive.
+	if ( is_tax( 'topic' ) ) {
+		wp_enqueue_style(
+			'hp-topic-archive',
+			$uri . '/assets/css/pages/topic-archive.css',
+			[ 'hp-journal-style' ],
+			$topic_ver
+		);
+	}
+
+	// Shared archive item/list styling used by essay/note/glossary archives and topic archive listings.
+	if ( is_post_type_archive( [ 'essay', 'note', 'glossar' ] ) || is_tax( 'topic' ) ) {
+		wp_enqueue_style(
+			'hp-archives',
+			$uri . '/assets/css/pages/archives.css',
+			[ 'hp-journal-style' ],
+			$archives_ver
 		);
 	}
 
@@ -97,6 +155,30 @@ function hp_journal_enqueue_assets(): void {
 			$uri . '/assets/css/pages/legal.css',
 			[ 'hp-journal-style' ],
 			$legal_ver
+		);
+	}
+
+	// Editorial singles: related entries and previous/next navigation.
+	if ( is_singular( [ 'essay', 'note' ] ) ) {
+		wp_enqueue_style(
+			'hp-single-editorial',
+			$uri . '/assets/css/pages/single-editorial.css',
+			[ 'hp-journal-style' ],
+			$single_ver
+		);
+
+		wp_enqueue_style(
+			'hp-related',
+			$uri . '/assets/css/components/related.css',
+			[ 'hp-journal-style' ],
+			$related_ver
+		);
+
+		wp_enqueue_style(
+			'hp-post-nav',
+			$uri . '/assets/css/components/post-nav.css',
+			[ 'hp-journal-style' ],
+			$post_nav_ver
 		);
 	}
 
