@@ -35,6 +35,36 @@ function hp_run_glossar_seed_once(): void {
 add_action( 'admin_init', 'hp_run_glossar_seed_once', 25 );
 
 /**
+ * Reparatur-Migration für Live-Deploys, bei denen der Admin-Seed nicht lief.
+ */
+function hp_reseed_sterblichkeit_essay_once(): void {
+	$content_version = 'r8-sterblichkeit-reseed';
+
+	if ( get_option( 'hp_sterblichkeit_essay_reseed_version' ) === $content_version ) {
+		return;
+	}
+
+	$existing = get_page_by_path( 'sterblichkeit-kein-softwarefehler', OBJECT, 'essay' );
+	if ( $existing instanceof WP_Post ) {
+		$current_content = (string) get_post_field( 'post_content', $existing->ID );
+		$current_version = (string) get_post_meta( $existing->ID, '_hp_essay_content_version', true );
+
+		if (
+			$current_version === $content_version
+			&& ! str_contains( $current_content, 'Fünf-Milliarden-Bewertung' )
+			&& ! str_contains( $current_content, 'wohlfeile Fortschrittsfeindschaft' )
+		) {
+			update_option( 'hp_sterblichkeit_essay_reseed_version', $content_version, false );
+			return;
+		}
+	}
+
+	hp_seed_sterblichkeit_essay();
+	update_option( 'hp_sterblichkeit_essay_reseed_version', $content_version, false );
+}
+add_action( 'init', 'hp_reseed_sterblichkeit_essay_once', 30 );
+
+/**
  * Einmaliger Cleanup: löscht den abgelösten Essay „Abrechnung mit dem
  * Transhumanismus" (Slug: abrechnung-transhumanismus) endgültig aus der
  * Datenbank.
