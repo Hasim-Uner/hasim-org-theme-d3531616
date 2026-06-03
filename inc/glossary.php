@@ -502,6 +502,21 @@ add_filter( 'the_content', 'hp_glossar_auto_link', 20 );
    ========================================= */
 
 /**
+ * Invalidiert alle gecachten Glossar-Autolinks.
+ */
+function hp_glossar_invalidate_autolink_cache(): void {
+	$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
+	update_option( 'hp_glossar_version', $new_version, false );
+
+	global $wpdb;
+	$wpdb->query(
+		"DELETE FROM {$wpdb->options}
+		 WHERE option_name LIKE '_transient_hp_gl_%'
+		    OR option_name LIKE '_transient_timeout_hp_gl_%'"
+	);
+}
+
+/**
  * Bumpt die Glossar-Version und löscht Transient-Caches
  * wenn ein Glossar-Eintrag erstellt, aktualisiert oder gelöscht wird.
  *
@@ -519,20 +534,46 @@ function hp_glossar_flush_cache( int $post_id ): void {
 		return;
 	}
 
-	// Version bumpen → alte Cache-Keys werden irrelevant
-	$new_version = (int) get_option( 'hp_glossar_version', 0 ) + 1;
-	update_option( 'hp_glossar_version', $new_version, false );
-
-	// Alte Transients aufräumen (SQL für DB-backed Transients)
-	global $wpdb;
-	$wpdb->query(
-		"DELETE FROM {$wpdb->options}
-		 WHERE option_name LIKE '_transient_hp_gl_%'
-		    OR option_name LIKE '_transient_timeout_hp_gl_%'"
-	);
+	hp_glossar_invalidate_autolink_cache();
 }
 add_action( 'save_post_glossar', 'hp_glossar_flush_cache' );
 add_action( 'delete_post',       'hp_glossar_flush_cache' );
+
+/**
+ * Invalidiert Autolink-Caches, wenn Inhalte geändert werden.
+ *
+ * Die gecachte Ausgabe hängt vom Post-Content ab. Deshalb müssen alte
+ * Transients auch bei Essay-, Note- und Page-Updates verworfen werden.
+ */
+function hp_glossar_flush_cache_on_content_change( int $post_id ): void {
+	if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+		return;
+	}
+
+	if ( ! in_array( get_post_type( $post_id ), [ 'essay', 'note', 'page' ], true ) ) {
+		return;
+	}
+
+	hp_glossar_invalidate_autolink_cache();
+}
+add_action( 'save_post_essay', 'hp_glossar_flush_cache_on_content_change' );
+add_action( 'save_post_note',  'hp_glossar_flush_cache_on_content_change' );
+add_action( 'save_post_page',  'hp_glossar_flush_cache_on_content_change' );
+
+/**
+ * Einmalige Reparatur für alte gerenderte Essay-Caches.
+ */
+function hp_glossar_flush_sterblichkeit_cache_once(): void {
+	$flush_version = '2026-06-03-sterblichkeit-autolink-cache';
+
+	if ( get_option( 'hp_glossar_content_cache_flush_version' ) === $flush_version ) {
+		return;
+	}
+
+	hp_glossar_invalidate_autolink_cache();
+	update_option( 'hp_glossar_content_cache_flush_version', $flush_version, false );
+}
+add_action( 'init', 'hp_glossar_flush_sterblichkeit_cache_once', 40 );
 
 /**
  * Spezialfall: Glossar-Eintrag wechselt Status (draft → publish).
