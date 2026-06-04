@@ -69,9 +69,8 @@ get_header(); ?>
         <div class="editorial-hero__grid">
 
             <div class="editorial-hero__claim">
-                <p class="editorial-hero__eyebrow">Ein Journal von Haşim Üner</p>
-                <h1 id="front-hero-title" class="editorial-hero__title">Macht. Medien. Perspektive.</h1>
-                <p class="editorial-hero__subline">Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft. Von Haşim Üner.</p>
+                <h1 id="front-hero-title" class="editorial-hero__title">Zusammendenken, was getrennt erscheint.</h1>
+                <p class="editorial-hero__subline">Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft.</p>
 
                 <div class="editorial-hero__actions" aria-label="Startpunkte">
                     <?php if ( $hp_hero_post ) : ?>

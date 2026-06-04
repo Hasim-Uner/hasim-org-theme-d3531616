@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-06-03-glossar-r12-sterblichkeit-reseed';
+const HP_GLOSSAR_SEED_VERSION = '2026-06-04-glossar-r13-sterblichkeit-body-intro';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -542,7 +542,7 @@ function hp_glossar_seed_bump_cache_version(): void {
  */
 function hp_seed_sterblichkeit_essay(): void {
 	$slug            = 'sterblichkeit-kein-softwarefehler';
-	$content_version = 'r8-sterblichkeit-reseed';
+	$content_version = 'r9-sterblichkeit-body-intro';
 	$title           = 'Sterblichkeit ist kein Softwarefehler';
 	$excerpt         = 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.';
 
@@ -593,11 +593,10 @@ function hp_seed_sterblichkeit_essay(): void {
  * als Gutenberg-Blockfolge mit internen Verlinkungen sowie einem abschließenden Quellenapparat.
  */
 function hp_get_sterblichkeit_essay_content(): string {
-	$lead = 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.';
+	$body_intro = '<p>Ein kranker Körper riecht nicht nach Silizium. Er riecht nach Desinfektionsmittel, nach Schweiß, nach der schweren Biologie eines Organismus, der sich nicht mehr im Griff hat. Ich habe das am Krankenhausbett meines krebskranken Onkels gesehen. Vor dieser Hinfälligkeit kann man die Augen verschließen; wegerklären lässt sie sich nicht. Wir sind Fleisch, gebunden an die Chronologie des Alterns.</p>';
 
 	$sections = [
 		'I. Die Konfrontation mit dem Fleisch' => [
-			'<p>Ein kranker Körper riecht nicht nach Silizium. Er riecht nach Desinfektionsmittel, nach Schweiß, nach der schweren Biologie eines Organismus, der sich nicht mehr im Griff hat. Ich habe das am Krankenhausbett meines krebskranken Onkels gesehen. Vor dieser Hinfälligkeit kann man die Augen verschließen; wegerklären lässt sie sich nicht. Wir sind Fleisch, gebunden an die Chronologie des Alterns.</p>',
 			'<p>Im Silicon Valley wird dieses Faktum anders verhandelt. Dort gilt Altern nicht als Bedingung der Existenz, sondern als Konstruktionsfehler — als „Akkumulation zellulärer Schäden", behebbar wie fehlerhafter Code. Das ist kein Zerrbild, sondern erklärtes Programm, unterlegt mit enormem Kapital: Altos Labs startete 2022 mit drei Milliarden Dollar, gestützt von Jeff Bezos — der bestfinanzierte Biotech-Start der Geschichte. Retro Biosciences, finanziert vom OpenAI-Chef Sam Altman, sammelte zuletzt Kapital zu einer Bewertung von 1,8 Milliarden Dollar ein, mit dem erklärten Ziel, dem menschlichen Leben zehn gesunde Jahre hinzuzufügen. Ray Kurzweil terminiert das Verschmelzen von Mensch und Maschine auf das Jahr 2045.</p>',
 			'<p>Bevor man das verwirft, muss man den stärksten Einwand der Gegenseite gelten lassen: Altern ist die größte Einzelursache menschlichen Leidens; täglich sterben weltweit über hunderttausend Menschen an altersbedingten Ursachen. Wenn sich dieser Prozess medizinisch verlangsamen lässt — wäre es nicht zynisch, es nicht zu versuchen? Das Argument ist ernst zu nehmen. Es ist gut, Leiden zu lindern, Krankheiten zu behandeln, verlorene Funktionen wiederherzustellen — das bestreite ich nicht. Mein Einwand setzt woanders an.</p>',
 			'<p>Der Bruch liegt nicht hier. Er liegt dort, wo aus Medizin eine Metaphysik wird — wo Heilung nicht mehr heilen will, sondern erlösen. Wo der Mensch nicht mehr als verletzliches, sterbliches Wesen gilt, sondern als defektes System, das auf sein Update wartet. Der Transhumanismus wird nicht durch seine Werkzeuge fragwürdig, sondern durch das Menschenbild, das er mitliefert.</p>',
@@ -660,7 +659,7 @@ function hp_get_sterblichkeit_essay_content(): string {
 
 	$separator = "<!-- wp:separator -->\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n<!-- /wp:separator -->\n\n";
 
-	$out  = "<!-- wp:paragraph -->\n<p><em>" . $lead . "</em></p>\n<!-- /wp:paragraph -->\n\n";
+	$out  = "<!-- wp:paragraph -->\n{$body_intro}\n<!-- /wp:paragraph -->\n\n";
 	$out .= $separator;
 
 	foreach ( $sections as $heading => $paragraphs ) {
