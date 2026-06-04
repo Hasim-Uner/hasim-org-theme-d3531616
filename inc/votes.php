@@ -11,6 +11,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+const HP_VOTES_SCHEMA_VERSION = '1.0.0';
+
 /**
  * Erstellt die Vote-Tabelle bei Theme-Aktivierung.
  */
@@ -32,19 +34,26 @@ function hp_votes_create_table(): void {
 
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 	dbDelta( $sql );
+
+	update_option( 'hp_votes_schema_version', HP_VOTES_SCHEMA_VERSION, false );
 }
 add_action( 'after_switch_theme', 'hp_votes_create_table' );
 
-// Prüft bei jedem Seitenaufruf, ob die Tabelle existiert
-add_action( 'init', function() {
-	global $wpdb;
-	$table_name = $wpdb->prefix . 'hp_votes';
-	
-	// Prüfe ob Tabelle existiert
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) != $table_name ) {
-		hp_votes_create_table();
+/**
+ * Fuehrt die Vote-Tabellenmigration nur aus, wenn die Schema-Version fehlt.
+ *
+ * Alte Installationen hatten bereits einen Tabellencheck auf jedem `init`.
+ * Die Version-Option migriert diese Installationen einmalig auf dbDelta()
+ * und vermeidet danach den teuren SHOW-TABLES-Hot-Path.
+ */
+function hp_votes_maybe_upgrade_schema(): void {
+	if ( HP_VOTES_SCHEMA_VERSION === get_option( 'hp_votes_schema_version' ) ) {
+		return;
 	}
-} );
+
+	hp_votes_create_table();
+}
+add_action( 'init', 'hp_votes_maybe_upgrade_schema' );
 
 /**
  * Verarbeitet einen Vote und gibt das Ergebnis zurück.
@@ -225,11 +234,10 @@ function hp_get_user_ip(): string {
  */
 function hp_get_vote_buttons( int $post_id ): string {
 	$vote_data = hp_get_vote_counts( $post_id );
-	$nonce = wp_create_nonce( 'hp_vote_' . $post_id );
 
 	ob_start();
 	?>
-	<div class="hp-vote" data-post-id="<?php echo esc_attr( $post_id ); ?>" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+	<div class="hp-vote" data-post-id="<?php echo esc_attr( $post_id ); ?>">
 		<button class="hp-vote-btn hp-vote-like <?php echo $vote_data['user_vote'] === 'like' ? 'active' : ''; ?>"
 				data-vote-type="like" data-post-id="<?php echo esc_attr( $post_id ); ?>" <?php echo ! $vote_data['can_vote'] ? 'disabled' : ''; ?>>
 			<span class="hp-vote-icon">👍</span>

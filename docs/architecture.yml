@@ -600,7 +600,7 @@ modules:
       - assets/css/votes.css
     hooks:
       - after_switch_theme: hp_votes_create_table
-      - init: closure_table_check
+      - init: hp_votes_maybe_upgrade_schema
       - rest_api_init: hp_votes_register_rest_route
       - wp_enqueue_scripts: hp_votes_enqueue_assets
     routes:

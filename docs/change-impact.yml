@@ -339,6 +339,7 @@ files:
   inc/votes.php:
     affects:
       - hp_votes table
+      - vote schema migration
       - vote business logic
       - IP/user duplicate detection
       - vote counts
