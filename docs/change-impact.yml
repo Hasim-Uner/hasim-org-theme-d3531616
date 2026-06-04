@@ -107,14 +107,46 @@ files:
 
   inc/seo-schema.php:
     affects:
+      - schema module loading
+      - structured data availability
+    owners:
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  inc/seo/schema-helpers.php:
+    affects:
       - structured data
       - rich snippets
       - entity graph
       - stable entity IDs
+      - Topic entity references
+      - schema shared helpers
+    owners:
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  inc/seo/schema-site.php:
+    affects:
       - Person/Organization/WebSite
+      - global JSON-LD graph
+    owners:
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  inc/seo/schema-content.php:
+    affects:
       - Article/DefinedTerm/Dossier schema
+      - content entity relations
+      - Dossier citation schema
+    owners:
+      - SEO Agent
+      - Knowledge Graph Agent
+
+  inc/seo/schema-archives.php:
+    affects:
       - Topic entity references
       - archive schema
+      - Mission AboutPage schema
     owners:
       - SEO Agent
       - Knowledge Graph Agent
@@ -588,6 +620,10 @@ systems:
   structured_data:
     primary_files:
       - inc/seo-schema.php
+      - inc/seo/schema-helpers.php
+      - inc/seo/schema-site.php
+      - inc/seo/schema-content.php
+      - inc/seo/schema-archives.php
       - inc/breadcrumbs.php
       - inc/seo-meta.php
     check_after_change:

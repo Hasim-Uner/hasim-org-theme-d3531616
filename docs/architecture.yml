@@ -227,6 +227,10 @@ modules:
     purpose: Schema.org JSON-LD for site, person, content, archives, glossary and dossiers.
     files:
       - inc/seo-schema.php
+      - inc/seo/schema-helpers.php
+      - inc/seo/schema-site.php
+      - inc/seo/schema-content.php
+      - inc/seo/schema-archives.php
       - inc/breadcrumbs.php
     hooks:
       - wp_head: hp_org_website_jsonld_schema

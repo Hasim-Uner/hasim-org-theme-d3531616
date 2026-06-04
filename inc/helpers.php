@@ -13,6 +13,28 @@
 defined( 'ABSPATH' ) || exit;
 
 /* -----------------------------------------
+   URL-Helfer
+   ----------------------------------------- */
+
+/**
+ * Normalisiert eine WordPress-URL-Rueckgabe auf einen sicheren String.
+ *
+ * WP-APIs wie `get_term_link()` koennen `WP_Error` liefern; SEO-, Schema-
+ * und Breadcrumb-Ausgaben brauchen aber immer druckbare URL-Strings.
+ *
+ * @param mixed       $url      URL-Rueckgabe einer WP-API.
+ * @param string|null $fallback Fallback-URL. `null` nutzt die Startseite.
+ * @return string
+ */
+function hp_normalize_public_url( $url, ?string $fallback = null ): string {
+	if ( is_wp_error( $url ) || ! is_string( $url ) || '' === $url ) {
+		return null === $fallback ? home_url( '/' ) : $fallback;
+	}
+
+	return $url;
+}
+
+/* -----------------------------------------
    Lesedauer
    ----------------------------------------- */
 

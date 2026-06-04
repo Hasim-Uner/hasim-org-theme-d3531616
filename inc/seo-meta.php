@@ -485,24 +485,6 @@ function hp_get_attachment_social_image_data( int $attachment_id, $size = 'hp-og
 }
 
 /**
- * Normalisiert eine WordPress-URL-Rueckgabe auf einen sicheren String.
- *
- * WP-APIs wie `get_term_link()` koennen `WP_Error` liefern; SEO-Ausgabe
- * braucht aber immer einen druckbaren URL-String.
- *
- * @param mixed  $url      URL-Rueckgabe einer WP-API.
- * @param string|null $fallback Fallback-URL. `null` nutzt die Startseite.
- * @return string
- */
-function hp_normalize_public_url( $url, ?string $fallback = null ): string {
-	if ( is_wp_error( $url ) || ! is_string( $url ) || '' === $url ) {
-		return null === $fallback ? home_url( '/' ) : $fallback;
-	}
-
-	return $url;
-}
-
-/**
  * Bestimmt, ob die aktuelle Anfrage ein Canonical-Tag erhalten soll.
  *
  * Noindex-Kontexte aus `hp_seo_robots()` bleiben ohne Canonical, damit

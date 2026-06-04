@@ -20,7 +20,7 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | 4 | `inc/enqueue.php` | global/conditional assets, font preload, GP script defer |
 | 5 | `inc/generatepress-compat.php` | GeneratePress meta/sidebar/copyright adjustments |
 | 6 | `inc/meta-fields.php` | social teaser editor meta |
-| 7 | `inc/seo-schema.php` | JSON-LD for site, essays, notes, glossary, dossiers, archives |
+| 7 | `inc/seo-schema.php` + `inc/seo/schema-*.php` | JSON-LD loader plus split site/content/archive schema modules |
 | 8 | `inc/seo-meta.php` | titles, descriptions, Open Graph, Twitter image metadata |
 | 9 | `inc/seo-hygiene.php` | robots, redirects, head cleanup, headers, heartbeat, XML-RPC hardening |
 | 10 | `inc/seo-cockpit/seo-cockpit.php` | Search Console admin cockpit, sync, insights, internal-link context |
@@ -99,8 +99,9 @@ redirect home via `inc/seo-hygiene.php`).
 |---|---|
 | `.github/workflows/ci.yml` | PHP lint (matrix 8.1 / 8.3), manifest validation, generated Hook/REST doc drift check, and PHPStan |
 | `scripts/check-manifest.php` | WordPress-independent validator: every `inc/manifest.php` entry exists, no duplicates. Mirrors the runtime guards in `inc/bootstrap.php` |
+| `scripts/check-seo-architecture.php` | WordPress-independent SEO architecture regression check for schema split, URL helper ownership, Dossier breadcrumbs, date guards, and canonical/noindex conditions |
 | `scripts/generate-wp-docs.php` | WordPress-independent generator for `docs/HOOKS.md` and `docs/REST_ROUTES.md`; CI fails when regenerated output differs from committed docs |
-| `composer.json` | dev tooling (PHPStan + WordPress stubs) and `composer run` scripts (`lint`, `check:manifest`, `docs:generate`, `docs:check`, `analyse`, `ci`). `composer.lock` is committed to pin the analyser version |
+| `composer.json` | dev tooling (PHPStan + WordPress stubs) and `composer run` scripts (`lint`, `check:manifest`, `check:seo-architecture`, `docs:generate`, `docs:check`, `analyse`, `ci`). `composer.lock` is committed to pin the analyser version |
 | `phpstan.neon` | static analysis config (level 5, WP stubs). Blocking CI gate: green against `phpstan-baseline.neon`, which freezes pre-existing legacy findings so new regressions fail the build |
 | `phpstan-bootstrap.php` | declares WordPress runtime constants missing from the stubs (`DAY_IN_SECONDS`, `ARRAY_A`, …) to avoid false positives |
 | `phpstan-baseline.neon` | 34 pre-existing findings (seo-cockpit, votes, …) to be paid down incrementally |

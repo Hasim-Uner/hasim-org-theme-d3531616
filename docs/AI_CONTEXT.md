@@ -23,7 +23,7 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 | Dossier | `inc/dossier.php` | `single-dossier.php`, `archive-dossier.php` |
 | Wissensgraph | `inc/graph-api.php` | `assets/js/graph.js`, `page-wissensgraph.php`, `_build-d3/src/d3-custom.js` |
 | Mini graph | `inc/mini-graph.php` | `inc/graph-api.php`, CSS in `style.css` |
-| SEO/meta/schema/sitemap | `inc/seo-meta.php`, `inc/seo-schema.php`, `inc/seo-hygiene.php`, `inc/sitemap.php` | `inc/breadcrumbs.php`, `inc/seo-cockpit/` |
+| SEO/meta/schema/sitemap | `inc/seo-meta.php`, `inc/seo-schema.php`, `inc/seo/schema-*.php`, `inc/seo-hygiene.php`, `inc/sitemap.php` | `inc/breadcrumbs.php`, `inc/seo-cockpit/` |
 | Contact form | `inc/contact.php`, `inc/forms/contact/` | `inc/contacts-admin.php`, `page-kontakt.php`, `inc/contact-local.php.example` |
 | Newsletter | `inc/newsletter.php`, `inc/forms/newsletter/` | `inc/newsletter-broadcast.php`, `front-page.php` |
 | Comments | `inc/comments.php` | `comments.php`, `assets/css/pages/single-editorial.css` |

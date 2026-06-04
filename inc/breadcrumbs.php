@@ -74,6 +74,10 @@ function hp_breadcrumbs_schema_output(): void {
 		hp_breadcrumbs_add_url_item( $items, 'Glossar', get_post_type_archive_link( 'glossar' ) );
 		$items[] = [ 'name' => get_the_title() ];
 
+	} elseif ( is_singular( 'dossier' ) ) {
+		hp_breadcrumbs_add_url_item( $items, 'Dossiers', get_post_type_archive_link( 'dossier' ) );
+		$items[] = [ 'name' => get_the_title() ];
+
 	} elseif ( is_singular( 'page' ) ) {
 		$items[] = [ 'name' => get_the_title() ];
 
@@ -85,6 +89,9 @@ function hp_breadcrumbs_schema_output(): void {
 
 	} elseif ( is_post_type_archive( 'glossar' ) ) {
 		$items[] = [ 'name' => 'Glossar' ];
+
+	} elseif ( is_post_type_archive( 'dossier' ) ) {
+		$items[] = [ 'name' => 'Dossiers' ];
 
 	} elseif ( is_tax( 'topic' ) ) {
 		$items[] = [ 'name' => 'Themenfelder' ];

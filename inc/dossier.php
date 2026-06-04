@@ -400,6 +400,22 @@ function hp_dossier_parse_ids( string $raw ): array {
 }
 
 /**
+ * Parst das redaktionelle Dossier-Stand-Datum defensiv.
+ *
+ * @param string $stand Stand-Meta, erwartet YYYY-MM-DD.
+ * @return int|null Unix-Timestamp oder null bei leerem/ungueltigem Wert.
+ */
+function hp_dossier_parse_stand_timestamp( string $stand ): ?int {
+	$stand = trim( $stand );
+	if ( '' === $stand ) {
+		return null;
+	}
+
+	$timestamp = strtotime( $stand );
+	return false === $timestamp ? null : $timestamp;
+}
+
+/**
  * Liefert die im Leseplan referenzierten Beiträge in
  * der vom Kurator definierten Reihenfolge.
  *
@@ -551,7 +567,8 @@ function hp_dossier_get_citations( int $dossier_id ): array {
 	}
 
 	// Jahr aus Stand-Datum oder Publish-Datum
-	$year = $stand ? date_i18n( 'Y', strtotime( $stand ) ) : get_the_date( 'Y', $dossier_id );
+	$stand_ts = hp_dossier_parse_stand_timestamp( $stand );
+	$year     = null !== $stand_ts ? date_i18n( 'Y', $stand_ts ) : get_the_date( 'Y', $dossier_id );
 
 	// --- APA-Style ---
 	$apa_parts = [ $author_apa . ' (' . $year . ').' ];
@@ -571,7 +588,7 @@ function hp_dossier_get_citations( int $dossier_id ): array {
 	$cite_key       = $last_only . $year . $first_keyword;
 	$note_parts     = [];
 	if ( $version ) { $note_parts[] = 'Version ' . $version; }
-	if ( $stand )   { $note_parts[] = 'Stand: ' . date_i18n( 'j. F Y', strtotime( $stand ) ); }
+	if ( null !== $stand_ts ) { $note_parts[] = 'Stand: ' . date_i18n( 'j. F Y', $stand_ts ); }
 	$bibtex_lines = [
 		'@misc{' . $cite_key . ',',
 		'  author = {' . $author . '},',

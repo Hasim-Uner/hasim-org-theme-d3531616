@@ -26,6 +26,7 @@ Dateien:
 
 - `inc/seo-meta.php`
 - `inc/seo-schema.php`
+- `inc/seo/schema-*.php`
 - `inc/seo-hygiene.php`
 - `inc/sitemap.php`
 - `inc/breadcrumbs.php`

@@ -75,18 +75,21 @@ add_filter( 'wp_sitemaps_taxonomies_query_args', 'hp_sitemap_taxonomies_query_ar
  * @return array<string,mixed>
  */
 function hp_sitemap_posts_query_args( array $args, string $post_type ): array {
-	if ( 'page' !== $post_type ) {
-		return $args;
-	}
-
-	$exclude_slugs = [ 'impressum', 'datenschutz' ];
 	$exclude_ids   = [];
 
-	foreach ( $exclude_slugs as $slug ) {
-		$page = get_page_by_path( $slug );
-		if ( $page instanceof WP_Post ) {
-			$exclude_ids[] = (int) $page->ID;
+	if ( 'page' === $post_type ) {
+		$exclude_slugs = [ 'impressum', 'datenschutz' ];
+
+		foreach ( $exclude_slugs as $slug ) {
+			$page = get_page_by_path( $slug );
+			if ( $page instanceof WP_Post ) {
+				$exclude_ids[] = (int) $page->ID;
+			}
 		}
+	}
+
+	if ( 'dossier' === $post_type && function_exists( 'hp_dossier_get_disabled_ids' ) ) {
+		$exclude_ids = array_merge( $exclude_ids, hp_dossier_get_disabled_ids() );
 	}
 
 	if ( $exclude_ids ) {
