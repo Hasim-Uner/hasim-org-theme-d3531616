@@ -776,12 +776,20 @@ h4 {
 
     .hp-masthead {
         padding: 1.15rem 1.1rem 0;
+        overflow: hidden;
     }
 
     .hp-masthead__meta {
+        gap: 0.9rem;
         font-size: 0.6rem;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.16em;
+        line-height: 1.45;
         padding-bottom: 0.7rem;
+    }
+
+    .hp-masthead__meta-right {
+        max-width: 58%;
+        text-align: right;
     }
 
     .hp-masthead__meta-dot {
@@ -790,6 +798,11 @@ h4 {
 
     .hp-masthead__wordmark {
         padding: 1.2rem 0 1rem;
+    }
+
+    .hp-masthead__wordmark-lower {
+        font-size: clamp(2.85rem, 13vw, 3.35rem);
+        letter-spacing: -0.025em;
     }
 
     .hp-masthead__wordmark-lower-wrap {
