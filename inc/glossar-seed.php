@@ -16,6 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 const HP_GLOSSAR_SEED_VERSION = '2026-06-04-glossar-r13-sterblichkeit-body-intro';
+const HP_STERBLICHKEIT_ESSAY_CONTENT_VERSION = 'r9-sterblichkeit-body-intro';
 
 function hp_run_glossar_seed_once(): void {
 	if ( ! is_admin() ) {
@@ -33,6 +34,29 @@ function hp_run_glossar_seed_once(): void {
 	update_option( 'hp_glossar_seed_version', HP_GLOSSAR_SEED_VERSION, false );
 }
 add_action( 'admin_init', 'hp_run_glossar_seed_once', 25 );
+
+/**
+ * Aktualisiert den Sterblichkeit-Essay einmalig auch ohne Admin-Aufruf.
+ *
+ * Der komplette Glossar-Seed bleibt bewusst Admin-only. Diese kleine Migration
+ * sorgt nur dafür, dass der bereits deployte Essay-Body in der DB ankommt.
+ */
+function hp_run_sterblichkeit_essay_content_seed_once(): void {
+	if ( get_option( 'hp_sterblichkeit_essay_content_seed_version' ) === HP_STERBLICHKEIT_ESSAY_CONTENT_VERSION ) {
+		return;
+	}
+
+	hp_seed_sterblichkeit_essay();
+
+	$essay = get_page_by_path( 'sterblichkeit-kein-softwarefehler', OBJECT, 'essay' );
+	if (
+		$essay instanceof WP_Post
+		&& get_post_meta( $essay->ID, '_hp_essay_content_version', true ) === HP_STERBLICHKEIT_ESSAY_CONTENT_VERSION
+	) {
+		update_option( 'hp_sterblichkeit_essay_content_seed_version', HP_STERBLICHKEIT_ESSAY_CONTENT_VERSION, false );
+	}
+}
+add_action( 'init', 'hp_run_sterblichkeit_essay_content_seed_once', 45 );
 
 /**
  * Einmaliger Cleanup: löscht den abgelösten Essay „Abrechnung mit dem
@@ -542,7 +566,7 @@ function hp_glossar_seed_bump_cache_version(): void {
  */
 function hp_seed_sterblichkeit_essay(): void {
 	$slug            = 'sterblichkeit-kein-softwarefehler';
-	$content_version = 'r9-sterblichkeit-body-intro';
+	$content_version = HP_STERBLICHKEIT_ESSAY_CONTENT_VERSION;
 	$title           = 'Sterblichkeit ist kein Softwarefehler';
 	$excerpt         = 'Milliarden fließen in die Abschaffung des Todes. Das ist kein Fortschritt, sondern eine Flucht – und der Mensch wird nicht gerettet, indem man ihn abschafft.';
 
