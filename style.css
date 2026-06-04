@@ -769,6 +769,11 @@ h4 {
 /* --- Responsive: Mobile --- */
 
 @media (max-width: 767px) {
+    .hp-header-bar,
+    .hp-header-bar * {
+        box-sizing: border-box;
+    }
+
     .hp-masthead {
         padding: 1.15rem 1.1rem 0;
     }
@@ -792,7 +797,7 @@ h4 {
     }
 
     .hp-header-bar {
-        padding: 0 0.75rem 0.7rem;
+        padding: 0 0.55rem 0.65rem;
     }
 
     .hp-nav__list {
@@ -804,21 +809,26 @@ h4 {
     }
 
     .hp-nav__inner {
-        justify-content: flex-start;
+        justify-content: flex-end;
         min-height: 54px;
-        padding-right: 4.9rem;
+        padding: 0.35rem 0.55rem;
     }
 
     .hp-nav {
-        max-width: calc(100vw - 1.5rem);
+        width: 100%;
+        max-width: 100%;
     }
 
     .hp-nav__actions {
-        gap: 0.55rem;
+        position: static;
+        transform: none;
+        max-width: 100%;
+        margin-left: auto;
+        gap: 0.45rem;
     }
 
     .hp-nav-mobile {
-        max-width: calc(100vw - 1.5rem);
+        max-width: calc(100vw - 1.1rem);
     }
 }
 

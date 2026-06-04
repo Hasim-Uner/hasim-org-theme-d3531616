@@ -473,8 +473,21 @@
 }
 
 @media (max-width: 768px) {
+    .journal-front,
+    .journal-front * {
+        box-sizing: border-box;
+    }
+
+    .journal-front {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0.85rem;
+        overflow-x: clip;
+    }
+
     .editorial-hero {
-        padding: 1.45rem 1.15rem 1.55rem;
+        width: 100%;
+        padding: 1.15rem 1rem 1.3rem;
     }
 
     .editorial-hero--atmospheric {
@@ -483,10 +496,19 @@
 
     .editorial-hero__grid {
         gap: var(--hj-space-lg);
+        min-width: 0;
+    }
+
+    .editorial-hero__claim,
+    .editorial-hero__feature {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
     }
 
     .editorial-hero__title {
-        font-size: 2.45rem;
+        font-size: 2.1rem;
+        overflow-wrap: break-word;
     }
 
     .editorial-hero__subline,
@@ -495,7 +517,26 @@
     }
 
     .editorial-hero__button {
+        max-width: 100%;
         width: 100%;
+        padding-inline: 0.75rem;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .editorial-hero__feature {
+        padding: 1.15rem;
+    }
+
+    .editorial-hero__feature-title {
+        font-size: 1.35rem;
+        overflow-wrap: break-word;
+    }
+
+    .editorial-hero__excerpt {
+        max-width: 100%;
+        font-size: 0.96rem;
+        overflow-wrap: break-word;
     }
 
     .hp-front-entity__inner {
