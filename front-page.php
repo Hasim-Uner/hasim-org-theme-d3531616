@@ -69,7 +69,7 @@ get_header(); ?>
         <div class="editorial-hero__grid">
 
             <div class="editorial-hero__claim">
-                <h1 id="front-hero-title" class="editorial-hero__title">Zusammendenken&#8288;, was getrennt erscheint.</h1>
+                <h1 id="front-hero-title" class="editorial-hero__title">Zusammendenken, was getrennt erscheint.</h1>
                 <p class="editorial-hero__subline">Essays und Notizen über Macht, Medien, Erinnerung, Sprache und Gesellschaft.</p>
 
                 <div class="editorial-hero__actions" aria-label="Startpunkte">

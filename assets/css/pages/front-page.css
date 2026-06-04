@@ -72,7 +72,7 @@
 }
 
 .editorial-hero__claim {
-    max-width: 680px;
+    max-width: 760px;
 }
 
 .editorial-hero__eyebrow,
@@ -100,7 +100,7 @@
     border-bottom: 0;
     font-family: var(--hj-serif);
     font-weight: 900;
-    font-size: 3.55rem;
+    font-size: 3.25rem;
     line-height: 1.05;
     letter-spacing: 0;
     color: var(--hj-rule);
