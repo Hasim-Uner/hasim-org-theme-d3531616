@@ -128,7 +128,141 @@ function hp_register_glossar_meta(): void {
 add_action( 'init', 'hp_register_glossar_meta' );
 
 /* =========================================
-   3. GUTENBERG SIDEBAR-PANEL
+   3. ZENTRALER TERM-INDEX
+   ========================================= */
+
+/**
+ * Parst die komma-separierten Synonyme eines Glossar-Eintrags.
+ *
+ * @param string $raw Rohwert aus `_hp_glossar_synonyme`.
+ * @return string[]
+ */
+function hp_glossar_parse_synonyms( string $raw ): array {
+	if ( '' === trim( $raw ) ) {
+		return [];
+	}
+
+	$synonyms = [];
+	foreach ( explode( ',', $raw ) as $synonym ) {
+		$synonym = trim( $synonym );
+		if ( '' !== $synonym ) {
+			$synonyms[] = $synonym;
+		}
+	}
+
+	return array_values( array_unique( $synonyms ) );
+}
+
+/**
+ * Normalisiert Titel + Synonyme zu eindeutigen Match-Varianten.
+ *
+ * @param string[] $variants Rohvarianten.
+ * @return string[]
+ */
+function hp_glossar_normalize_variants( array $variants ): array {
+	$normalized = [];
+	$seen       = [];
+
+	foreach ( $variants as $variant ) {
+		$variant = trim( (string) $variant );
+		if ( '' === $variant ) {
+			continue;
+		}
+
+		$key = mb_strtolower( $variant );
+		if ( isset( $seen[ $key ] ) ) {
+			continue;
+		}
+
+		$seen[ $key ]   = true;
+		$normalized[] = $variant;
+	}
+
+	return $normalized;
+}
+
+/**
+ * Liefert einen zentralen, request-lokal gecachten Index aller Glossar-Terme.
+ *
+ * Der Index ist die gemeinsame Quelle fuer Autolinking, zentrale Begriffe,
+ * Graph-Matches und kuenftige Schema-/Preview-Verbraucher.
+ *
+ * @param array<int,\WP_Post|int>|null $entries Optionale Glossar-Posts/-IDs, um bereits geladene Queries wiederzuverwenden.
+ * @return array<int,array{id:int,post:\WP_Post,title:string,synonyms:string[],variants:string[],url:string,relative_url:string,short:string,lang_ku:string,lang_tr:string,node_id:string}>
+ */
+function hp_glossar_get_term_index( ?array $entries = null ): array {
+	static $default_index = null;
+
+	$use_default_query = null === $entries;
+
+	if ( $use_default_query && null !== $default_index ) {
+		return $default_index;
+	}
+
+	if ( $use_default_query ) {
+		$entries = get_posts( [
+			'post_type'      => 'glossar',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		] );
+	}
+
+	if ( empty( $entries ) ) {
+		if ( $use_default_query ) {
+			$default_index = [];
+		}
+		return [];
+	}
+
+	$index = [];
+	foreach ( $entries as $entry ) {
+		$post = $entry instanceof \WP_Post ? $entry : get_post( (int) $entry );
+		if ( ! $post || 'glossar' !== $post->post_type || 'publish' !== $post->post_status ) {
+			continue;
+		}
+
+		$title    = get_the_title( $post );
+		$synonyms = hp_glossar_parse_synonyms( (string) get_post_meta( $post->ID, '_hp_glossar_synonyme', true ) );
+		$variants = hp_glossar_normalize_variants( array_merge( [ $title ], $synonyms ) );
+		$url      = get_permalink( $post );
+
+		$index[ $post->ID ] = [
+			'id'           => (int) $post->ID,
+			'post'         => $post,
+			'title'        => (string) $title,
+			'synonyms'     => $synonyms,
+			'variants'     => $variants,
+			'url'          => is_string( $url ) ? $url : '',
+			'relative_url' => is_string( $url ) ? wp_make_link_relative( $url ) : '',
+			'short'        => (string) get_post_meta( $post->ID, '_hp_glossar_kurz', true ),
+			'lang_ku'      => (string) get_post_meta( $post->ID, '_hp_glossar_lang_ku', true ),
+			'lang_tr'      => (string) get_post_meta( $post->ID, '_hp_glossar_lang_tr', true ),
+			'node_id'      => 'glossar_' . (int) $post->ID,
+		];
+	}
+
+	if ( $use_default_query ) {
+		$default_index = $index;
+	}
+
+	return $index;
+}
+
+/**
+ * Liefert einen einzelnen Glossar-Term aus dem zentralen Index.
+ *
+ * @param int $post_id Glossar-Post-ID.
+ * @return array{id:int,post:\WP_Post,title:string,synonyms:string[],variants:string[],url:string,relative_url:string,short:string,lang_ku:string,lang_tr:string,node_id:string}|null
+ */
+function hp_glossar_get_term( int $post_id ): ?array {
+	$index = hp_glossar_get_term_index();
+
+	return $index[ $post_id ] ?? null;
+}
+
+/* =========================================
+   4. GUTENBERG SIDEBAR-PANEL
    ========================================= */
 
 /**
@@ -252,7 +386,7 @@ function hp_glossar_editor_panel(): void {
 add_action( 'enqueue_block_editor_assets', 'hp_glossar_editor_panel' );
 
 /* =========================================
-   4. AUTO-LINKING IN CONTENT
+   5. AUTO-LINKING IN CONTENT
    ========================================= */
 
 /**
@@ -291,52 +425,23 @@ function hp_glossar_auto_link( string $content ): string {
 		return $cached;
 	}
 
-	// Glossar-Einträge laden
-	$entries = get_posts( [
-		'post_type'      => 'glossar',
-		'post_status'    => 'publish',
-		'posts_per_page' => -1,
-		'fields'         => 'ids',
-	] );
-
-	if ( empty( $entries ) ) {
-		return $content;
-	}
-
-	// Begriffe sammeln: Titel + Synonyme → URL + Kurzdefinition
+	// Begriffe sammeln: Titel + Synonyme -> URL + Kurzdefinition
 	$terms = [];
-	foreach ( $entries as $entry_id ) {
-		$title   = get_the_title( $entry_id );
-		$url     = get_permalink( $entry_id );
-		$kurz    = get_post_meta( $entry_id, '_hp_glossar_kurz', true );
-		$tooltip = esc_attr( wp_strip_all_tags( $kurz ) );
-
-		// Hauptbegriff
-		if ( $title ) {
-			$terms[] = [
-				'key'     => (string) $entry_id,
-				'pattern' => preg_quote( $title, '/' ),
-				'url'     => $url,
-				'tooltip' => $tooltip,
-				'label'   => $title,
-			];
+	foreach ( hp_glossar_get_term_index() as $term_entry ) {
+		if ( '' === $term_entry['url'] || empty( $term_entry['variants'] ) ) {
+			continue;
 		}
 
-		// Synonyme
-		$synonyme = get_post_meta( $entry_id, '_hp_glossar_synonyme', true );
-		if ( $synonyme ) {
-			foreach ( explode( ',', $synonyme ) as $syn ) {
-				$syn = trim( $syn );
-				if ( $syn ) {
-					$terms[] = [
-						'key'     => (string) $entry_id,
-						'pattern' => preg_quote( $syn, '/' ),
-						'url'     => $url,
-						'tooltip' => $tooltip,
-						'label'   => $title,
-					];
-				}
-			}
+		$tooltip = wp_strip_all_tags( $term_entry['short'] );
+		foreach ( $term_entry['variants'] as $variant ) {
+			$terms[] = [
+				'key'     => (string) $term_entry['id'],
+				'pattern' => preg_quote( $variant, '/' ),
+				'length'  => mb_strlen( $variant ),
+				'url'     => $term_entry['url'],
+				'tooltip' => $tooltip,
+				'label'   => $term_entry['title'],
+			];
 		}
 	}
 
@@ -346,7 +451,7 @@ function hp_glossar_auto_link( string $content ): string {
 
 	// Längere Begriffe zuerst (verhindert Teilersetzung)
 	usort( $terms, function ( $a, $b ) {
-		return mb_strlen( $b['pattern'] ) - mb_strlen( $a['pattern'] );
+		return (int) $b['length'] - (int) $a['length'];
 	} );
 
 	// Gutenberg-Kommentare entfernen → nach Verarbeitung zurücksetzen
@@ -498,7 +603,7 @@ function hp_glossar_auto_link( string $content ): string {
 add_filter( 'the_content', 'hp_glossar_auto_link', 20 );
 
 /* =========================================
-   5. CACHE INVALIDIERUNG (versionbasiert)
+   6. CACHE INVALIDIERUNG (versionbasiert)
    ========================================= */
 
 /**
@@ -576,7 +681,7 @@ function hp_glossar_flush_on_status_change( string $new_status, string $old_stat
 add_action( 'transition_post_status', 'hp_glossar_flush_on_status_change', 10, 3 );
 
 /* =========================================
-   6. EINMALIGE CACHE-MIGRATION (Markup-Wechsel)
+   7. EINMALIGE CACHE-MIGRATION (Markup-Wechsel)
    ========================================= */
 
 /**
@@ -673,30 +778,17 @@ function hp_get_central_terms( int $post_id, int $limit = 6 ): array {
 		return [];
 	}
 
-	$entries = get_posts( [
-		'post_type'      => 'glossar',
-		'post_status'    => 'publish',
-		'posts_per_page' => -1,
-	] );
-	if ( empty( $entries ) ) {
+	$term_index = hp_glossar_get_term_index();
+	if ( empty( $term_index ) ) {
 		return [];
 	}
 
 	$plain = wp_strip_all_tags( $content );
 	$found = [];
 
-	foreach ( $entries as $entry ) {
-		$variants = [ get_the_title( $entry->ID ) ];
-		$syn      = (string) get_post_meta( $entry->ID, '_hp_glossar_synonyme', true );
-		if ( $syn ) {
-			foreach ( explode( ',', $syn ) as $s ) {
-				$s = trim( $s );
-				if ( $s ) { $variants[] = $s; }
-			}
-		}
-
+	foreach ( $term_index as $term_entry ) {
 		$best_pos = PHP_INT_MAX;
-		foreach ( $variants as $v ) {
+		foreach ( $term_entry['variants'] as $v ) {
 			if ( '' === $v ) { continue; }
 			$pos = mb_stripos( $plain, $v );
 			if ( false !== $pos && $pos < $best_pos ) {
@@ -704,7 +796,7 @@ function hp_get_central_terms( int $post_id, int $limit = 6 ): array {
 			}
 		}
 		if ( PHP_INT_MAX !== $best_pos ) {
-			$found[] = [ 'entry' => $entry, 'pos' => $best_pos ];
+			$found[] = [ 'entry' => $term_entry['post'], 'pos' => $best_pos ];
 		}
 	}
 

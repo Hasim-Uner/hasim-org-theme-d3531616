@@ -25,7 +25,7 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | 9 | `inc/seo-hygiene.php` | robots, redirects, head cleanup, headers, heartbeat, XML-RPC hardening |
 | 10 | `inc/seo-cockpit/seo-cockpit.php` | Search Console admin cockpit, sync, insights, internal-link context |
 | 11 | `inc/sitemap.php` | WordPress core sitemap hygiene |
-| 12 | `inc/glossary.php` | glossary CPT, meta, editor UI, auto-linking, cache invalidation |
+| 12 | `inc/glossary.php` | glossary CPT, meta, shared term index, editor UI, auto-linking, cache invalidation |
 | 13 | `inc/link-preview.php` | REST preview data for internal links |
 | 14 | `inc/dossier.php` | dossier CPT, meta, editor UI, relationships, citation box |
 | 15 | `inc/breadcrumbs.php` | breadcrumb schema |
@@ -48,7 +48,7 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 |---|---|---|---|
 | `essay` | `inc/post-types.php` | `single-essay.php`, `archive-essay.php`, `template-parts/content-essay.php` | long-form content, reading time, schema |
 | `note` | `inc/post-types.php` | `single-note.php`, `archive-note.php`, `template-parts/content-note.php` | shorter editorial notes |
-| `glossar` | `inc/glossary.php` | `single-glossar.php`, `archive-glossar.php`, `template-parts/content-glossar.php` | glossary knowledge base, auto-link source |
+| `glossar` | `inc/glossary.php` | `single-glossar.php`, `archive-glossar.php`, `template-parts/content-glossar.php` | glossary knowledge base, auto-link source, shared term index |
 | `dossier` | `inc/dossier.php` | `single-dossier.php`, `archive-dossier.php` | curated reading paths and citations |
 | `page` | WordPress | `page-*.php` | mission, contact, graph, legal pages |
 | `topic` taxonomy | `inc/taxonomies.php` | `taxonomy-topic.php` | topic pillar/archive pages |
@@ -74,6 +74,12 @@ This is a WordPress child theme. `functions.php` is the WordPress entry point. I
 | `nexus_seo_cockpit_*` options/transients | `inc/seo-cockpit/` | Search Console settings, OAuth tokens, runtime state and report caches |
 | `hp_graph_payload`, `hp_graph_version`, `hp_graph_status` options | `inc/graph-api.php` | compiled knowledge graph JSON, rebuilt by `hp_graph_rebuild_event` |
 | transients | link/glossary modules | link previews and glossary auto-link caches |
+
+## Shared Indexes
+
+| Helper | Owner | Consumers | Purpose |
+|---|---|---|---|
+| `hp_glossar_get_term_index()` | `inc/glossary.php` | `hp_glossar_auto_link()`, `hp_get_central_terms()`, `inc/graph-api.php` | shared Glossar title/synonym/URL/short-definition/language/node metadata for term matching and relationship extraction |
 
 ## Runtime & Operations Modules (since 5.8.0)
 

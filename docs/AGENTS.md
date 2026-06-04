@@ -71,6 +71,7 @@ Verbote:
 - Kein synchroner Graph-Rebuild im Render-Pfad.
 - Keine neue Relation nur im Template verstecken, wenn sie in den Graph gehoert.
 - Keine Dossier-/Glossar-ID-Listen ohne exakte Parse-/Validation-Logik verwenden.
+- Keine eigenen Glossar-Titel-/Synonym-Scans bauen; fuer Term-Matches `hp_glossar_get_term_index()` nutzen.
 
 Abhaengigkeiten:
 

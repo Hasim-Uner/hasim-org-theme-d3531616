@@ -59,6 +59,8 @@ Erwarteter Wartbarkeitsgewinn: Hoch.
 
 ## 3. Glossar-Term-Index zentralisieren
 
+Status: umgesetzt am 2026-06-04 fuer `hp_glossar_get_term_index()`, Autolinking, zentrale Begriffe und Graph-Glossar-Matches. Link-Preview-Cache und JSON-LD-Erweiterungen bleiben eigene Folgeschritte.
+
 Problem: Glossar-Autolinking, zentrale Begriffe und Graph-Build scannen Titel/Synonyme getrennt. Dadurch entstehen doppelte Logik, abweichende Treffer und unnoetige Laufzeitkosten.
 
 Nutzen: Ein gemeinsamer Index fuer Titel, Synonyme, URL, Kurzdefinition, Sprache und Ziel-ID macht Auto-Linking, Graph-Edges und SEO-Schema konsistenter.

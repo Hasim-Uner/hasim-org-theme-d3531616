@@ -222,6 +222,7 @@ files:
     affects:
       - glossar CPT
       - glossary meta
+      - shared glossary term index
       - auto-linking
       - central terms
       - graph glossary edges

@@ -236,25 +236,22 @@ function hp_graph_build_data(): array {
 	}
 
 	// --- Edges: glossar_in_content ---
+	$glossar_posts = array_values( array_filter( $post_map, static function ( WP_Post $post ): bool {
+		return 'glossar' === $post->post_type;
+	} ) );
+	$glossar_index   = function_exists( 'hp_glossar_get_term_index' ) ? hp_glossar_get_term_index( $glossar_posts ) : [];
 	$glossar_entries = [];
-	foreach ( $post_map as $node_id => $post ) {
-		if ( 'glossar' !== $post->post_type ) {
+
+	foreach ( $glossar_index as $term_entry ) {
+		$node_id = (string) $term_entry['node_id'];
+		if ( ! isset( $nodes[ $node_id ] ) || empty( $term_entry['variants'] ) ) {
 			continue;
 		}
-		$title = get_the_title( $post );
-		$patterns = [];
-		if ( $title ) {
-			$patterns[] = preg_quote( $title, '/' );
-		}
-		$synonyme = get_post_meta( $post->ID, '_hp_glossar_synonyme', true );
-		if ( $synonyme ) {
-			foreach ( explode( ',', $synonyme ) as $syn ) {
-				$syn = trim( $syn );
-				if ( $syn ) {
-					$patterns[] = preg_quote( $syn, '/' );
-				}
-			}
-		}
+
+		$patterns = array_map( static function ( string $variant ): string {
+			return preg_quote( $variant, '/' );
+		}, $term_entry['variants'] );
+
 		if ( ! empty( $patterns ) ) {
 			$glossar_entries[ $node_id ] = $patterns;
 		}

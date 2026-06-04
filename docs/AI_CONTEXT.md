@@ -19,7 +19,7 @@ Purpose: keep AI and human review focused. Start with this file, then open only 
 | Header/navigation | `inc/header-nav.php` | `assets/js/nav.js`, header sections in `style.css` |
 | Essay/note templates | `single-essay.php`, `single-note.php` | `assets/js/journal-single.js`, `assets/css/pages/single-editorial.css`, `assets/css/components/related.css`, `assets/css/components/post-nav.css` |
 | Topic archive | `taxonomy-topic.php` | `inc/taxonomies.php`, `assets/css/pages/topic-archive.css` |
-| Glossary | `inc/glossary.php` | `single-glossar.php`, `archive-glossar.php`, `assets/js/link-preview.js` |
+| Glossary | `inc/glossary.php` | `single-glossar.php`, `archive-glossar.php`, `assets/js/link-preview.js`; use `hp_glossar_get_term_index()` for title/synonym matching |
 | Dossier | `inc/dossier.php` | `single-dossier.php`, `archive-dossier.php` |
 | Wissensgraph | `inc/graph-api.php` | `assets/js/graph.js`, `page-wissensgraph.php`, `_build-d3/src/d3-custom.js` |
 | Mini graph | `inc/mini-graph.php` | `inc/graph-api.php`, CSS in `style.css` |
@@ -42,7 +42,7 @@ Do not open these unless the task directly needs them:
 ## Current Hotspots
 
 - `style.css`: 3,326 lines, still the largest active stylesheet and should be split further.
-- `inc/graph-api.php`: graph build still does full post loading, but shared-topic edges use a topic-to-node map, glossary matching uses chunked term regexes, and rebuilds stay on the scheduled `hp_graph_rebuild_event`.
+- `inc/graph-api.php`: graph build still does full post loading, but shared-topic edges use a topic-to-node map, glossary matching uses chunked term regexes sourced from `hp_glossar_get_term_index()`, and rebuilds stay on the scheduled `hp_graph_rebuild_event`.
 
 ## Context Budget Rules
 
@@ -57,7 +57,10 @@ Do not open these unless the task directly needs them:
 Run PHP syntax check after PHP changes:
 
 ```sh
-find . -name '*.php' -not -path './_stitch/*' -not -path './_build-d3/*' -print0 | xargs -0 -n 1 php -l
+find . -name '*.php' -not -path './vendor/*' -not -path './_stitch/*' -not -path './_build-d3/*' -not -path './inc/contact-local.php' -print0 | xargs -0 -n 1 php -l
+php scripts/check-manifest.php
+php scripts/generate-wp-docs.php
+git diff --exit-code -- docs/HOOKS.md docs/REST_ROUTES.md
 ```
 
 Run D3 build only after `_build-d3/src/d3-custom.js` or `_build-d3/package.json` changes:

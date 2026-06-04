@@ -138,7 +138,7 @@ Bewertung: Graph und Link-Preview sind sauber oeffentlich lesbar. Vote-Route ist
 | P1 | Dossiers in Graph-Payload aufnehmen | Hoch | Mittel | Mittel | Hoch | Hoch |
 | P1 | Stabile Entity-ID-Policy fuer JSON-LD definieren | Hoch | Mittel | Mittel | Hoch | Hoch |
 | P1 | Graph-Edge-Build ueber Term-Index statt Post-Paarvergleich | Hoch | Mittel | Mittel | Mittel | Hoch |
-| P1 | Glossar-Term-Index fuer Auto-Link, Zentralbegriffe und Graph teilen | Hoch | Mittel | Mittel | Hoch | Hoch |
+| P1 | Glossar-Term-Index fuer Auto-Link, Zentralbegriffe und Graph teilen (umgesetzt 2026-06-04) | Hoch | Mittel | Mittel | Hoch | Hoch |
 | P2 | Inline-Editor-JS in dedizierte Editor-Assets auslagern | Mittel | Mittel | Niedrig | Niedrig | Hoch |
 | P2 | Restliche Feature-CSS aus `style.css` nach Ownern extrahieren | Mittel | Mittel | Mittel | Mittel | Hoch |
 | P2 | Dossier-Relationen typisieren statt comma-separated IDs | Hoch | Hoch | Mittel | Hoch | Hoch |

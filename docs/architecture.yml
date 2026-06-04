@@ -331,7 +331,7 @@ modules:
       - curated core URL list
 
   glossary:
-    purpose: Glossary CPT, meta, editor UI, auto-linking, central terms and cache invalidation.
+    purpose: Glossary CPT, meta, shared term index, editor UI, auto-linking, central terms and cache invalidation.
     files:
       - inc/glossary.php
       - single-glossar.php

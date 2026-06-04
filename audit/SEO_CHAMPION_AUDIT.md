@@ -88,7 +88,9 @@ SEO-Cockpit sollte diese Linktypen getrennt ausweisen, damit ein Agent nicht nur
 
 Impact: mittel bis hoch
 
-Autolinking, zentrale Begriffe und Graph scannen aehnliche Glossar-Daten getrennt. Ein gemeinsamer Term-Index wuerde:
+Status 2026-06-04: Autolinking, zentrale Begriffe und Graph-Glossar-Matches nutzen `hp_glossar_get_term_index()`. Link-Preview-Cache und JSON-LD-Erweiterungen bleiben separate Folgeschritte.
+
+Autolinking, zentrale Begriffe und Graph scannten zuvor aehnliche Glossar-Daten getrennt. Der gemeinsame Term-Index soll weiter:
 
 - False Positives reduzieren.
 - Beziehungen konsistenter machen.

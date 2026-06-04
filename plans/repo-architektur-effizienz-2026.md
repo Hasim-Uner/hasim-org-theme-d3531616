@@ -211,7 +211,7 @@ Aktionen:
 
 1. Graph-Build umbauen:
    - Shared-Topic-Edges ueber `topic_id -> post_ids` erzeugen statt alle Post-Paare mit `array_intersect()` zu vergleichen: **umgesetzt**.
-   - Glossar-Suche ueber einen zentralen Term-Index vorbereiten: normalisierte Begriffe, Synonyme, Ziel-ID: **teilweise umgesetzt** als chunked Regex-Index.
+   - Glossar-Suche ueber einen zentralen Term-Index vorbereiten: normalisierte Begriffe, Synonyme, Ziel-ID: **umgesetzt** mit `hp_glossar_get_term_index()` plus chunked Regex-Index im Graph.
    - Knotenlimit und Edge-Limit getrennt konfigurieren.
 
 2. Cache-Versionen trennen:
