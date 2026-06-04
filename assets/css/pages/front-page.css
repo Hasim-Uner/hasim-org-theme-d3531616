@@ -106,6 +106,10 @@
     color: var(--hj-rule);
 }
 
+.editorial-hero__title-line {
+    display: block;
+}
+
 .editorial-hero__subline {
     max-width: 620px;
     margin: 0;
