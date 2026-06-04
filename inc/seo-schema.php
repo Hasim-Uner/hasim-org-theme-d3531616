@@ -91,7 +91,7 @@ function hp_schema_topic_entity_id( $term ): string {
 	}
 
 	$link = get_term_link( $term_obj );
-	if ( ! is_string( $link ) || '' === $link ) {
+	if ( is_wp_error( $link ) || ! is_string( $link ) || '' === $link ) {
 		return '';
 	}
 
@@ -118,7 +118,7 @@ function hp_schema_topic_reference( $term ): ?array {
 	}
 
 	$link = get_term_link( $term_obj );
-	if ( ! is_string( $link ) || '' === $link ) {
+	if ( is_wp_error( $link ) || ! is_string( $link ) || '' === $link ) {
 		return null;
 	}
 
@@ -161,6 +161,27 @@ function hp_schema_post_type_name( $post ): string {
 	}
 
 	return 'CreativeWork';
+}
+
+/**
+ * Liefert einen ISO-8601-Zeitstempel aus redaktionellen Datumsstrings.
+ *
+ * @param string $date_string Datumswert aus Post-Meta.
+ * @param string $fallback    Fallback-ISO-Zeitstempel.
+ * @return string
+ */
+function hp_schema_iso_datetime_from_meta_date( string $date_string, string $fallback ): string {
+	$date_string = trim( $date_string );
+	if ( '' === $date_string ) {
+		return $fallback;
+	}
+
+	$timestamp = strtotime( $date_string );
+	if ( false === $timestamp ) {
+		return $fallback;
+	}
+
+	return date( 'c', $timestamp );
 }
 
 /**
@@ -624,7 +645,7 @@ function hp_dossier_jsonld_schema(): void {
 		'@id'              => $entity_id,
 		'headline'         => get_the_title( $post ),
 		'datePublished'    => get_the_date( 'c', $post ),
-		'dateModified'     => $stand ? date( 'c', strtotime( $stand ) ) : get_the_modified_date( 'c', $post ),
+		'dateModified'     => hp_schema_iso_datetime_from_meta_date( $stand, get_the_modified_date( 'c', $post ) ),
 		'description'      => $desc,
 		'abstract'         => $desc,
 		'author'           => [ '@id' => $person_id ],
@@ -717,16 +738,24 @@ function hp_archive_jsonld_schema(): void {
 	$obj = get_queried_object();
 
 	if ( $is_cpt_archive ) {
+		if ( ! ( $obj instanceof WP_Post_Type ) ) {
+			return;
+		}
+
 		$name = post_type_archive_title( '', false );
 		$url  = get_post_type_archive_link( $obj->name );
 		$desc = ! empty( $obj->description ) ? wp_strip_all_tags( $obj->description ) : '';
 	} else {
+		if ( ! ( $obj instanceof WP_Term ) ) {
+			return;
+		}
+
 		$name = single_term_title( '', false );
 		$url  = get_term_link( $obj );
 		$desc = wp_strip_all_tags( term_description() );
 	}
 
-	if ( ! is_string( $url ) || '' === $url ) {
+	if ( is_wp_error( $url ) || ! is_string( $url ) || '' === $url ) {
 		return;
 	}
 

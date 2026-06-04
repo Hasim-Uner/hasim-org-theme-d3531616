@@ -13,6 +13,32 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Fuegt ein Breadcrumb-Item nur mit gueltiger URL hinzu.
+ *
+ * @param array<int,array<string,string>> $items Breadcrumb-Liste.
+ * @param string                          $name  Sichtbarer Name.
+ * @param mixed                           $url   URL aus einer WP-API.
+ * @return void
+ */
+function hp_breadcrumbs_add_url_item( array &$items, string $name, $url ): void {
+	if ( function_exists( 'hp_normalize_public_url' ) ) {
+		$normalized = hp_normalize_public_url( $url, '' );
+	} else {
+		$normalized = ( is_wp_error( $url ) || ! is_string( $url ) ) ? '' : $url;
+	}
+
+	if ( '' === $normalized ) {
+		$items[] = [ 'name' => $name ];
+		return;
+	}
+
+	$items[] = [
+		'name' => $name,
+		'url'  => $normalized,
+	];
+}
+
+/**
  * Baut die Breadcrumb-Items für den aktuellen Seitenkontext
  * und gibt BreadcrumbList JSON-LD im <head> aus.
  */
@@ -29,38 +55,23 @@ function hp_breadcrumbs_schema_output(): void {
 	];
 
 	if ( is_singular( 'essay' ) ) {
-		$items[] = [
-			'name' => 'Essays',
-			'url'  => get_post_type_archive_link( 'essay' ),
-		];
+		hp_breadcrumbs_add_url_item( $items, 'Essays', get_post_type_archive_link( 'essay' ) );
 		$topics = get_the_terms( get_the_ID(), 'topic' );
 		if ( $topics && ! is_wp_error( $topics ) ) {
-			$items[] = [
-				'name' => $topics[0]->name,
-				'url'  => get_term_link( $topics[0] ),
-			];
+			hp_breadcrumbs_add_url_item( $items, $topics[0]->name, get_term_link( $topics[0] ) );
 		}
 		$items[] = [ 'name' => get_the_title() ];
 
 	} elseif ( is_singular( 'note' ) ) {
-		$items[] = [
-			'name' => 'Notizen',
-			'url'  => get_post_type_archive_link( 'note' ),
-		];
+		hp_breadcrumbs_add_url_item( $items, 'Notizen', get_post_type_archive_link( 'note' ) );
 		$topics = get_the_terms( get_the_ID(), 'topic' );
 		if ( $topics && ! is_wp_error( $topics ) ) {
-			$items[] = [
-				'name' => $topics[0]->name,
-				'url'  => get_term_link( $topics[0] ),
-			];
+			hp_breadcrumbs_add_url_item( $items, $topics[0]->name, get_term_link( $topics[0] ) );
 		}
 		$items[] = [ 'name' => get_the_title() ];
 
 	} elseif ( is_singular( 'glossar' ) ) {
-		$items[] = [
-			'name' => 'Glossar',
-			'url'  => get_post_type_archive_link( 'glossar' ),
-		];
+		hp_breadcrumbs_add_url_item( $items, 'Glossar', get_post_type_archive_link( 'glossar' ) );
 		$items[] = [ 'name' => get_the_title() ];
 
 	} elseif ( is_singular( 'page' ) ) {

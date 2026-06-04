@@ -319,8 +319,11 @@ function hp_output_seo_meta_tags(): void {
 
 	echo "\n<!-- Haşim Üner: SEO-Meta -->\n";
 
-	// Canonical URL
-	printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $url ) );
+	// Canonical URL. Noindex-Seiten sollen kein konkurrierendes
+	// kanonisches Ziel signalisieren.
+	if ( hp_should_output_canonical() ) {
+		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $url ) );
+	}
 
 	// Meta-Description
 	if ( $desc ) {
@@ -482,29 +485,91 @@ function hp_get_attachment_social_image_data( int $attachment_id, $size = 'hp-og
 }
 
 /**
+ * Normalisiert eine WordPress-URL-Rueckgabe auf einen sicheren String.
+ *
+ * WP-APIs wie `get_term_link()` koennen `WP_Error` liefern; SEO-Ausgabe
+ * braucht aber immer einen druckbaren URL-String.
+ *
+ * @param mixed  $url      URL-Rueckgabe einer WP-API.
+ * @param string|null $fallback Fallback-URL. `null` nutzt die Startseite.
+ * @return string
+ */
+function hp_normalize_public_url( $url, ?string $fallback = null ): string {
+	if ( is_wp_error( $url ) || ! is_string( $url ) || '' === $url ) {
+		return null === $fallback ? home_url( '/' ) : $fallback;
+	}
+
+	return $url;
+}
+
+/**
+ * Bestimmt, ob die aktuelle Anfrage ein Canonical-Tag erhalten soll.
+ *
+ * Noindex-Kontexte aus `hp_seo_robots()` bleiben ohne Canonical, damit
+ * Suchmaschinen keine gemischten Indexierungs-Signale bekommen.
+ *
+ * @return bool
+ */
+function hp_should_output_canonical(): bool {
+	if ( is_search() || is_404() || is_attachment() || is_paged() ) {
+		return false;
+	}
+
+	if ( is_tax() ) {
+		$term = get_queried_object();
+		if ( $term instanceof WP_Term && (int) $term->count === 0 ) {
+			return false;
+		}
+	}
+
+	if ( is_post_type_archive() ) {
+		global $wp_query;
+		if ( $wp_query instanceof WP_Query && (int) $wp_query->found_posts === 0 ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
  * Aktuelle URL sauber ermitteln.
  *
  * @return string Vollständige URL der aktuellen Seite.
  */
 function hp_get_current_url(): string {
 	if ( is_singular() ) {
-		return get_permalink();
+		return hp_normalize_public_url( get_permalink(), home_url( '/' ) );
 	}
 
 	if ( is_front_page() || is_home() ) {
 		return home_url( '/' );
 	}
 
+	if ( is_search() ) {
+		return hp_normalize_public_url( get_search_link(), home_url( '/' ) );
+	}
+
 	if ( is_post_type_archive() ) {
-		return get_post_type_archive_link( get_queried_object()->name );
+		$obj = get_queried_object();
+		if ( $obj instanceof WP_Post_Type ) {
+			return hp_normalize_public_url( get_post_type_archive_link( $obj->name ), home_url( '/' ) );
+		}
 	}
 
 	if ( is_tax() || is_category() || is_tag() ) {
-		return get_term_link( get_queried_object() );
+		$obj = get_queried_object();
+		if ( $obj instanceof WP_Term ) {
+			return hp_normalize_public_url( get_term_link( $obj ), home_url( '/' ) );
+		}
 	}
 
-	// Fallback
-	return home_url( add_query_arg( null, null ) );
+	$request_uri = isset( $_SERVER['REQUEST_URI'] )
+		? (string) wp_unslash( $_SERVER['REQUEST_URI'] )
+		: '/';
+	$path        = wp_parse_url( $request_uri, PHP_URL_PATH );
+
+	return home_url( is_string( $path ) && '' !== $path ? $path : '/' );
 }
 
 /**
