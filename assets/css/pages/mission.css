@@ -175,6 +175,17 @@
     margin-top: 0.75rem;
 }
 
+.hp-mission-audio__direct {
+    display: inline-flex;
+    margin-top: 0.65rem;
+    font-family: var(--hj-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #b72d2d;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+}
+
 @media (max-width: 620px) {
     .hp-mission-audio {
         padding: 0.9rem;

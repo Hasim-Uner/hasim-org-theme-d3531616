@@ -15,7 +15,7 @@ $hp_essay_url   = get_post_type_archive_link( 'essay' );
 $hp_note_url    = get_post_type_archive_link( 'note' );
 $hp_contact_url = hp_get_contact_page_url();
 
-$hp_mission_audio_id  = 192;
+$hp_mission_audio_id  = 193;
 $hp_mission_audio_url = wp_get_attachment_url( $hp_mission_audio_id );
 ?>
 
@@ -48,7 +48,11 @@ $hp_mission_audio_url = wp_get_attachment_url( $hp_mission_audio_id );
 					<span class="hp-mission-audio__time" data-hp-audio-time>0:00 / 0:00</span>
 				</div>
 
-				<audio class="hp-mission-audio__media" src="<?php echo esc_url( $hp_mission_audio_url ); ?>" preload="metadata" controls data-hp-audio-media></audio>
+				<audio class="hp-mission-audio__media" preload="auto" controls data-hp-audio-media>
+					<source src="<?php echo esc_url( $hp_mission_audio_url ); ?>" type="audio/mpeg">
+				</audio>
+
+				<a class="hp-mission-audio__direct" href="<?php echo esc_url( $hp_mission_audio_url ); ?>" target="_blank" rel="noopener noreferrer">Audio direkt öffnen</a>
 			</div>
 		<?php endif; ?>
 	</header>

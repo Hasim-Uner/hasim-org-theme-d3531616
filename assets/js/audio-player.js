@@ -1,20 +1,28 @@
 ( function() {
+    function isFiniteNumber( value ) {
+        return typeof value === 'number' && isFinite( value );
+    }
+
+    function zeroPad( value ) {
+        return value < 10 ? '0' + value : String( value );
+    }
+
     function formatTime( seconds ) {
-        if ( ! Number.isFinite( seconds ) || seconds < 0 ) {
+        if ( ! isFiniteNumber( seconds ) || seconds < 0 ) {
             return '0:00';
         }
 
         var minutes = Math.floor( seconds / 60 );
         var rest = Math.floor( seconds % 60 );
 
-        return minutes + ':' + String( rest ).padStart( 2, '0' );
+        return minutes + ':' + zeroPad( rest );
     }
 
     function updateProgress( root, audio ) {
         var progress = root.querySelector( '[data-hp-audio-progress]' );
         var progressBar = root.querySelector( '[data-hp-audio-progress-bar]' );
         var time = root.querySelector( '[data-hp-audio-time]' );
-        var duration = Number.isFinite( audio.duration ) && audio.duration > 0 ? audio.duration : 0;
+        var duration = isFiniteNumber( audio.duration ) && audio.duration > 0 ? audio.duration : 0;
         var percent = duration ? Math.min( 100, Math.max( 0, ( audio.currentTime / duration ) * 100 ) ) : 0;
 
         if ( progress ) {
@@ -59,16 +67,29 @@
 
         audio.volume = 1;
         audio.muted = false;
+        audio.load();
 
         button.addEventListener( 'click', function() {
             if ( audio.paused ) {
-                audio.play().then( function() {
+                if ( audio.readyState === 0 ) {
+                    audio.load();
+                }
+
+                var playResult = audio.play();
+                if ( playResult && typeof playResult.then === 'function' ) {
+                    playResult.then( function() {
+                        setState( root, true );
+                    } ).catch( function() {
+                        if ( status ) {
+                            status.textContent = 'Bitte Browser-Player nutzen';
+                        }
+                    } );
+                    return;
+                }
+
+                if ( ! audio.paused ) {
                     setState( root, true );
-                } ).catch( function() {
-                    if ( status ) {
-                        status.textContent = 'Audio konnte nicht gestartet werden';
-                    }
-                } );
+                }
                 return;
             }
 
@@ -101,5 +122,8 @@
         } );
     }
 
-    document.querySelectorAll( '[data-hp-audio]' ).forEach( initAudioPlayer );
+    var players = document.querySelectorAll( '[data-hp-audio]' );
+    for ( var index = 0; index < players.length; index += 1 ) {
+        initAudioPlayer( players[index] );
+    }
 }() );

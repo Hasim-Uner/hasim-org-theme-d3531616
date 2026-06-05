@@ -16,8 +16,9 @@ from urllib import error, parse, request
 
 
 DEFAULT_ENV_FILE = Path.home() / ".config" / "hasim-org" / "google-tts.env"
-DEFAULT_VOICE = "de-DE-Neural2-B"
+DEFAULT_VOICE = "de-DE-Chirp3-HD-Fenrir"
 DEFAULT_LANGUAGE = "de-DE"
+DEFAULT_SPEAKING_RATE = 0.88
 MAX_REQUEST_BYTES = 4800
 
 
@@ -188,7 +189,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", "-o", help="Zielpfad fuer die MP3-Datei.")
     parser.add_argument("--voice", default=DEFAULT_VOICE, help=f"Google-Stimme, Standard: {DEFAULT_VOICE}")
     parser.add_argument("--language-code", default=DEFAULT_LANGUAGE, help=f"Sprachcode, Standard: {DEFAULT_LANGUAGE}")
-    parser.add_argument("--speaking-rate", type=float, default=0.95, help="Sprechtempo, Standard: 0.95")
+    parser.add_argument(
+        "--speaking-rate",
+        type=float,
+        default=DEFAULT_SPEAKING_RATE,
+        help=f"Sprechtempo, Standard: {DEFAULT_SPEAKING_RATE}",
+    )
     parser.add_argument("--pitch", type=float, default=0.0, help="Tonhoehe, Standard: 0.0")
     parser.add_argument("--env-file", default=str(DEFAULT_ENV_FILE), help="Pfad zur lokalen Env-Datei.")
     parser.add_argument("--encoding", default="utf-8", help="Encoding der Eingabedatei, Standard: utf-8")
