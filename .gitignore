@@ -13,3 +13,9 @@ _build-d3/package-lock.json
 _stitch/node_modules/
 _stitch/.env
 _stitch/package-lock.json
+
+# Lokale TTS-Ausgaben und Secrets nicht versionieren
+generated-audio/
+.env
+*.env
+.DS_Store
