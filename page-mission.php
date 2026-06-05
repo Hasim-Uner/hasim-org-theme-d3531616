@@ -14,6 +14,9 @@ get_header(); ?>
 $hp_essay_url   = get_post_type_archive_link( 'essay' );
 $hp_note_url    = get_post_type_archive_link( 'note' );
 $hp_contact_url = hp_get_contact_page_url();
+
+$hp_mission_audio_id  = 191;
+$hp_mission_audio_url = wp_get_attachment_url( $hp_mission_audio_id );
 ?>
 
 <main id="main-content" class="hp-mission" aria-labelledby="mission-title" role="main">
@@ -21,6 +24,17 @@ $hp_contact_url = hp_get_contact_page_url();
 	<header class="hp-mission__hero">
 		<span class="hp-kicker">Über mich</span>
 		<h1 id="mission-title" class="hp-mission__title">Warum dieses Journal existiert</h1>
+
+		<?php if ( $hp_mission_audio_url ) : ?>
+			<div class="hp-mission-audio" data-hp-audio>
+				<button class="hp-mission-audio__button" type="button" data-hp-audio-toggle aria-pressed="false">
+					<span class="hp-mission-audio__icon" data-hp-audio-icon aria-hidden="true"></span>
+					<span data-hp-audio-label>Mission anhören</span>
+				</button>
+				<span class="hp-mission-audio__status" data-hp-audio-status>Audio bereit</span>
+				<audio class="hp-mission-audio__media" src="<?php echo esc_url( $hp_mission_audio_url ); ?>" preload="metadata" data-hp-audio-media></audio>
+			</div>
+		<?php endif; ?>
 	</header>
 
 	<div class="single-body hp-mission__frame">
