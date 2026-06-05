@@ -144,9 +144,10 @@ def synthesize_chunk(
         "audioConfig": {
             "audioEncoding": "MP3",
             "speakingRate": speaking_rate,
-            "pitch": pitch,
         },
     }
+    if pitch:
+        payload["audioConfig"]["pitch"] = pitch
     data = json.dumps(payload).encode("utf-8")
     req = request.Request(
         url,
