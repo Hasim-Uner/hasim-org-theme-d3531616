@@ -15,8 +15,7 @@ $hp_essay_url   = get_post_type_archive_link( 'essay' );
 $hp_note_url    = get_post_type_archive_link( 'note' );
 $hp_contact_url = hp_get_contact_page_url();
 
-$hp_mission_audio_id  = 193;
-$hp_mission_audio_url = wp_get_attachment_url( $hp_mission_audio_id );
+$hp_mission_audio_url = 'https://hasimuener.org/wp-content/uploads/2026/06/mission-audio-wordpress-320kbps.mp3';
 ?>
 
 <main id="main-content" class="hp-mission" aria-labelledby="mission-title" role="main">
