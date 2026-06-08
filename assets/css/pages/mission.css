@@ -248,7 +248,7 @@
     padding-bottom: 0;
 }
 
-.hp-mission__section p,
+.hp-mission__section p:not(.hp-mission__lede),
 .hp-mission__closing p {
     font-family: var(--hj-serif);
     font-weight: 300;
@@ -259,7 +259,7 @@
     text-align: left;
 }
 
-.hp-mission__section p:last-child,
+.hp-mission__section p:not(.hp-mission__lede):last-child,
 .hp-mission__closing p:last-child {
     margin-bottom: 0;
 }
@@ -436,7 +436,7 @@
         padding: var(--hj-space-xl) var(--hj-gutter) var(--hj-space-md);
     }
 
-    .hp-mission__section p,
+    .hp-mission__section p:not(.hp-mission__lede),
     .hp-mission__closing p {
         font-size: 1.05rem;
         line-height: 1.75;
