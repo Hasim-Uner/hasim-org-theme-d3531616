@@ -62,7 +62,7 @@ $hp_mission_audio_url = wp_get_attachment_url( $hp_mission_audio_id );
 		<div class="single-body__main hp-mission__content">
 
 			<section class="hp-mission__section hp-mission__section--with-portrait" aria-label="Missionstext">
-				<p class="hp-mission__lede">Ich bin ein Mensch mit kurdischer Herkunft, in Deutschland aufgewachsen. Bewusst so herum: Herkunft verleugnet man nicht, aber man macht sie auch nicht zum Gefängnis. In mir stecken drei Welten — die kurdische, aus der ich komme; die türkische, deren Sprache und Medien mir vertraut sind, auch weil es die Sprache derer ist, die über das kurdische Volk herrschten; die deutsche, in der ich heute denke. Ich bin nicht assimiliert, aber ehrlich genug, dem Deutschen den tiefsten Abdruck zuzugestehen. Ein Volk, das im eigenen Land unterdrückt wird, dessen Sprache man zurückdrängt, lernt die der anderen. Der Ursprung ist bitter, der Vorteil bleibt: Man wächst in mehreren Welten zugleich auf. Wer drei davon mit all ihren Widersprüchen in sich trägt, kann keiner mehr glauben, sie sei die einzige wahre. Darum ist meine Heimat kein Land.</p>
+				<p class="hp-mission__lede">Ich komme aus mehreren Welten. Aus der kurdischen, in die ich hineingeboren wurde. Aus der türkischen, deren Sprache und Medien mir vertraut sind — auch, weil es die Sprache derer ist, die über das kurdische Volk herrschten. Und aus der deutschen, in der ich heute denke.</p>
 
 				<figure class="hp-mission__portrait" role="group" aria-label="Porträt Haşim Üner">
 					<img
@@ -78,33 +78,51 @@ $hp_mission_audio_url = wp_get_attachment_url( $hp_mission_audio_id );
 					</figcaption>
 				</figure>
 
-				<p>Mit der Freiheit kam ich früh in Berührung, nicht aus einem Buch, sondern als etwas, das fehlt: Wenn deine Sprache, dein Name, deine Geschichte verdächtig sind, weißt du als Kind, was Unfreiheit ist, lange bevor du das Wort dafür hast.</p>
+				<p>Ich bin nicht assimiliert. Aber wer als Kind herkommt und hier aufwächst, in dem hinterlässt das Deutsche den tiefsten Abdruck. So ist es bei mir.</p>
 
-				<p>Als Migrant in Deutschland habe ich etwas gesehen, das man nicht mehr verlernt — dass die Gesetze, wenn es darauf ankommt, nicht für alle gleich gelten. Auf dem Papier herrscht Gleichheit; schaut man genauer hin — und als Kurdin oder Kurde sieht man es sofort —, wird mit zweierlei Maß gemessen. Was bei den einen Meinung ist, ist bei den anderen Gefahr. Auch die Neutralität des Rechts ist eine erzählte Geschichte — eine, an der niemand zweifelt, der nur die Seite kennt, für die sie stimmt. Daneben gibt es die leisere Unfreiheit, die kulturelle, die mediale — aber sie ist nur die sanfte Schwester derselben Sache.</p>
+				<p>Wer mit mehreren Welten aufwächst, lernt früh, keiner ganz zu glauben. Jede erzählt sich selbst als Mitte. Jede hält ihre Ordnung für natürlich. Jede hat ihre blinden Flecken — und jede ihre Schönheit. Ich kenne drei davon gut, und gerade deshalb will ich mich nicht auf eine festlegen. Meine Heimat ist kein Land. Sie ist die Vielfalt selbst.</p>
 
-				<p>Daraus wächst leicht ein Misstrauen: Wenn jede Wahrheit nur erzählt ist, dann ist überall Macht, überall Konstruktion, nichts gilt. Ich kenne diese Haltung von innen — ich war lange selbst ein Zyniker und hielt es für Klarheit. Heute weiß ich, es war eine Sackgasse. Wer nur noch durchschaut, glaubt am Ende nichts mehr; das ist keine Freiheit, sondern Taubheit. Der Zyniker ist nicht frei — er hat nur aufgehört zu hören.</p>
+				<p>Mit Freiheit kam ich früh in Berührung — nicht als Idee, sondern als Mangel. Wenn deine Sprache, dein Name, deine Geschichte verdächtig sind, verstehst du Unfreiheit, lange bevor du ein Wort dafür hast.</p>
 
-				<p>Verdacht ist darum kein Ziel, sondern ein Werkzeug. Man durchschaut die Geschichten nicht, um recht zu behalten, sondern um freizulegen, was sie zudecken. Und zugedeckt wird zweierlei.</p>
+				<p>Später, als Migrant, kam eine zweite Lektion dazu. Auf dem Papier gilt Gleichheit. Wenn es darauf ankommt, gelten die Gesetze nicht für alle. Was bei den einen Meinung ist, ist bei den anderen Gefahr — als Kurdin oder Kurde sieht man das sofort. Der Staat, der sich für neutral hält, ist es nicht, wo es ihm unbequem wird.</p>
 
-				<p>Das eine liegt innen. Ich lese Nietzsches Willen zur Macht nicht als Lust am Herrschen, sondern als den Drang alles Lebendigen, sich zu entfalten — mehr zu werden, was es ist. Wahrhaftigkeit heißt dann nicht, die richtige Meinung zu haben, sondern sich selbst nicht zu belügen. Unfreiheit ist selten das Verbot. Sie ist das Kleinmachen, das sich als Tugend ausgibt — die Geschichte, die uns einredet, unsere Enge sei Anstand.</p>
+				<p>Lange dachte ich, Klarheit bedeute, alles zu durchschauen. Ich wurde zynisch und hielt das für Stärke. Heute glaube ich: Zynismus ist eine Form von Taubheit. Wer nur noch entlarvt, hört irgendwann nichts mehr.</p>
 
-				<p>Das andere liegt außen. Denn frei wird niemand allein. Freiheit ist gesellschaftlich, bevor sie individuell ist; sie braucht einen Boden, auf dem ein Einzelner überhaupt werden kann. Hier hat mich Abdullah Öcalan geprägt — nur wird er oft falsch gelesen, gerade in der kurdischen Gesellschaft: Man müsse jetzt Kommunen <em>bilden</em>, neue gründen. Aber die Kommune ist nichts, was man baut. Sie ist die kleinste Zelle jeder Gesellschaft, historisch gewachsen, immer schon da: deine Familie, dein Umfeld, das Team, in dem du arbeitest, die Menschen, mit denen du lebst. Die Frage ist nicht, ob du eine hast, sondern welche — wozu, auf welcher Basis, wie ihr leben wollt. Wer das nicht fragt, baut nur das nächste Gehäuse, das wieder vorschreibt, was sich gehört. Wer es gar nicht stellt, überlässt das Feld einem System, dem verwaltbare Einzelne lieber sind als Menschen, die sich selbst organisieren.</p>
+				<p>Verdacht bleibt notwendig. Aber er ist kein Ziel. Er ist ein Werkzeug. Man durchschaut Geschichten nicht, um über ihnen zu stehen, sondern um freizulegen, was sie verdecken.</p>
 
-				<p>Was eine Kommune dann zusammenhält, ist keine Wahrheit, die einer den anderen aufzwingt — das wäre nur das alte Spiel unter neuem Namen. Es ist eine Vereinbarung: Man trifft sich in der Mitte, im Wissen, dass es Dissonanz gibt und geben darf, einigt sich auf Prinzipien und lebt nach ihnen. Aber diese Prinzipien dürfen nicht erstarren. Das Gerüst muss tragen und zugleich offen bleiben — verbindlich genug, um Halt zu geben, beweglich genug, um nie zum Gehäuse zu werden. Struktur, die hält, ohne zu verschließen. Offen heißt aber nicht beliebig: Manches steht nicht zur Verhandlung — kein Leben zu nehmen, der Natur nicht zu schaden. Gute Regeln erkennt man daran, dass sie mit dem Lebendigen mitgehen statt gegen es; mit der Gesellschaft und mit der Natur, nicht über sie hinweg.</p>
+				<p>Was verdeckt wird, ist das Lebendige.</p>
 
-				<p>Das Ziel ist einfach: dass jede Kommune in diesem Rahmen so leben darf, wie sie will — und wer mag, sich mit Gleichgesinnten eine neue bildet. Eine offene Gesellschaft, in der die Freiheit des Einzelnen und das Gemeinsame keine Gegensätze mehr sind. Darauf kommt es mir an.</p>
+				<p>Innen: die Fähigkeit, wahrhaftig zu werden, statt sich kleinzumachen und diese Enge Tugend zu nennen.</p>
 
-				<p>Darum bleibt die innere Freiheit der Prüfstein des Gemeinsamen. Und darum gilt der Verdacht zuerst den eigenen Leuten: Diese Unfreiheit ist nicht das Problem der anderen. Sie sitzt überall, wo eine Gruppe ihre Wahrheit für die einzige hält — auch in Bewegungen, die für die Freiheit kämpfen, meine eigene eingeschlossen. Das ist mein Eindruck, kein Urteil. Aber wo Abweichung sofort abgestempelt wird, ist der Raum des Denkbaren schon eng. Daneben lauert eine zweite Falle: der Pessimismus, der das bloße Ablehnen für Haltung hält. Wer nur verflucht, was schlecht läuft, gestaltet nichts — und radikal heißt nicht, alles abzulehnen, sondern an die Wurzel zu gehen, von radix: tief genug zu verstehen, um verändern zu können.</p>
+				<p>Außen: die Fähigkeit, sich mit anderen so zu organisieren, dass Freiheit nicht gegen Gemeinschaft steht.</p>
 
-				<p>Heute kommt erschwerend hinzu, dass kaum noch etwas durchdringt. Wir werden überflutet — Nachrichten, Meinungen, Reize —, und je mehr hereinbricht, desto kürzer wird der Blick: zu allem eine schnelle Meinung, zu nichts mehr die Ruhe, wirklich hinzusehen. Das geschieht schleichend, und es geschieht nicht von selbst. Ich glaube trotzdem nicht, dass die Welt schlecht ist oder der Mensch. Schlecht sind nur die künstlichen Ordnungen, die sich zwischen uns und die Welt schieben — und weil sie gemacht sind, lassen sie sich auch wieder abräumen.</p>
+				<p>Frei wird niemand allein. Jede Gesellschaft beginnt im Kleinen: in Familien, Freundschaften, Teams, Nachbarschaften, Kreisen. Die Frage ist nicht, ob wir in Kommunen leben. Die Frage ist, welche Art von Gemeinschaft wir zulassen — und ob sie Menschen öffnet oder einsperrt.</p>
 
-				<p>Denn darunter bleibt etwas, das sich nicht abschalten lässt. Räumt man weg, was es übertönt — innen wie außen —, kommt zum Vorschein, was die ganze Zeit da war: Resonanz, die Fähigkeit zu antworten, mitzuschwingen mit dem, was einen trifft. Eine Melodie, die einen Ort zurückbringt, den man vergessen hatte. Ein Gespräch, in dem man die Zeit vergisst. Ein Wald, in dem die eigene Eile klein wird. Ein Feuer, an dem keiner reden muss. Ein Saal voller Fremder, der nach einem wahren Satz still wird.</p>
+				<p>Eine freie Gemeinschaft braucht keine Wahrheit, die alle schlucken müssen. Sie braucht Vereinbarungen, die tragen, ohne zu erstarren. Prinzipien, die Halt geben, ohne zum Gehäuse zu werden. Offenheit heißt nicht Beliebigkeit. Manches steht nicht zur Verhandlung: kein Leben zu nehmen, der Natur nicht zu schaden, Menschen nicht zu brechen.</p>
 
-				<p>Hartmut Rosa hält die Resonanz für etwas Unverfügbares, das einem zufällt oder ausbleibt. Ich sehe es anders: Sie ist nicht selten, sondern nur überlagert. Ihr Gegenteil ist nicht der Misston, sondern die Betäubung — wenn gar nichts mehr antwortet.</p>
+				<p>Das Ziel ist einfach: Räume, in denen Menschen anders sein dürfen, ohne ausgeschlossen zu werden. Räume, in denen Widerspruch nicht als Verrat gilt. Räume, in denen das Gemeinsame nicht den Einzelnen frisst — und der Einzelne nicht vergisst, dass er Teil eines Ganzen ist.</p>
 
-				<p>Darum gehört auch die Dissonanz dazu. Resonanz heißt nicht Einklang, nicht dass alle dasselbe wollen. Wer aus Überzeugung widerspricht, schwingt mit — gegen den Strom, aber er antwortet; er ist lebendiger als jeder, der bloß nickt. Eine Gesellschaft ist nicht frei, wenn sie sich einig ist, sondern wenn sie das Anderssein aushält, statt es abzustellen. Das ist der Maßstab: nicht die Harmonie, sondern die Kraft, das Fremde zu ertragen und zu verstehen, auch das, was man nicht mag. Das Gegenteil davon ist der Satz „es ist halt, wie es ist" — der Zyniker, vom Ende her gedacht, und der Grund, warum ich keiner sein will.</p>
+				<p>Darum richtet sich mein Verdacht zuerst nach innen. Auch Bewegungen, die Freiheit wollen, können unfrei werden. Auch unterdrückte Menschen können Unterdrückung weitergeben. Auch die eigene Gruppe kann ihre Wahrheit zur einzigen machen.</p>
 
-				<p>Ich schreibe nicht, um zu zeigen, was falsch ist, sondern um freizulegen, was bleibt. Was zugedeckt wird, ist nicht zerstört. Dieses Journal soll ein Resonanzraum sein — ein Ort, an dem wieder etwas antwortet, dem Lärm zum Trotz. Aber Resonanz entsteht nicht allein. Wenn dich hier etwas trifft oder stört, schreib mir.</p>
+				<p>Radikal sein heißt für mich nicht, alles abzulehnen. Es heißt, an die Wurzel zu gehen. Tief genug zu verstehen, um verändern zu können.</p>
+
+				<p>Heute wird das schwerer. Alles rauscht. Nachrichten, Meinungen, Reize, Empörung. Zu allem eine Haltung, zu wenig wirkliche Berührung. Der Blick wird kürzer. Die Stimme wird lauter. Die Antwort bleibt aus.</p>
+
+				<p>Aber darunter ist nichts tot.</p>
+
+				<p>Ich glaube nicht, dass der Mensch schlecht ist. Ich glaube, dass viele Ordnungen schlecht sind, weil sie uns von uns selbst, voneinander und von der Welt trennen. Und was gemacht wurde, kann auch wieder abgeräumt werden.</p>
+
+				<p>Dann kommt etwas zum Vorschein, das die ganze Zeit da war: Resonanz.</p>
+
+				<p>Hartmut Rosa beschreibt Resonanz als eine Beziehung zur Welt, in der uns etwas berührt und wir darauf antworten. Dieser Gedanke ist mir nah. Aber mein Resonanzbegriff ist weniger vorsichtig. Für mich ist Resonanz nicht selten und nicht bloß ein unverfügbares Ereignis, das einem zufällt oder ausbleibt. Sie ist grundsätzlicher: eine Fähigkeit des Lebendigen, die überlagert, betäubt und zugedeckt werden kann — aber nicht verschwindet.</p>
+
+				<p>Ihr Gegenteil ist deshalb nicht der Misston. Ihr Gegenteil ist die Betäubung. Der Zustand, in dem nichts mehr antwortet.</p>
+
+				<p>Darum gehört auch Dissonanz dazu. Resonanz heißt nicht Einklang. Nicht, dass alle dasselbe fühlen, denken oder wollen. Wer aus Überzeugung widerspricht, antwortet. Er schwingt mit — gegen den Strom, aber lebendig. Er ist freier als jeder, der bloß nickt.</p>
+
+				<p>Eine Gesellschaft ist nicht frei, wenn alle einverstanden sind. Sie ist frei, wenn sie das Andere aushält, ohne es sofort abzustellen. Wenn sie Widerspruch nicht als Störung behandelt, sondern als Zeichen, dass noch etwas lebt.</p>
+
+				<p>Dieses Journal soll ein solcher Raum sein: kein Ort fertiger Wahrheiten, sondern ein Resonanzraum. Wenn dich etwas trifft, stört oder zum Widerspruch bringt, schreib mir.</p>
 			</section>
 
 			<section class="hp-mission__closing" aria-label="Abschluss und nächste Schritte">
