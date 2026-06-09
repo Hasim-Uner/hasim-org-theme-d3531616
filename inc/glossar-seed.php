@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-06-04-glossar-r14-sterblichkeit-body-pasted';
+const HP_GLOSSAR_SEED_VERSION = '2026-06-09-glossar-r15-sterblichkeit-body-pasted';
 const HP_STERBLICHKEIT_ESSAY_CONTENT_VERSION = 'r11-sterblichkeit-body-neufassung';
 
 function hp_run_glossar_seed_once(): void {
