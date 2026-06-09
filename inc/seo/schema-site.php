@@ -53,6 +53,7 @@ function hp_org_website_jsonld_schema(): void {
 		'sameAs'   => [
 			HP_ORCID_URL,
 			'https://x.com/_0239983326111',
+			'https://www.youtube.com/@Hasimuener',
 		],
 	];
 	$graph['@graph'][] = $person;
@@ -87,6 +88,7 @@ function hp_org_website_jsonld_schema(): void {
 	$org['sameAs'] = [
 		HP_ORCID_URL,
 		'https://x.com/_0239983326111',
+		'https://www.youtube.com/@Hasimuener',
 	];
 
 	$graph['@graph'][] = $org;

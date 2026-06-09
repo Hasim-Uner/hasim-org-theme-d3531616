@@ -399,7 +399,7 @@ add_action( 'wp_default_scripts', 'hp_remove_jquery_migrate' );
 /**
  * Gibt dns-prefetch- und preconnect-Hinweise für externe Domains aus.
  *
- * x.com + orcid.org sind im Footer/sameAs verlinkt — frühe DNS-Auflösung
+ * x.com, youtube.com + orcid.org sind im Footer/sameAs verlinkt — frühe DNS-Auflösung
  * spart Latenz, wenn Nutzer:innen den Links folgen.
  *
  * @param array<int,string> $hints
@@ -409,6 +409,7 @@ add_action( 'wp_default_scripts', 'hp_remove_jquery_migrate' );
 function hp_resource_hints( array $hints, string $relation ): array {
 	if ( 'dns-prefetch' === $relation ) {
 		$hints[] = '//x.com';
+		$hints[] = '//www.youtube.com';
 		$hints[] = '//orcid.org';
 	}
 
@@ -421,7 +422,7 @@ add_filter( 'wp_resource_hints', 'hp_resource_hints', 10, 2 );
    ========================================= */
 
 /**
- * Gibt `<link rel="me">` für ORCID und X aus.
+ * Gibt `<link rel="me">` für ORCID, X und YouTube aus.
  *
  * Verifiziert die Author-Identität für IndieWeb-Konsumenten
  * und stärkt sameAs/Person-Schema durch HTML-Microformats.
@@ -434,6 +435,7 @@ function hp_output_rel_me(): void {
 	}
 
 	printf( '<link rel="me" href="%s" />' . "\n", esc_url( 'https://x.com/_0239983326111' ) );
+	printf( '<link rel="me" href="%s" />' . "\n", esc_url( 'https://www.youtube.com/@Hasimuener' ) );
 }
 add_action( 'wp_head', 'hp_output_rel_me', 5 );
 
