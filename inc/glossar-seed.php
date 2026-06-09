@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HP_GLOSSAR_SEED_VERSION = '2026-06-09-glossar-r15-sterblichkeit-body-pasted';
+const HP_GLOSSAR_SEED_VERSION = '2026-06-10-glossar-r16-resonanz-begriffe';
 const HP_STERBLICHKEIT_ESSAY_CONTENT_VERSION = 'r11-sterblichkeit-body-neufassung';
 
 function hp_run_glossar_seed_once(): void {
@@ -75,7 +75,7 @@ function hp_remove_abrechnung_transhumanismus_essay(): void {
 }
 
 /**
- * Seedet alle 18 einzigartigen Glossar-Begriffe absolut redundanzfrei.
+ * Seedet alle Glossar-Begriffe idempotent.
  */
 function hp_seed_all_glossary_terms(): void {
 	$entries = [
@@ -350,6 +350,146 @@ function hp_seed_all_glossary_terms(): void {
 				'Eine brauchbare Kritik muss deshalb unterscheiden. Nicht jedes Leid ist abschaffbar, aber vieles ist gemacht. Wer diesen Unterschied verwischt, verwandelt historische Verhältnisse in Schicksal.',
 			],
 			'synonyme' => [ 'Pessimismus', 'philosophischer Pessimismus' ],
+		],
+
+		// --- Resonanz- & Gegenwarts-Komplex ---
+		[
+			'slug'     => 'bewusstsein',
+			'title'    => 'Bewusstsein',
+			'kurz'     => 'Bewusstsein ist die offene Fähigkeit zum Erleben: Welt, Körper und Selbst erscheinen nicht nur, sondern werden gespürt, gedeutet und beantwortet.',
+			'content'  => [
+				'Bewusstsein bezeichnet hier die Fähigkeit eines lebendigen Wesens, Erleben zu haben: dass etwas erscheint, gespürt, unterschieden, erinnert, gedeutet und beantwortet werden kann. Es umfasst Wachheit, Aufmerksamkeit, Selbstbezug, Körperwahrnehmung und Weltbezug, ist aber nicht auf Denken oder Informationsverarbeitung reduzierbar.',
+				'Was Bewusstsein im letzten Grund ist und wie subjektives Erleben aus körperlich-neuronalen Prozessen hervorgeht, ist wissenschaftlich und philosophisch nicht abschließend geklärt. Gerade deshalb wird Bewusstsein hier nicht als fertiger Mechanismus verstanden, sondern als offene Grunddimension menschlichen Daseins.',
+				'Im Kontext dieses Journals ist Bewusstsein die Voraussetzung von Resonanz: Nur was bemerkt wird, kann berühren; nur was inneren Raum bekommt, kann nachhallen; nur wer nicht vollständig durch Rauschen, Angst oder Beschleunigung besetzt ist, kann antworten.',
+			],
+			'synonyme' => [ 'Bewusstheit', 'Gegenwärtigkeit', 'Selbstwahrnehmung' ],
+		],
+		[
+			'slug'     => 'betaeubung',
+			'title'    => 'Betäubung',
+			'kurz'     => 'Betäubung ist der Verlust von Empfänglichkeit durch Überreizung, Angst oder Abstumpfung.',
+			'content'  => [
+				'Betäubung bezeichnet einen Zustand verminderter Empfänglichkeit. Der Mensch ist noch wach, funktional und reaktionsfähig, aber weniger erreichbar für das, was ihn wirklich berühren, klären oder verwandeln könnte.',
+				'Sie entsteht nicht nur durch Schmerzvermeidung, sondern auch durch Überreizung: durch Beschleunigung, Informationsflutung, permanente Ablenkung, Angst, Konsum, Zynismus oder dauernde Selbstoptimierung. Betäubung bedeutet deshalb nicht Abwesenheit von Reizen, sondern oft das Gegenteil: zu viele Reize, zu wenig Nachhall.',
+				'Im Zustand der Betäubung wird Welt nicht mehr erfahren, sondern verwaltet, konsumiert oder abgewehrt. Dinge erscheinen noch, aber sie sprechen weniger. Der Körper sendet Signale, aber sie werden übergangen. Gedanken laufen weiter, aber sie führen nicht mehr unbedingt zu Bewusstsein.',
+				'Betäubung ist damit ein Gegenbegriff zu Resonanz. Wo Resonanz Berührbarkeit, Antwort und Lebendigkeit meint, bezeichnet Betäubung die Überdeckung dieser Fähigkeit. Der Mensch verliert nicht notwendig seine Tiefe, aber den Zugang zu ihr.',
+			],
+			'synonyme' => [ 'Abstumpfung', 'innere Betäubung', 'Abgestumpftheit' ],
+		],
+		[
+			'slug'     => 'rauschen',
+			'title'    => 'Rauschen',
+			'kurz'     => 'Rauschen ist die Überlagerung von Reizen und Informationen, durch die Bedeutung, Bewusstsein und Resonanz verdeckt werden.',
+			'content'  => [
+				'Rauschen bezeichnet eine Überlagerung von Signalen, Reizen und Informationen, die Wahrnehmung erschwert, Bedeutung verwischt und innere Orientierung schwächt. Es ist nicht einfach Lärm, sondern ein Zustand, in dem zu viel auf einmal spricht und dadurch kaum noch etwas wirklich gehört wird.',
+				'Rauschen kann äußerlich entstehen: durch Medien, Nachrichten, Werbung, soziale Netzwerke, permanente Erreichbarkeit, Geschwindigkeit und Informationsflutung. Es kann aber auch innerlich auftreten: als Grübeln, Angst, Selbstbeobachtung, Erwartungsdruck oder dauernde gedankliche Zerstreuung.',
+				'Im Rauschen verschwindet nicht die Welt. Sie wird überdeckt. Dinge sind weiterhin da, aber sie treten nicht mehr klar hervor. Eindrücke berühren nur kurz, bevor sie vom nächsten Reiz verdrängt werden. Dadurch fehlt Nachhall, und ohne Nachhall wird Erfahrung flach.',
+				'Rauschen ist deshalb ein Gegenbegriff zu Klarheit, Bewusstsein und Resonanz. Wo Resonanz ein stimmiges Verhältnis zwischen Mensch und Welt ermöglicht, zerstreut Rauschen die Aufmerksamkeit und unterbricht Antwortfähigkeit. Der Mensch wird nicht leer, sondern überfüllt.',
+			],
+			'synonyme' => [ 'Informationsrauschen', 'Reizüberflutung', 'inneres Rauschen' ],
+		],
+		[
+			'slug'     => 'beschleunigung',
+			'title'    => 'Beschleunigung',
+			'kurz'     => 'Beschleunigung ist die Verdichtung von Zeit, Reizen und Anforderungen, durch die Gegenwart, Bewusstsein und Resonanz überlagert werden.',
+			'content'  => [
+				'Beschleunigung bezeichnet die zunehmende Verdichtung von Zeit, Reizen, Erwartungen und Handlungsanforderungen. Immer mehr soll in immer kürzerer Zeit wahrgenommen, entschieden, erledigt, beantwortet und verarbeitet werden.',
+				'Sie betrifft nicht nur Technik oder Arbeit, sondern die gesamte Lebensform: Kommunikation wird schneller, Aufmerksamkeit fragmentierter, Entscheidungen kurzfristiger, Beziehungen verfügbarer, Selbstoptimierung dauerhafter. Der Mensch kommt äußerlich voran, verliert aber innerlich oft den Abstand zu dem, was geschieht.',
+				'Beschleunigung erzeugt Rauschen, weil Eindrücke einander überholen. Sie erzeugt Betäubung, weil kaum noch etwas nachhallen darf. Und sie schwächt Bewusstsein, weil Gegenwart nicht mehr erlebt, sondern sofort überschrieben wird.',
+				'Im beschleunigten Zustand wird Welt vor allem als Aufgabe, Option, Information oder Problem wahrgenommen. Dinge sollen verfügbar sein, Menschen erreichbar, Prozesse effizient, Erfahrungen verwertbar. Dadurch geht nicht notwendig Tiefe verloren, aber der Zugang zu ihr wird erschwert.',
+				'Beschleunigung ist deshalb ein Gegenbegriff zu Gegenwärtigkeit, Nachhall und Resonanz. Resonanz braucht Zeit, nicht zwingend viel Zeit, aber einen Moment, der nicht sofort vom nächsten Moment verdrängt wird.',
+			],
+			'synonyme' => [ 'soziale Beschleunigung', 'Tempo', 'Verdichtung' ],
+		],
+		[
+			'slug'     => 'aufmerksamkeit',
+			'title'    => 'Aufmerksamkeit',
+			'kurz'     => 'Aufmerksamkeit ist die Fähigkeit, etwas aus dem Rauschen hervortreten zu lassen und ihm inneren Raum zu geben.',
+			'content'  => [
+				'Aufmerksamkeit bezeichnet die Fähigkeit, etwas aus dem Strom der Eindrücke hervortreten zu lassen. Sie richtet Wahrnehmung, Bewusstsein und Bedeutung auf einen bestimmten Ausschnitt der Welt, des Körpers oder des Denkens.',
+				'Aufmerksamkeit ist nicht bloß Konzentration. Konzentration hält etwas fest; Aufmerksamkeit lässt etwas erscheinen. Sie kann eng sein, wenn sie auf eine Aufgabe, einen Gedanken oder ein Problem gerichtet ist. Sie kann aber auch weit sein, wenn sie Umgebung, Körper, Stimmung und Gegenwart zugleich wahrnimmt.',
+				'Im Zustand echter Aufmerksamkeit wird Welt klarer. Ein Geräusch, ein Blick, ein Gedanke, ein Schmerz, ein Mensch oder ein Ort tritt aus dem Rauschen heraus und gewinnt Bedeutung. Dadurch entsteht die Möglichkeit von Antwort: Der Mensch reagiert nicht nur automatisch, sondern bemerkt, was ihn angeht.',
+				'Aufmerksamkeit ist deshalb eine Voraussetzung von Bewusstsein und Resonanz. Was keine Aufmerksamkeit erhält, kann zwar vorhanden sein, bleibt aber oft wirkungslos. Umgekehrt kann zu viel gelenkte oder erzwungene Aufmerksamkeit erschöpfen, verengen und Betäubung verstärken.',
+				'In einer beschleunigten Medienwelt wird Aufmerksamkeit permanent beansprucht, fragmentiert und verkauft. Das Problem ist dann nicht fehlende Reizung, sondern fehlende Sammlung. Der Mensch sieht vieles, aber begegnet wenig.',
+			],
+			'synonyme' => [ 'Achtsamkeit', 'Konzentration', 'Sammlung', 'Gegenwärtigkeit' ],
+		],
+		[
+			'slug'     => 'dissonanz',
+			'title'    => 'Dissonanz',
+			'kurz'     => 'Dissonanz ist eine spürbare Spannung zwischen Wahrnehmung, Erwartung und Wirklichkeit, die stören, klären oder Veränderung auslösen kann.',
+			'content'  => [
+				'Dissonanz bezeichnet einen Zustand von Spannung, Reibung oder Nicht-Übereinstimmung. Etwas passt nicht zusammen: Wahrnehmung und Erwartung, Gefühl und Gedanke, Körper und Handlung, Mensch und Umgebung, Selbstbild und Wirklichkeit.',
+				'Dissonanz ist nicht einfach negativ. Sie kann unangenehm, störend oder schmerzhaft sein, aber auch klärend wirken. Wo Resonanz eine stimmige Antwortbeziehung beschreibt, zeigt Dissonanz, dass etwas nicht aufgeht. Sie macht Brüche sichtbar, die im Alltag oft überdeckt werden.',
+				'Im Zustand der Dissonanz wird Welt nicht als selbstverständlich erfahren. Etwas irritiert, widerspricht oder verweigert sich. Diese Störung kann abgewehrt werden, etwa durch Betäubung, Zynismus oder Flucht. Sie kann aber auch bewusst ausgehalten werden und dadurch zu Erkenntnis, Veränderung oder neuer Resonanz führen.',
+				'Dissonanz ist deshalb nicht das Gegenteil von Resonanz, sondern oft ihre Voraussetzung. Nur wer Reibung wahrnimmt, kann unterscheiden, was wirklich stimmt, trägt oder antwortet. Eine Welt ohne Dissonanz wäre nicht lebendig, sondern glatt.',
+			],
+			'synonyme' => [ 'Reibung', 'Spannung', 'Irritation', 'Widerspruch' ],
+		],
+		[
+			'slug'     => 'weltbeziehung',
+			'title'    => 'Weltbeziehung',
+			'kurz'     => 'Weltbeziehung ist die gelebte Art, wie ein Mensch Welt, Körper, andere Menschen und sich selbst erfährt und beantwortet.',
+			'content'  => [
+				'Weltbeziehung bezeichnet die Art und Weise, wie ein Mensch zur Welt steht: zu sich selbst, zum eigenen Körper, zu anderen Menschen, zur Natur, zu Dingen, Sprache, Arbeit, Technik, Geschichte und Zukunft. Sie beschreibt nicht nur, was jemand denkt, sondern wie Welt für ihn erscheint, was ihn erreicht, was ihn kalt lässt und worauf er antworten kann.',
+				'Eine Weltbeziehung kann offen, resonant, neugierig und lebendig sein. Sie kann aber auch verengt, instrumentell, ängstlich, zynisch oder betäubt werden. Dann erscheint Welt nicht mehr als etwas, dem man begegnet, sondern als etwas, das man kontrollieren, benutzen, bewerten oder abwehren muss.',
+				'Weltbeziehung ist deshalb mehr als Weltbild. Ein Weltbild ist eine Vorstellung über die Welt; Weltbeziehung ist die gelebte Verbindung zur Welt. Sie zeigt sich im Körper, in der Aufmerksamkeit, in der Sprache, im Handeln und in der Fähigkeit, berührt zu werden.',
+				'Im Kontext dieses Journals ist Weltbeziehung der übergeordnete Begriff für Bewusstsein, Resonanz, Betäubung, Rauschen und Beschleunigung. Denn all diese Begriffe beschreiben nicht nur innere Zustände, sondern Formen des Verhältnisses zwischen Mensch und Welt.',
+				'Eine gelingende Weltbeziehung bedeutet nicht Harmonie. Sie schließt Dissonanz, Schmerz, Widerspruch und Fremdheit ein. Entscheidend ist nicht, dass die Welt immer angenehm erscheint, sondern dass sie überhaupt noch sprechen kann — und dass der Mensch fähig bleibt, zu antworten.',
+			],
+			'synonyme' => [ 'Weltverhältnis', 'Beziehung zur Welt', 'Weltkontakt' ],
+		],
+		[
+			'slug'     => 'medienueberflutung',
+			'title'    => 'Medienüberflutung',
+			'kurz'     => 'Medienüberflutung ist die Überlastung von Aufmerksamkeit und Bewusstsein durch zu viele, zu schnelle und zu verfügbare mediale Reize.',
+			'content'  => [
+				'Medienüberflutung bezeichnet den Zustand, in dem Menschen dauerhaft mehr Bilder, Nachrichten, Meinungen, Reize und Informationen aufnehmen, als sie sinnvoll verarbeiten können. Sie entsteht nicht nur durch die Menge an Medien, sondern durch ihre Geschwindigkeit, Gleichzeitigkeit und ständige Verfügbarkeit.',
+				'In der Medienüberflutung wird Aufmerksamkeit fragmentiert. Ein Eindruck folgt auf den nächsten, ohne dass genug Zeit bleibt, ihn zu prüfen, einzuordnen oder nachhallen zu lassen. Dadurch entsteht Rauschen: vieles erscheint wichtig, aber wenig wird wirklich verstanden.',
+				'Medienüberflutung verändert nicht nur, was ein Mensch weiß, sondern wie er Welt erfährt. Die Wirklichkeit wird zunehmend vermittelt, beschleunigt, kommentiert und bewertet, bevor sie überhaupt selbst erlebt werden kann. Der Mensch reagiert dann auf Signale, Trends, Empörung, Bilder und Meinungen, aber verliert leichter den Kontakt zur eigenen Wahrnehmung.',
+				'Sie kann Betäubung erzeugen, obwohl sie ständig stimuliert. Gerade weil so viel geschieht, wird weniger wirklich gespürt. Gefühle werden kurz ausgelöst, aber selten vertieft. Gedanken werden angestoßen, aber oft nicht zu Ende geführt. Resonanz wird dadurch nicht unmöglich, aber überdeckt.',
+				'Medienüberflutung ist deshalb ein zentraler Begriff für die Gegenwart. Sie beschreibt eine Welt, in der nicht der Mangel an Information das Problem ist, sondern der Verlust von Maß, Tiefe und innerer Verarbeitung.',
+			],
+			'synonyme' => [ 'Informationsflutung', 'Reizüberflutung', 'Medienrauschen' ],
+		],
+		[
+			'slug'     => 'koerper',
+			'title'    => 'Körper',
+			'kurz'     => 'Der Körper ist die leibliche Grundlage, durch die ein Mensch Welt, sich selbst und andere spürt, erfährt und beantwortet.',
+			'content'  => [
+				'Der Körper ist nicht bloß Träger des Menschen, sondern die Weise, in der ein Mensch überhaupt in der Welt ist. Durch ihn wird Welt gespürt, betreten, beantwortet und verstanden. Wahrnehmung, Stimmung, Denken, Erinnerung und Bewusstsein sind nicht vom Körper getrennt, sondern in ihn eingebettet.',
+				'Der Körper ist mehr als ein biologischer Apparat. Er ist Ort von Empfindung, Spannung, Müdigkeit, Lust, Schmerz, Angst, Kraft, Nähe und Orientierung. Bevor ein Mensch etwas begrifflich versteht, hat der Körper oft schon reagiert: Er öffnet sich, zieht sich zurück, wird wach, eng, schwer, ruhig oder unruhig.',
+				'Im Kontext dieses Journals ist der Körper eine Grundbedingung von Resonanz. Welt erreicht den Menschen nicht nur über Gedanken, sondern über Haut, Atem, Blick, Haltung, Rhythmus, Stimme, Bewegung und Nervensystem. Resonanz ist deshalb nie rein geistig. Sie geschieht leiblich, auch wenn sie später sprachlich gedeutet wird.',
+				'Beschleunigung, Rauschen und Medienüberflutung schwächen den Körperbezug, weil sie Aufmerksamkeit vom leiblichen Erleben abziehen. Der Mensch funktioniert dann weiter, aber spürt sich weniger. Er wird Kopf, Rolle, Profil, Leistung oder Reaktion — und verliert leichter den Kontakt zu dem, was ihn trägt.',
+				'Der Körper ist damit kein Gegensatz zum Bewusstsein, sondern dessen Boden. Wer den Körper übergeht, verliert nicht nur Empfindung, sondern auch Maß, Gegenwart und Antwortfähigkeit.',
+			],
+			'synonyme' => [ 'Leib', 'Körperlichkeit', 'leibliches Erleben' ],
+		],
+		[
+			'slug'     => 'natur',
+			'title'    => 'Natur',
+			'kurz'     => 'Natur ist die lebendige, nicht vollständig verfügbare Wirklichkeit, in die der Mensch körperlich, zeitlich und existenziell eingebettet ist.',
+			'content'  => [
+				'Natur bezeichnet die nicht vollständig gemachte, kontrollierte oder verfügbare Wirklichkeit, in die der Mensch eingebettet ist. Sie umfasst Landschaften, Tiere, Pflanzen, Wetter, Jahreszeiten, Körper, Geburt, Wachstum, Verfall und Tod — also jene Dimensionen des Daseins, die nicht vom Menschen erfunden wurden, auch wenn sie von ihm beeinflusst und verändert werden.',
+				'Natur ist nicht bloß Umgebung oder Ressource. Sie ist ein Erfahrungsraum, in dem der Mensch sich als Teil von etwas Größerem erlebt: als verletzlich, abhängig, lebendig, begrenzt und verbunden. In der Natur tritt Welt oft nicht als Aufgabe oder Information auf, sondern als Gegenwart.',
+				'Im Kontext dieses Journals ist Natur ein zentraler Resonanzraum. Licht, Wärme, Wind, Wasser, Geruch, Erde, Tiere, Pflanzen und Jahreszeiten können den Menschen erreichen, ohne ihn zu belehren. Sie sprechen nicht in Begriffen, aber sie verändern Stimmung, Körper, Aufmerksamkeit und Bewusstsein.',
+				'Die moderne Welt neigt dazu, Natur verfügbar zu machen: als Fläche, Rohstoff, Freizeitkulisse, Datensatz oder Projektionsraum. Dadurch geht nicht die Natur selbst verloren, aber die Fähigkeit, ihr zu begegnen. Natur wird dann gesehen, genutzt oder konsumiert, aber nicht mehr erfahren.',
+				'Natur erinnert den Menschen daran, dass er nicht außerhalb der Welt steht. Sie widerspricht der Illusion vollständiger Kontrolle und öffnet einen Raum, in dem Resonanz, Dissonanz, Ruhe, Schönheit und Begrenzung zugleich erfahrbar werden.',
+			],
+			'synonyme' => [ 'natürliche Welt', 'Lebendigkeit', 'Umwelt', 'Mitwelt' ],
+		],
+		[
+			'slug'     => 'antwortfaehigkeit',
+			'title'    => 'Antwortfähigkeit',
+			'kurz'     => 'Antwortfähigkeit ist die Fähigkeit, auf Wahrgenommenes nicht nur zu reagieren, sondern bewusst, leiblich und verantwortlich Stellung zu beziehen.',
+			'content'  => [
+				'Antwortfähigkeit bezeichnet die Fähigkeit eines Menschen, auf das, was ihn erreicht, nicht nur automatisch zu reagieren, sondern bewusst, leiblich und innerlich Stellung zu beziehen. Sie ist mehr als Reaktion: Eine Reaktion geschieht oft sofort; eine Antwort entsteht aus Wahrnehmung, Unterscheidung und innerer Beteiligung.',
+				'Antwortfähigkeit setzt voraus, dass etwas überhaupt bemerkt wird. Wer von Rauschen, Angst, Beschleunigung oder Betäubung besetzt ist, reagiert vielleicht noch schnell, aber antwortet weniger wirklich. Antwort braucht einen kleinen Zwischenraum: den Moment, in dem ein Mensch merkt, was geschieht, was es mit ihm macht und wie er sich dazu verhalten will.',
+				'Im Kontext dieses Journals ist Antwortfähigkeit ein Schlüsselbegriff für Resonanz. Resonanz bedeutet nicht bloß, von etwas berührt zu werden, sondern auch, darauf zurückzuklingen: durch Sprache, Handlung, Schweigen, Haltung, Aufmerksamkeit, Fürsorge, Widerspruch oder Veränderung.',
+				'Antwortfähigkeit ist deshalb auch eine Form von Freiheit. Nicht weil der Mensch völlig unabhängig wäre, sondern weil er nicht vollständig im Reiz aufgeht. Er kann innehalten, unterscheiden, zustimmen, ablehnen, gestalten oder sich verwandeln lassen.',
+				'Wo Antwortfähigkeit verloren geht, bleibt oft nur Funktionieren: Reiz, Impuls, Klick, Meinung, Abwehr, Reflex. Wo sie erhalten bleibt, entsteht Weltbeziehung. Der Mensch wird nicht bloß bewegt, sondern beteiligt.',
+			],
+			'synonyme' => [ 'Antwort', 'Responsivität', 'Stellungnahme', 'Reaktionsfähigkeit' ],
 		],
 	];
 
