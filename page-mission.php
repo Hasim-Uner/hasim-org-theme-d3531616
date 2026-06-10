@@ -15,7 +15,7 @@ $hp_essay_url   = get_post_type_archive_link( 'essay' );
 $hp_note_url    = get_post_type_archive_link( 'note' );
 $hp_contact_url = hp_get_contact_page_url();
 
-$hp_mission_audio_url = 'https://hasimuener.org/wp-content/uploads/2026/06/mission-audio-wordpress-320kbps.mp3';
+$hp_mission_audio_url = 'https://hasimuener.org/wp-content/uploads/2026/06/Mission_Audio.wav';
 ?>
 
 <main id="main-content" class="hp-mission" aria-labelledby="mission-title" role="main">
@@ -48,7 +48,7 @@ $hp_mission_audio_url = 'https://hasimuener.org/wp-content/uploads/2026/06/missi
 				</div>
 
 				<audio class="hp-mission-audio__media" preload="auto" controls data-hp-audio-media>
-					<source src="<?php echo esc_url( $hp_mission_audio_url ); ?>" type="audio/mpeg">
+					<source src="<?php echo esc_url( $hp_mission_audio_url ); ?>" type="audio/wav">
 				</audio>
 
 				<a class="hp-mission-audio__direct" href="<?php echo esc_url( $hp_mission_audio_url ); ?>" target="_blank" rel="noopener noreferrer">Audio direkt öffnen</a>
