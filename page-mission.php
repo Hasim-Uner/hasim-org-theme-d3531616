@@ -79,49 +79,21 @@ $hp_mission_audio_url = 'https://hasimuener.org/wp-content/uploads/2026/06/missi
 
 				<p>Ich bin nicht assimiliert. Aber wer als Kind herkommt und hier aufwächst, in dem hinterlässt das Deutsche den tiefsten Abdruck. So ist es bei mir.</p>
 
-				<p>Wer mit mehreren Welten aufwächst, lernt früh, keiner ganz zu glauben. Jede erzählt sich selbst als Mitte. Jede hält ihre Ordnung für natürlich. Jede hat ihre blinden Flecken — und jede ihre Schönheit. Ich kenne drei davon gut, und gerade deshalb will ich mich nicht auf eine festlegen. Meine Heimat ist kein Land. Sie ist die Vielfalt selbst.</p>
+				<p>Wer mit mehreren Welten aufwächst, lernt früh, keiner ganz zu glauben. Jede erzählt sich selbst als Mitte. Jede hält ihre Ordnung für natürlich. Jede hat ihre blinden Flecken — und jede ihre Schönheit. Ich kenne drei davon gut, und gerade deshalb lege ich mich auf keine fest.</p>
 
-				<p>Mit Freiheit kam ich früh in Berührung — nicht als Idee, sondern als Mangel. Wenn deine Sprache, dein Name, deine Geschichte verdächtig sind, verstehst du Unfreiheit, lange bevor du ein Wort dafür hast.</p>
-
-				<p>Später, als Migrant, kam eine zweite Lektion dazu. Auf dem Papier gilt Gleichheit. Wenn es darauf ankommt, gelten die Gesetze nicht für alle. Was bei den einen Meinung ist, ist bei den anderen Gefahr — als Kurdin oder Kurde sieht man das sofort. Der Staat, der sich für neutral hält, ist es nicht, wo es ihm unbequem wird.</p>
+				<p>Mit Freiheit kam ich früh in Berührung — nicht als Idee, sondern als Mangel. Wenn deine Sprache, dein Name, deine Geschichte verdächtig sind, verstehst du Unfreiheit, lange bevor du ein Wort dafür hast. Später kam eine zweite Lektion dazu: Auf dem Papier gilt Gleichheit. Wenn es darauf ankommt, gelten die Gesetze nicht für alle. Was bei den einen Meinung ist, ist bei den anderen Gefahr. Der Staat, der sich für neutral hält, ist es nicht, wo es ihm unbequem wird.</p>
 
 				<p>Lange dachte ich, Klarheit bedeute, alles zu durchschauen. Ich wurde zynisch und hielt das für Stärke. Heute glaube ich: Zynismus ist eine Form von Taubheit. Wer nur noch entlarvt, hört irgendwann nichts mehr.</p>
 
-				<p>Verdacht bleibt notwendig. Aber er ist kein Ziel. Er ist ein Werkzeug. Man durchschaut Geschichten nicht, um über ihnen zu stehen, sondern um freizulegen, was sie verdecken.</p>
+				<p>Verdacht bleibt notwendig. Aber er ist ein Werkzeug, kein Ziel. Man durchschaut Geschichten nicht, um über ihnen zu stehen, sondern um freizulegen, was sie verdecken: das Lebendige.</p>
 
-				<p>Was verdeckt wird, ist das Lebendige.</p>
+				<p>Ich glaube nicht, dass der Mensch schlecht ist. Ich glaube, dass viele Ordnungen schlecht sind, weil sie uns von uns selbst, voneinander und von der Welt trennen. Und was gemacht wurde, kann auch wieder abgeräumt werden. Dann kommt zum Vorschein, was die ganze Zeit da war: die Fähigkeit, berührt zu werden und zu antworten. Man kann sie überlagern, betäuben, zudecken. Aber sie verschwindet nicht.</p>
 
-				<p>Innen: die Fähigkeit, wahrhaftig zu werden, statt sich kleinzumachen und diese Enge Tugend zu nennen.</p>
+				<p>Antworten heißt nicht zustimmen. Wer aus Überzeugung widerspricht, antwortet auch. Er schwingt mit — gegen den Strom, aber lebendig. Er ist freier als jeder, der bloß nickt.</p>
 
-				<p>Außen: die Fähigkeit, sich mit anderen so zu organisieren, dass Freiheit nicht gegen Gemeinschaft steht.</p>
+				<p>Eine Gesellschaft ist nicht frei, wenn alle einverstanden sind. Sie ist frei, wenn sie das Andere aushält, ohne es abzustellen — wenn sie Widerspruch nicht als Störung behandelt, sondern als Zeichen, dass noch etwas lebt.</p>
 
-				<p>Frei wird niemand allein. Jede Gesellschaft beginnt im Kleinen: in Familien, Freundschaften, Teams, Nachbarschaften, Kreisen. Die Frage ist nicht, ob wir in Kommunen leben. Die Frage ist, welche Art von Gemeinschaft wir zulassen — und ob sie Menschen öffnet oder einsperrt.</p>
-
-				<p>Eine freie Gemeinschaft braucht keine Wahrheit, die alle schlucken müssen. Sie braucht Vereinbarungen, die tragen, ohne zu erstarren. Prinzipien, die Halt geben, ohne zum Gehäuse zu werden. Offenheit heißt nicht Beliebigkeit. Manches steht nicht zur Verhandlung: kein Leben zu nehmen, der Natur nicht zu schaden, Menschen nicht zu brechen.</p>
-
-				<p>Das Ziel ist einfach: Räume, in denen Menschen anders sein dürfen, ohne ausgeschlossen zu werden. Räume, in denen Widerspruch nicht als Verrat gilt. Räume, in denen das Gemeinsame nicht den Einzelnen frisst — und der Einzelne nicht vergisst, dass er Teil eines Ganzen ist.</p>
-
-				<p>Darum richtet sich mein Verdacht zuerst nach innen. Auch Bewegungen, die Freiheit wollen, können unfrei werden. Auch unterdrückte Menschen können Unterdrückung weitergeben. Auch die eigene Gruppe kann ihre Wahrheit zur einzigen machen.</p>
-
-				<p>Radikal sein heißt für mich nicht, alles abzulehnen. Es heißt, an die Wurzel zu gehen. Tief genug zu verstehen, um verändern zu können.</p>
-
-				<p>Heute wird das schwerer. Alles rauscht. Nachrichten, Meinungen, Reize, Empörung. Zu allem eine Haltung, zu wenig wirkliche Berührung. Der Blick wird kürzer. Die Stimme wird lauter. Die Antwort bleibt aus.</p>
-
-				<p>Aber darunter ist nichts tot.</p>
-
-				<p>Ich glaube nicht, dass der Mensch schlecht ist. Ich glaube, dass viele Ordnungen schlecht sind, weil sie uns von uns selbst, voneinander und von der Welt trennen. Und was gemacht wurde, kann auch wieder abgeräumt werden.</p>
-
-				<p>Dann kommt etwas zum Vorschein, das die ganze Zeit da war: Resonanz.</p>
-
-				<p>Hartmut Rosa beschreibt Resonanz als eine Beziehung zur Welt, in der uns etwas berührt und wir darauf antworten. Dieser Gedanke ist mir nah. Aber mein Resonanzbegriff ist weniger vorsichtig. Für mich ist Resonanz nicht selten und nicht bloß ein unverfügbares Ereignis, das einem zufällt oder ausbleibt. Sie ist grundsätzlicher: eine Fähigkeit des Lebendigen, die überlagert, betäubt und zugedeckt werden kann — aber nicht verschwindet.</p>
-
-				<p>Ihr Gegenteil ist deshalb nicht der Misston. Ihr Gegenteil ist die Betäubung. Der Zustand, in dem nichts mehr antwortet.</p>
-
-				<p>Darum gehört auch Dissonanz dazu. Resonanz heißt nicht Einklang. Nicht, dass alle dasselbe fühlen, denken oder wollen. Wer aus Überzeugung widerspricht, antwortet. Er schwingt mit — gegen den Strom, aber lebendig. Er ist freier als jeder, der bloß nickt.</p>
-
-				<p>Eine Gesellschaft ist nicht frei, wenn alle einverstanden sind. Sie ist frei, wenn sie das Andere aushält, ohne es sofort abzustellen. Wenn sie Widerspruch nicht als Störung behandelt, sondern als Zeichen, dass noch etwas lebt.</p>
-
-				<p>Dieses Journal soll ein solcher Raum sein: kein Ort fertiger Wahrheiten, sondern ein Resonanzraum. Wenn dich etwas trifft, stört oder zum Widerspruch bringt, schreib mir.</p>
+				<p>Dieses Journal soll ein solcher Raum sein: kein Ort fertiger Wahrheiten, sondern ein Resonanzraum. Hier schreibe ich über Macht, Medien, Sprache und Erinnerung — und darüber, was sie verdecken. Wenn dich etwas trifft, stört oder zum Widerspruch bringt, schreib mir.</p>
 			</section>
 
 			<section class="hp-mission__closing" aria-label="Abschluss und nächste Schritte">
